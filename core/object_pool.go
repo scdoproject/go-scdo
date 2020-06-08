@@ -22,7 +22,7 @@ import (
 var (
 	errObjectHashExists = errors.New("object hash already exists")
 	errObjectPoolFull   = errors.New("object pool is full")
-	errObjectNonceUsed  = errors.New("object nonce already been used")
+	errObjectNonceUsed  = errors.New("object nonce already been used, please WAIT or manually set a HIGHER nonce")
 )
 
 var CachedCapacity = CachedBlocks * 500
