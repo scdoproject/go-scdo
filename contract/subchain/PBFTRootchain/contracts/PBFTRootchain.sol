@@ -6,8 +6,8 @@ import "./ECRecovery.sol";
 import "./SafeMath.sol";
 import "./PriorityQueue.sol";
 
-/// @title A PBFT consensus subchain contract in Seele root chain
-/// @notice You can use this contract for a PBFT consensus subchain in Seele.
+/// @title A PBFT consensus subchain contract in SeeleCredo root chain
+/// @notice You can use this contract for a PBFT consensus subchain in SeeleCredo.
 /// @dev The contract is based on the fact that the operator is trustworthy.
 /// @author seeledev@seeletech.net
 contract PBFTRootchain {

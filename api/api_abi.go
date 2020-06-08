@@ -4,21 +4,21 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/seeleteam/go-seele/accounts/abi"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/accounts/abi"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
 )
 
 // KeyABIHash is the hash key to storing abi to statedb
 var KeyABIHash = common.StringToHash("KeyABIHash")
 
-type seeleLog struct {
+type seeleCredoLog struct {
 	Topics []string
 	Event  string
 	Args   []interface{}
 }
 
-func printReceiptByABI(api *PublicSeeleAPI, receipt *types.Receipt, abiJSON string) (map[string]interface{}, error) {
+func printReceiptByABI(api *PublicSeeleCredoAPI, receipt *types.Receipt, abiJSON string) (map[string]interface{}, error) {
 	result, err := PrintableReceipt(receipt)
 	if err != nil {
 		return nil, err
@@ -53,29 +53,29 @@ func printReceiptByABI(api *PublicSeeleAPI, receipt *types.Receipt, abiJSON stri
 }
 
 func printLogByABI(log *types.Log, parsed abi.ABI) (string, error) {
-	seelelog := &seeleLog{}
+	seeleCredolog := &seeleCredoLog{}
 	if len(log.Topics) < 1 {
 		return "", nil
 	}
 
 	for _, topic := range log.Topics {
-		seelelog.Topics = append(seelelog.Topics, topic.Hex())
+		seeleCredolog.Topics = append(seeleCredolog.Topics, topic.Hex())
 	}
 
 	for _, event := range parsed.Events {
-		if event.Id().Hex() == seelelog.Topics[0] {
-			seelelog.Event = event.Name
+		if event.Id().Hex() == seeleCredolog.Topics[0] {
+			seeleCredolog.Event = event.Name
 			break
 		}
 	}
 
 	var err error
-	seelelog.Args, err = parsed.Events[seelelog.Event].Inputs.UnpackValues(log.Data)
+	seeleCredolog.Args, err = parsed.Events[seeleCredolog.Event].Inputs.UnpackValues(log.Data)
 	if err != nil {
 		return "", err
 	}
 
-	encoded, err := json.Marshal(seelelog)
+	encoded, err := json.Marshal(seeleCredolog)
 	if err != nil {
 		return "", err
 	}

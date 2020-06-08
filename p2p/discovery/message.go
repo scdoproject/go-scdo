@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package discovery
@@ -9,8 +9,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
 )
 
 type msgType uint8

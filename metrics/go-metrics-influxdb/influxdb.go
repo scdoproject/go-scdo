@@ -7,7 +7,7 @@ import (
 
 	"github.com/influxdata/influxdb/client"
 	"github.com/rcrowley/go-metrics"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/log"
 )
 
 type reporter struct {
@@ -22,14 +22,14 @@ type reporter struct {
 
 	client *client.Client
 
-	log *log.SeeleLog
+	log *log.SeeleCredoLog
 }
 
 // only one reporter is allowed
 var rep *reporter
 
 // InfluxDBWithTags starts a InfluxDB reporter which will post the metrics from the given registry at each d interval with the specified tags
-func InfluxDBWithTags(r metrics.Registry, d time.Duration, url, database, username, password string, tags map[string]string, log *log.SeeleLog) {
+func InfluxDBWithTags(r metrics.Registry, d time.Duration, url, database, username, password string, tags map[string]string, log *log.SeeleCredoLog) {
 	if rep != nil {
 		log.Error("reporter already running!")
 		return

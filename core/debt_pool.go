@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package core
@@ -11,11 +11,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/event"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/event"
+	"github.com/seeledevteam/slc/log"
 )
 
 // DebtPool debt pool

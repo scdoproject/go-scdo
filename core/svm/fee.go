@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package svm
@@ -8,17 +8,17 @@ package svm
 import (
 	"math/big"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // Gas fee model for test net
 ///////////////////////////////////////////////////////////////////////////////////////
 var (
-	contractFeeComplex       = new(big.Int).Div(common.SeeleToFan, big.NewInt(100))
-	contractFeeCustomToken   = new(big.Int).Div(common.SeeleToFan, big.NewInt(200))
-	contractFeeStandardToken = new(big.Int).Div(common.SeeleToFan, big.NewInt(500))
-	contractFeeSimple        = new(big.Int).Div(common.SeeleToFan, big.NewInt(1000))
+	contractFeeComplex       = new(big.Int).Div(common.SeeleCredoToFan, big.NewInt(100))
+	contractFeeCustomToken   = new(big.Int).Div(common.SeeleCredoToFan, big.NewInt(200))
+	contractFeeStandardToken = new(big.Int).Div(common.SeeleCredoToFan, big.NewInt(500))
+	contractFeeSimple        = new(big.Int).Div(common.SeeleCredoToFan, big.NewInt(1000))
 
 	lowPriceGas  = uint64(50000) // 2 storage op allowed
 	overUsedStep = uint64(20000) // about 1 storage op

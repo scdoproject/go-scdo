@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package consensus
@@ -9,7 +9,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -26,7 +26,7 @@ func Test_Reward(t *testing.T) {
 }
 
 func Test_RewardTotal(t *testing.T) {
-	targetReward := new(big.Int).Mul(new(big.Int).SetInt64(300000000), common.SeeleToFan)
+	targetReward := new(big.Int).Mul(new(big.Int).SetInt64(300000000), common.SeeleCredoToFan)
 
 	sum := big.NewInt(0)
 	for i := uint64(0); i < 10*blockNumberPerEra; i++ {

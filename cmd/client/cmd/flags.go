@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -8,7 +8,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 	"github.com/urfave/cli"
 )
 
@@ -16,11 +16,11 @@ type rpcFlag interface {
 	getValue() (interface{}, error)
 }
 
-type seeleAddressFlag struct {
+type slcAddressFlag struct {
 	cli.StringFlag
 }
 
-func (flag seeleAddressFlag) getValue() (interface{}, error) {
+func (flag slcAddressFlag) getValue() (interface{}, error) {
 	if val := *flag.Destination; len(val) > 0 {
 		return common.HexToAddress(val)
 	}
@@ -54,7 +54,7 @@ var (
 	}
 
 	accountValue string
-	accountFlag  = seeleAddressFlag{
+	accountFlag  = slcAddressFlag{
 		StringFlag: cli.StringFlag{
 			Name:        "account",
 			Value:       "",
@@ -147,7 +147,7 @@ var (
 	}
 
 	contractValue string
-	contractFlag  = seeleAddressFlag{
+	contractFlag  = slcAddressFlag{
 		StringFlag: cli.StringFlag{
 			Name:        "contract",
 			Usage:       "contract code in hex",

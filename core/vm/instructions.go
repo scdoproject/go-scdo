@@ -23,9 +23,9 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto/sha3"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto/sha3"
 )
 
 var (

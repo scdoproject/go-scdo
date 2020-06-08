@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package node
@@ -8,11 +8,11 @@ package node
 import (
 	"crypto/ecdsa"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/log/comm"
-	"github.com/seeleteam/go-seele/metrics"
-	"github.com/seeleteam/go-seele/p2p"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/log/comm"
+	"github.com/seeledevteam/slc/metrics"
+	"github.com/seeledevteam/slc/p2p"
 )
 
 // Config is the Configuration of node
@@ -29,8 +29,8 @@ type Config struct {
 	// HttpServer config for http server
 	HTTPServer HTTPServer
 
-	// The SeeleConfig is the configuration to create the seele service.
-	SeeleConfig SeeleConfig
+	// The SeeleCredoConfig is the configuration to create the seeleCredo service.
+	SeeleCredoConfig SeeleCredoConfig
 
 	// The configuration of websocket rpc service
 	WSServerConfig WSServerConfig
@@ -96,8 +96,8 @@ type WSServerConfig struct {
 	CrossOrigins []string `json:"crossorigins"`
 }
 
-// Config is the seele's configuration to create seele service
-type SeeleConfig struct {
+// Config is the seeleCredo's configuration to create seeleCredo service
+type SeeleCredoConfig struct {
 	TxConf core.TransactionPoolConfig
 
 	Coinbase common.Address

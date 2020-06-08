@@ -1,9 +1,9 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	"errors"
@@ -11,16 +11,16 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common/memory"
+	"github.com/seeledevteam/slc/common/memory"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/event"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
-	downloader "github.com/seeleteam/go-seele/seele/download"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/event"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
+	downloader "github.com/seeledevteam/slc/seeleCredo/download"
 )
 
 var (
@@ -68,8 +68,8 @@ func codeToStr(code uint16) string {
 	return downloader.CodeToStr(code)
 }
 
-// SeeleProtocol service implementation of seele
-type SeeleProtocol struct {
+// SeeleCredoProtocol service implementation of seeleCredo
+type SeeleCredoProtocol struct {
 	p2p.Protocol
 	peerSet *peerSet
 
@@ -82,27 +82,27 @@ type SeeleProtocol struct {
 	wg     sync.WaitGroup
 	quitCh chan struct{}
 	syncCh chan struct{}
-	log    *log.SeeleLog
+	log    *log.SeeleCredoLog
 
 	debtManager *DebtManager
 }
 
 // Downloader return a pointer of the downloader
-func (s *SeeleProtocol) Downloader() *downloader.Downloader { return s.downloader }
+func (s *SeeleCredoProtocol) Downloader() *downloader.Downloader { return s.downloader }
 
-// NewSeeleProtocol create SeeleProtocol
-func NewSeeleProtocol(seele *SeeleService, log *log.SeeleLog) (s *SeeleProtocol, err error) {
-	s = &SeeleProtocol{
+// NewSeeleCredoProtocol create SeeleCredoProtocol
+func NewSeeleCredoProtocol(seeleCredo *SeeleCredoService, log *log.SeeleCredoLog) (s *SeeleCredoProtocol, err error) {
+	s = &SeeleCredoProtocol{
 		Protocol: p2p.Protocol{
-			Name:    common.SeeleProtoName,
-			Version: common.SeeleVersion,
+			Name:    common.SeeleCredoProtoName,
+			Version: common.SeeleCredoVersion,
 			Length:  protocolMsgCodeLength,
 		},
-		networkID:  seele.networkID,
-		txPool:     seele.TxPool(),
-		debtPool:   seele.debtPool,
-		chain:      seele.BlockChain(),
-		downloader: downloader.NewDownloader(seele.BlockChain(), seele),
+		networkID:  seeleCredo.networkID,
+		txPool:     seeleCredo.TxPool(),
+		debtPool:   seeleCredo.debtPool,
+		chain:      seeleCredo.BlockChain(),
+		downloader: downloader.NewDownloader(seeleCredo.BlockChain(), seeleCredo),
 		log:        log,
 		quitCh:     make(chan struct{}),
 		syncCh:     make(chan struct{}),
@@ -114,7 +114,7 @@ func NewSeeleProtocol(seele *SeeleService, log *log.SeeleLog) (s *SeeleProtocol,
 	s.Protocol.DeletePeer = s.handleDelPeer
 	s.Protocol.GetPeer = s.handleGetPeer
 
-	s.debtManager = NewDebtManager(seele.debtVerifier, s, s.chain, seele.debtManagerDB)
+	s.debtManager = NewDebtManager(seeleCredo.debtVerifier, s, s.chain, seeleCredo.debtManagerDB)
 
 	event.TransactionInsertedEventManager.AddAsyncListener(s.handleNewTx)
 	event.BlockMinedEventManager.AddAsyncListener(s.handleNewMinedBlock)
@@ -123,14 +123,14 @@ func NewSeeleProtocol(seele *SeeleService, log *log.SeeleLog) (s *SeeleProtocol,
 	return s, nil
 }
 
-func (sp *SeeleProtocol) Start() {
-	sp.log.Debug("SeeleProtocol.Start called!")
+func (sp *SeeleCredoProtocol) Start() {
+	sp.log.Debug("SeeleCredoProtocol.Start called!")
 	go sp.syncer()
 	go sp.debtManager.TimingChecking()
 }
 
 // Stop stops protocol, called when seeleService quits.
-func (sp *SeeleProtocol) Stop() {
+func (sp *SeeleCredoProtocol) Stop() {
 	event.BlockMinedEventManager.RemoveListener(sp.handleNewMinedBlock)
 	event.TransactionInsertedEventManager.RemoveListener(sp.handleNewTx)
 	event.DebtsInsertedEventManager.RemoveListener(sp.handleNewDebt)
@@ -140,7 +140,7 @@ func (sp *SeeleProtocol) Stop() {
 }
 
 // syncer try to synchronise with remote peer
-func (sp *SeeleProtocol) syncer() {
+func (sp *SeeleCredoProtocol) syncer() {
 	defer sp.downloader.Terminate()
 	//defer sp.wg.Done()
 	//sp.wg.Add(1)
@@ -180,11 +180,11 @@ func (sp *SeeleProtocol) syncer() {
 	}
 }
 
-func (sp *SeeleProtocol) synchronise(peers []*peer) {
+func (sp *SeeleCredoProtocol) synchronise(peers []*peer) {
 	defer sp.wg.Done()
 	now := time.Now()
 	// entrance
-	memory.Print(sp.log, "SeeleProtocol synchronise entrance", now, false)
+	memory.Print(sp.log, "SeeleCredoProtocol synchronise entrance", now, false)
 
 	if len(peers) == 0 {
 		return
@@ -195,7 +195,7 @@ func (sp *SeeleProtocol) synchronise(peers []*peer) {
 	//if err != nil {
 	//	sp.log.Error("sp.synchronise GetBlockTotalDifficulty err.[%s], Hash: %v", err, block.HeaderHash)
 	//	// one step
-	//	memory.Print(sp.log, "SeeleProtocol synchronise GetBlockTotalDifficulty error", now, true)
+	//	memory.Print(sp.log, "SeeleCredoProtocol synchronise GetBlockTotalDifficulty error", now, true)
 	//	return
 	//}
 
@@ -205,7 +205,7 @@ func (sp *SeeleProtocol) synchronise(peers []*peer) {
 		// if total difficulty is not smaller than remote peer td, then do not need synchronise.
 		//if localTD.Cmp(pTd) >= 0 {
 		// two step
-		//	memory.Print(sp.log, "SeeleProtocol synchronise difficulty is bigger than remote", now, true)
+		//	memory.Print(sp.log, "SeeleCredoProtocol synchronise difficulty is bigger than remote", now, true)
 		//	return //no need to continue because peers are selected to be the best peers
 		//}
 		err := sp.downloader.Synchronise(p.peerStrID, pHead)
@@ -218,7 +218,7 @@ func (sp *SeeleProtocol) synchronise(peers []*peer) {
 			}
 
 			// three step
-			memory.Print(sp.log, "SeeleProtocol synchronise downloader error", now, true)
+			memory.Print(sp.log, "SeeleCredoProtocol synchronise downloader error", now, true)
 
 			continue
 		}
@@ -227,17 +227,17 @@ func (sp *SeeleProtocol) synchronise(peers []*peer) {
 		sp.broadcastChainHead()
 
 		// exit
-		memory.Print(sp.log, "SeeleProtocol synchronise exit", now, true)
+		memory.Print(sp.log, "SeeleCredoProtocol synchronise exit", now, true)
 
 		return
 	}
 }
 
-func (sp *SeeleProtocol) broadcastChainHead() {
+func (sp *SeeleCredoProtocol) broadcastChainHead() {
 
 	now := time.Now()
 	// entrance
-	memory.Print(sp.log, "SeeleProtocol broadcastChainHead entrance", now, false)
+	memory.Print(sp.log, "SeeleCredoProtocol broadcastChainHead entrance", now, false)
 
 	block := sp.chain.CurrentBlock()
 	head := block.HeaderHash
@@ -270,11 +270,11 @@ func (sp *SeeleProtocol) broadcastChainHead() {
 	}
 	wg.Wait()
 	// exit
-	memory.Print(sp.log, "SeeleProtocol broadcastChainHead exit", now, true)
+	memory.Print(sp.log, "SeeleCredoProtocol broadcastChainHead exit", now, true)
 }
 
 // syncTransactions sends pending transactions to remote peer.
-func (sp *SeeleProtocol) syncTransactions(p *peer) {
+func (sp *SeeleCredoProtocol) syncTransactions(p *peer) {
 	defer sp.wg.Done()
 	sp.wg.Add(1)
 	pending := sp.txPool.GetTransactions(false, true)
@@ -319,10 +319,10 @@ loopOut:
 	close(resultCh)
 }
 
-func (p *SeeleProtocol) handleNewTx(e event.Event) {
+func (p *SeeleCredoProtocol) handleNewTx(e event.Event) {
 	now := time.Now()
 	// entrance
-	memory.Print(p.log, "SeeleProtocol handleNewTx entrance", now, false)
+	memory.Print(p.log, "SeeleCredoProtocol handleNewTx entrance", now, false)
 
 	tx := e.(*types.Transaction)
 
@@ -342,18 +342,18 @@ func (p *SeeleProtocol) handleNewTx(e event.Event) {
 	}
 
 	//exit
-	memory.Print(p.log, "SeeleProtocol handleNewTx exit", now, true)
+	memory.Print(p.log, "SeeleCredoProtocol handleNewTx exit", now, true)
 }
 
-func (p *SeeleProtocol) handleNewDebt(e event.Event) {
+func (p *SeeleCredoProtocol) handleNewDebt(e event.Event) {
 	debt := e.(*types.Debt)
 	p.propagateDebtMap(types.DebtArrayToMap([]*types.Debt{debt}), true)
 }
 
-func (p *SeeleProtocol) propagateDebtMap(debtsMap [][]*types.Debt, filter bool) {
+func (p *SeeleCredoProtocol) propagateDebtMap(debtsMap [][]*types.Debt, filter bool) {
 	now := time.Now()
 	// entrance
-	memory.Print(p.log, "SeeleProtocol propagateDebtMap entrance", now, false)
+	memory.Print(p.log, "SeeleCredoProtocol propagateDebtMap entrance", now, false)
 
 	//peers := p.peerSet.getAllPeers()
 	wg := new(sync.WaitGroup)
@@ -370,10 +370,10 @@ func (p *SeeleProtocol) propagateDebtMap(debtsMap [][]*types.Debt, filter bool) 
 	}
 	wg.Wait()
 	// exit
-	memory.Print(p.log, "SeeleProtocol propagateDebtMap exit", now, true)
+	memory.Print(p.log, "SeeleCredoProtocol propagateDebtMap exit", now, true)
 }
 
-func (p *SeeleProtocol) handleNewBlock(e event.Event) {
+func (p *SeeleCredoProtocol) handleNewBlock(e event.Event) {
 	block := e.(*types.Block)
 
 	// propagate confirmed block
@@ -386,22 +386,22 @@ func (p *SeeleProtocol) handleNewBlock(e event.Event) {
 		} else {
 			now := time.Now()
 			// entrance
-			memory.Print(p.log, "SeeleProtocol handleNewBlock entrance", now, false)
+			memory.Print(p.log, "SeeleCredoProtocol handleNewBlock entrance", now, false)
 
 			debts := types.NewDebtMap(confirmedBlock.Transactions)
 			p.debtManager.AddDebtMap(debts, confirmedHeight)
 			go p.propagateDebtMap(debts, true)
 
 			// exit
-			memory.Print(p.log, "SeeleProtocol handleNewBlock exit", now, true)
+			memory.Print(p.log, "SeeleCredoProtocol handleNewBlock exit", now, true)
 		}
 	}
 }
 
-func (p *SeeleProtocol) handleNewMinedBlock(e event.Event) {
+func (p *SeeleCredoProtocol) handleNewMinedBlock(e event.Event) {
 	now := time.Now()
 	// entrance
-	memory.Print(p.log, "SeeleProtocol handleNewMinedBlock entrance", now, false)
+	memory.Print(p.log, "SeeleCredoProtocol handleNewMinedBlock entrance", now, false)
 	block := e.(*types.Block)
 
 	p.log.Debug("handleNewMinedBlock broadcast chainhead changed. new block: %d %s <- %s ",
@@ -410,16 +410,16 @@ func (p *SeeleProtocol) handleNewMinedBlock(e event.Event) {
 	p.broadcastChainHead()
 
 	// exit
-	memory.Print(p.log, "SeeleProtocol handleNewMinedBlock exit", now, true)
+	memory.Print(p.log, "SeeleCredoProtocol handleNewMinedBlock exit", now, true)
 }
 
-func (p *SeeleProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWriter) bool {
+func (p *SeeleCredoProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWriter) bool {
 	if p.peerSet.Find(p2pPeer.Node.ID) != nil {
 		p.log.Error("handleAddPeer called, but peer of this public-key has already existed, so need quit!")
 		return false
 	}
 
-	newPeer := newPeer(common.SeeleVersion, p2pPeer, rw, p.log)
+	newPeer := newPeer(common.SeeleCredoVersion, p2pPeer, rw, p.log)
 
 	block := p.chain.CurrentBlock()
 	head := block.HeaderHash
@@ -439,7 +439,7 @@ func (p *SeeleProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWriter) b
 		return false
 	}
 
-	p.log.Debug("add peer %s -> %s to SeeleProtocol. nodeid=%s", p2pPeer.LocalAddr(), p2pPeer.RemoteAddr(), newPeer.peerStrID)
+	p.log.Debug("add peer %s -> %s to SeeleCredoProtocol. nodeid=%s", p2pPeer.LocalAddr(), p2pPeer.RemoteAddr(), newPeer.peerStrID)
 	p.peerSet.Add(newPeer)
 	if newPeer.Node.Shard == common.LocalShardNumber {
 		p.downloader.RegisterPeer(newPeer.peerStrID, newPeer)
@@ -450,14 +450,14 @@ func (p *SeeleProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWriter) b
 	return true
 }
 
-func (s *SeeleProtocol) handleGetPeer(address common.Address) interface{} {
+func (s *SeeleCredoProtocol) handleGetPeer(address common.Address) interface{} {
 	if p := s.peerSet.Find(address); p != nil {
 		return p.Info()
 	}
 	return nil
 }
 
-func (s *SeeleProtocol) handleDelPeer(peer *p2p.Peer) {
+func (s *SeeleCredoProtocol) handleDelPeer(peer *p2p.Peer) {
 	s.log.Debug("delete peer from peer set. %s", peer.Node)
 	s.peerSet.Remove(peer.Node.ID)
 
@@ -467,7 +467,7 @@ func (s *SeeleProtocol) handleDelPeer(peer *p2p.Peer) {
 }
 
 // SendDifferentShardTx send tx to different shards
-func (p *SeeleProtocol) SendDifferentShardTx(tx *types.Transaction, shard uint) {
+func (p *SeeleCredoProtocol) SendDifferentShardTx(tx *types.Transaction, shard uint) {
 	var peers []*peer
 
 	peers = p.peerSet.getPeerByShard(shard)
@@ -488,7 +488,7 @@ func (p *SeeleProtocol) SendDifferentShardTx(tx *types.Transaction, shard uint) 
 	}
 }
 
-func (p *SeeleProtocol) handleMsg(peer *peer) {
+func (p *SeeleCredoProtocol) handleMsg(peer *peer) {
 handler:
 	for {
 		msg, err := peer.rw.ReadMsg()
@@ -837,15 +837,15 @@ handler:
 	}
 
 	p.handleDelPeer(peer.Peer)
-	p.log.Debug("seele.protocol.handlemsg run out! peer= %s!", peer.peerStrID)
+	p.log.Debug("seeleCredo.protocol.handlemsg run out! peer= %s!", peer.peerStrID)
 	peer.Disconnect(fmt.Sprintf("called from seeleprotocol.handlemsg. id=%s", peer.peerStrID))
 }
 
-func (p *SeeleProtocol) GetProtocolVersion() (uint, error) {
+func (p *SeeleCredoProtocol) GetProtocolVersion() (uint, error) {
 	return p.Protocol.Version, nil
 }
 
-func (sp *SeeleProtocol) FindPeers(targets map[common.Address]bool) map[common.Address]consensus.Peer {
+func (sp *SeeleCredoProtocol) FindPeers(targets map[common.Address]bool) map[common.Address]consensus.Peer {
 	m := make(map[common.Address]consensus.Peer)
 	for _, p := range sp.peerSet.getPeerByShard(common.LocalShardNumber) {
 		addr := p.Node.ID

@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package types
@@ -10,7 +10,7 @@ import (
 	"io"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 )
 
 var (

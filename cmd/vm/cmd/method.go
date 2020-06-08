@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -13,9 +13,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/seeleteam/go-seele/common/hexutil"
+	"github.com/seeledevteam/slc/common/hexutil"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 )
 
 type solMethod struct {

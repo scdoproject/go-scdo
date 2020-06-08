@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package consensus
@@ -8,7 +8,7 @@ package consensus
 import (
 	"math/big"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 )
 
 var (
@@ -34,9 +34,9 @@ func init() {
 	tailRewardCoin = convertSeeleToFan(tailReward / common.ShardCount)
 }
 
-func convertSeeleToFan(seele float64) *big.Int {
-	unit := common.SeeleToFan.Int64()
-	f := uint64(seele * float64(unit))
+func convertSeeleToFan(seeleCredo float64) *big.Int {
+	unit := common.SeeleCredoToFan.Int64()
+	f := uint64(seeleCredo * float64(unit))
 
 	return big.NewInt(0).SetUint64(f)
 }

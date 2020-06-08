@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package common
@@ -10,7 +10,7 @@ import (
 	"reflect"
 
 	"github.com/hashicorp/golang-lru"
-	"github.com/seeleteam/go-seele/common/hexutil"
+	"github.com/seeledevteam/slc/common/hexutil"
 )
 
 // Bytes is a array byte that is converted to hex string display format when marshal

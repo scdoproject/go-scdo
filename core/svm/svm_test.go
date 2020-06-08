@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 package svm
 
@@ -10,15 +10,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/contract/system"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/core/vm"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/database/leveldb"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/contract/system"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/core/vm"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/database/leveldb"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -56,7 +56,7 @@ func Test_Process_EVM(t *testing.T) {
 func Test_Process_SysContract(t *testing.T) {
 	// CreateDomainName
 	ctx, _ := newTestContext(big.NewInt(0))
-	testBytes := []byte("seele-fan")
+	testBytes := []byte("seeleCredo-fan")
 	ctx.Tx.Data.Payload = append([]byte{system.CmdCreateDomainName}, testBytes...) // 0x007365656c652e66616e
 	ctx.Tx.Data.To = system.DomainNameContractAddress                              // 0x0000000000000000000000000000000000000101
 
@@ -202,7 +202,7 @@ func Test_Process_ErrOutOfGas(t *testing.T) {
 	// intrinsic gas too low
 	ctx3, _ := newTestContext(big.NewInt(0))
 	balanceOri3 := ctx3.Statedb.GetBalance(ctx3.Tx.Data.From)
-	testBytes := []byte("seele-fan")
+	testBytes := []byte("seeleCredo-fan")
 	ctx3.Tx.Data.Payload = append([]byte{system.CmdCreateDomainName}, testBytes...) // 0x007365656c652e66616e
 	ctx3.Tx.Data.To = system.DomainNameContractAddress                              // 0x0000000000000000000000000000000000000101
 	ctx3.Tx.Data.GasLimit = 0
@@ -273,7 +273,7 @@ func newTestBlockHeader(coinbase common.Address) *types.BlockHeader {
 	}
 }
 
-var fromBalance = uint64(1000 * common.SeeleToFan.Uint64())
+var fromBalance = uint64(1000 * common.SeeleCredoToFan.Uint64())
 
 func newTestContext(amount *big.Int) (*Context, error) {
 	statedb, bcStore, address, dispose := preprocessContract(fromBalance, 38)

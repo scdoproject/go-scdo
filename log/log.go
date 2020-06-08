@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package log
@@ -12,9 +12,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/lestrrat-go/file-rotatelogs"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/log/comm"
+	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/log/comm"
 	"github.com/sirupsen/logrus"
 )
 
@@ -26,65 +26,65 @@ var (
 	LogFolder = filepath.Join(common.GetTempFolder(), "log")
 )
 
-// SeeleLog wraps log class
-type SeeleLog struct {
+// SeeleCredoLog wraps log class
+type SeeleCredoLog struct {
 	log *logrus.Logger
 }
 
-var logMap map[string]*SeeleLog
+var logMap map[string]*SeeleCredoLog
 var getLogMutex sync.Mutex
 
 // Panic Level, highest level of severity. Panic logs and then calls panic with the
 // message passed to Debug, Info, ...
-func (p *SeeleLog) Panic(format string, args ...interface{}) {
+func (p *SeeleCredoLog) Panic(format string, args ...interface{}) {
 	p.log.Panicf(format, args...)
 }
 
 // Fatal Level. Fatal logs and then calls `os.Exit(1)`. It will exit even if the
 // logging level is set to Panic.
-func (p *SeeleLog) Fatal(format string, args ...interface{}) {
+func (p *SeeleCredoLog) Fatal(format string, args ...interface{}) {
 	p.log.Fatalf(format, args...)
 }
 
 // Error Level. Error logs and is used for errors that should be definitely noted.
 // Commonly used for hooks to send errors to an error tracking service.
-func (p *SeeleLog) Error(format string, args ...interface{}) {
+func (p *SeeleCredoLog) Error(format string, args ...interface{}) {
 	p.log.Errorf(format, args...)
 }
 
 // Warn Level. Non-critical entries that deserve eyes.
-func (p *SeeleLog) Warn(format string, args ...interface{}) {
+func (p *SeeleCredoLog) Warn(format string, args ...interface{}) {
 	p.log.Warnf(format, args...)
 }
 
 // Info Level. General operational entries about what's going on inside the
 // application.
-func (p *SeeleLog) Info(format string, args ...interface{}) {
+func (p *SeeleCredoLog) Info(format string, args ...interface{}) {
 	p.log.Infof(format, args...)
 }
 
 // Debug Level. Usually only enabled when debugging. Very verbose logging.
-func (p *SeeleLog) Debug(format string, args ...interface{}) {
+func (p *SeeleCredoLog) Debug(format string, args ...interface{}) {
 	p.log.Debugf(format, args...)
 }
 
 // SetLevel set the log level
-func (p *SeeleLog) SetLevel(level logrus.Level) {
+func (p *SeeleCredoLog) SetLevel(level logrus.Level) {
 	p.log.SetLevel(level)
 }
 
 // GetLevel get the log level
-func (p *SeeleLog) GetLevel() logrus.Level {
+func (p *SeeleCredoLog) GetLevel() logrus.Level {
 	return p.log.Level
 }
 
 // GetLogger gets logrus.Logger object according to module name
 // each module can have its own logger
-func GetLogger(module string) *SeeleLog {
+func GetLogger(module string) *SeeleCredoLog {
 	getLogMutex.Lock()
 	defer getLogMutex.Unlock()
 	if logMap == nil {
-		logMap = make(map[string]*SeeleLog)
+		logMap = make(map[string]*SeeleCredoLog)
 	}
 	curLog, ok := logMap[module]
 	if ok {
@@ -125,7 +125,7 @@ func GetLogger(module string) *SeeleLog {
 	}
 
 	log.AddHook(&CallerHook{module: module}) // add caller hook to print caller's file and line number
-	curLog = &SeeleLog{
+	curLog = &SeeleCredoLog{
 		log: log,
 	}
 	logMap[module] = curLog

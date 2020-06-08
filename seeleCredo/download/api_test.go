@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package downloader
@@ -8,7 +8,7 @@ package downloader
 import (
 	"testing"
 
-	"github.com/seeleteam/go-seele/database/leveldb"
+	"github.com/seeledevteam/slc/database/leveldb"
 	"github.com/stretchr/testify/assert"
 )
 

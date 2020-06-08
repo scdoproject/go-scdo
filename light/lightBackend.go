@@ -3,13 +3,13 @@ package light
 import (
 	"math/big"
 
-	"github.com/seeleteam/go-seele/api"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
+	"github.com/seeledevteam/slc/api"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
 )
 
 // LightBackend represents a channel (client) that communicate with backend node service.
@@ -38,7 +38,7 @@ func (l *LightBackend) GetP2pServer() *p2p.Server { return l.s.p2pServer }
 func (l *LightBackend) ChainBackend() api.Chain { return l.s.chain }
 
 // Log gets instance of log
-func (l *LightBackend) Log() *log.SeeleLog { return l.s.log }
+func (l *LightBackend) Log() *log.SeeleCredoLog { return l.s.log }
 
 func (l *LightBackend) IsSyncing() bool {
 	return l.s.seeleProtocol.downloader.syncStatus == statusDownloading

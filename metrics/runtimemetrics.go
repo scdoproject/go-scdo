@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package metrics
@@ -10,7 +10,7 @@ import (
 	"time"
 
 	metrics "github.com/rcrowley/go-metrics"
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 	"github.com/shirou/gopsutil/disk"
 )
 

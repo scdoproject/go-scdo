@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package discovery
@@ -9,7 +9,7 @@ import (
 	"net"
 	"testing"
 
-	"github.com/seeleteam/go-seele/crypto"
+	"github.com/seeledevteam/slc/crypto"
 	"github.com/stretchr/testify/assert"
 )
 

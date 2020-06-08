@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package node
@@ -9,11 +9,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log/comm"
-	"github.com/seeleteam/go-seele/p2p"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log/comm"
+	"github.com/seeledevteam/slc/p2p"
+	"github.com/seeledevteam/slc/rpc"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -112,21 +112,21 @@ func Test_ServiceStart(t *testing.T) {
 	}
 
 	// unsupported shard number
-	stack.config.SeeleConfig.GenesisConfig.ShardNumber = 21
+	stack.config.SeeleCredoConfig.GenesisConfig.ShardNumber = 21
 	err = stack.checkConfig()
 	assert.Equal(t, err != nil, true)
 	assert.Equal(t, strings.Contains(err.Error(), "unsupported shard number"), true)
 
 	// coinbase does not match with specific shard number
-	stack.config.SeeleConfig.GenesisConfig.ShardNumber = 2
-	stack.config.SeeleConfig.Coinbase = common.BytesToAddress([]byte("testAddr"))
+	stack.config.SeeleCredoConfig.GenesisConfig.ShardNumber = 2
+	stack.config.SeeleCredoConfig.Coinbase = common.BytesToAddress([]byte("testAddr"))
 	err = stack.checkConfig()
 	assert.Equal(t, err != nil, true)
 	assert.Equal(t, strings.Contains(err.Error(), "coinbase does not match with specific shard number"), true)
 
 	// started normally
-	stack.config.SeeleConfig.GenesisConfig.ShardNumber = 1
-	stack.config.SeeleConfig.Coinbase = common.BytesToAddress([]byte("testAddr"))
+	stack.config.SeeleCredoConfig.GenesisConfig.ShardNumber = 1
+	stack.config.SeeleCredoConfig.Coinbase = common.BytesToAddress([]byte("testAddr"))
 
 	// Register a batch of services
 	services := []Service{testServiceA, testServiceB, testServiceC}

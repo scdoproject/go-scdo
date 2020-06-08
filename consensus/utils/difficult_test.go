@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package utils
@@ -9,7 +9,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/core/types"
 	"github.com/stretchr/testify/assert"
 )
 

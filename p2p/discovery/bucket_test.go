@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package discovery
@@ -11,9 +11,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
-	log2 "github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
+	log2 "github.com/seeledevteam/slc/log"
 )
 
 func getBuckets() *bucket {

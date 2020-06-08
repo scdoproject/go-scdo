@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package types
@@ -9,15 +9,15 @@ import (
 	"crypto/ecdsa"
 	"math/big"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
 )
 
 const TestGenesisShard = 1
 const TestDebtTargetShard = 2
 
-// genesis account with enough balance (100K seele) for benchmark test
-var TestGenesisAccount = NewTestAccount(new(big.Int).Mul(big.NewInt(100000), common.SeeleToFan), 0, TestGenesisShard)
+// genesis account with enough balance (100K seeleCredo) for benchmark test
+var TestGenesisAccount = NewTestAccount(new(big.Int).Mul(big.NewInt(100000), common.SeeleCredoToFan), 0, TestGenesisShard)
 
 type testAccount struct {
 	Addr    common.Address

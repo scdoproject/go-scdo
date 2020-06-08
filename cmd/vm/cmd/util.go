@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -12,14 +12,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/svm"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/database"
-	"github.com/seeleteam/go-seele/database/leveldb"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/svm"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/database"
+	"github.com/seeledevteam/slc/database/leveldb"
 )
 
 // const
@@ -74,7 +74,7 @@ func getFromAddress(statedb *state.Statedb) common.Address {
 	if len(account) == 0 {
 		from := *crypto.MustGenerateRandomAddress()
 		statedb.CreateAccount(from)
-		statedb.SetBalance(from, common.SeeleToFan)
+		statedb.SetBalance(from, common.SeeleCredoToFan)
 		statedb.SetNonce(from, DefaultNonce)
 		return from
 	}

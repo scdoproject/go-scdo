@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package core
@@ -10,15 +10,15 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/seeleteam/go-seele/database/leveldb"
+	"github.com/seeledevteam/slc/database/leveldb"
 
 	"github.com/ethereum/go-ethereum/event"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus/istanbul"
-	"github.com/seeleteam/go-seele/consensus/istanbul/validator"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/database"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus/istanbul"
+	"github.com/seeledevteam/slc/consensus/istanbul/validator"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/database"
+	"github.com/seeledevteam/slc/log"
 )
 
 var testLogger = log.GetLogger("test")

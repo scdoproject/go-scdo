@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package light
@@ -9,17 +9,17 @@ import (
 	"context"
 	"path/filepath"
 
-	"github.com/seeleteam/go-seele/api"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/database"
-	"github.com/seeleteam/go-seele/database/leveldb"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/node"
-	"github.com/seeleteam/go-seele/p2p"
-	"github.com/seeleteam/go-seele/rpc"
-	"github.com/seeleteam/go-seele/seele"
+	"github.com/seeledevteam/slc/api"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/database"
+	"github.com/seeledevteam/slc/database/leveldb"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/node"
+	"github.com/seeledevteam/slc/p2p"
+	"github.com/seeledevteam/slc/rpc"
+	"github.com/seeledevteam/slc/seeleCredo"
 )
 
 // ServiceClient implements service for light mode.
@@ -28,7 +28,7 @@ type ServiceClient struct {
 	netVersion    string
 	p2pServer     *p2p.Server
 	seeleProtocol *LightProtocol
-	log           *log.SeeleLog
+	log           *log.SeeleCredoLog
 	odrBackend    *odrBackend
 
 	txPool  *txPool
@@ -39,7 +39,7 @@ type ServiceClient struct {
 }
 
 // NewServiceClient create ServiceClient
-func NewServiceClient(ctx context.Context, conf *node.Config, log *log.SeeleLog, dbFolder string, shard uint, engine consensus.Engine) (s *ServiceClient, err error) {
+func NewServiceClient(ctx context.Context, conf *node.Config, log *log.SeeleCredoLog, dbFolder string, shard uint, engine consensus.Engine) (s *ServiceClient, err error) {
 	s = &ServiceClient{
 		log:        log,
 		networkID:  conf.P2PConfig.NetworkID,
@@ -47,7 +47,7 @@ func NewServiceClient(ctx context.Context, conf *node.Config, log *log.SeeleLog,
 		shard:      shard,
 	}
 
-	serviceContext := ctx.Value("ServiceContext").(seele.ServiceContext)
+	serviceContext := ctx.Value("ServiceContext").(seeleCredo.ServiceContext)
 	// Initialize blockchain DB.
 	chainDBPath := filepath.Join(serviceContext.DataDir, dbFolder)
 	log.Info("NewServiceClient BlockChain datadir is %s", chainDBPath)
@@ -60,7 +60,7 @@ func NewServiceClient(ctx context.Context, conf *node.Config, log *log.SeeleLog,
 	bcStore := store.NewCachedStore(store.NewBlockchainDatabase(s.lightDB))
 	s.odrBackend = newOdrBackend(bcStore, shard)
 	// initialize and validate genesis
-	genesis := core.GetGenesis(&conf.SeeleConfig.GenesisConfig)
+	genesis := core.GetGenesis(&conf.SeeleCredoConfig.GenesisConfig)
 
 	err = genesis.InitializeAndValidate(bcStore, s.lightDB)
 	if err != nil {
@@ -115,7 +115,7 @@ func (s *ServiceClient) Stop() error {
 	return nil
 }
 
-// APIs implements node.Service, returning the collection of RPC services the seele package offers.
+// APIs implements node.Service, returning the collection of RPC services the seeleCredo package offers.
 func (s *ServiceClient) APIs() (apis []rpc.API) {
 	return append(apis, api.GetAPIs(NewLightBackend(s))...)
 }

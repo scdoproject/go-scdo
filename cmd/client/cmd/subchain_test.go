@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -12,9 +12,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/contract/system"
-	"github.com/seeleteam/go-seele/metrics"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/contract/system"
+	"github.com/seeledevteam/slc/metrics"
 )
 
 var (
@@ -35,13 +35,13 @@ func Test_getConfigFromSubChain(t *testing.T) {
 		},
 	}
 
-	config, err := getConfigFromSubChain("seele", &subChainInfo)
+	config, err := getConfigFromSubChain("seeleCredo", &subChainInfo)
 	assert.NotEqual(t, err, nil)
 	assert.Equal(t, config == nil, true)
 
 	coinbaseValue = "0xe1c54e4b1b3448e382d87e50a427ae319e5ea611"
 
-	config, err = getConfigFromSubChain("seele", &subChainInfo)
+	config, err = getConfigFromSubChain("seeleCredo", &subChainInfo)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, config != nil, true)
 	assert.Equal(t, config.BasicConfig.Coinbase, coinbaseValue)

@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package keystore
@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/crypto"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/crypto"
 )
 
 func Test_PassPhrase(t *testing.T) {

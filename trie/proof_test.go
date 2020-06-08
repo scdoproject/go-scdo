@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package trie
@@ -13,10 +13,10 @@ import (
 	"time"
 
 	"github.com/ethereum/go-ethereum/common"
-	common2 "github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/crypto/sha3"
-	"github.com/seeleteam/go-seele/database/leveldb"
+	common2 "github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/crypto/sha3"
+	"github.com/seeledevteam/slc/database/leveldb"
 	"github.com/stretchr/testify/assert"
 )
 

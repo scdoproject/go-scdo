@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -11,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/rpc"
 	"github.com/spf13/cobra"
 )
 

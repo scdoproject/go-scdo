@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package pow
@@ -12,8 +12,8 @@ import (
 	"testing"
 
 	"github.com/rcrowley/go-metrics"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
 	"github.com/stretchr/testify/assert"
 )
 

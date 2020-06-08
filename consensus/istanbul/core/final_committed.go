@@ -1,12 +1,12 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package core
 
 import (
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 )
 
 func (c *core) handleFinalCommitted() error {

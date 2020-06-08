@@ -1,11 +1,11 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package api
 
-import "github.com/seeleteam/go-seele/p2p"
+import "github.com/seeledevteam/slc/p2p"
 
 // PrivateNetworkAPI provides an API to access network information.
 type PrivateNetworkAPI struct {
@@ -32,12 +32,12 @@ func (n *PrivateNetworkAPI) GetNetVersion() (string, error) {
 	return n.s.GetNetVersion(), nil
 }
 
-// GetNetworkID returns the network ID, unique mark of seele Network
+// GetNetworkID returns the network ID, unique mark of seeleCredo Network
 func (n *PrivateNetworkAPI) GetNetworkID() (string, error) {
 	return n.s.GetNetWorkID(), nil
 }
 
-// GetProtocolVersion returns the current seele protocol version this node supports
+// GetProtocolVersion returns the current seeleCredo protocol version this node supports
 func (n *PrivateNetworkAPI) GetProtocolVersion() (uint, error) {
 	return n.s.ProtocolBackend().GetProtocolVersion()
 }

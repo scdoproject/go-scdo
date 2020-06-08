@@ -1,24 +1,24 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
-	api2 "github.com/seeleteam/go-seele/api"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/core/types"
+	api2 "github.com/seeledevteam/slc/api"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/core/types"
 )
 
 // TransactionPoolAPI provides an API to access transaction pool information.
 type TransactionPoolAPI struct {
-	s *SeeleService
+	s *SeeleCredoService
 }
 
 // NewTransactionPoolAPI creates a new PrivateTransactionPoolAPI object for transaction pool rpc service.
-func NewTransactionPoolAPI(s *SeeleService) *TransactionPoolAPI {
+func NewTransactionPoolAPI(s *SeeleCredoService) *TransactionPoolAPI {
 	return &TransactionPoolAPI{s}
 }
 

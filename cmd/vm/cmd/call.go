@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -9,10 +9,10 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/database"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/database"
 	"github.com/spf13/cobra"
 )
 
@@ -20,15 +20,15 @@ var (
 	contractHexAddr string
 	input           string
 	methodName      string
-	fee 	uint64
+	fee             uint64
 )
 
 func init() {
 	callCmd.Flags().StringVarP(&input, "input", "i", "", "call function input")
 	callCmd.Flags().StringVarP(&methodName, "method", "m", "", "call function method name")
 	callCmd.Flags().StringVarP(&contractHexAddr, "contractAddr", "c", "", "the contract address")
-	callCmd.Flags().StringVarP(&account, "account", "a", "", "invoking the address of calling the smart contract(Default is random and has 1 seele)")
-	callCmd.Flags().Uint64VarP(&fee, "fee", "f",100000000 , "call function fee")
+	callCmd.Flags().StringVarP(&account, "account", "a", "", "invoking the address of calling the smart contract(Default is random and has 1 seeleCredo)")
+	callCmd.Flags().Uint64VarP(&fee, "fee", "f", 100000000, "call function fee")
 
 	rootCmd.AddCommand(callCmd)
 }
@@ -36,7 +36,7 @@ func init() {
 var callCmd = &cobra.Command{
 	Use:   "call",
 	Short: "call a contract",
-	Long:  `All contract could callable. This is Seele contract simulator's`,
+	Long:  `All contract could callable. This is SeeleCredo contract simulator's`,
 	Run: func(cmd *cobra.Command, args []string) {
 		callContract(contractHexAddr)
 	},

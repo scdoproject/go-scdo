@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package common
@@ -15,14 +15,14 @@ import (
 
 const (
 
-	// SeeleProtoName protoName of Seele service
-	SeeleProtoName = "seele"
+	// SeeleCredoProtoName protoName of SeeleCredo service
+	SeeleCredoProtoName = "seeleCredo"
 
-	// SeeleVersion Version number of Seele protocol
-	SeeleVersion uint = 1
+	// SeeleCredoVersion Version number of SeeleCredo protocol
+	SeeleCredoVersion uint = 1
 
-	// SeeleVersion for simpler display
-	SeeleNodeVersion string = "v1.3.2"
+	// SeeleCredoVersion for simpler display
+	SeeleCredoNodeVersion string = "v1.3.2"
 
 	// ShardCount represents the total number of shards.
 	ShardCount = 4
@@ -80,7 +80,7 @@ const (
 
 	WindowsPipeDir = `\\.\pipe\`
 
-	defaultPipeFile = `\seele.ipc`
+	defaultPipeFile = `\seeleCredo.ipc`
 )
 
 var (
@@ -113,7 +113,7 @@ func init() {
 
 	tempFolder = filepath.Join(usr.HomeDir, "seeleTemp")
 
-	defaultDataFolder = filepath.Join(usr.HomeDir, ".seele")
+	defaultDataFolder = filepath.Join(usr.HomeDir, ".seeleCredo")
 
 	if runtime.GOOS == "windows" {
 		defaultIPCPath = WindowsPipeDir + defaultPipeFile

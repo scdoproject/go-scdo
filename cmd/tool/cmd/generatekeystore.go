@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -14,9 +14,9 @@ import (
 	"os"
 	"sync"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/crypto"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/crypto"
 	"github.com/spf13/cobra"
 	"gopkg.in/fatih/set.v0"
 )

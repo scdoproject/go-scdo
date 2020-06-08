@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package core
@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/core/types"
 	"github.com/stretchr/testify/assert"
 )
 

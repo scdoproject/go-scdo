@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package leveldb
@@ -12,8 +12,8 @@ import (
 	"time"
 
 	metrics "github.com/rcrowley/go-metrics"
-	"github.com/seeleteam/go-seele/database"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/database"
+	"github.com/seeledevteam/slc/log"
 )
 
 const (
@@ -32,7 +32,7 @@ type DBMetrics struct {
 }
 
 // StartMetrics create metrics and run a goroutine to collect
-func StartMetrics(db database.Database, dbname string, log *log.SeeleLog) {
+func StartMetrics(db database.Database, dbname string, log *log.SeeleCredoLog) {
 	m := DBMetrics{
 		metricsCompTimeMeter:    metrics.GetOrRegisterMeter(dbname+".compact.time", nil),
 		metricsCompReadMeter:    metrics.GetOrRegisterMeter(dbname+".compact.input", nil),
@@ -48,7 +48,7 @@ func StartMetrics(db database.Database, dbname string, log *log.SeeleLog) {
 	}
 }
 
-func collectDBMetrics(db *LevelDB, m *DBMetrics, log *log.SeeleLog) {
+func collectDBMetrics(db *LevelDB, m *DBMetrics, log *log.SeeleCredoLog) {
 	if metrics.UseNilMetrics {
 		return
 	}

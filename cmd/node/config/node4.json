@@ -1,53 +1,53 @@
 {
-  "basic":{
-    "name": "seele node4",
-    "version": "1.0",
-    "dataDir": "node4",
-    "address": "0.0.0.0:8026",
-    "coinbase": "0x9c181f73120232428cd775687585fcc0e0cc4271",
-    "algorithm": "spow"
-  },
-  "p2p": {
-    "address": "0.0.0.0:8056",
-    "privateKey": "0x4f39bb06143a160ce99521ce7afb766f4056318cd0d59c4f83f3eeb26e14c006",
-    "staticNodes": [
-      "104.218.164.181:8056", "104.218.164.193:8056", "104.218.164.169:8057", "106.75.85.9:8057","107.150.96.231:8057",
-      "107.150.105.10:8058", "106.75.90.237:8058","107.150.103.125:8059", "117.50.11.129:8059", "104.218.164.124:8059"  
-    ],
-    "networkID": "seele"
-  },
-  "log": {
-    "isDebug": false,
-    "printLog": true
-  },
-  "httpServer": {
-    "address": "0.0.0.0:8036",
-    "crossorigins": [
-      "*"
-    ],
-    "whiteHost": [
-      "*"
-    ]
-  },
-  "wsserver": {
-    "address": "0.0.0.0:8046",
-    "crossorigins": [
-      "*"
-    ]
-  },
-  "ipcconfig": {
-    "name": "seele4.ipc"
-  },
-  "metrics": {
-    "address": "0.0.0.0:8087",
-    "duration": 10,
-    "database": "influxdb",
-    "username": "test",
-    "password": "test123"
-  },
-  "genesis": {
-    "difficult":5200000,
-    "shard":4,
-    "timestamp":1554099618
-  }
+    "basic": {
+        "name": "seeleCredo node4",
+        "version": "1.0",
+        "dataDir": "node4",
+        "address": "0.0.0.0:8026",
+        "coinbase": "0x9c181f73120232428cd775687585fcc0e0cc4271",
+        "algorithm": "spow"
+    },
+    "p2p": {
+        "address": "0.0.0.0:8056",
+        "privateKey": "0x4f39bb06143a160ce99521ce7afb766f4056318cd0d59c4f83f3eeb26e14c006",
+        "staticNodes": [
+            "104.218.164.181:8056", "104.218.164.193:8056", "104.218.164.169:8057", "106.75.85.9:8057", "107.150.96.231:8057",
+            "107.150.105.10:8058", "106.75.90.237:8058", "107.150.103.125:8059", "117.50.11.129:8059", "104.218.164.124:8059"
+        ],
+        "networkID": "seeleCredo"
+    },
+    "log": {
+        "isDebug": false,
+        "printLog": true
+    },
+    "httpServer": {
+        "address": "0.0.0.0:8036",
+        "crossorigins": [
+            "*"
+        ],
+        "whiteHost": [
+            "*"
+        ]
+    },
+    "wsserver": {
+        "address": "0.0.0.0:8046",
+        "crossorigins": [
+            "*"
+        ]
+    },
+    "ipcconfig": {
+        "name": "seele4.ipc"
+    },
+    "metrics": {
+        "address": "0.0.0.0:8087",
+        "duration": 10,
+        "database": "influxdb",
+        "username": "test",
+        "password": "test123"
+    },
+    "genesis": {
+        "difficult": 5200000,
+        "shard": 4,
+        "timestamp": 1554099618
+    }
 }

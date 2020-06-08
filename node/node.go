@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package node
@@ -13,16 +13,16 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
-	rpc "github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
+	rpc "github.com/seeledevteam/slc/rpc"
 )
 
 // error infos
 var (
 	ErrConfigIsNull       = errors.New("config info is null")
-	ErrLogIsNull          = errors.New("SeeleLog is null")
+	ErrLogIsNull          = errors.New("SeeleCredoLog is null")
 	ErrNodeRunning        = errors.New("node is already running")
 	ErrNodeStopped        = errors.New("node is not started")
 	ErrServiceStartFailed = errors.New("failed to start node service")
@@ -46,7 +46,7 @@ type Node struct {
 	server   *p2p.Server
 	services []Service
 
-	log  *log.SeeleLog
+	log  *log.SeeleCredoLog
 	lock sync.RWMutex
 
 	tcpListener net.Listener // TCP RPC listener socket to serve API requests
@@ -142,7 +142,7 @@ func (n *Node) Start() error {
 }
 
 func (n *Node) checkConfig() error {
-	specificShard := n.config.SeeleConfig.GenesisConfig.ShardNumber
+	specificShard := n.config.SeeleCredoConfig.GenesisConfig.ShardNumber
 	if specificShard == 0 {
 		// select a shard randomly
 		specificShard = uint(rand.Intn(common.ShardCount) + 1)
@@ -156,9 +156,9 @@ func (n *Node) checkConfig() error {
 	n.shard = specificShard
 	n.log.Info("local shard number is %d", common.LocalShardNumber)
 
-	if !n.config.SeeleConfig.Coinbase.Equal(common.Address{}) {
-		coinbaseShard := n.config.SeeleConfig.Coinbase.Shard()
-		n.log.Info("coinbase is %s", n.config.SeeleConfig.Coinbase.Hex())
+	if !n.config.SeeleCredoConfig.Coinbase.Equal(common.Address{}) {
+		coinbaseShard := n.config.SeeleCredoConfig.Coinbase.Shard()
+		n.log.Info("coinbase is %s", n.config.SeeleCredoConfig.Coinbase.Hex())
 
 		if coinbaseShard != specificShard {
 			return fmt.Errorf("coinbase does not match with specific shard number, "+
@@ -175,8 +175,8 @@ func (n *Node) startP2PServer() (*p2p.Server, error) {
 		protocols = append(protocols, service.Protocols()...)
 	}
 
-	p2pServer := p2p.NewServer(n.config.SeeleConfig.GenesisConfig, n.config.P2PConfig, protocols)
-	if err := p2pServer.Start(n.config.BasicConfig.DataDir, n.config.SeeleConfig.GenesisConfig.ShardNumber); err != nil {
+	p2pServer := p2p.NewServer(n.config.SeeleCredoConfig.GenesisConfig, n.config.P2PConfig, protocols)
+	if err := p2pServer.Start(n.config.BasicConfig.DataDir, n.config.SeeleCredoConfig.GenesisConfig.ShardNumber); err != nil {
 		return nil, ErrServiceStartFailed
 	}
 

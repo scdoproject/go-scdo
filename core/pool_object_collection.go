@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package core
@@ -9,7 +9,7 @@ import (
 	"container/heap"
 	"sort"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 )
 
 // txCollection represents the nonce sorted transactions of an account.

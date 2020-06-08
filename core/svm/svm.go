@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package svm
@@ -8,14 +8,14 @@ package svm
 import (
 	"math/big"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/contract/system"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/svm/evm"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/core/vm"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/contract/system"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/svm/evm"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/core/vm"
 )
 
 // Context for other vm constructs
@@ -215,8 +215,8 @@ func processEvmContract(ctx *Context, gas uint64, height uint64) (*types.Receipt
 
 func handleFee(ctx *Context, receipt *types.Receipt, snapshot int) (*types.Receipt, error) {
 	// Calculating the total fee
-	// For normal tx: fee = 20k * 1 Fan/gas = 0.0002 Seele
-	// For contract tx, average gas per tx is about 100k on ETH, fee = 100k * 1Fan/gas = 0.001 Seele
+	// For normal tx: fee = 20k * 1 Fan/gas = 0.0002 SeeleCredo
+	// For contract tx, average gas per tx is about 100k on ETH, fee = 100k * 1Fan/gas = 0.001 SeeleCredo
 	usedGas := new(big.Int).SetUint64(receipt.UsedGas)
 	totalFee := new(big.Int).Mul(usedGas, ctx.Tx.Data.GasPrice)
 

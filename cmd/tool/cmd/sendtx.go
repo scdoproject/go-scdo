@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -16,11 +16,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/api"
-	"github.com/seeleteam/go-seele/cmd/util"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/api"
+	"github.com/seeledevteam/slc/cmd/util"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/rpc"
 	"github.com/spf13/cobra"
 )
 
@@ -428,7 +428,7 @@ func sendtx(b *balance, amount int, shard uint) *balance {
 	}
 
 	value := big.NewInt(int64(amount))
-	value.Mul(value, common.SeeleToFan)
+	value.Mul(value, common.SeeleCredoToFan)
 
 	client := getRandClient()
 	tx, err := util.GenerateTx(b.privateKey, *addr, value, big.NewInt(1), 0, b.nonce, nil)
@@ -548,11 +548,11 @@ func getBalance(address common.Address, hexHash string, height int64) (int, bool
 	client := getClient(address)
 
 	var result api.GetBalanceResponse
-	if err := client.Call(&result, "seele_getBalance", address, hexHash, height); err != nil {
+	if err := client.Call(&result, "seeleCredo_getBalance", address, hexHash, height); err != nil {
 		panic(fmt.Sprintf("failed to get the balance: %s\n", err))
 	}
 
-	return int(result.Balance.Div(result.Balance, common.SeeleToFan).Uint64()), true
+	return int(result.Balance.Div(result.Balance, common.SeeleCredoToFan).Uint64()), true
 }
 
 func getClient(address common.Address) *rpc.Client {

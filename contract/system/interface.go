@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package system
@@ -8,9 +8,9 @@ package system
 import (
 	"errors"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/types"
 )
 
 // Context provides information that required in system contract.
@@ -25,7 +25,7 @@ func NewContext(tx *types.Transaction, statedb *state.Statedb, BlockHeader *type
 	return &Context{tx, statedb, BlockHeader}
 }
 
-// Contract is the basic interface for native Go contracts in Seele.
+// Contract is the basic interface for native Go contracts in SeeleCredo.
 type Contract interface {
 	RequiredGas(input []byte) uint64
 	Run(input []byte, context *Context) ([]byte, error)

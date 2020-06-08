@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package core
@@ -14,10 +14,10 @@ import (
 
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/rcrowley/go-metrics"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus/istanbul"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus/istanbul"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 
@@ -49,7 +49,7 @@ type core struct {
 	config  *istanbul.Config
 	address common.Address
 	state   State
-	logger  *log.SeeleLog
+	logger  *log.SeeleCredoLog
 
 	backend               istanbul.Backend
 	events                *event.TypeMuxSubscription

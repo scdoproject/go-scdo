@@ -1,11 +1,11 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package errors
 
-// ErrorCode represents the error code type in seele.
+// ErrorCode represents the error code type in seeleCredo.
 type ErrorCode int
 
 const (
@@ -28,9 +28,9 @@ const (
 )
 
 var constErrors = map[ErrorCode]error{
-	ErrDecrypt:                newSeeleError(ErrDecrypt, "could not decrypt key with given passphrase"),
-	ErrEmptyAuthKey:           newSeeleError(ErrEmptyAuthKey, "encryption auth key could not be empty"),
-	ErrPasswordRepeatMismatch: newSeeleError(ErrPasswordRepeatMismatch, "repeat password is not equal to orignal one"),
+	ErrDecrypt:                newSeeleCredoError(ErrDecrypt, "could not decrypt key with given passphrase"),
+	ErrEmptyAuthKey:           newSeeleCredoError(ErrEmptyAuthKey, "encryption auth key could not be empty"),
+	ErrPasswordRepeatMismatch: newSeeleCredoError(ErrPasswordRepeatMismatch, "repeat password is not equal to orignal one"),
 }
 
 var parameterizedErrors = map[ErrorCode]string{

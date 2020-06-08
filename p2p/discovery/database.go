@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package discovery
@@ -13,9 +13,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log"
 )
 
 // NodeHook some hook funcs
@@ -24,7 +24,7 @@ type NodeHook func(node *Node)
 // Database definition
 type Database struct {
 	m              map[common.Hash]*Node
-	log            *log.SeeleLog
+	log            *log.SeeleCredoLog
 	mutex          sync.RWMutex
 	addNodeHook    NodeHook
 	deleteNodeHook NodeHook
@@ -92,7 +92,7 @@ func (db *Database) SaveNodes(nodeDir string) {
 }
 
 // NewDatabase new database
-func NewDatabase(log *log.SeeleLog) *Database {
+func NewDatabase(log *log.SeeleCredoLog) *Database {
 	return &Database{
 		m:   make(map[common.Hash]*Node),
 		log: log,

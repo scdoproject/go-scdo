@@ -1,9 +1,9 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	//"context"
@@ -11,12 +11,12 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus/factory"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/node"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus/factory"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/node"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -24,14 +24,14 @@ func getTmpConfig() *node.Config {
 	acctAddr := crypto.MustGenerateRandomAddress()
 
 	return &node.Config{
-		SeeleConfig: node.SeeleConfig{
+		SeeleCredoConfig: node.SeeleCredoConfig{
 			TxConf:   *core.DefaultTxPoolConfig(),
 			Coinbase: *acctAddr,
 		},
 	}
 }
 
-func newTestSeeleService() *SeeleService {
+func newTestSeeleService() *SeeleCredoService {
 	conf := getTmpConfig()
 	serviceContext := ServiceContext{
 		DataDir: filepath.Join(common.GetTempFolder(), "n1"),
@@ -39,9 +39,9 @@ func newTestSeeleService() *SeeleService {
 
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
-	log := log.GetLogger("seele")
+	log := log.GetLogger("seeleCredo")
 
-	seeleService, err := NewSeeleService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	seeleService, err := NewSeeleCredoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		panic(err)
 	}
@@ -87,11 +87,11 @@ func Test_SeeleService_APIs(t *testing.T) {
 	apis := s.APIs()
 
 	assert.Equal(t, len(apis), 10)
-	assert.Equal(t, apis[0].Namespace, "seele")
+	assert.Equal(t, apis[0].Namespace, "seeleCredo")
 	assert.Equal(t, apis[1].Namespace, "txpool")
 	assert.Equal(t, apis[2].Namespace, "network")
 	assert.Equal(t, apis[3].Namespace, "debug")
-	assert.Equal(t, apis[4].Namespace, "seele")
+	assert.Equal(t, apis[4].Namespace, "seeleCredo")
 	assert.Equal(t, apis[5].Namespace, "download")
 	assert.Equal(t, apis[6].Namespace, "debug")
 	assert.Equal(t, apis[7].Namespace, "miner")

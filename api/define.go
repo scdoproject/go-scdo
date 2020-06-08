@@ -3,13 +3,13 @@ package api
 import (
 	"math/big"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
+	"github.com/seeledevteam/slc/rpc"
 )
 
 // Backend interface provides the common API services (that are provided by
@@ -22,7 +22,7 @@ type Backend interface {
 	TxPoolBackend() Pool
 	ChainBackend() Chain
 	ProtocolBackend() Protocol
-	Log() *log.SeeleLog
+	Log() *log.SeeleCredoLog
 	IsSyncing() bool
 
 	GetBlock(hash common.Hash, height int64) (*types.Block, error)
@@ -36,7 +36,7 @@ type Backend interface {
 func GetAPIs(apiBackend Backend) []rpc.API {
 	return []rpc.API{
 		{
-			Namespace: "seele",
+			Namespace: "seeleCredo",
 			Version:   "1.0",
 			Service:   NewPublicSeeleAPI(apiBackend),
 			Public:    true,

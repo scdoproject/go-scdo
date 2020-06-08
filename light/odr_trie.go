@@ -1,15 +1,15 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package light
 
 import (
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/trie"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/trie"
 )
 
 type proofNode struct {

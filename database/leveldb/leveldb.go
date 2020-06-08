@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package leveldb
@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/seeleteam/go-seele/database"
+	"github.com/seeledevteam/slc/database"
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/errors"
 )
@@ -108,7 +108,7 @@ func (db *LevelDB) NewBatch() database.Batch {
 
 // NewTestDatabase creates a database instance under temp folder.
 func NewTestDatabase() (db database.Database, dispose func()) {
-	dir, err := ioutil.TempDir("", "Seele-LevelDB-")
+	dir, err := ioutil.TempDir("", "SeeleCredo-LevelDB-")
 	if err != nil {
 		panic(err)
 	}

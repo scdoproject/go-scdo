@@ -5,10 +5,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
 )
 
 var errTxCacheFull = errors.New("CachedTxs reaches max")
@@ -21,7 +21,7 @@ type CachedTxs struct {
 	capacity uint64
 	lock     sync.RWMutex
 	content  map[common.Hash]*types.Transaction
-	log      *log.SeeleLog
+	log      *log.SeeleCredoLog
 }
 
 // 10 * 60 * 60s / 15(s) (block) * 500txs/block = 1.2M txs

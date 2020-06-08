@@ -1,16 +1,16 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package util
 
 import (
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/log/comm"
-	"github.com/seeleteam/go-seele/metrics"
-	"github.com/seeleteam/go-seele/node"
-	"github.com/seeleteam/go-seele/p2p"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/log/comm"
+	"github.com/seeledevteam/slc/metrics"
+	"github.com/seeledevteam/slc/node"
+	"github.com/seeledevteam/slc/p2p"
 )
 
 // Config is the Configuration of node

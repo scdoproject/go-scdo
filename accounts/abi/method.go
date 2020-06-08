@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/seeleteam/go-seele/crypto"
+	"github.com/seeledevteam/slc/crypto"
 )
 
 // Method represents a callable given a `Name` and whether the method is a constant.

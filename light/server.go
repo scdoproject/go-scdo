@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package light
@@ -9,26 +9,26 @@ import (
 	rand2 "math/rand"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/event"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/node"
-	"github.com/seeleteam/go-seele/p2p"
-	"github.com/seeleteam/go-seele/rpc"
-	"github.com/seeleteam/go-seele/seele"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/event"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/node"
+	"github.com/seeledevteam/slc/p2p"
+	"github.com/seeledevteam/slc/rpc"
+	"github.com/seeledevteam/slc/seeleCredo"
 )
 
 // ServiceServer implements light server service.
 type ServiceServer struct {
 	p2pServer     *p2p.Server
 	seeleProtocol *LightProtocol
-	log           *log.SeeleLog
+	log           *log.SeeleCredoLog
 	shard         uint
 }
 
 // NewServiceServer create ServiceServer
-func NewServiceServer(service *seele.SeeleService, conf *node.Config, log *log.SeeleLog, shard uint) (*ServiceServer, error) {
+func NewServiceServer(service *seeleCredo.SeeleCredoService, conf *node.Config, log *log.SeeleCredoLog, shard uint) (*ServiceServer, error) {
 	seeleProtocol, err := NewLightProtocol(conf.P2PConfig.NetworkID, service.TxPool(), service.DebtPool(), service.BlockChain(), true, nil, log, shard)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (s *ServiceServer) Stop() error {
 	return nil
 }
 
-// APIs implements node.Service, returning the collection of RPC services the seele package offers.
+// APIs implements node.Service, returning the collection of RPC services the seeleCredo package offers.
 func (s *ServiceServer) APIs() (apis []rpc.API) {
 	return
 }
@@ -93,12 +93,12 @@ needQuit:
 			peers := pm.peerSet.getPeers()
 			for _, p := range peers {
 				if p != nil {
-					if lastTime, ok := pm.peerSet.peerLastAnnounceTimeMap[p]; ok && (time.Now().Unix()-lastTime < 5 ) {
-						pm.log.Debug("blockLoop sendAnnounce cancelled,magic:%d,peer:%s",magic,p.peerStrID)
+					if lastTime, ok := pm.peerSet.peerLastAnnounceTimeMap[p]; ok && (time.Now().Unix()-lastTime < 5) {
+						pm.log.Debug("blockLoop sendAnnounce cancelled,magic:%d,peer:%s", magic, p.peerStrID)
 						continue
 					}
 					pm.peerSet.peerLastAnnounceTimeMap[p] = time.Now().Unix()
-					pm.log.Debug("blockLoop sendAnnounce,magic:%d,peer:%s",magic,p.peerStrID)
+					pm.log.Debug("blockLoop sendAnnounce,magic:%d,peer:%s", magic, p.peerStrID)
 					err := p.sendAnnounce(magic, uint64(0), uint64(0))
 					if err != nil {
 						pm.log.Debug("blockLoop sendAnnounce err=%s", err)

@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package light
@@ -12,10 +12,10 @@ import (
 	"math/big"
 	"sync"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
 )
 
 const (
@@ -37,7 +37,7 @@ var (
 
 // PeerInfo represents a short summary of a connected peer.
 type PeerInfo struct {
-	Version    uint     `json:"version"`    // Seele protocol version negotiated
+	Version    uint     `json:"version"`    // SeeleCredo protocol version negotiated
 	Difficulty *big.Int `json:"difficulty"` // Total difficulty of the peer's blockchain
 	Head       string   `json:"head"`       // SHA3 hash of the peer's best owned block
 }
@@ -47,7 +47,7 @@ type peer struct {
 	quitCh          chan struct{}
 	peerStrID       string
 	peerID          common.Address
-	version         uint // Seele protocol version negotiated
+	version         uint // SeeleCredo protocol version negotiated
 	head            common.Hash
 	headBlockNum    uint64
 	td              *big.Int // total difficulty
@@ -61,14 +61,14 @@ type peer struct {
 	updatedAncestor uint64
 
 	lastAnnounceCodeTime int64
-	log             *log.SeeleLog
+	log             *log.SeeleCredoLog
 }
 
 func idToStr(id common.Address) string {
 	return fmt.Sprintf("%x", id[:8])
 }
 
-func newPeer(version uint, p *p2p.Peer, rw p2p.MsgReadWriter, log *log.SeeleLog, protocolManager *LightProtocol) *peer {
+func newPeer(version uint, p *p2p.Peer, rw p2p.MsgReadWriter, log *log.SeeleCredoLog, protocolManager *LightProtocol) *peer {
 	return &peer{
 		Peer:            p,
 		quitCh:          make(chan struct{}),
@@ -468,7 +468,7 @@ func (p *peer) handleAnnounce(msg *AnnounceBody) error {
 // handShake exchange networkid td etc between two connected peers.
 func (p *peer) handShake(networkID string, td *big.Int, head common.Hash, headBlockNum uint64, genesis common.Hash) error {
 	msg := &statusData{
-		ProtocolVersion: uint32(LightSeeleVersion),
+		ProtocolVersion: uint32(LightSeeleCredoVersion),
 		NetworkID:       networkID,
 		IsServer:        p.protocolManager.bServerMode,
 		TD:              td,

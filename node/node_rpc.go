@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package node
@@ -9,7 +9,7 @@ import (
 	"net"
 	"strings"
 
-	rpc "github.com/seeleteam/go-seele/rpc"
+	rpc "github.com/seeledevteam/slc/rpc"
 )
 
 // RemoteRPCQuest indicate wether this quest if from localhost or not

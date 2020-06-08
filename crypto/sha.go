@@ -1,13 +1,13 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package crypto
 
 import (
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto/sha3"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto/sha3"
 )
 
 // Keccak256 calculates and returns the Keccak256 hash of the input data.

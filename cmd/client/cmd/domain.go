@@ -1,13 +1,13 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
 
 import (
-	"github.com/seeleteam/go-seele/contract/system"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/contract/system"
+	"github.com/seeledevteam/slc/rpc"
 )
 
 // createDomainName create a domain name

@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package metrics
@@ -10,9 +10,9 @@ import (
 	"time"
 
 	metrics "github.com/rcrowley/go-metrics"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/log"
-	influxdb "github.com/seeleteam/go-seele/metrics/go-metrics-influxdb"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/log"
+	influxdb "github.com/seeledevteam/slc/metrics/go-metrics-influxdb"
 )
 
 var MetricsWriteBlockMeter = metrics.GetOrRegisterMeter("core.blockchain.writeBlock.time", nil)
@@ -27,7 +27,7 @@ type Config struct {
 }
 
 // StartMetricsWithConfig start recording metrics with configure
-func StartMetricsWithConfig(conf *Config, log *log.SeeleLog, name, version string, networkID string, coinBase common.Address) {
+func StartMetricsWithConfig(conf *Config, log *log.SeeleCredoLog, name, version string, networkID string, coinBase common.Address) {
 	if conf == nil {
 		log.Error("failed to start the metrics: the config of metrics is null")
 		return
@@ -58,7 +58,7 @@ func StartMetrics(
 	networkID string,
 	version string,
 	coinBase common.Address,
-	log *log.SeeleLog) {
+	log *log.SeeleCredoLog) {
 	log.Info("Start metrics!")
 
 	go influxdb.InfluxDBWithTags(

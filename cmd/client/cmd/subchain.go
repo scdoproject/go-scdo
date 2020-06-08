@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -17,18 +17,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/seeleteam/go-seele/cmd/util"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/contract/system"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log/comm"
-	"github.com/seeleteam/go-seele/metrics"
-	"github.com/seeleteam/go-seele/node"
-	"github.com/seeleteam/go-seele/p2p"
-	"github.com/seeleteam/go-seele/p2p/discovery"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/cmd/util"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/contract/system"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log/comm"
+	"github.com/seeledevteam/slc/metrics"
+	"github.com/seeledevteam/slc/node"
+	"github.com/seeledevteam/slc/p2p"
+	"github.com/seeledevteam/slc/p2p/discovery"
+	"github.com/seeledevteam/slc/rpc"
 	"github.com/urfave/cli"
 )
 
@@ -39,8 +39,8 @@ var (
 	errInvalidTokenAmount    = errors.New("invalid subchain token amount")
 	errSubChainInfo          = errors.New("failed to get sub-chain information")
 
-	defaultTokenFullName  = "seelecoin"
-	defaultTokenShortName = "seele"
+	defaultTokenFullName  = "seelecredocoin"
+	defaultTokenShortName = "seeleCredo"
 )
 
 func registerSubChain(client *rpc.Client) (interface{}, interface{}, error) {

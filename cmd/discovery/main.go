@@ -1,11 +1,11 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package main
 
-import "github.com/seeleteam/go-seele/cmd/discovery/cmd"
+import "github.com/seeledevteam/slc/cmd/discovery/cmd"
 
 func main() {
 	cmd.Execute()

@@ -19,7 +19,7 @@ package vm
 import (
 	"fmt"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 )
 
 func makeStackFunc(pop, push int) stackValidationFunc {

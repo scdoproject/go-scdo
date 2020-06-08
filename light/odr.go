@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package light
@@ -8,7 +8,7 @@ package light
 import (
 	"errors"
 
-	"github.com/seeleteam/go-seele/core/store"
+	"github.com/seeledevteam/slc/core/store"
 )
 
 const (

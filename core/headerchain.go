@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package core
@@ -8,9 +8,9 @@ package core
 import (
 	"sync"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/types"
 )
 
 // HeaderChain represents the block header chain that is shared by the archive node and light node.

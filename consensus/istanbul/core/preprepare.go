@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package core
@@ -8,8 +8,8 @@ package core
 import (
 	"time"
 
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/consensus/istanbul"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/consensus/istanbul"
 )
 
 func (c *core) sendPreprepare(request *istanbul.Request) {

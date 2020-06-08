@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package system
@@ -9,12 +9,12 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/database"
-	"github.com/seeleteam/go-seele/database/leveldb"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/database"
+	"github.com/seeledevteam/slc/database/leveldb"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -98,7 +98,7 @@ func Test_Run(t *testing.T) {
 	assert.Equal(t, err != nil, true)
 	assert.Equal(t, arrayByte == nil, true)
 
-	domainName := []byte("seele-test")
+	domainName := []byte("seeleCredo-test")
 	arrayByte, err = c.Run(append([]byte{CmdCreateDomainName}, domainName...), context)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, arrayByte, context.tx.Data.From.Bytes())

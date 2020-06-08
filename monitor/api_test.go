@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package monitor
@@ -14,21 +14,21 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus/factory"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/node"
-	"github.com/seeleteam/go-seele/p2p"
-	"github.com/seeleteam/go-seele/seele"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus/factory"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/node"
+	"github.com/seeledevteam/slc/p2p"
+	"github.com/seeledevteam/slc/seeleCredo"
 )
 
 func getTmpConfig() *node.Config {
 	acctAddr := crypto.MustGenerateShardAddress(1)
 
 	return &node.Config{
-		SeeleConfig: node.SeeleConfig{
+		SeeleCredoConfig: node.SeeleCredoConfig{
 			TxConf:   *core.DefaultTxPoolConfig(),
 			Coinbase: *acctAddr,
 			GenesisConfig: core.GenesisInfo{
@@ -58,46 +58,46 @@ func createTestAPI(t *testing.T) (api *PublicMonitorAPI, dispose func()) {
 			Address:      "127.0.0.1:8047",
 			CrossOrigins: []string{"*"},
 		},
-		SeeleConfig: conf.SeeleConfig,
+		SeeleCredoConfig: conf.SeeleCredoConfig,
 	}
 
-	serviceContext := seele.ServiceContext{
+	serviceContext := seeleCredo.ServiceContext{
 		DataDir: filepath.Join(common.GetTempFolder(), "n1", fmt.Sprintf("%d", time.Now().UnixNano())),
 	}
 
 	ctx := context.WithValue(context.Background(), "ServiceContext", serviceContext)
-	dataDir := ctx.Value("ServiceContext").(seele.ServiceContext).DataDir
-	log := log.GetLogger("seele")
+	dataDir := ctx.Value("ServiceContext").(seeleCredo.ServiceContext).DataDir
+	log := log.GetLogger("seeleCredo")
 
-	seeleNode, err := node.New(&testConf)
+	slcNode, err := node.New(&testConf)
 	if err != nil {
 		t.Fatal(err)
 		return
 	}
 
-	seeleService, err := seele.NewSeeleService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	slcService, err := seeleCredo.NewSeeleCredoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		t.Fatal(err)
 		return
 	}
 
-	monitorService, _ := NewMonitorService(seeleService, seeleNode, &testConf, log, "run test")
+	monitorService, _ := NewMonitorService(slcService, slcNode, &testConf, log, "run test")
 
-	seeleNode.Register(monitorService)
-	seeleNode.Register(seeleService)
+	slcNode.Register(monitorService)
+	slcNode.Register(slcService)
 
 	api = NewPublicMonitorAPI(monitorService)
 
-	err = seeleNode.Start()
+	err = slcNode.Start()
 	if err != nil {
 		t.Fatal(err)
 		return
 	}
 
-	seeleService.Miner().Start()
+	slcService.Miner().Start()
 
 	return api, func() {
-		api.s.seele.Stop()
+		api.s.seeleCredo.Stop()
 		os.RemoveAll(dataDir)
 	}
 }
@@ -120,7 +120,7 @@ func createTestAPIErr(errBranch int) (api *PublicMonitorAPI, dispose func()) {
 				PrivateKey: key,
 				ListenAddr: "0.0.0.0:39008",
 			},
-			SeeleConfig: conf.SeeleConfig,
+			SeeleCredoConfig: conf.SeeleCredoConfig,
 		}
 	} else {
 		key, _ := crypto.GenerateKey()
@@ -135,45 +135,45 @@ func createTestAPIErr(errBranch int) (api *PublicMonitorAPI, dispose func()) {
 				PrivateKey: key,
 				ListenAddr: "0.0.0.0:39009",
 			},
-			SeeleConfig: conf.SeeleConfig,
+			SeeleCredoConfig: conf.SeeleCredoConfig,
 		}
 	}
 
-	serviceContext := seele.ServiceContext{
+	serviceContext := seeleCredo.ServiceContext{
 		DataDir: common.GetTempFolder() + "/n2/",
 	}
 
 	ctx := context.WithValue(context.Background(), "ServiceContext", serviceContext)
-	dataDir := ctx.Value("ServiceContext").(seele.ServiceContext).DataDir
-	log := log.GetLogger("seele")
+	dataDir := ctx.Value("ServiceContext").(seeleCredo.ServiceContext).DataDir
+	log := log.GetLogger("seeleCredo")
 
-	seeleNode, err := node.New(&testConf)
+	slcNode, err := node.New(&testConf)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	seeleService, err := seele.NewSeeleService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	slcService, err := seeleCredo.NewSeeleCredoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	monitorService, _ := NewMonitorService(seeleService, seeleNode, &testConf, log, "run test")
+	monitorService, _ := NewMonitorService(slcService, slcNode, &testConf, log, "run test")
 
-	seeleNode.Register(monitorService)
-	seeleNode.Register(seeleService)
+	slcNode.Register(monitorService)
+	slcNode.Register(slcService)
 
 	api = NewPublicMonitorAPI(monitorService)
 
 	if errBranch != 1 {
-		seeleNode.Start()
+		slcNode.Start()
 	} else {
-		seeleService.Miner().Start()
+		slcService.Miner().Start()
 	}
 
 	return api, func() {
-		api.s.seele.Stop()
+		api.s.seeleCredo.Stop()
 		os.RemoveAll(dataDir)
 	}
 }

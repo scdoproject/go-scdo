@@ -26,8 +26,8 @@ import (
 	"time"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
 	"github.com/stretchr/testify/assert"
 )
 

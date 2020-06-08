@@ -1,9 +1,9 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	"runtime"
@@ -12,11 +12,11 @@ import (
 	"encoding/binary"
 
 	"github.com/Jeffail/tunny"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/database"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/database"
 )
 
 type propagateDebts interface {
@@ -45,7 +45,7 @@ type DebtManager struct {
 
 	checker     types.DebtVerifier
 	propagation propagateDebts
-	log         *log.SeeleLog
+	log         *log.SeeleCredoLog
 	chain       *core.Blockchain
 	blockHeights []uint64 
 	dmDB        database.Database

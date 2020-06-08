@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package light
@@ -8,9 +8,9 @@ package light
 import (
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/database/leveldb"
-	"github.com/seeleteam/go-seele/trie"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/database/leveldb"
+	"github.com/seeledevteam/slc/trie"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -30,11 +30,11 @@ func Test_Trie_Get(t *testing.T) {
 	dbPrefix := []byte("test prefix")
 	trie := trie.NewEmptyTrie(dbPrefix, db)
 	trie.Put([]byte("hello"), []byte("HELLO"))
-	trie.Put([]byte("seele"), []byte("SEELE"))
+	trie.Put([]byte("seeleCredo"), []byte("SEELECREDO"))
 	trie.Put([]byte("world"), []byte("WORLD"))
 
 	// prepare mock odr retriever
-	proof, err := trie.GetProof([]byte("seele"))
+	proof, err := trie.GetProof([]byte("seeleCredo"))
 	assert.Nil(t, err)
 	retriever := &mockOdrRetriever{
 		resp: &odrTriePoof{
@@ -46,13 +46,13 @@ func Test_Trie_Get(t *testing.T) {
 	lightTrie := newOdrTrie(retriever, trie.Hash(), dbPrefix, common.EmptyHash)
 
 	// key exists
-	v, ok, err := lightTrie.Get([]byte("seele"))
+	v, ok, err := lightTrie.Get([]byte("seeleCredo"))
 	assert.Nil(t, err)
 	assert.True(t, ok)
-	assert.Equal(t, []byte("SEELE"), v)
+	assert.Equal(t, []byte("SEELECREDO"), v)
 
 	// key not found
-	v, ok, err = lightTrie.Get([]byte("seele 2"))
+	v, ok, err = lightTrie.Get([]byte("seeleCredo 2"))
 	assert.Nil(t, err)
 	assert.False(t, ok)
 	assert.Nil(t, v)

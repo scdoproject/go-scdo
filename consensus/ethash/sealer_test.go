@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
 )
 
 // Tests whether remote HTTP servers are correctly notified of new work.

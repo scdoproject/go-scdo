@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package qvic
@@ -14,7 +14,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/log"
 )
 
 // Qvic const
@@ -58,7 +58,7 @@ type QConn struct {
 	magic                      uint32
 	packDataSize               int
 	wg                         sync.WaitGroup
-	log                        *log.SeeleLog
+	log                        *log.SeeleCredoLog
 
 	senderMgr     *SenderMgr
 	receiverMgr   *ReceiverMgr

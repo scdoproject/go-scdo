@@ -1,9 +1,9 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	"fmt"
@@ -12,17 +12,17 @@ import (
 	"runtime"
 	"runtime/pprof"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
 )
 
 // PrivateDebugAPI provides an API to access full node-related information for debug.
 type PrivateDebugAPI struct {
-	s *SeeleService
+	s *SeeleCredoService
 }
 
 // NewPrivateDebugAPI creates a new NewPrivateDebugAPI object for rpc service.
-func NewPrivateDebugAPI(s *SeeleService) *PrivateDebugAPI {
+func NewPrivateDebugAPI(s *SeeleCredoService) *PrivateDebugAPI {
 	return &PrivateDebugAPI{s}
 }
 
@@ -115,4 +115,3 @@ func (api *PrivateDebugAPI) DumpHeap(fileName string, gcBeforeDump bool) (string
 
 	return flie, pprof.WriteHeapProfile(f)
 }
-

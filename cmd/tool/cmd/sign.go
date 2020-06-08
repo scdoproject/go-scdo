@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
  package cmd
@@ -9,7 +9,7 @@
 	 "fmt"
 	 "encoding/hex"
 
-	 "github.com/seeleteam/go-seele/crypto"
+	 "github.com/seeledevteam/slc/crypto"
 	 "github.com/spf13/cobra"
  )
  

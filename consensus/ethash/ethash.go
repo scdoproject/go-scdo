@@ -27,11 +27,11 @@ import (
 	"time"
 
 	"github.com/rcrowley/go-metrics"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/rpc"
 )
 
 var ErrInvalidDumpMagic = errors.New("invalid dump magic")
@@ -115,7 +115,7 @@ type Ethash struct {
 	closeOnce sync.Once       // Ensures exit channel will not be closed twice.
 	exitCh    chan chan error // Notification channel to exiting backend threads
 
-	log *log.SeeleLog
+	log *log.SeeleCredoLog
 }
 
 // New creates a full sized ethash PoW scheme and starts a background thread for

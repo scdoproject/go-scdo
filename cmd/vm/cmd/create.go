@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -11,9 +11,9 @@ import (
 	"math/big"
 	"path/filepath"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/core/types"
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +28,7 @@ var (
 func init() {
 	createCmd.Flags().StringVarP(&code, "code", "c", "", "the binary code of the smart contract to create, or the name of a readable file that contains the binary contract code in the local directory(Required)")
 	createCmd.Flags().StringVarP(&solFile, "file", "f", "", "solidity file path")
-	createCmd.Flags().StringVarP(&account, "account", "a", "", "the account address(Default is random and has 1 seele)")
+	createCmd.Flags().StringVarP(&account, "account", "a", "", "the account address(Default is random and has 1 seeleCredo)")
 	rootCmd.AddCommand(createCmd)
 }
 

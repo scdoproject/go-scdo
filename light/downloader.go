@@ -1,6 +1,6 @@
  /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package light
@@ -9,12 +9,12 @@ import (
 	rand2 "math/rand"
 	"sync"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
 )
 
 var (
@@ -32,7 +32,7 @@ type Downloader struct {
 	syncStatus int32
 	chain      BlockChain
 	wg         sync.WaitGroup
-	log        *log.SeeleLog
+	log        *log.SeeleCredoLog
 	lock       sync.RWMutex
 }
 

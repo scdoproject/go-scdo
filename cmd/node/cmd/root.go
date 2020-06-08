@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/seeleteam/go-seele/cmd/util"
+	"github.com/seeledevteam/slc/cmd/util"
 	"github.com/spf13/cobra"
-        "github.com/seeleteam/go-seele/common"
+        "github.com/seeledevteam/slc/common"
 )
 
 var version bool
@@ -25,7 +25,7 @@ var rootCmd = &cobra.Command{
 	//	Run: func(cmd *cobra.Command, args []string) { },
 	Run: func(cmd *cobra.Command, args []string) {
 	if version {
-	    fmt.Println(common.SeeleNodeVersion)
+	    fmt.Println(common.SeeleCredoNodeVersion)
 	  } else {
 	    cmd.Help()
 	  }

@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package downloader
@@ -12,14 +12,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/event"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/event"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
 )
 
 const (
@@ -93,10 +93,10 @@ type Downloader struct {
 	syncStatus int
 	tm         *taskMgr
 
-	seele     SeeleBackend
+	seeleCredo     SlcBackend
 	chain     *core.Blockchain
 	sessionWG sync.WaitGroup
-	log       *log.SeeleLog
+	log       *log.SeeleCredoLog
 	lock      sync.RWMutex
 }
 
@@ -112,18 +112,18 @@ type BlocksMsgBody struct {
 	Blocks []*types.Block
 }
 
-// SeeleBackend wraps all methods required for downloader.
-type SeeleBackend interface {
+// SlcBackend wraps all methods required for downloader.
+type SlcBackend interface {
 	TxPool() *core.TransactionPool
 	DebtPool() *core.DebtPool
 }
 
 // NewDownloader create Downloader
-func NewDownloader(chain *core.Blockchain, seele SeeleBackend) *Downloader {
+func NewDownloader(chain *core.Blockchain, seeleCredo SlcBackend) *Downloader {
 	d := &Downloader{
 		cancelCh:   make(chan struct{}),
 		peers:      make(map[string]*peerConn),
-		seele:      seele,
+		seeleCredo:      seeleCredo,
 		chain:      chain,
 		syncStatus: statusNone,
 	}
@@ -586,7 +586,7 @@ func (d *Downloader) processBlocks(headInfos []*downloadInfo, ancestor uint64, l
 		// add it for all received block messages
 		d.log.Info("got block message and save it. height=%d, hash=%s, time=%d", h.block.Header.Height, h.block.HeaderHash.Hex(), time.Now().UnixNano())
 		// writeblock
-		txPool := d.seele.TxPool().Pool
+		txPool := d.seeleCredo.TxPool().Pool
 		err := d.chain.WriteBlock(h.block, txPool)
 
 		if err != nil && !errors.IsOrContains(err, core.ErrBlockAlreadyExists) {
@@ -663,8 +663,8 @@ func (d *Downloader) reverseBCstore(ancestor uint64) (uint64, *big.Int, []*types
 		localBlocks = append([]*types.Block{block}, localBlocks...)
 
 		// reinject the block objects to the pool
-		d.seele.TxPool().HandleChainReversed(block)
-		d.seele.DebtPool().HandleChainReversed(block)
+		d.seeleCredo.TxPool().HandleChainReversed(block)
+		d.seeleCredo.DebtPool().HandleChainReversed(block)
 
 		if err = bcStore.DeleteBlock(hash); err != nil {
 			return localHeight, localTD, localBlocks, errors.NewStackedErrorf(err, "failed to delete block %v", block.HeaderHash)

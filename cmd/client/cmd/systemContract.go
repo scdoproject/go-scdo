@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -9,11 +9,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/seeleteam/go-seele/cmd/util"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/cmd/util"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/rpc"
 )
 
 type handler func(client *rpc.Client) (interface{}, interface{}, error)
@@ -67,7 +67,7 @@ func sendSystemContractTx(client *rpc.Client, to common.Address, method byte, pa
 // sendTx send transaction or contract
 func sendTx(client *rpc.Client, arg interface{}) error {
 	var result bool
-	if err := client.Call(&result, "seele_addTx", arg); err != nil || !result {
+	if err := client.Call(&result, "seeleCredo_addTx", arg); err != nil || !result {
 		return fmt.Errorf("Failed to call rpc, %s", err)
 	}
 
@@ -78,7 +78,7 @@ func sendTx(client *rpc.Client, arg interface{}) error {
 func callTx(client *rpc.Client, tx *types.Transaction) (interface{}, error) {
 	var result interface{}
 	if tx != nil {
-		if err := client.Call(&result, "seele_call", tx.Data.To.Hex(), hexutil.BytesToHex(tx.Data.Payload), -1); err != nil {
+		if err := client.Call(&result, "seeleCredo_call", tx.Data.To.Hex(), hexutil.BytesToHex(tx.Data.Payload), -1); err != nil {
 			return nil, fmt.Errorf("Failed to call rpc, %s", err)
 		}
 	} else {

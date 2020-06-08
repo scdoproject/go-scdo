@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/seeleteam/go-seele/seele"
+	"github.com/seeledevteam/slc/seeleCredo"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +27,7 @@ var gettps = &cobra.Command{
 			sum := float64(0)
 
 			for _, client := range clientList {
-				var tps seele.TpsInfo
+				var tps seeleCredo.TpsInfo
 				err := client.Call(&tps, "debug_getTPS")
 				if err != nil {
 					fmt.Println("failed to get tps ", err)

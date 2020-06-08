@@ -1,9 +1,9 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	"context"
@@ -12,35 +12,35 @@ import (
 	"path/filepath"
 	"testing"
 
-	api2 "github.com/seeleteam/go-seele/api"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/consensus/factory"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log"
+	api2 "github.com/seeledevteam/slc/api"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/consensus/factory"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log"
 	"github.com/stretchr/testify/assert"
 )
 
-func newTestSeeleBackend() *SeeleBackend {
+func newTestSeeleBackend() *SlcBackend {
 	seeleService := newTestSeeleService()
-	return &SeeleBackend{seeleService}
+	return &SlcBackend{seeleService}
 }
 
 func Test_SeeleBackend_GetBlock(t *testing.T) {
-	seeleBackend := newTestSeeleBackend()
-	defer seeleBackend.s.Stop()
+	slcBackend := newTestSeeleBackend()
+	defer slcBackend.s.Stop()
 
-	block, err := seeleBackend.GetBlock(common.EmptyHash, -1)
+	block, err := slcBackend.GetBlock(common.EmptyHash, -1)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, block.Header.Height, uint64(0))
 
-	block1, err := seeleBackend.GetBlock(block.HeaderHash, -1)
+	block1, err := slcBackend.GetBlock(block.HeaderHash, -1)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, block1.HeaderHash, block.HeaderHash)
 
-	block2, err := seeleBackend.GetBlock(common.EmptyHash, 0)
+	block2, err := slcBackend.GetBlock(common.EmptyHash, 0)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, block2.Header.Height, uint64(0))
 	assert.Equal(t, block2.HeaderHash, block.HeaderHash)
@@ -69,7 +69,7 @@ func Test_GetReceiptByHash(t *testing.T) {
 	assert.Equal(t, err, nil)
 
 	// verify block receipt
-	poolAPI := NewSeeleBackend(api.s)
+	poolAPI := NewSeeleCredoBackend(api.s)
 	receipt, err := poolAPI.GetReceiptByTxHash(tx1.Hash)
 	assert.Equal(t, err, nil)
 	outputs, err := api2.PrintableReceipt(receipt)
@@ -82,7 +82,7 @@ func Test_GetReceiptByHash(t *testing.T) {
 	assert.Equal(t, outputs["totalFee"], receipts[0].TotalFee)
 }
 
-func newTestTx(t *testing.T, s *SeeleService, amount, price int64, nonce uint64) *types.Transaction {
+func newTestTx(t *testing.T, s *SeeleCredoService, amount, price int64, nonce uint64) *types.Transaction {
 	statedb, err := s.chain.GetCurrentState()
 	assert.Equal(t, err, nil)
 
@@ -90,7 +90,7 @@ func newTestTx(t *testing.T, s *SeeleService, amount, price int64, nonce uint64)
 	fromAddress, fromPrivKey, err := crypto.GenerateKeyPair()
 	assert.Equal(t, err, nil)
 	statedb.CreateAccount(*fromAddress)
-	statedb.SetBalance(*fromAddress, common.SeeleToFan)
+	statedb.SetBalance(*fromAddress, common.SeeleCredoToFan)
 	statedb.SetNonce(*fromAddress, nonce-1)
 	err = storeStatedb(t, s, statedb)
 	assert.Equal(t, err, nil)
@@ -101,7 +101,7 @@ func newTestTx(t *testing.T, s *SeeleService, amount, price int64, nonce uint64)
 	return tx
 }
 
-func storeStatedb(t *testing.T, s *SeeleService, statedb *state.Statedb) error {
+func storeStatedb(t *testing.T, s *SeeleCredoService, statedb *state.Statedb) error {
 	batch := s.accountStateDB.NewBatch()
 	block := s.chain.CurrentBlock()
 	block.Header.StateHash, _ = statedb.Commit(batch)
@@ -120,10 +120,10 @@ func newTestTxPoolAPI(t *testing.T, dbPath string) *TransactionPoolAPI {
 
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
-	log := log.GetLogger("seele")
-	ss, err := NewSeeleService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	log := log.GetLogger("seeleCredo")
+	ss, err := NewSeeleCredoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
-		panic("new seele service error")
+		panic("new seeleCredo service error")
 	}
 	return NewTransactionPoolAPI(ss)
 }

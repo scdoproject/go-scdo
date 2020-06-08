@@ -4,8 +4,8 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
 	metric "github.com/rcrowley/go-metrics"
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_getCPURate(t *testing.T) {
@@ -44,8 +44,8 @@ func Test_doMark(t *testing.T) {
 	if registry.Get("cpu.os") == nil {
 		t.Fatal("get cpu.os failed")
 	}
-	if registry.Get("cpu.seele") == nil {
-		t.Fatal("get cpu.seele failed")
+	if registry.Get("cpu.seeleCredo") == nil {
+		t.Fatal("get cpu.seeleCredo failed")
 	}
 	if registry.Get("disk.free.count") == nil {
 		t.Fatal("get disk.free.count failed")

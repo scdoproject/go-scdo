@@ -5,10 +5,10 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/database/leveldb"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/database/leveldb"
 	"github.com/stretchr/testify/assert"
 )
 

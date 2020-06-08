@@ -1,9 +1,9 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	"encoding/json"
@@ -12,11 +12,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
-	log2 "github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
-	"github.com/seeleteam/go-seele/p2p/discovery"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
+	log2 "github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
+	"github.com/seeledevteam/slc/p2p/discovery"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -34,7 +34,7 @@ func Test_peer_Info(t *testing.T) {
 	okStr := fmt.Sprintf(`{"version":1,"difficulty":100,"head":"%v000000000000000000000000"}`, strings.TrimPrefix(myAddr.Hex(), "0x"))
 
 	// Create peer for test
-	peer := newPeer(common.SeeleVersion, p2pPeer, nil, log)
+	peer := newPeer(common.SeeleCredoVersion, p2pPeer, nil, log)
 	peer.SetHead(myHash, bigInt)
 
 	peerInfo := peer.Info()
@@ -46,7 +46,7 @@ func Test_peer_Info(t *testing.T) {
 }
 
 func Test_verifyGenesis(t *testing.T) {
-	networkID := "seele"
+	networkID := "seeleCredo"
 	statusData := statusData{
 		ProtocolVersion: uint32(0),
 		NetworkID:       networkID,

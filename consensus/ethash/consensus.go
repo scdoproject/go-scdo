@@ -24,11 +24,11 @@ import (
 	"runtime"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/consensus/utils"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto/sha3"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/consensus/utils"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto/sha3"
 )
 
 //// Various error messages to mark blocks invalid. These should be private to

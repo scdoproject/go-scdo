@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package discovery
@@ -16,9 +16,9 @@ import (
 	"time"
 
 	cmap "github.com/orcaman/concurrent-map"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log"
 	"github.com/sirupsen/logrus"
 )
 
@@ -49,7 +49,7 @@ type udp struct {
 	addPending chan *pending
 	writer     chan *send
 
-	log *log.SeeleLog
+	log *log.SeeleCredoLog
 
 	timeoutNodesCount cmap.ConcurrentMap //node id -> count
 }

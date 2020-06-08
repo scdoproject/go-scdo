@@ -40,7 +40,7 @@ var txAnalysisCmd = &cobra.Command{
 
 				var blockTxCount int
 				for clientIndex := range clientList {
-					if err := clientList[clientIndex].Call(&height, "seele_getBlockHeight"); err != nil {
+					if err := clientList[clientIndex].Call(&height, "seeleCredo_getBlockHeight"); err != nil {
 						panic(fmt.Sprintf("failed to get the block height: %s", err))
 					}
 					fmt.Printf("block height %d\n", height)

@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/seeleteam/go-seele/common/hexutil"
+	"github.com/seeledevteam/slc/common/hexutil"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 	"github.com/stretchr/testify/assert"
 )
 

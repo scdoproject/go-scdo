@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 package main
 
@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/seeleteam/go-seele/cmd/client/cmd"
+	"github.com/seeledevteam/slc/cmd/client/cmd"
 )
 
 func main() {

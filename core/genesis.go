@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package core
@@ -12,13 +12,13 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/database"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/database"
 	leveldbErrors "github.com/syndtr/goleveldb/leveldb/errors"
 )
 
@@ -181,7 +181,7 @@ func (genesis *Genesis) GetShardNumber() uint {
 func (genesis *Genesis) InitializeAndValidate(bcStore store.BlockchainStore, accountStateDB database.Database) error {
 	storedGenesisHash, err := bcStore.GetBlockHash(genesisBlockHeight)
 
-	// FIXME use seele-defined common error instead of concrete levelDB error.
+	// FIXME use seeleCredo-defined common error instead of concrete levelDB error.
 	if err == leveldbErrors.ErrNotFound {
 		return genesis.store(bcStore, accountStateDB)
 	}
@@ -219,7 +219,7 @@ func (genesis *Genesis) store(bcStore store.BlockchainStore, accountStateDB data
 	if _, err := statedb.Commit(batch); err != nil {
 		return errors.NewStackedError(err, "failed to commit batch into statedb")
 	}
-	
+
 	if err := batch.Commit(); err != nil {
 		return errors.NewStackedError(err, "failed to commit batch into database")
 	}
@@ -236,9 +236,9 @@ func getStateDB(info *GenesisInfo) *state.Statedb {
 
 	if info.ShardNumber == 1 {
 		info.Masteraccount, _ = common.HexToAddress("0xd9dd0a837a3eb6f6a605a5929555b36ced68fdd1")
-		info.Balance = big.NewInt(17500000000000000)	
+		info.Balance = big.NewInt(17500000000000000)
 		statedb.CreateAccount(info.Masteraccount)
-		statedb.SetBalance(info.Masteraccount, info.Balance)		
+		statedb.SetBalance(info.Masteraccount, info.Balance)
 	} else if info.ShardNumber == 2 {
 		info.Masteraccount, _ = common.HexToAddress("0xc71265f11acdacffe270c4f45dceff31747b6ac1")
 		info.Balance = big.NewInt(17500000000000000)

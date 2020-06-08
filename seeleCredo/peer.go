@@ -1,9 +1,9 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	"encoding/hex"
@@ -13,11 +13,11 @@ import (
 	"sync"
 
 	lru "github.com/hashicorp/golang-lru"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
-	downloader "github.com/seeleteam/go-seele/seele/download"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
+	downloader "github.com/seeledevteam/slc/seeleCredo/download"
 )
 
 const (
@@ -41,7 +41,7 @@ var (
 
 // PeerInfo represents a short summary of a connected peer.
 type PeerInfo struct {
-	Version    uint     `json:"version"`    // Seele protocol version negotiated
+	Version    uint     `json:"version"`    // SeeleCredo protocol version negotiated
 	Difficulty *big.Int `json:"difficulty"` // Total difficulty of the peer's blockchain
 	Head       string   `json:"head"`       // SHA3 hash of the peer's best owned block
 }
@@ -50,7 +50,7 @@ type peer struct {
 	*p2p.Peer
 	peerID    common.Address // id of the peer
 	peerStrID string
-	version   uint // Seele protocol version negotiated
+	version   uint // SeeleCredo protocol version negotiated
 	head      common.Hash
 	td        *big.Int // total difficulty
 	lock      sync.RWMutex
@@ -61,14 +61,14 @@ type peer struct {
 	knownBlocks *lru.Cache // Set of block hashes known by this peer
 	knownDebts  *lru.Cache // Set of debt hashes known by this peer
 
-	log *log.SeeleLog
+	log *log.SeeleCredoLog
 }
 
 func idToStr(id common.Address) string {
 	return fmt.Sprintf("%x", id[:8])
 }
 
-func newPeer(version uint, p *p2p.Peer, rw p2p.MsgReadWriter, log *log.SeeleLog) *peer {
+func newPeer(version uint, p *p2p.Peer, rw p2p.MsgReadWriter, log *log.SeeleCredoLog) *peer {
 	knownTxsCache, err := lru.New(maxKnownTxs)
 	if err != nil {
 		panic(err)
@@ -298,7 +298,7 @@ func (p *peer) sendHeadStatus(msg *chainHeadStatus, wg *sync.WaitGroup) error {
 // handShake exchange networkid td etc between two connected peers.
 func (p *peer) handShake(networkID string, td *big.Int, head common.Hash, genesis common.Hash, difficult uint64) error {
 	msg := &statusData{
-		ProtocolVersion: uint32(common.SeeleVersion),
+		ProtocolVersion: uint32(common.SeeleCredoVersion),
 		NetworkID:       networkID,
 		TD:              td,
 		CurrentBlock:    head,

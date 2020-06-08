@@ -1,11 +1,11 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package core
 
-import "github.com/seeleteam/go-seele/consensus/istanbul"
+import "github.com/seeledevteam/slc/consensus/istanbul"
 
 func (c *core) handleRequest(request *istanbul.Request) error {
 	if err := c.checkRequestMsg(request); err != nil {

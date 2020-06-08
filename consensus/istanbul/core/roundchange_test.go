@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package core
@@ -9,9 +9,9 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus/istanbul"
-	"github.com/seeleteam/go-seele/consensus/istanbul/validator"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus/istanbul"
+	"github.com/seeledevteam/slc/consensus/istanbul/validator"
 )
 
 func TestRoundChangeSet(t *testing.T) {

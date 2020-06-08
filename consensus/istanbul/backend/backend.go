@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package backend
@@ -12,15 +12,15 @@ import (
 
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/hashicorp/golang-lru"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/consensus/istanbul"
-	istanbulCore "github.com/seeleteam/go-seele/consensus/istanbul/core"
-	"github.com/seeleteam/go-seele/consensus/istanbul/validator"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/database"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/consensus/istanbul"
+	istanbulCore "github.com/seeledevteam/slc/consensus/istanbul/core"
+	"github.com/seeledevteam/slc/consensus/istanbul/validator"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/database"
+	"github.com/seeledevteam/slc/log"
 )
 
 const (
@@ -60,7 +60,7 @@ type backend struct {
 	privateKey       *ecdsa.PrivateKey
 	address          common.Address
 	core             istanbulCore.Engine
-	logger           *log.SeeleLog
+	logger           *log.SeeleCredoLog
 	db               database.Database
 	chain            consensus.ChainReader
 	currentBlock     func() *types.Block

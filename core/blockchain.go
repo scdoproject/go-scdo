@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package core
@@ -12,18 +12,18 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/svm"
-	"github.com/seeleteam/go-seele/core/txs"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/database"
-	"github.com/seeleteam/go-seele/event"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/metrics"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/svm"
+	"github.com/seeledevteam/slc/core/txs"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/database"
+	"github.com/seeledevteam/slc/event"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/metrics"
 	leveldbErrors "github.com/syndtr/goleveldb/leveldb/errors"
 )
 
@@ -82,7 +82,7 @@ type Blockchain struct {
 
 	blockLeaves  *BlockLeaves
 	currentBlock atomic.Value
-	log          *log.SeeleLog
+	log          *log.SeeleCredoLog
 
 	rp           *recoveryPoint // used to recover blockchain in case of program crashed when write a block
 	debtVerifier types.DebtVerifier

@@ -1,8 +1,8 @@
 package evm
 
 import (
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/state"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/state"
 )
 
 // StateDB for evm

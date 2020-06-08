@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package common
@@ -13,8 +13,8 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/common/hexutil"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/common/hexutil"
 )
 
 //////////////////////////////////////////////////////////////////////////////

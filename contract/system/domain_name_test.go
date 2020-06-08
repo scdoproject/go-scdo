@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package system
@@ -8,8 +8,8 @@ package system
 import (
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/database/leveldb"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/database/leveldb"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -30,7 +30,7 @@ func Test_DomainNameToKey(t *testing.T) {
 	assert.Equal(t, err, errNameTooLong)
 
 	// valid domain name
-	name := []byte("test.seele")
+	name := []byte("test.seeleCredo")
 	key, err = domainNameToKey(name)
 	assert.Equal(t, key, common.EmptyHash)
 	assert.Equal(t, err, errInvalidName)
@@ -40,7 +40,7 @@ func Test_DomainNameToKey(t *testing.T) {
 	assert.Equal(t, key, common.EmptyHash)
 	assert.Equal(t, err, errInvalidName)
 
-	name = []byte("test-seele-12")
+	name = []byte("test-seeleCredo-12")
 	key, err = domainNameToKey(name)
 	assert.Equal(t, key, common.BytesToHash(name))
 	assert.Equal(t, err, nil)

@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/seeleteam/go-seele/crypto"
+	"github.com/seeledevteam/slc/crypto"
 	"github.com/stretchr/testify/assert"
 )
 

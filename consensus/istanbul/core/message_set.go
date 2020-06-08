@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package core
@@ -11,8 +11,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus/istanbul"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus/istanbul"
 )
 
 // Construct a new message set to accumulate messages for given sequence/view number.

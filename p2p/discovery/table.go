@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package discovery
@@ -9,8 +9,8 @@ import (
 	"net"
 	"sort"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/log"
 )
 
 const (
@@ -35,10 +35,10 @@ type Table struct {
 	// info of local node
 	selfNode *Node
 
-	log *log.SeeleLog
+	log *log.SeeleCredoLog
 }
 
-func newTable(id common.Address, addr *net.UDPAddr, shard uint, log *log.SeeleLog) *Table {
+func newTable(id common.Address, addr *net.UDPAddr, shard uint, log *log.SeeleCredoLog) *Table {
 	selfNode := NewNodeWithAddr(id, addr, shard)
 
 	table := &Table{

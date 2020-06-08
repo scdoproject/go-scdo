@@ -1,24 +1,24 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package monitor
 
 import (
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/node"
-	"github.com/seeleteam/go-seele/p2p"
-	rpc "github.com/seeleteam/go-seele/rpc"
-	"github.com/seeleteam/go-seele/seele"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/node"
+	"github.com/seeledevteam/slc/p2p"
+	rpc "github.com/seeledevteam/slc/rpc"
+	"github.com/seeledevteam/slc/seeleCredo"
 )
 
 // MonitorService implements some rpc interfaces provided by a monitor server
 type MonitorService struct {
-	p2pServer *p2p.Server         // Peer-to-Peer server infos
-	seele     *seele.SeeleService // seele full node service
-	seeleNode *node.Node          // seele node
-	log       *log.SeeleLog
+	p2pServer  *p2p.Server                   // Peer-to-Peer server infos
+	seeleCredo *seeleCredo.SeeleCredoService // seeleCredo full node service
+	slcNode    *node.Node                    // seeleCredo node
+	log        *log.SeeleCredoLog
 
 	rpcAddr string // listening port
 	name    string // name displayed on the moitor
@@ -27,22 +27,22 @@ type MonitorService struct {
 }
 
 // NewMonitorService returns a MonitorService instance
-func NewMonitorService(seeleService *seele.SeeleService, seeleNode *node.Node, conf *node.Config, slog *log.SeeleLog, name string) (*MonitorService, error) {
+func NewMonitorService(slcService *seeleCredo.SeeleCredoService, slcNode *node.Node, conf *node.Config, slclog *log.SeeleCredoLog, name string) (*MonitorService, error) {
 	return &MonitorService{
-		seele:     seeleService,
-		seeleNode: seeleNode,
-		log:       slog,
-		name:      name,
-		rpcAddr:   conf.BasicConfig.RPCAddr,
-		node:      conf.BasicConfig.Name,
-		version:   conf.BasicConfig.Version,
+		seeleCredo: slcService,
+		slcNode:    slcNode,
+		log:        slclog,
+		name:       name,
+		rpcAddr:    conf.BasicConfig.RPCAddr,
+		node:       conf.BasicConfig.Name,
+		version:    conf.BasicConfig.Version,
 	}, nil
 }
 
 // Protocols implements node.Service, return nil as it dosn't use the p2p service
 func (s *MonitorService) Protocols() []p2p.Protocol { return nil }
 
-// Start implements node.Service, starting goroutines needed by SeeleService.
+// Start implements node.Service, starting goroutines needed by SeeleCredoService.
 func (s *MonitorService) Start(srvr *p2p.Server) error {
 	s.p2pServer = srvr
 
@@ -57,7 +57,7 @@ func (s *MonitorService) Stop() error {
 	return nil
 }
 
-// APIs implements node.Service, returning the collection of RPC services the seele package offers.
+// APIs implements node.Service, returning the collection of RPC services the seeleCredo package offers.
 func (s *MonitorService) APIs() (apis []rpc.API) {
 	return append(apis, []rpc.API{
 		{

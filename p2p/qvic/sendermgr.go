@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package qvic
@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/log"
 )
 
 // SenderMgr manages QConn's sender logic.
@@ -20,7 +20,7 @@ type SenderMgr struct {
 	udpfd *net.UDPConn
 
 	loopWG sync.WaitGroup
-	log    *log.SeeleLog
+	log    *log.SeeleCredoLog
 
 	senderSlice          []*VPacket
 	qconn                *QConn

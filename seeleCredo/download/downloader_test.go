@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package downloader
@@ -12,30 +12,30 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/database"
-	"github.com/seeleteam/go-seele/database/leveldb"
-	"github.com/seeleteam/go-seele/p2p"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/database"
+	"github.com/seeledevteam/slc/database/leveldb"
+	"github.com/seeledevteam/slc/p2p"
 	"github.com/stretchr/testify/assert"
 )
 
-// TestSeeleBackend implements the SeeleBackend interface.
-type TestSeeleBackend struct {}
+// TestSeeleCredoBackend implements the SlcBackend interface.
+type TestSeeleCredoBackend struct{}
 
-func (seeleBackend *TestSeeleBackend) TxPool() *core.TransactionPool {
+func (slcBackend *TestSeeleCredoBackend) TxPool() *core.TransactionPool {
 	return nil
-} 	
+}
 
-func (seeleBackend *TestSeeleBackend) DebtPool() *core.DebtPool {
+func (slcBackend *TestSeeleCredoBackend) DebtPool() *core.DebtPool {
 	return nil
-} 
+}
 
-func NewTestSeeleBackend() *TestSeeleBackend {
-	seeleBackend := &TestSeeleBackend{}
-	return seeleBackend
+func NewTestSeeleBackend() *TestSeeleCredoBackend {
+	slcBackend := &TestSeeleCredoBackend{}
+	return slcBackend
 }
 
 func randomAccount(t *testing.T) (*ecdsa.PrivateKey, common.Address) {
@@ -61,8 +61,8 @@ func newTestTx(t *testing.T, amount int64, nonce uint64) *types.Transaction {
 
 func newTestDownloader(db database.Database) *Downloader {
 	bc := core.NewTestBlockchain()
-	seele := NewTestSeeleBackend()
-	d := NewDownloader(bc, seele)
+	seeleCredo := NewTestSeeleBackend()
+	d := NewDownloader(bc, seeleCredo)
 	d.tm = newTaskMgr(d, d.masterPeer, nil, 1, 2, 1, nil)
 
 	return d

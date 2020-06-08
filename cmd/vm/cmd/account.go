@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto"
 	"github.com/spf13/cobra"
 )
 
@@ -85,7 +85,7 @@ var setCmd = &cobra.Command{
 		bigIntBalance := new(big.Int).SetUint64(balance)
 		statedb.SetBalance(addr, bigIntBalance)
 
-		fmt.Println("Set the balance successfully, the balance of the account is ", common.BigToDecimal(bigIntBalance.Mul(bigIntBalance, common.SeeleToFan)))
+		fmt.Println("Set the balance successfully, the balance of the account is ", common.BigToDecimal(bigIntBalance.Mul(bigIntBalance, common.SeeleCredoToFan)))
 	},
 }
 
@@ -107,6 +107,6 @@ var getCmd = &cobra.Command{
 			return
 		}
 
-		fmt.Println("The balance of the account is ", common.BigToDecimal(statedb.GetBalance(addr).Mul(statedb.GetBalance(addr), common.SeeleToFan)))
+		fmt.Println("The balance of the account is ", common.BigToDecimal(statedb.GetBalance(addr).Mul(statedb.GetBalance(addr), common.SeeleCredoToFan)))
 	},
 }

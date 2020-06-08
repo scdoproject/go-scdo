@@ -23,7 +23,7 @@ import (
 	"reflect"
 
 	"github.com/ethereum/go-ethereum/common"
-	seeleCommon "github.com/seeleteam/go-seele/common"
+	slcCommon "github.com/seeledevteam/slc/common"
 )
 
 var (
@@ -206,7 +206,7 @@ func toGoType(index int, t Type, output []byte) (interface{}, error) {
 	case BoolTy:
 		return readBool(returnOutput)
 	case AddressTy:
-		return seeleCommon.BytesToAddress(returnOutput), nil
+		return slcCommon.BytesToAddress(returnOutput), nil
 	case HashTy:
 		return common.BytesToHash(returnOutput), nil
 	case BytesTy:

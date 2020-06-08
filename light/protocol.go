@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package light
@@ -13,14 +13,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/event"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/event"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
 )
 
 const (
@@ -101,7 +101,7 @@ func codeToStr(code uint16) string {
 	return "unknown"
 }
 
-// LightProtocol service implementation of seele
+// LightProtocol service implementation of seeleCredo
 type LightProtocol struct {
 	p2p.Protocol
 
@@ -117,18 +117,18 @@ type LightProtocol struct {
 	quitCh              chan struct{}
 	syncCh              chan struct{}
 	chainHeaderChangeCh chan common.Hash
-	log                 *log.SeeleLog
+	log                 *log.SeeleCredoLog
 
 	shard uint
 }
 
 // NewLightProtocol create LightProtocol
 func NewLightProtocol(networkID string, txPool TransactionPool, debtPool *core.DebtPool, chain BlockChain, serverMode bool, odrBackend *odrBackend,
-	log *log.SeeleLog, shard uint) (s *LightProtocol, err error) {
+	log *log.SeeleCredoLog, shard uint) (s *LightProtocol, err error) {
 	s = &LightProtocol{
 		Protocol: p2p.Protocol{
 			Name:    fmt.Sprintf("%s_%d", LightProtoName, shard),
-			Version: LightSeeleVersion,
+			Version: LightSeeleCredoVersion,
 			Length:  protocolMsgCodeLength,
 		},
 		bServerMode: serverMode,
@@ -246,7 +246,7 @@ func (lp *LightProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWriter) 
 		return false
 	}
 
-	newPeer := newPeer(LightSeeleVersion, p2pPeer, rw, lp.log, lp)
+	newPeer := newPeer(LightSeeleCredoVersion, p2pPeer, rw, lp.log, lp)
 	store := lp.chain.GetStore()
 	hash, err := store.GetHeadBlockHash()
 	if err != nil {

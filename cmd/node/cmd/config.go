@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -14,13 +14,13 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/seeleteam/go-seele/cmd/util"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log/comm"
-	"github.com/seeleteam/go-seele/node"
-	"github.com/seeleteam/go-seele/p2p"
+	"github.com/seeledevteam/slc/cmd/util"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log/comm"
+	"github.com/seeledevteam/slc/node"
+	"github.com/seeledevteam/slc/p2p"
 )
 
 // GetConfigFromFile unmarshals the config from the given file
@@ -70,18 +70,18 @@ func LoadConfigFromFile(configFile string, accounts string) (*node.Config, error
 	}
 
 	if len(config.BasicConfig.Coinbase) > 0 {
-		config.SeeleConfig.Coinbase = common.HexMustToAddres(config.BasicConfig.Coinbase)
+		config.SeeleCredoConfig.Coinbase = common.HexMustToAddres(config.BasicConfig.Coinbase)
 	}
 
 	if len(config.BasicConfig.PrivateKey) > 0 {
-		config.SeeleConfig.CoinbasePrivateKey, err = crypto.LoadECDSAFromString(config.BasicConfig.PrivateKey)
+		config.SeeleCredoConfig.CoinbasePrivateKey, err = crypto.LoadECDSAFromString(config.BasicConfig.PrivateKey)
 		if err != nil {
 			return config, err
 		}
 	}
 
-	config.SeeleConfig.TxConf = *core.DefaultTxPoolConfig()
-	config.SeeleConfig.GenesisConfig = cmdConfig.GenesisConfig
+	config.SeeleCredoConfig.TxConf = *core.DefaultTxPoolConfig()
+	config.SeeleCredoConfig.GenesisConfig = cmdConfig.GenesisConfig
 	comm.LogConfiguration.PrintLog = config.LogConfig.PrintLog
 	comm.LogConfiguration.IsDebug = config.LogConfig.IsDebug
 	comm.LogConfiguration.DataDir = config.BasicConfig.DataDir
@@ -109,7 +109,7 @@ func CopyConfig(cmdConfig *util.Config) *node.Config {
 		HTTPServer:     cmdConfig.HTTPServer,
 		WSServerConfig: cmdConfig.WSServerConfig,
 		P2PConfig:      cmdConfig.P2PConfig,
-		SeeleConfig:    node.SeeleConfig{},
+		SeeleCredoConfig:    node.SeeleCredoConfig{},
 		MetricsConfig:  cmdConfig.MetricsConfig,
 	}
 	return config

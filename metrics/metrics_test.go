@@ -10,19 +10,19 @@ import (
 	"time"
 
 	metrics "github.com/rcrowley/go-metrics"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log"
 )
 
 const (
-	TestName      = "seele node1"
+	TestName      = "seeleCredo node1"
 	TestVersion   = "1.0"
-	TestNetworkID = "seele"
+	TestNetworkID = "seeleCredo"
 )
 
 var (
 	TestCoinbase = crypto.MustGenerateShardAddress(1)
-	slog         = log.GetLogger("seele")
+	slclog         = log.GetLogger("seeleCredo")
 	address      = "127.0.0.1:8086"
 	result       = new(string)
 	mux          sync.Mutex
@@ -53,7 +53,7 @@ func influxdbSimulate() {
 	http.HandleFunc("/write", saveResult)
 	err := http.ListenAndServe(address, nil)
 	if err != nil {
-		slog.Fatal("ListenAndServe: %s", err)
+		slclog.Fatal("ListenAndServe: %s", err)
 	}
 }
 
@@ -79,7 +79,7 @@ func Test_StartMetrics(t *testing.T) {
 	nCfg := getTmpConfig()
 	StartMetricsWithConfig(
 		nCfg,
-		slog,
+		slclog,
 		TestName,
 		TestVersion,
 		TestNetworkID,

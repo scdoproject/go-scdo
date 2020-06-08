@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package state
@@ -9,10 +9,10 @@ import (
 	"bytes"
 	"math/big"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/database"
-	"github.com/seeleteam/go-seele/trie"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/database"
+	"github.com/seeledevteam/slc/trie"
 )
 
 var (

@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -10,12 +10,12 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/seeleteam/go-seele/cmd/util"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/cmd/util"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/rpc"
 	"github.com/urfave/cli"
 )
 
@@ -91,7 +91,7 @@ func NewApp(isFullNode bool) *cli.App {
 	app.HideVersion = true
 	app.Authors = []cli.Author{
 		cli.Author{
-			Name:  "seeleteam",
+			Name:  "seelecredoteamteam",
 			Email: "dev@seelenet.com",
 		},
 	}

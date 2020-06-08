@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package system
@@ -9,8 +9,8 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/p2p/discovery"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/p2p/discovery"
 )
 
 const (

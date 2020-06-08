@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/listener"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/listener"
+	"github.com/seeledevteam/slc/log"
 )
 
 const MaxBlockHeightGap = 40
@@ -26,7 +26,7 @@ type EventPool struct {
 
 	position uint64
 
-	log   *log.SeeleLog
+	log   *log.SeeleCredoLog
 	chain blockchain
 	// todo add deal pools
 }

@@ -1,18 +1,18 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	"net"
 	"testing"
 
-	"github.com/seeleteam/go-seele/crypto"
-	log2 "github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
-	"github.com/seeleteam/go-seele/p2p/discovery"
+	"github.com/seeledevteam/slc/crypto"
+	log2 "github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
+	"github.com/seeledevteam/slc/p2p/discovery"
 	"github.com/stretchr/testify/assert"
 )
 

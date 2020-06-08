@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package core
@@ -10,12 +10,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/store"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/store"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
 	"github.com/sirupsen/logrus"
 )
 
@@ -70,7 +70,7 @@ type Pool struct {
 	hashToTxMap        map[common.Hash]*poolItem
 	pendingQueue       *pendingQueue
 	processingObjects  map[common.Hash]struct{}
-	log                *log.SeeleLog
+	log                *log.SeeleCredoLog
 	getObjectFromBlock getObjectFromBlockFunc
 	canRemove          canRemoveFunc
 	objectValidation   objectValidationFunc
@@ -80,7 +80,7 @@ type Pool struct {
 
 // NewPool creates and returns a transaction pool.
 func NewPool(capacity int, chain blockchain, getObjectFromBlock getObjectFromBlockFunc,
-	canRemove canRemoveFunc, log *log.SeeleLog, objectValidation objectValidationFunc, afterAdd afterAddFunc, cachedTxs *CachedTxs) *Pool {
+	canRemove canRemoveFunc, log *log.SeeleCredoLog, objectValidation objectValidationFunc, afterAdd afterAddFunc, cachedTxs *CachedTxs) *Pool {
 	pool := &Pool{
 		capacity:           capacity,
 		chain:              chain,

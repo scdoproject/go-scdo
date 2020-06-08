@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package p2p
@@ -12,10 +12,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p/discovery"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p/discovery"
 )
 
 const (
@@ -33,12 +33,12 @@ type Peer struct {
 	rw            *connection
 
 	wg   sync.WaitGroup
-	log  *log.SeeleLog
+	log  *log.SeeleCredoLog
 	lock sync.Mutex
 }
 
 // NewPeer creates and returns a new peer.
-func NewPeer(conn *connection, log *log.SeeleLog, node *discovery.Node) *Peer {
+func NewPeer(conn *connection, log *log.SeeleCredoLog, node *discovery.Node) *Peer {
 	closed := make(chan struct{})
 
 	return &Peer{
@@ -166,8 +166,8 @@ func (p *Peer) notifyProtocolsAddPeer() {
 				if !proto.AddPeer(p, &proto) {
 					proto.bQuited = true
 
-					// seele protocol is the highest weight, tcp of peer need to be closed
-					if proto.Name == common.SeeleProtoName {
+					// seeleCredo protocol is the highest weight, tcp of peer need to be closed
+					if proto.Name == common.SeeleCredoProtoName {
 						p.log.Debug("notifyProtocolsAddPeer AddPeer err got. name=%s node=%s", proto.Name, fmt.Sprintf("%x", p.Node.ID))
 						// close connection of peer
 						p.Disconnect("Seeleproto addpeer err, close connection")

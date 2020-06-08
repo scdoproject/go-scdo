@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -12,8 +12,8 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/seeleteam/go-seele/api"
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/api"
+	"github.com/seeledevteam/slc/common"
 	"github.com/spf13/cobra"
 )
 
@@ -80,7 +80,7 @@ var checkBalanceCmd = &cobra.Command{
 		var blockDebtCount int
 
 		for clientIndex := range clientList {
-			if err := clientList[clientIndex].Call(&height, "seele_getBlockHeight"); err != nil {
+			if err := clientList[clientIndex].Call(&height, "seeleCredo_getBlockHeight"); err != nil {
 				panic(fmt.Sprintf("failed to get the block height: %s", err))
 			}
 			fmt.Printf("block height %d\n", height)
@@ -149,7 +149,7 @@ func getFullBalance(address common.Address, hexHash string, height int64) (*big.
 	client := getClient(address)
 
 	var result api.GetBalanceResponse
-	if err := client.Call(&result, "seele_getBalance", address, hexHash, height); err != nil {
+	if err := client.Call(&result, "seeleCredo_getBalance", address, hexHash, height); err != nil {
 		panic(fmt.Sprintf("failed to get the balance: %s\n", err))
 	}
 

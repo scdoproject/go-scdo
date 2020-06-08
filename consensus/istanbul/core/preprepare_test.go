@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package core
@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/seeleteam/go-seele/consensus/istanbul"
+	"github.com/seeledevteam/slc/consensus/istanbul"
 )
 
 func newTestPreprepare(v *istanbul.View) *istanbul.Preprepare {

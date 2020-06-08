@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package light
@@ -9,16 +9,16 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
 )
 
 const (
-	// LightProtoName protoName of Seele service
+	// LightProtoName protoName of SeeleCredo service
 	LightProtoName = "lightSeele"
 
-	// LightSeeleVersion version number of Seele protocol
-	LightSeeleVersion uint = 1
+	// LightSeeleCredoVersion version number of SeeleCredo protocol
+	LightSeeleCredoVersion uint = 1
 
 	// MaxBlockHashRequest maximum hashes to request per message
 	MaxBlockHashRequest uint64 = 1024

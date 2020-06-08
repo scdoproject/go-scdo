@@ -1,9 +1,9 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	"bytes"
@@ -13,28 +13,28 @@ import (
 	"path/filepath"
 	"testing"
 
-	api2 "github.com/seeleteam/go-seele/api"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/consensus/factory"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log"
+	api2 "github.com/seeledevteam/slc/api"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/consensus/factory"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log"
 	"github.com/stretchr/testify/assert"
 )
 
 func Test_PublicSeeleAPI(t *testing.T) {
 	conf := getTmpConfig()
 	serviceContext := ServiceContext{
-		DataDir: filepath.Join(common.GetTempFolder(), ".PublicSeeleAPI"),
+		DataDir: filepath.Join(common.GetTempFolder(), ".PublicSeeleCredoAPI"),
 	}
 
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
 	dataDir := ctx.Value("ServiceContext").(ServiceContext).DataDir
-	log := log.GetLogger("seele")
-	ss, err := NewSeeleService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	log := log.GetLogger("seeleCredo")
+	ss, err := NewSeeleCredoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		t.Fatal()
 	}
@@ -47,7 +47,7 @@ func Test_PublicSeeleAPI(t *testing.T) {
 	var info api2.GetMinerInfo
 	info, err = api.GetInfo()
 	assert.Equal(t, err, nil)
-	if !bytes.Equal(conf.SeeleConfig.Coinbase[0:], info.Coinbase[0:]) {
+	if !bytes.Equal(conf.SeeleCredoConfig.Coinbase[0:], info.Coinbase[0:]) {
 		t.Fail()
 	}
 }
@@ -115,20 +115,20 @@ func Test_GetLogs(t *testing.T) {
 	assert.Error(t, err)
 }
 
-func newTestAPI(t *testing.T, dbPath string) *PublicSeeleAPI {
+func newTestAPI(t *testing.T, dbPath string) *PublicSeeleCredoAPI {
 	conf := getTmpConfig()
 	serviceContext := ServiceContext{
 		DataDir: dbPath,
 	}
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
-	log := log.GetLogger("seele")
-	ss, err := NewSeeleService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	log := log.GetLogger("seeleCredo")
+	ss, err := NewSeeleCredoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	assert.Equal(t, err, nil)
 	return NewPublicSeeleAPI(ss)
 }
 
-func sendTx(t *testing.T, api *PublicSeeleAPI, statedb *state.Statedb, tx *types.Transaction) []byte {
+func sendTx(t *testing.T, api *PublicSeeleCredoAPI, statedb *state.Statedb, tx *types.Transaction) []byte {
 	receipt, err := api.s.chain.ApplyTransaction(tx, 0, api.s.miner.GetCoinbase(), statedb, api.s.chain.CurrentBlock().Header)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, receipt.Failed, false)
@@ -148,7 +148,7 @@ func sendTx(t *testing.T, api *PublicSeeleAPI, statedb *state.Statedb, tx *types
 func getFromAddress(statedb *state.Statedb) common.Address {
 	from := *crypto.MustGenerateRandomAddress()
 	statedb.CreateAccount(from)
-	statedb.SetBalance(from, common.SeeleToFan)
+	statedb.SetBalance(from, common.SeeleCredoToFan)
 	statedb.SetNonce(from, 0)
 	return from
 }
@@ -202,7 +202,7 @@ func Test_Call(t *testing.T) {
 	assert.Equal(t, result["result"], "0x0000000000000000000000000000000000000000000000000000000000000017")
 
 	// Verify the history result = 5
-	height, err := api2.NewPublicSeeleAPI(NewSeeleBackend(api.s)).GetBlockHeight()
+	height, err := api2.NewPublicSeeleAPI(NewSeeleCredoBackend(api.s)).GetBlockHeight()
 	assert.Equal(t, err, nil)
 	result, err = api.Call(contractAddress.Hex(), payload, int64(height-1))
 	assert.Equal(t, err, nil)

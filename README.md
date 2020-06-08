@@ -1,6 +1,6 @@
 
-# go-seele
-[![Build Status](https://travis-ci.org/seeleteam/go-seele.svg?branch=master)](https://travis-ci.org/seeleteam/go-seele)
+# slc
+[![Build Status](https://travis-ci.org/seeledevteam/slc.svg?branch=master)](https://travis-ci.org/seeledevteam/slc)
 
 |        Features        |      Descriptions                                                                              |
 |:-----------------------|------------------------------------------------------------------------------------------------|
@@ -24,9 +24,9 @@ If you want to directly run the node and use client without setting up the compi
 
 | Operation System |      Download Link     |
 |---------|----------------------------------------------------------|
-| Linux   | [https://github.com/seeleteam/go-seele/releases]|
-| MacOs   | [https://github.com/seeleteam/go-seele/releases]|
-| Windows | [https://github.com/seeleteam/go-seele/releases]|
+| Linux   | [https://github.com/seeledevteam/slc/releases]|
+| MacOs   | [https://github.com/seeledevteam/slc/releases]|
+| Windows | [https://github.com/seeledevteam/slc/releases]|
 
 # Or Download & Build the source
 
@@ -34,16 +34,16 @@ Building the Seele project requires both a Go (version 1.7 or later) compiler an
 
 - Building the Seele project requires both a Go (version 1.7 or later) compiler and a C compiler. Install Go v1.10 or higher, Git, and the C compiler.
 
-- Clone the go-seele repository to the GOPATH directory:
+- Clone the slc repository to the GOPATH directory:
 
 ```
-go get -u -v github.com/seeleteam/go-seele/...
+go get -u -v github.com/seeledevteam/slc/...
 ```
 
 - Once successfully cloned source code:
 
 ```
-cd GOPATH/src/github.com/seeleteam/go-seele/
+cd GOPATH/src/github.com/seeledevteam/slc/
 ```
 
 - Linux & Mac
@@ -59,9 +59,9 @@ buildall.bat
 ```
 
 # Run Seele
-A simple version Seele mining tutorial: English-[SeeleMiningTutorial](https://github.com/seeleteam/go-seele/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Seele挖矿教程中文简版](https://github.com/seeleteam/go-seele/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
+A simple version Seele mining tutorial: English-[SeeleMiningTutorial](https://github.com/seeledevteam/slc/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Seele挖矿教程中文简版](https://github.com/seeledevteam/slc/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
 
-For running a node, please refer to [Get Started](https://seeletech.gitbook.io/wiki/developer/go-seele/gettingstarted)([Older version](https://seeleteam.github.io/seele-doc/docs/Getting-Started-With-Seele.html)).
+For running a node, please refer to [Get Started](https://seeletech.gitbook.io/wiki/developer/slc/gettingstarted)([Older version](https://seeleteam.github.io/seele-doc/docs/Getting-Started-With-Seele.html)).
 For more usage details and deeper explanations, please consult the [Seele Wiki](https://seeletech.gitbook.io/wiki/)([Older version](https://seeleteam.github.io/seele-doc/index.html)).
 
 # Contribution
@@ -86,4 +86,4 @@ Here are some guidelines before you start:
 
 # License
 
-[go-seele/LICENSE](https://github.com/seeleteam/go-seele/blob/master/LICENSE)
+[slc/LICENSE](https://github.com/seeledevteam/slc/blob/master/LICENSE)

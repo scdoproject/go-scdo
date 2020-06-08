@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package downloader
@@ -11,9 +11,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p"
 )
 
 // MsgWaitTimeout this timeout should not be happened, but we need to handle it in case of such errors.
@@ -41,11 +41,11 @@ type peerConn struct {
 	waitingMsgMap  map[uint16]chan *p2p.Message
 	lockForWaiting sync.RWMutex
 
-	log    *log.SeeleLog
+	log    *log.SeeleCredoLog
 	quitCh chan struct{}
 }
 
-func newPeerConn(p Peer, peerID string, log *log.SeeleLog) *peerConn {
+func newPeerConn(p Peer, peerID string, log *log.SeeleCredoLog) *peerConn {
 	return &peerConn{
 		peerID:        peerID,
 		peer:          p,

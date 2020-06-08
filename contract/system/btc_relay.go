@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package system
@@ -9,9 +9,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/core/state"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/core/state"
 )
 
 const (
@@ -110,7 +110,7 @@ func verifyTx(request []byte, ctx *Context) ([]byte, error) {
 	return failure, nil
 }
 
-// optionally relay the btc transaction to any Seele contract
+// optionally relay the btc transaction to any SeeleCredo contract
 func relayTx(request []byte, ctx *Context) ([]byte, error) {
 	ok, err := verifyTx(request, ctx)
 	if err != nil {

@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package leveldb
@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/log"
 )
 
 func Test_StartMetrics(t *testing.T) {

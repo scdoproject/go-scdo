@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package log
@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/log/comm"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/log/comm"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )

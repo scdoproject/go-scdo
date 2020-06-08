@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package p2p
@@ -20,11 +20,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/p2p/discovery"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/p2p/discovery"
 	"github.com/sirupsen/logrus"
 	set "gopkg.in/fatih/set.v0"
 )
@@ -96,7 +96,7 @@ type Server struct {
 	nodeSet  *nodeSet
 	peerSet  *peerSet
 	peerLock sync.Mutex // lock for peer set
-	log      *log.SeeleLog
+	log      *log.SeeleCredoLog
 
 	// MaxPendingPeers is the maximum number of peers that can be pending in the
 	// handshake phase, counted separately for inbound and outbound connections.

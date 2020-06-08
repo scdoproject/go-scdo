@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package p2p
@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/log"
 )
 
 const (
@@ -54,7 +54,7 @@ type connection struct {
 	writeErr error
 
 	// log
-	log *log.SeeleLog
+	log *log.SeeleCredoLog
 }
 
 // readFull receive from fd till outBuf is full,

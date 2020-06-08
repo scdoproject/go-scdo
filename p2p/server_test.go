@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package p2p
@@ -10,10 +10,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/crypto"
-	"github.com/seeleteam/go-seele/p2p/discovery"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/crypto"
+	"github.com/seeledevteam/slc/p2p/discovery"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -162,7 +162,7 @@ func Test_PeerInfos(t *testing.T) {
 func testConfig() *Config {
 	return &Config{
 		ListenAddr:    "127.0.0.1:8080",
-		NetworkID:     "seele",
+		NetworkID:     "seeleCredo",
 		SubPrivateKey: "privKey",
 		PrivateKey:    generatePrivKey(),
 	}
@@ -171,7 +171,7 @@ func testConfig() *Config {
 func testInvalidConfig() *Config {
 	return &Config{
 		ListenAddr:    "127.0.0:8080",
-		NetworkID:     "seele",
+		NetworkID:     "seeleCredo",
 		SubPrivateKey: "privKey",
 		PrivateKey:    generatePrivKey(),
 	}

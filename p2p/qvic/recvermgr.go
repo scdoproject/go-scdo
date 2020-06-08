@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package qvic
@@ -12,13 +12,13 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/log"
 )
 
 // ReceiverMgr manages QConn's receiver logic.
 type ReceiverMgr struct {
 	lock   sync.Mutex
-	log    *log.SeeleLog
+	log    *log.SeeleCredoLog
 	loopWG sync.WaitGroup
 
 	qconn                      *QConn

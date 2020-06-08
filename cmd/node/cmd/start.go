@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -17,29 +17,29 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/consensus/factory"
-	"github.com/seeleteam/go-seele/light"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/log/comm"
-	"github.com/seeleteam/go-seele/metrics"
-	miner2 "github.com/seeleteam/go-seele/miner"
-	"github.com/seeleteam/go-seele/monitor"
-	"github.com/seeleteam/go-seele/node"
-	"github.com/seeleteam/go-seele/seele"
-	"github.com/seeleteam/go-seele/seele/lightclients"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/consensus/factory"
+	"github.com/seeledevteam/slc/light"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/log/comm"
+	"github.com/seeledevteam/slc/metrics"
+	miner2 "github.com/seeledevteam/slc/miner"
+	"github.com/seeledevteam/slc/monitor"
+	"github.com/seeledevteam/slc/node"
+	"github.com/seeledevteam/slc/seeleCredo"
+	"github.com/seeledevteam/slc/seeleCredo/lightclients"
 	"github.com/spf13/cobra"
 )
 
 var (
-	seeleNodeConfigFile string
-	miner               string
-	metricsEnableFlag   bool
-	accountsConfig      string
-	threads             int
-	startHeight         int
-	percentage          int
+	slcNodeConfigFile string
+	miner             string
+	metricsEnableFlag bool
+	accountsConfig    string
+	threads           int
+	startHeight       int
+	percentage        int
 
 	// default is full node
 	lightNode bool
@@ -57,14 +57,14 @@ var (
 // startCmd represents the start command
 var startCmd = &cobra.Command{
 	Use:   "start",
-	Short: "start the node of seele",
+	Short: "start the node of seeleCredo",
 	Long: `usage example:
 		node.exe start -c cmd\node.json
 		start a node.`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 		var wg sync.WaitGroup
-		nCfg, err := LoadConfigFromFile(seeleNodeConfigFile, accountsConfig)
+		nCfg, err := LoadConfigFromFile(slcNodeConfigFile, accountsConfig)
 		if err != nil {
 			fmt.Printf("failed to reading the config file: %s\n", err.Error())
 			return
@@ -75,23 +75,23 @@ var startCmd = &cobra.Command{
 		}
 		fmt.Printf("data folder: %s\n", nCfg.BasicConfig.DataDir)
 
-		seeleNode, err := node.New(nCfg)
+		slcNode, err := node.New(nCfg)
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
 
-		// Create seele service and register the service
-		slog := log.GetLogger("seele")
-		lightLog := log.GetLogger("seele-light")
-		serviceContext := seele.ServiceContext{
+		// Create seeleCredo service and register the service
+		slclog := log.GetLogger("seeleCredo")
+		lightLog := log.GetLogger("seeleCredo-light")
+		serviceContext := seeleCredo.ServiceContext{
 			DataDir: nCfg.BasicConfig.DataDir,
 		}
 		ctx := context.WithValue(context.Background(), "ServiceContext", serviceContext)
 
 		var engine consensus.Engine
 		if nCfg.BasicConfig.MinerAlgorithm == common.BFTEngine {
-			engine, err = factory.GetBFTEngine(nCfg.SeeleConfig.CoinbasePrivateKey, nCfg.BasicConfig.DataDir)
+			engine, err = factory.GetBFTEngine(nCfg.SeeleCredoConfig.CoinbasePrivateKey, nCfg.BasicConfig.DataDir)
 		} else {
 			engine, err = factory.GetConsensusEngine(nCfg.BasicConfig.MinerAlgorithm, nCfg.BasicConfig.DataSetDir, percentage)
 		}
@@ -116,32 +116,32 @@ var startCmd = &cobra.Command{
 		}
 
 		if lightNode {
-			lightService, err := light.NewServiceClient(ctx, nCfg, lightLog, common.LightChainDir, seeleNode.GetShardNumber(), engine)
+			lightService, err := light.NewServiceClient(ctx, nCfg, lightLog, common.LightChainDir, slcNode.GetShardNumber(), engine)
 			if err != nil {
 				fmt.Println("Create light service error.", err.Error())
 				return
 			}
 
-			if err := seeleNode.Register(lightService); err != nil {
+			if err := slcNode.Register(lightService); err != nil {
 				fmt.Println(err.Error())
 				return
 			}
 
-			err = seeleNode.Start()
+			err = slcNode.Start()
 			if err != nil {
 				fmt.Printf("got error when start node: %s\n", err)
 				return
 			}
 		} else {
 			// light client manager
-			manager, err := lightclients.NewLightClientManager(seeleNode.GetShardNumber(), ctx, nCfg, engine)
+			manager, err := lightclients.NewLightClientManager(slcNode.GetShardNumber(), ctx, nCfg, engine)
 			if err != nil {
 				fmt.Printf("create light client manager failed. %s", err)
 				return
 			}
 
 			// fullnode mode
-			seeleService, err := seele.NewSeeleService(ctx, nCfg, slog, engine, manager, startHeight)
+			seeleService, err := seeleCredo.NewSeeleCredoService(ctx, nCfg, slclog, engine, manager, startHeight)
 			if err != nil {
 				fmt.Println(err.Error())
 				return
@@ -149,14 +149,14 @@ var startCmd = &cobra.Command{
 
 			seeleService.Miner().SetThreads(threads)
 
-			lightServerService, err := light.NewServiceServer(seeleService, nCfg, lightLog, seeleNode.GetShardNumber())
+			lightServerService, err := light.NewServiceServer(seeleService, nCfg, lightLog, slcNode.GetShardNumber())
 			if err != nil {
 				fmt.Println("Create light server err. ", err.Error())
 				return
 			}
 
 			// monitor service
-			monitorService, err := monitor.NewMonitorService(seeleService, seeleNode, nCfg, slog, "Test monitor")
+			monitorService, err := monitor.NewMonitorService(seeleService, slcNode, nCfg, slclog, "Test monitor")
 			if err != nil {
 				fmt.Println(err.Error())
 				return
@@ -165,13 +165,13 @@ var startCmd = &cobra.Command{
 			services := manager.GetServices()
 			services = append(services, seeleService, monitorService, lightServerService)
 			for _, service := range services {
-				if err := seeleNode.Register(service); err != nil {
+				if err := slcNode.Register(service); err != nil {
 					fmt.Println(err.Error())
 					return
 				}
 			}
 
-			err = seeleNode.Start()
+			err = slcNode.Start()
 			if maxConns > 0 {
 				seeleService.P2PServer().SetMaxConnections(maxConns)
 			}
@@ -201,11 +201,11 @@ var startCmd = &cobra.Command{
 		if metricsEnableFlag {
 			metrics.StartMetricsWithConfig(
 				nCfg.MetricsConfig,
-				slog,
+				slclog,
 				nCfg.BasicConfig.Name,
 				nCfg.BasicConfig.Version,
 				nCfg.P2PConfig.NetworkID,
-				nCfg.SeeleConfig.Coinbase,
+				nCfg.SeeleCredoConfig.Coinbase,
 			)
 		}
 
@@ -217,7 +217,7 @@ var startCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(startCmd)
 
-	startCmd.Flags().StringVarP(&seeleNodeConfigFile, "config", "c", "", "seele node config file (required)")
+	startCmd.Flags().StringVarP(&slcNodeConfigFile, "config", "c", "", "seeleCredo node config file (required)")
 	startCmd.MustMarkFlagRequired("config")
 
 	startCmd.Flags().StringVarP(&miner, "miner", "m", "start", "miner start or not, [start, stop]")

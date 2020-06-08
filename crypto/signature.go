@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package crypto
@@ -11,8 +11,8 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/crypto/secp256k1"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/crypto/secp256k1"
 )
 
 // Signature is a wrapper for the signed message and it is serializable.

@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package qvic
@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/log"
 )
 
 const (
@@ -44,7 +44,7 @@ type QvicMgr struct {
 	portStart, portEnd int      // udp port's range used by QConn
 	slots              []*QConn // holds all QConns.
 	loopWG             sync.WaitGroup
-	log                *log.SeeleLog
+	log                *log.SeeleCredoLog
 }
 
 // acceptInfo represents acceptance information for both tcp and qvic.

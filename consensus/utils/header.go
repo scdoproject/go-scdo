@@ -1,13 +1,13 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package utils
 
 import (
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/core/types"
 )
 
 func VerifyHeaderCommon(header, parent *types.BlockHeader) error {

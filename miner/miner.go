@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package miner
@@ -13,13 +13,13 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/memory"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/core"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/event"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/memory"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/core"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/event"
+	"github.com/seeledevteam/slc/log"
 )
 
 var (
@@ -35,8 +35,8 @@ var (
 	minerCount = 0
 )
 
-// SeeleBackend wraps all methods required for minier.
-type SeeleBackend interface {
+// SlcBackend wraps all methods required for minier.
+type SlcBackend interface {
 	TxPool() *core.TransactionPool
 	BlockChain() *core.Blockchain
 	DebtPool() *core.DebtPool
@@ -53,8 +53,8 @@ type Miner struct {
 	current  *Task
 	recv     chan *types.Block
 
-	seele SeeleBackend
-	log   *log.SeeleLog
+	seeleCredo SlcBackend
+	log        *log.SeeleCredoLog
 
 	isFirstDownloader    int32
 	isFirstBlockPrepared int32
@@ -63,17 +63,17 @@ type Miner struct {
 	engine   consensus.Engine
 
 	debtVerifier types.DebtVerifier
-	msgChan chan bool   // use msgChan to receive msg setting miner to start or stop, and miner will deal with these msgs sequentially
+	msgChan      chan bool // use msgChan to receive msg setting miner to start or stop, and miner will deal with these msgs sequentially
 }
 
 // NewMiner constructs and returns a miner instance
-func NewMiner(addr common.Address, seele SeeleBackend, verifier types.DebtVerifier, engine consensus.Engine) *Miner {
+func NewMiner(addr common.Address, seeleCredo SlcBackend, verifier types.DebtVerifier, engine consensus.Engine) *Miner {
 	miner := &Miner{
 		coinbase:             addr,
 		canStart:             1,
 		stopped:              0,
 		stopper:              0,
-		seele:                seele,
+		seeleCredo:           seeleCredo,
 		wg:                   sync.WaitGroup{},
 		recv:                 make(chan *types.Block, 1),
 		log:                  log.GetLogger("miner"),
@@ -81,7 +81,7 @@ func NewMiner(addr common.Address, seele SeeleBackend, verifier types.DebtVerifi
 		isFirstBlockPrepared: 0,
 		debtVerifier:         verifier,
 		engine:               engine,
-		msgChan:			make(chan bool,100),
+		msgChan:              make(chan bool, 100),
 	}
 
 	event.BlockDownloaderEventManager.AddListener(miner.downloaderEventCallback)
@@ -111,38 +111,38 @@ func (miner *Miner) GetCoinbase() common.Address {
 	return miner.coinbase
 }
 
-func (miner *Miner) CanStart() (bool){
-	if atomic.LoadInt32(&miner.stopper)==0 &&
-		atomic.LoadInt32(&miner.stopped)==1 &&
-		atomic.LoadInt32(&miner.mining)==0 &&
-		atomic.LoadInt32(&miner.canStart)==1{
+func (miner *Miner) CanStart() bool {
+	if atomic.LoadInt32(&miner.stopper) == 0 &&
+		atomic.LoadInt32(&miner.stopped) == 1 &&
+		atomic.LoadInt32(&miner.mining) == 0 &&
+		atomic.LoadInt32(&miner.canStart) == 1 {
 		return true
-	}else{
+	} else {
 		return false
 	}
 }
-func (miner *Miner) handleMsg(){
-	for{
+func (miner *Miner) handleMsg() {
+	for {
 		select {
-		case msg := <- miner.msgChan :
+		case msg := <-miner.msgChan:
 			if msg == true {
-				if miner.CanStart(){
+				if miner.CanStart() {
 					err := miner.Start()
 					if err != nil {
 						miner.log.Error("error start miner,%s", err.Error())
 					}
-				}else{
+				} else {
 					miner.log.Warn("cannot start miner,stopper:%d, stopped:%d,mining:%d,canStart:%d",
 						atomic.LoadInt32(&miner.stopper),
 						atomic.LoadInt32(&miner.stopped),
 						atomic.LoadInt32(&miner.mining),
 						atomic.LoadInt32(&miner.canStart))
 				}
-			}else {
-				if atomic.LoadInt32(&miner.stopped)==0 && atomic.LoadInt32(&miner.mining)==1 {
+			} else {
+				if atomic.LoadInt32(&miner.stopped) == 0 && atomic.LoadInt32(&miner.mining) == 1 {
 					miner.Stop()
 
-				}else{
+				} else {
 					miner.log.Warn("miner is not working,stopper:%d, stopped:%d,mining:%d,canStart:%d",
 						atomic.LoadInt32(&miner.stopper),
 						atomic.LoadInt32(&miner.stopped),
@@ -153,12 +153,13 @@ func (miner *Miner) handleMsg(){
 		}
 	}
 }
+
 // Start is used to start the miner
 func (miner *Miner) Start() error {
 	miner.stopChan = make(chan struct{})
 
 	if istanbul, ok := miner.engine.(consensus.Istanbul); ok {
-		if err := istanbul.Start(miner.seele.BlockChain(), miner.seele.BlockChain().CurrentBlock, nil); err != nil {
+		if err := istanbul.Start(miner.seeleCredo.BlockChain(), miner.seeleCredo.BlockChain().CurrentBlock, nil); err != nil {
 			panic(fmt.Sprintf("failed to start istanbul engine: %v", err))
 		}
 	}
@@ -171,8 +172,8 @@ func (miner *Miner) Start() error {
 
 	go miner.waitBlock()
 	//minerCount++
-	atomic.StoreInt32(&miner.mining,1)
-	atomic.StoreInt32(&miner.stopped,0)
+	atomic.StoreInt32(&miner.mining, 1)
+	atomic.StoreInt32(&miner.stopped, 0)
 	miner.log.Info("Miner started")
 
 	return nil
@@ -198,7 +199,7 @@ func (miner *Miner) stopMining() {
 	if miner.stopChan != nil {
 		close(miner.stopChan)
 	}
-	atomic.StoreInt32(&miner.mining,0)
+	atomic.StoreInt32(&miner.mining, 0)
 
 	// wait for all threads to terminate
 	miner.wg.Wait()
@@ -283,7 +284,7 @@ func (miner *Miner) prepareNewBlock(recv chan *types.Block) error {
 	miner.log.Debug("starting mining the new block")
 
 	timestamp := time.Now().Unix()
-	parent, stateDB, err := miner.seele.BlockChain().GetCurrentInfo()
+	parent, stateDB, err := miner.seeleCredo.BlockChain().GetCurrentInfo()
 	if err != nil {
 		return fmt.Errorf("failed to get current info, %s", err)
 	}
@@ -302,13 +303,13 @@ func (miner *Miner) prepareNewBlock(recv chan *types.Block) error {
 	header := newHeaderByParent(parent, miner.coinbase, timestamp)
 	miner.log.Debug("mining a block with coinbase %s", miner.coinbase.Hex())
 
-	err = miner.engine.Prepare(miner.seele.BlockChain(), header)
+	err = miner.engine.Prepare(miner.seeleCredo.BlockChain(), header)
 	if err != nil {
 		return fmt.Errorf("failed to prepare header, %s", err)
 	}
 
 	miner.current = NewTask(header, miner.coinbase, miner.debtVerifier)
-	err = miner.current.applyTransactionsAndDebts(miner.seele, stateDB, miner.seele.BlockChain().AccountDB(), miner.log)
+	err = miner.current.applyTransactionsAndDebts(miner.seeleCredo, stateDB, miner.seeleCredo.BlockChain().AccountDB(), miner.log)
 	if err != nil {
 		return fmt.Errorf("failed to apply transaction %s", err)
 	}
@@ -324,9 +325,9 @@ func (miner *Miner) saveBlock(result *types.Block) error {
 	now := time.Now()
 	// entrance
 	memory.Print(miner.log, "miner saveBlock entrance", now, false)
-	txPool := miner.seele.TxPool().Pool
+	txPool := miner.seeleCredo.TxPool().Pool
 
-	ret := miner.seele.BlockChain().WriteBlock(result, txPool)
+	ret := miner.seeleCredo.BlockChain().WriteBlock(result, txPool)
 
 	// entrance
 	memory.Print(miner.log, "miner saveBlock exit", now, true)
@@ -337,7 +338,7 @@ func (miner *Miner) saveBlock(result *types.Block) error {
 // commitTask commits the given task to the miner
 func (miner *Miner) commitTask(task *Task, recv chan *types.Block) {
 	block := task.generateBlock()
-	miner.engine.Seal(miner.seele.BlockChain(), block, miner.stopChan, recv)
+	miner.engine.Seal(miner.seeleCredo.BlockChain(), block, miner.stopChan, recv)
 }
 
 //GetWork get the current task node will process
@@ -359,7 +360,7 @@ func (miner *Miner) GetCurrentWorkHeader() (header *types.BlockHeader) {
 // func (miner *Miner) CommitWork()()
 
 // func (miner *Miner) GetMiningTarget() {
-// 	df := miner.seele.BlockChain().CurrentBlock().Header.Difficulty
+// 	df := miner.seeleCredo.BlockChain().CurrentBlock().Header.Difficulty
 // 	return miner.engine.GetMiningTarget(df)
 // }
 

@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -18,31 +18,31 @@ func AddCommands(app *cli.App, isFullNode bool) {
 			Name:   "getbalance",
 			Usage:  "get balance info",
 			Flags:  rpcFlags(accountFlag, hashFlag, heightFlag),
-			Action: rpcAction("seele", "getBalance"),
+			Action: rpcAction("seeleCredo", "getBalance"),
 		},
 		{
 			Name:   "sendtx",
 			Usage:  "send transaction to node",
 			Flags:  rpcFlags(fromFlag, toFlag, amountFlag, priceFlag, gasLimitFlag, payloadFlag, nonceFlag),
-			Action: rpcActionEx("seele", "addTx", makeTransaction, onTxAdded),
+			Action: rpcActionEx("seeleCredo", "addTx", makeTransaction, onTxAdded),
 		},
 		{
 			Name:   "getnonce",
 			Usage:  "get account nonce",
 			Flags:  rpcFlags(accountFlag, hashFlag, heightFlag),
-			Action: rpcAction("seele", "getAccountNonce"),
+			Action: rpcAction("seeleCredo", "getAccountNonce"),
 		},
 		{
 			Name:   "getblockheight",
 			Usage:  "get block height",
 			Flags:  rpcFlags(),
-			Action: rpcAction("seele", "getBlockHeight"),
+			Action: rpcAction("seeleCredo", "getBlockHeight"),
 		},
 		{
 			Name:   "getblock",
 			Usage:  "get block by height or hash",
 			Flags:  rpcFlags(hashFlag, heightFlag, fulltxFlag),
-			Action: rpcAction("seele", "getBlock"),
+			Action: rpcAction("seeleCredo", "getBlock"),
 		},
 		{
 			Name:   "gettxpoolcontent",
@@ -60,49 +60,49 @@ func AddCommands(app *cli.App, isFullNode bool) {
 			Name:   "getblocktxcount",
 			Usage:  "get block transaction count by block height or block hash",
 			Flags:  rpcFlags(hashFlag, heightFlag),
-			Action: rpcAction("seele", "getBlockTransactionCount"),
+			Action: rpcAction("seeleCredo", "getBlockTransactionCount"),
 		},
 		{
 			Name:   "gettxinblock",
 			Usage:  "get transaction by block height or block hash with index of the transaction in the block",
 			Flags:  rpcFlags(hashFlag, heightFlag, indexFlag),
-			Action: rpcAction("seele", "getTransactionByBlockIndex"),
+			Action: rpcAction("seeleCredo", "getTransactionByBlockIndex"),
 		},
 		{
 			Name:   "gettxfromaccount",
 			Usage:  "get transaction from one account at specific height or blockhash",
 			Flags:  rpcFlags(accountFlag, hashFlag, heightFlag),
-			Action: rpcAction("seele", "getTransactionsFrom"),
+			Action: rpcAction("seeleCredo", "getTransactionsFrom"),
 		},
 		{
 			Name:   "gettxtoaccount",
 			Usage:  "get transaction to one account at specific height or blockhash",
 			Flags:  rpcFlags(accountFlag, hashFlag, heightFlag),
-			Action: rpcAction("seele", "getTransactionsTo"),
+			Action: rpcAction("seeleCredo", "getTransactionsTo"),
 		},
 		{
 			Name:   "getaccounttx",
 			Usage:  "get transaction of one account at specific height or blockhash",
 			Flags:  rpcFlags(accountFlag, hashFlag, heightFlag),
-			Action: rpcAction("seele", "getAccountTransactions"),
+			Action: rpcAction("seeleCredo", "getAccountTransactions"),
 		},
 		{
 			Name:   "getblocktx",
 			Usage:  "get transaction by block height or block hash",
 			Flags:  rpcFlags(hashFlag, heightFlag),
-			Action: rpcAction("seele", "getBlockTransactions"),
+			Action: rpcAction("seeleCredo", "getBlockTransactions"),
 		},
 		{
 			Name:   "getblocktxbyheight",
 			Usage:  "get the transitions at the specific height",
 			Flags:  rpcFlags(heightFlag),
-			Action: rpcAction("seele", "getBlockTransactionsByHeight"),
+			Action: rpcAction("seeleCredo", "getBlockTransactionsByHeight"),
 		},
 		{
 			Name:   "getblocktxbyhash",
 			Usage:  "get the transitions at the specific blockhash",
 			Flags:  rpcFlags(hashFlag),
-			Action: rpcAction("seele", "getBlockTransactionsByHash"),
+			Action: rpcAction("seeleCredo", "getBlockTransactionsByHash"),
 		},
 		{
 			Name:   "gettxbyhash",
@@ -120,7 +120,7 @@ func AddCommands(app *cli.App, isFullNode bool) {
 			Name:   "getreceipt",
 			Usage:  "get receipt by transaction hash",
 			Flags:  rpcFlags(hashFlag, abiFileFlag),
-			Action: rpcAction("seele", "getReceiptByTxHash"),
+			Action: rpcAction("seeleCredo", "getReceiptByTxHash"),
 		},
 		{
 			Name:   "getpendingtxs",
@@ -319,7 +319,7 @@ func AddCommands(app *cli.App, isFullNode bool) {
 			},
 			{
 				Name:   "protocolversion",
-				Usage:  "get seele protocol version",
+				Usage:  "get seeleCredo protocol version",
 				Flags:  rpcFlags(),
 				Action: rpcAction("network", "getProtocolVersion"),
 			},
@@ -407,7 +407,7 @@ func AddCommands(app *cli.App, isFullNode bool) {
 				Name:   "getinfo",
 				Usage:  "get node info",
 				Flags:  rpcFlags(),
-				Action: rpcAction("seele", "getInfo"),
+				Action: rpcAction("seeleCredo", "getInfo"),
 			},
 			{
 				Name:   "getdebts",
@@ -425,13 +425,13 @@ func AddCommands(app *cli.App, isFullNode bool) {
 				Name:   "call",
 				Usage:  "call contract",
 				Flags:  rpcFlags(toFlag, payloadFlag, heightFlag),
-				Action: rpcAction("seele", "call"),
+				Action: rpcAction("seeleCredo", "call"),
 			},
 			{
 				Name:   "getlogs",
 				Usage:  "get logs",
 				Flags:  rpcFlags(heightFlag, contractFlag, abiFileFlag, eventNameFlag),
-				Action: rpcAction("seele", "getLogs"),
+				Action: rpcAction("seeleCredo", "getLogs"),
 			},
 			{
 				Name:   "getdebtbyhash",

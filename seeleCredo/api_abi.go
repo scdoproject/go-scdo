@@ -1,21 +1,21 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	"fmt"
 	"strings"
 
-	"github.com/seeleteam/go-seele/accounts/abi"
-	"github.com/seeleteam/go-seele/accounts/abi/bind"
-	"github.com/seeleteam/go-seele/common/hexutil"
+	"github.com/seeledevteam/slc/accounts/abi"
+	"github.com/seeledevteam/slc/accounts/abi/bind"
+	"github.com/seeledevteam/slc/common/hexutil"
 )
 
 // GeneratePayload according to abi json string and methodName and args to generate payload hex string
-func (api *PublicSeeleAPI) GeneratePayload(abiJSON string, methodName string, args []string) (string, error) {
+func (api *PublicSeeleCredoAPI) GeneratePayload(abiJSON string, methodName string, args []string) (string, error) {
 	parsed, err := abi.JSON(strings.NewReader(abiJSON))
 	if err != nil {
 		return "", fmt.Errorf("invalid abiJSON '%s', err: %s", abiJSON, err)

@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package common
@@ -10,7 +10,7 @@ import (
 	"fmt"
 
 	"github.com/howeyc/gopass"
-	"github.com/seeleteam/go-seele/common/errors"
+	"github.com/seeledevteam/slc/common/errors"
 )
 
 // GetPassword ask user for password interactively

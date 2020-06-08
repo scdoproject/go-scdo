@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package core
@@ -11,8 +11,8 @@ import (
 	"sync"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/consensus/istanbul"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/consensus/istanbul"
 )
 
 // newRoundState creates a new roundState instance with the given view and validatorSet

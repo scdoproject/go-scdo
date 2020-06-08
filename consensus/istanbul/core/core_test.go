@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package core
@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeleteam/go-seele/consensus/istanbul"
-	"github.com/seeleteam/go-seele/core/types"
+	"github.com/seeledevteam/slc/consensus/istanbul"
+	"github.com/seeledevteam/slc/core/types"
 )
 
 func makeBlock(number int64) *types.Block {

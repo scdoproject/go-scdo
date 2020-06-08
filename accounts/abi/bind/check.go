@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package bind
@@ -11,12 +11,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/seeleteam/go-seele/accounts/abi"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
+	"github.com/seeledevteam/slc/accounts/abi"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
 )
 
-// ParseArgs parse the args string into the Seele type and return an error if
+// ParseArgs parse the args string into the SeeleCredo type and return an error if
 // the args length does not match or the parsed type fails.
 func ParseArgs(abiArgs abi.Arguments, args []string) ([]interface{}, error) {
 	if len(args) != len(abiArgs) {
@@ -127,7 +127,7 @@ func parseArg(abiType string, arg string) (interface{}, error) {
 				}
 				return b, nil
 			default:
-				return nil, fmt.Errorf("Now abi only supports bytes32 and bytes, and it will totally support in seele.js, reject: %s", length)
+				return nil, fmt.Errorf("Now abi only supports bytes32 and bytes, and it will totally support in seeleCredo.js, reject: %s", length)
 			}
 		}
 

@@ -66,7 +66,7 @@ contract BTCRelay {
         return returnCode;
     }
 
-    // 2. optionally relay the Bitcoin transaction to any Seele contract
+    // 2. optionally relay the Bitcoin transaction to any SeeleCredo contract
     function relayTx(uint256 txBlockHash, uint256 txHash, address contractAddr) payable public returns(uint256){
         uint256 returnCode = 0;
 

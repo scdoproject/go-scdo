@@ -1,26 +1,26 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
-package seele
+package seeleCredo
 
 import (
 	"errors"
 	"fmt"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/miner"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/miner"
 )
 
 // PrivateMinerAPI provides an API to access miner information.
 type PrivateMinerAPI struct {
-	s *SeeleService
+	s *SeeleCredoService
 }
 
 // NewPrivateMinerAPI creates a new PrivateMinerAPI object for miner rpc service.
-func NewPrivateMinerAPI(s *SeeleService) *PrivateMinerAPI {
+func NewPrivateMinerAPI(s *SeeleCredoService) *PrivateMinerAPI {
 	return &PrivateMinerAPI{s}
 }
 

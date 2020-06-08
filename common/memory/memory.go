@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package memory
@@ -10,7 +10,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/log"
 )
 
 const (
@@ -26,7 +26,7 @@ func GetMemoryInfo() runtime.MemStats {
 }
 
 // Print is used to print log
-func Print(p *log.SeeleLog, msg string, t time.Time, isCalTime bool) {
+func Print(p *log.SeeleCredoLog, msg string, t time.Time, isCalTime bool) {
 	memInfo := GetMemoryInfo()
 	if isCalTime {
 		p.Debug(fmt.Sprint(prefix, ", ", msg, ", alloc %.4fGB, sys %.4fGB, time elapse %.2fs"), BToGB(memInfo.Alloc), BToGB(memInfo.Sys), time.Since(t).Seconds())

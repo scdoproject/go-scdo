@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package monitor
@@ -9,7 +9,7 @@ import (
 	"errors"
 	"runtime"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 )
 
 // error infos
@@ -36,7 +36,7 @@ func (api *PublicMonitorAPI) NodeInfo() (NodeInfo, error) {
 		Name:       api.s.name,
 		Node:       api.s.node,
 		Port:       0, //api.s.p2pServer.ListenAddr,
-		NetVersion: api.s.seele.NetVersion(),
+		NetVersion: api.s.seeleCredo.NetVersion(),
 		Protocol:   "1.0",
 		API:        "No",
 		Os:         runtime.GOOS,
@@ -53,15 +53,15 @@ func (api *PublicMonitorAPI) NodeStats() (*NodeStats, error) {
 		return nil, ErrP2PServerInfoFailed
 	}
 
-	if api.s.seeleNode == nil {
+	if api.s.slcNode == nil {
 		return nil, ErrNodeInfoFailed
 	}
 
-	if api.s.seele.Miner() == nil {
+	if api.s.seeleCredo.Miner() == nil {
 		return nil, ErrMinerInfoFailed
 	}
 
-	mining := api.s.seele.Miner().IsMining()
+	mining := api.s.seeleCredo.Miner().IsMining()
 
 	return &NodeStats{
 		Active:  true,

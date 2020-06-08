@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package factory
@@ -10,15 +10,15 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/errors"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/consensus/ethash"
-	"github.com/seeleteam/go-seele/consensus/istanbul"
-	"github.com/seeleteam/go-seele/consensus/istanbul/backend"
-	"github.com/seeleteam/go-seele/consensus/pow"
-	"github.com/seeleteam/go-seele/consensus/spow"
-	"github.com/seeleteam/go-seele/database/leveldb"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/errors"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/consensus/ethash"
+	"github.com/seeledevteam/slc/consensus/istanbul"
+	"github.com/seeledevteam/slc/consensus/istanbul/backend"
+	"github.com/seeledevteam/slc/consensus/pow"
+	"github.com/seeledevteam/slc/consensus/spow"
+	"github.com/seeledevteam/slc/database/leveldb"
 )
 
 // GetConsensusEngine get consensus engine according to miner algorithm name

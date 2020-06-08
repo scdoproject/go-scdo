@@ -1,6 +1,6 @@
 /**
 * @file
-* @copyright defined in go-seele/LICENSE
+* @copyright defined in slc/LICENSE
  */
 
 package system
@@ -9,17 +9,17 @@ import (
 	"math/big"
 
 	"github.com/pkg/errors"
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/core/state"
-	"github.com/seeleteam/go-seele/crypto"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/core/state"
+	"github.com/seeledevteam/slc/crypto"
 )
 
 const (
-	// CmdDeposit deposit seele and register as masternode
+	// CmdDeposit deposit seeleCredo and register as masternode
 	CmdDeposit byte = iota
 	// CmdQueryMasternode query masternode
 	CmdQueryMasternode
-	// CmdRecall recallCmd seele and unregister as masternode
+	// CmdRecall recallCmd seeleCredo and unregister as masternode
 	CmdRecall
 	// CmdQuit quitCmd masternode
 	CmdQuit
@@ -34,7 +34,7 @@ var (
 	ByteTrue  = []byte{1}
 	ByteFalse = []byte{0}
 
-	depositLimit        = big.NewInt(0).Mul(common.SeeleToFan, big.NewInt(20000))
+	depositLimit        = big.NewInt(0).Mul(common.SeeleCredoToFan, big.NewInt(20000))
 	recallDistanceLimit = uint64(8640) // generate blocks in about one day
 )
 

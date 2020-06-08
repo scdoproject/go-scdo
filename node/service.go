@@ -1,13 +1,13 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package node
 
 import (
-	"github.com/seeleteam/go-seele/p2p"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/p2p"
+	"github.com/seeledevteam/slc/rpc"
 )
 
 // Service represents a service which is registered to the node after the node starts.

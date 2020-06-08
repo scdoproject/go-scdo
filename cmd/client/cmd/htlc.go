@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package cmd
@@ -11,10 +11,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/contract/system"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/contract/system"
+	"github.com/seeledevteam/slc/rpc"
 	"github.com/urfave/cli"
 )
 
@@ -51,7 +51,7 @@ func createHTLC(client *rpc.Client) (interface{}, interface{}, error) {
 	return output, tx, err
 }
 
-// withdraw obtain seele from transaction
+// withdraw obtain seeleCredo from transaction
 func withdraw(client *rpc.Client) (interface{}, interface{}, error) {
 	amountValue = "0"
 	txHashBytes, err := common.HexToHash(hashValue)
@@ -84,7 +84,7 @@ func withdraw(client *rpc.Client) (interface{}, interface{}, error) {
 	return output, tx, err
 }
 
-// refund used to refund seele from HTLC
+// refund used to refund seeleCredo from HTLC
 func refund(client *rpc.Client) (interface{}, interface{}, error) {
 	amountValue = "0"
 	txHashBytes, err := hexutil.HexToBytes(hashValue)

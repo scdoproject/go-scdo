@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package discovery
@@ -10,10 +10,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/common"
-	"github.com/seeleteam/go-seele/common/hexutil"
-	"github.com/seeleteam/go-seele/crypto"
-	log2 "github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/common"
+	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seeledevteam/slc/crypto"
+	log2 "github.com/seeledevteam/slc/log"
 )
 
 const (
@@ -24,10 +24,10 @@ type bucket struct {
 	peers []*Node
 	lock  sync.RWMutex //used for peers change
 
-	log *log2.SeeleLog
+	log *log2.SeeleCredoLog
 }
 
-func newBuckets(log *log2.SeeleLog) *bucket {
+func newBuckets(log *log2.SeeleCredoLog) *bucket {
 	return &bucket{
 		peers: make([]*Node, 0),
 		lock:  sync.RWMutex{},

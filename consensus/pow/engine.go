@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package pow
@@ -14,11 +14,11 @@ import (
 	"time"
 
 	"github.com/rcrowley/go-metrics"
-	"github.com/seeleteam/go-seele/consensus"
-	"github.com/seeleteam/go-seele/consensus/utils"
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
-	"github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/consensus"
+	"github.com/seeledevteam/slc/consensus/utils"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
+	"github.com/seeledevteam/slc/rpc"
 )
 
 var (
@@ -29,7 +29,7 @@ var (
 // Engine provides the consensus operations based on POW.
 type Engine struct {
 	threads  int
-	log      *log.SeeleLog
+	log      *log.SeeleCredoLog
 	hashrate metrics.Meter
 }
 

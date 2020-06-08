@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package downloader
@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeleteam/go-seele/core/types"
-	"github.com/seeleteam/go-seele/log"
+	"github.com/seeledevteam/slc/core/types"
+	"github.com/seeledevteam/slc/log"
 )
 
 const (
@@ -65,7 +65,7 @@ type taskMgr struct {
 	lock       sync.RWMutex
 	quitCh     chan struct{}
 	wg         sync.WaitGroup
-	log        *log.SeeleLog
+	log        *log.SeeleCredoLog
 	startTime  time.Time
 }
 

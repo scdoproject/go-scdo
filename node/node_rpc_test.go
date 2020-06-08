@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package node
@@ -9,9 +9,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/seeleteam/go-seele/log/comm"
-	"github.com/seeleteam/go-seele/p2p"
-	rpc "github.com/seeleteam/go-seele/rpc"
+	"github.com/seeledevteam/slc/log/comm"
+	"github.com/seeledevteam/slc/p2p"
+	rpc "github.com/seeledevteam/slc/rpc"
 	"github.com/stretchr/testify/assert"
 )
 

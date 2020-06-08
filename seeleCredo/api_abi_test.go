@@ -1,15 +1,15 @@
 /**
 *  @file
-*  @copyright defined in go-seele/LICENSE
+*  @copyright defined in slc/LICENSE
  */
-package seele
+package seeleCredo
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/seeleteam/go-seele/common"
+	"github.com/seeledevteam/slc/common"
 
 	"github.com/stretchr/testify/assert"
 )
