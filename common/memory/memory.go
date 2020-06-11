@@ -10,7 +10,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/log"
 )
 
 const (

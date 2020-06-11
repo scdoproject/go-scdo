@@ -14,11 +14,11 @@ import (
 	"time"
 
 	"github.com/rcrowley/go-metrics"
-	"github.com/seelecredoteam/go-seelecredo/consensus"
-	"github.com/seelecredoteam/go-seelecredo/consensus/utils"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/log"
-	"github.com/seelecredoteam/go-seelecredo/rpc"
+	"github.com/seelecredo/go-seelecredo/consensus"
+	"github.com/seelecredo/go-seelecredo/consensus/utils"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/rpc"
 )
 
 var (

@@ -8,10 +8,10 @@ package light
 import (
 	"testing"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/common/errors"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/event"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common/errors"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/event"
 	"github.com/stretchr/testify/assert"
 )
 

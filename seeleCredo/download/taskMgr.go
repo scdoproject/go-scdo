@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/log"
 )
 
 const (

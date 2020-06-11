@@ -6,8 +6,8 @@
 package cmd
 
 import (
-	"github.com/seelecredoteam/go-seelecredo/contract/system"
-	"github.com/seelecredoteam/go-seelecredo/rpc"
+	"github.com/seelecredo/go-seelecredo/contract/system"
+	"github.com/seelecredo/go-seelecredo/rpc"
 )
 
 // createDomainName create a domain name

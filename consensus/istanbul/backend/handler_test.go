@@ -9,9 +9,9 @@ import (
 	"testing"
 
 	"github.com/hashicorp/golang-lru"
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/crypto"
-	"github.com/seelecredoteam/go-seelecredo/p2p"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/seelecredo/go-seelecredo/p2p"
 )
 
 func TestIstanbulMessage(t *testing.T) {

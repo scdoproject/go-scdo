@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/log"
 	"github.com/stretchr/testify/assert"
 )
 

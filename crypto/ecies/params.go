@@ -13,7 +13,7 @@ import (
 	"fmt"
 	"hash"
 
-	seelecrypto "github.com/seelecredoteam/go-seelecredo/crypto"
+	seelecrypto "github.com/seelecredo/go-seelecredo/crypto"
 )
 
 // The default curve for this package is the NIST P256 curve, which

@@ -25,8 +25,8 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/core/types"
 )
 
 // Storage represents a contract's storage.

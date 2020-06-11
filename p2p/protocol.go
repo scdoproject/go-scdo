@@ -8,7 +8,7 @@ package p2p
 import (
 	"fmt"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common"
 )
 
 const (

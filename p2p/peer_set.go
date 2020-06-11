@@ -9,7 +9,7 @@ import (
 	"math/rand"
 	"sync"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common"
 )
 
 // peerSet is thread safe collection

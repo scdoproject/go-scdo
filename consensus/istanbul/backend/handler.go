@@ -9,11 +9,11 @@ import (
 	"errors"
 
 	lru "github.com/hashicorp/golang-lru"
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/consensus"
-	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
-	"github.com/seelecredoteam/go-seelecredo/crypto"
-	"github.com/seelecredoteam/go-seelecredo/p2p"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/consensus"
+	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
+	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/seelecredo/go-seelecredo/p2p"
 )
 
 const (

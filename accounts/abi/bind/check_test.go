@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common"
 	"github.com/stretchr/testify/assert"
 )
 

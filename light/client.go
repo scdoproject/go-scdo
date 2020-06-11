@@ -9,17 +9,17 @@ import (
 	"context"
 	"path/filepath"
 
-	"github.com/seelecredoteam/go-seelecredo/api"
-	"github.com/seelecredoteam/go-seelecredo/consensus"
-	"github.com/seelecredoteam/go-seelecredo/core"
-	"github.com/seelecredoteam/go-seelecredo/core/store"
-	"github.com/seelecredoteam/go-seelecredo/database"
-	"github.com/seelecredoteam/go-seelecredo/database/leveldb"
-	"github.com/seelecredoteam/go-seelecredo/log"
-	"github.com/seelecredoteam/go-seelecredo/node"
-	"github.com/seelecredoteam/go-seelecredo/p2p"
-	"github.com/seelecredoteam/go-seelecredo/rpc"
-	"github.com/seelecredoteam/go-seelecredo/seeleCredo"
+	"github.com/seelecredo/go-seelecredo/api"
+	"github.com/seelecredo/go-seelecredo/consensus"
+	"github.com/seelecredo/go-seelecredo/core"
+	"github.com/seelecredo/go-seelecredo/core/store"
+	"github.com/seelecredo/go-seelecredo/database"
+	"github.com/seelecredo/go-seelecredo/database/leveldb"
+	"github.com/seelecredo/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/node"
+	"github.com/seelecredo/go-seelecredo/p2p"
+	"github.com/seelecredo/go-seelecredo/rpc"
+	"github.com/seelecredo/go-seelecredo/seeleCredo"
 )
 
 // ServiceClient implements service for light mode.

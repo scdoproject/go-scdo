@@ -12,9 +12,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/contract/system"
-	"github.com/seelecredoteam/go-seelecredo/metrics"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/contract/system"
+	"github.com/seelecredo/go-seelecredo/metrics"
 )
 
 var (

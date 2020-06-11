@@ -11,14 +11,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/core/state"
-	"github.com/seelecredoteam/go-seelecredo/core/store"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/crypto"
-	"github.com/seelecredoteam/go-seelecredo/database/leveldb"
-	"github.com/seelecredoteam/go-seelecredo/event"
-	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/core/state"
+	"github.com/seelecredo/go-seelecredo/core/store"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/seelecredo/go-seelecredo/database/leveldb"
+	"github.com/seelecredo/go-seelecredo/event"
+	"github.com/seelecredo/go-seelecredo/log"
 	"github.com/stretchr/testify/assert"
 )
 

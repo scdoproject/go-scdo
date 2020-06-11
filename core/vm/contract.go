@@ -19,7 +19,7 @@ package vm
 import (
 	"math/big"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common"
 )
 
 // ContractRef is a reference to the contract's backing object

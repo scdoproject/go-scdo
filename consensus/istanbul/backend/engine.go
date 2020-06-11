@@ -14,15 +14,15 @@ import (
 
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/hashicorp/golang-lru"
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
-	"github.com/seelecredoteam/go-seelecredo/consensus"
-	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
-	istanbulCore "github.com/seelecredoteam/go-seelecredo/consensus/istanbul/core"
-	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul/validator"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/crypto"
-	"github.com/seelecredoteam/go-seelecredo/rpc"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common/hexutil"
+	"github.com/seelecredo/go-seelecredo/consensus"
+	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
+	istanbulCore "github.com/seelecredo/go-seelecredo/consensus/istanbul/core"
+	"github.com/seelecredo/go-seelecredo/consensus/istanbul/validator"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/seelecredo/go-seelecredo/rpc"
 )
 
 const (

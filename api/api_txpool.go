@@ -8,11 +8,11 @@ package api
 import (
 	"errors"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
-	"github.com/seelecredoteam/go-seelecredo/core"
-	"github.com/seelecredoteam/go-seelecredo/core/store"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common/hexutil"
+	"github.com/seelecredo/go-seelecredo/core"
+	"github.com/seelecredo/go-seelecredo/core/store"
+	"github.com/seelecredo/go-seelecredo/core/types"
 )
 
 // Error variables

@@ -10,11 +10,11 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/common/errors"
-	"github.com/seelecredoteam/go-seelecredo/core/store"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common/errors"
+	"github.com/seelecredo/go-seelecredo/core/store"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/log"
 )
 
 var rpLog = log.GetLogger("recoveryPoint")

@@ -13,9 +13,9 @@ import (
 	"io"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/crypto/sha3"
-	"github.com/seelecredoteam/go-seelecredo/database"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/crypto/sha3"
+	"github.com/seelecredo/go-seelecredo/database"
 )
 
 var (

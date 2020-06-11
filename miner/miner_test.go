@@ -11,11 +11,11 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/consensus/factory"
-	"github.com/seelecredoteam/go-seelecredo/core"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/crypto"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/consensus/factory"
+	"github.com/seelecredo/go-seelecredo/core"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/crypto"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )

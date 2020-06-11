@@ -11,9 +11,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/seelecredoteam/go-seelecredo/accounts/abi"
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
+	"github.com/seelecredo/go-seelecredo/accounts/abi"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common/hexutil"
 )
 
 // ParseArgs parse the args string into the SeeleCredo type and return an error if

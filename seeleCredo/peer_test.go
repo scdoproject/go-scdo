@@ -12,11 +12,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/crypto"
-	log2 "github.com/seelecredoteam/go-seelecredo/log"
-	"github.com/seelecredoteam/go-seelecredo/p2p"
-	"github.com/seelecredoteam/go-seelecredo/p2p/discovery"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/crypto"
+	log2 "github.com/seelecredo/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/p2p"
+	"github.com/seelecredo/go-seelecredo/p2p/discovery"
 	"github.com/stretchr/testify/assert"
 )
 

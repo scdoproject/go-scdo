@@ -11,10 +11,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
-	"github.com/seelecredoteam/go-seelecredo/contract/system"
-	"github.com/seelecredoteam/go-seelecredo/rpc"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common/hexutil"
+	"github.com/seelecredo/go-seelecredo/contract/system"
+	"github.com/seelecredo/go-seelecredo/rpc"
 	"github.com/urfave/cli"
 )
 

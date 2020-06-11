@@ -8,11 +8,11 @@ package node
 import (
 	"crypto/ecdsa"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/core"
-	"github.com/seelecredoteam/go-seelecredo/log/comm"
-	"github.com/seelecredoteam/go-seelecredo/metrics"
-	"github.com/seelecredoteam/go-seelecredo/p2p"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/core"
+	"github.com/seelecredo/go-seelecredo/log/comm"
+	"github.com/seelecredo/go-seelecredo/metrics"
+	"github.com/seelecredo/go-seelecredo/p2p"
 )
 
 // Config is the Configuration of node

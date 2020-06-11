@@ -12,11 +12,11 @@ import (
 	"encoding/binary"
 
 	"github.com/Jeffail/tunny"
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/core"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/log"
-	"github.com/seelecredoteam/go-seelecredo/database"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/core"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/database"
 )
 
 type propagateDebts interface {

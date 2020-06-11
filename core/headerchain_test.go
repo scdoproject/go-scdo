@@ -9,11 +9,11 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/core/store"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/database"
-	"github.com/seelecredoteam/go-seelecredo/database/leveldb"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/core/store"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/database"
+	"github.com/seelecredo/go-seelecredo/database/leveldb"
 	"github.com/stretchr/testify/assert"
 )
 

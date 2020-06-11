@@ -9,7 +9,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/seelecredoteam/go-seelecredo/cmd/client/cmd"
+	"github.com/seelecredo/go-seelecredo/cmd/client/cmd"
 )
 
 func main() {

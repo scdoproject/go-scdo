@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/log"
 )
 
 func Test_StartMetrics(t *testing.T) {

@@ -16,11 +16,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seelecredoteam/go-seelecredo/api"
-	"github.com/seelecredoteam/go-seelecredo/cmd/util"
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/crypto"
-	"github.com/seelecredoteam/go-seelecredo/rpc"
+	"github.com/seelecredo/go-seelecredo/api"
+	"github.com/seelecredo/go-seelecredo/cmd/util"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/seelecredo/go-seelecredo/rpc"
 	"github.com/spf13/cobra"
 )
 

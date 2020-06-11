@@ -9,9 +9,9 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/miner"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/miner"
 )
 
 // PrivateMinerAPI provides an API to access miner information.

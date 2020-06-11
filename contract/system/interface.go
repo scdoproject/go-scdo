@@ -8,9 +8,9 @@ package system
 import (
 	"errors"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/core/state"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/core/state"
+	"github.com/seelecredo/go-seelecredo/core/types"
 )
 
 // Context provides information that required in system contract.

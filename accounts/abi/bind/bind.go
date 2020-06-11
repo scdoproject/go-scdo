@@ -20,7 +20,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/seelecredoteam/go-seelecredo/accounts/abi"
+	"github.com/seelecredo/go-seelecredo/accounts/abi"
 )
 
 // bindTypeGo converts a Solidity type to a Go one. Since there is no clear mapping

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/seelecredoteam/go-seelecredo/seeleCredo"
+	"github.com/seelecredo/go-seelecredo/seeleCredo"
 	"github.com/spf13/cobra"
 )
 

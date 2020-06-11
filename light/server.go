@@ -9,14 +9,14 @@ import (
 	rand2 "math/rand"
 	"time"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/event"
-	"github.com/seelecredoteam/go-seelecredo/log"
-	"github.com/seelecredoteam/go-seelecredo/node"
-	"github.com/seelecredoteam/go-seelecredo/p2p"
-	"github.com/seelecredoteam/go-seelecredo/rpc"
-	"github.com/seelecredoteam/go-seelecredo/seeleCredo"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/event"
+	"github.com/seelecredo/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/node"
+	"github.com/seelecredo/go-seelecredo/p2p"
+	"github.com/seelecredo/go-seelecredo/rpc"
+	"github.com/seelecredo/go-seelecredo/seeleCredo"
 )
 
 // ServiceServer implements light server service.

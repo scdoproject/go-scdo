@@ -14,9 +14,9 @@ import (
 	"os"
 	"sync"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
-	"github.com/seelecredoteam/go-seelecredo/crypto"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common/hexutil"
+	"github.com/seelecredo/go-seelecredo/crypto"
 	"github.com/spf13/cobra"
 	"gopkg.in/fatih/set.v0"
 )

@@ -9,9 +9,9 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
-	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul/validator"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
+	"github.com/seelecredo/go-seelecredo/consensus/istanbul/validator"
 )
 
 func TestRoundChangeSet(t *testing.T) {

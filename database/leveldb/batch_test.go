@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/seelecredoteam/go-seelecredo/database"
+	"github.com/seelecredo/go-seelecredo/database"
 	"github.com/syndtr/goleveldb/leveldb"
 )
 

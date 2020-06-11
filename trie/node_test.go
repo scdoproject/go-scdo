@@ -8,7 +8,7 @@ package trie
 import (
 	"testing"
 
-	"github.com/seelecredoteam/go-seelecredo/crypto"
+	"github.com/seelecredo/go-seelecredo/crypto"
 	"github.com/stretchr/testify/assert"
 )
 

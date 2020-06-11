@@ -6,9 +6,9 @@
 package types
 
 import (
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/crypto"
-	"github.com/seelecredoteam/go-seelecredo/trie"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/seelecredo/go-seelecredo/trie"
 )
 
 var emptyReceiptRootHash = crypto.MustHash("empty receipt root hash")

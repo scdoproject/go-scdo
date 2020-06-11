@@ -6,8 +6,8 @@
 package node
 
 import (
-	"github.com/seelecredoteam/go-seelecredo/p2p"
-	"github.com/seelecredoteam/go-seelecredo/rpc"
+	"github.com/seelecredo/go-seelecredo/p2p"
+	"github.com/seelecredo/go-seelecredo/rpc"
 )
 
 // Service represents a service which is registered to the node after the node starts.

@@ -9,11 +9,11 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seelecredoteam/go-seelecredo/api"
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
-	"github.com/seelecredoteam/go-seelecredo/crypto"
-	"github.com/seelecredoteam/go-seelecredo/trie"
+	"github.com/seelecredo/go-seelecredo/api"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/seelecredo/go-seelecredo/trie"
 	"github.com/stretchr/testify/assert"
 )
 

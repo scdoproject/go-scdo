@@ -8,7 +8,7 @@ package discovery
 import (
 	"net"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common"
 )
 
 // StartService start node udp service

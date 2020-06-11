@@ -8,9 +8,9 @@ package light
 import (
 	"testing"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/database/leveldb"
-	"github.com/seelecredoteam/go-seelecredo/trie"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/database/leveldb"
+	"github.com/seelecredo/go-seelecredo/trie"
 	"github.com/stretchr/testify/assert"
 )
 

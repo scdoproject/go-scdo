@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredo/go-seelecredo/log"
 )
 
 // SenderMgr manages QConn's sender logic.

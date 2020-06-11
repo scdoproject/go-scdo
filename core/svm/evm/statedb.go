@@ -1,8 +1,8 @@
 package evm
 
 import (
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/core/state"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/core/state"
 )
 
 // StateDB for evm

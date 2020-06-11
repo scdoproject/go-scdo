@@ -6,11 +6,11 @@
 package util
 
 import (
-	"github.com/seelecredoteam/go-seelecredo/core"
-	"github.com/seelecredoteam/go-seelecredo/log/comm"
-	"github.com/seelecredoteam/go-seelecredo/metrics"
-	"github.com/seelecredoteam/go-seelecredo/node"
-	"github.com/seelecredoteam/go-seelecredo/p2p"
+	"github.com/seelecredo/go-seelecredo/core"
+	"github.com/seelecredo/go-seelecredo/log/comm"
+	"github.com/seelecredo/go-seelecredo/metrics"
+	"github.com/seelecredo/go-seelecredo/node"
+	"github.com/seelecredo/go-seelecredo/p2p"
 )
 
 // Config is the Configuration of node

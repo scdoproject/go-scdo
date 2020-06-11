@@ -19,7 +19,7 @@ package vm
 import (
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common"
 )
 
 // memoryGasCosts calculates the quadratic gas for memory expansion. It does so

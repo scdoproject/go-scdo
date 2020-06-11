@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/seelecredoteam/go-seelecredo/cmd/util"
+	"github.com/seelecredo/go-seelecredo/cmd/util"
 	"github.com/spf13/cobra"
-        "github.com/seelecredoteam/go-seelecredo/common"
+        "github.com/seelecredo/go-seelecredo/common"
 )
 
 var version bool

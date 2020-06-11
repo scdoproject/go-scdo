@@ -8,8 +8,8 @@ package types
 import (
 	"encoding/json"
 
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common/hexutil"
 )
 
 // Log represents the contract execution log.

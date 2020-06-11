@@ -6,10 +6,10 @@
 package seeleCredo
 
 import (
-	api2 "github.com/seelecredoteam/go-seelecredo/api"
-	"github.com/seelecredoteam/go-seelecredo/common"
-	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
-	"github.com/seelecredoteam/go-seelecredo/core/types"
+	api2 "github.com/seelecredo/go-seelecredo/api"
+	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/seelecredo/go-seelecredo/common/hexutil"
+	"github.com/seelecredo/go-seelecredo/core/types"
 )
 
 // TransactionPoolAPI provides an API to access transaction pool information.
