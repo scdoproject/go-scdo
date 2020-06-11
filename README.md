@@ -8,9 +8,9 @@
 | **Smart Contracts**    | smart contracts are supported within the same shard                                          |
 | **Seele Credo Wallet**       | easy-to-use wallet                                                                             |
 | **High TPS**           | same shard TPS: 500/shard, cross shard TPS: 12/shard                                           |
-| **Auditable Supply**   | total supply: 1,000,000,000 SEELEs, 300,000,000 SEELEs for mining                              |
+| **Auditable Supply**   | total supply: 300,000,000 SLCs, all for mining                              |
 | **Consensus Algorithm**| MPOW: matrix-proof of work algorithm                                                |
-| **Mining Reward**      | 3150000 blocks/era and era reward follows [6, 4, 3, 2.5, 2, 2, 1.5, 1.5] order until reaches the last reward of 1.5 SEELEs |
+| **Mining Reward**      | 3150000 blocks/era and era reward follows [6, 4, 3, 2.5, 2, 2, 1.5, 1.5] order until reaches the last reward of 1.5 SLCs |
 | **Transaction Fee**    | self-customized transaction fee, higher fee for cross-shard transaction                        |
 | **Block**              | 100 KB block size, 10 seconds block time, ~6000 transactions per block                         |
 
