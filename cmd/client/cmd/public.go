@@ -11,11 +11,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/seeledevteam/slc/cmd/util"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/common/keystore"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/rpc"
+	"github.com/seelecredoteam/go-seelecredo/cmd/util"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/common/keystore"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/rpc"
 	"github.com/urfave/cli"
 )
 

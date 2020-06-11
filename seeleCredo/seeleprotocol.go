@@ -11,16 +11,16 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeledevteam/slc/common/memory"
+	"github.com/seelecredoteam/go-seelecredo/common/memory"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/consensus"
-	"github.com/seeledevteam/slc/core"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/event"
-	"github.com/seeledevteam/slc/log"
-	"github.com/seeledevteam/slc/p2p"
-	downloader "github.com/seeledevteam/slc/seeleCredo/download"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/consensus"
+	"github.com/seelecredoteam/go-seelecredo/core"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/event"
+	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredoteam/go-seelecredo/p2p"
+	downloader "github.com/seelecredoteam/go-seelecredo/seeleCredo/download"
 )
 
 var (

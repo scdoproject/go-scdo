@@ -9,12 +9,12 @@ import (
 	rand2 "math/rand"
 	"sync"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/common/errors"
-	"github.com/seeledevteam/slc/consensus"
-	"github.com/seeledevteam/slc/core"
-	"github.com/seeledevteam/slc/log"
-	"github.com/seeledevteam/slc/p2p"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/common/errors"
+	"github.com/seelecredoteam/go-seelecredo/consensus"
+	"github.com/seelecredoteam/go-seelecredo/core"
+	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredoteam/go-seelecredo/p2p"
 )
 
 var (

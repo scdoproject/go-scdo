@@ -8,7 +8,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/seeledevteam/slc/common"
+	"github.com/seelecredoteam/go-seelecredo/common"
 	"github.com/urfave/cli"
 )
 

@@ -8,7 +8,7 @@ package svm
 import (
 	"math/big"
 
-	"github.com/seeledevteam/slc/common"
+	"github.com/seelecredoteam/go-seelecredo/common"
 )
 
 ///////////////////////////////////////////////////////////////////////////////////////

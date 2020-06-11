@@ -5,10 +5,10 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seeledevteam/slc/core/store"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/crypto"
-	"github.com/seeledevteam/slc/database/leveldb"
+	"github.com/seelecredoteam/go-seelecredo/core/store"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
+	"github.com/seelecredoteam/go-seelecredo/database/leveldb"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -8,7 +8,7 @@ package consensus
 import (
 	"math/big"
 
-	"github.com/seeledevteam/slc/common"
+	"github.com/seelecredoteam/go-seelecredo/common"
 )
 
 var (

@@ -11,15 +11,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/seeledevteam/slc/accounts/abi"
-	api2 "github.com/seeledevteam/slc/api"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/common/errors"
-	"github.com/seeledevteam/slc/common/hexutil"
-	"github.com/seeledevteam/slc/core"
-	"github.com/seeledevteam/slc/core/state"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/crypto"
+	"github.com/seelecredoteam/go-seelecredo/accounts/abi"
+	api2 "github.com/seelecredoteam/go-seelecredo/api"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/common/errors"
+	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
+	"github.com/seelecredoteam/go-seelecredo/core"
+	"github.com/seelecredoteam/go-seelecredo/core/state"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
 )
 
 // PublicSeeleCredoAPI provides an API to access full node-related information.

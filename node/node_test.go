@@ -9,11 +9,11 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/crypto"
-	"github.com/seeledevteam/slc/log/comm"
-	"github.com/seeledevteam/slc/p2p"
-	"github.com/seeledevteam/slc/rpc"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
+	"github.com/seelecredoteam/go-seelecredo/log/comm"
+	"github.com/seelecredoteam/go-seelecredo/p2p"
+	"github.com/seelecredoteam/go-seelecredo/rpc"
 	"github.com/stretchr/testify/assert"
 )
 

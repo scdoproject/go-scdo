@@ -3,7 +3,7 @@ package keystore
 import (
 	"crypto/ecdsa"
 
-	"github.com/seeledevteam/slc/common"
+	"github.com/seelecredoteam/go-seelecredo/common"
 )
 
 const (

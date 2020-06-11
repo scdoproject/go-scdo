@@ -11,8 +11,8 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/crypto/secp256k1"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/crypto/secp256k1"
 )
 
 // Signature is a wrapper for the signed message and it is serializable.

@@ -19,8 +19,8 @@ package vm
 import (
 	"math/big"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/core/types"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
 )
 
 // StateDB is an EVM database for full state querying.

@@ -20,7 +20,7 @@ import (
 
 	"github.com/edsrzf/mmap-go"
 	"github.com/hashicorp/golang-lru/simplelru"
-	"github.com/seeledevteam/slc/log"
+	"github.com/seelecredoteam/go-seelecredo/log"
 )
 
 var (

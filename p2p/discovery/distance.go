@@ -6,7 +6,7 @@
 package discovery
 
 import (
-	"github.com/seeledevteam/slc/common"
+	"github.com/seelecredoteam/go-seelecredo/common"
 )
 
 // logDist returns the logarithmic distance between a and b, log2(a ^ b).

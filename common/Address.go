@@ -13,8 +13,8 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/seeledevteam/slc/common/errors"
-	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seelecredoteam/go-seelecredo/common/errors"
+	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
 )
 
 //////////////////////////////////////////////////////////////////////////////

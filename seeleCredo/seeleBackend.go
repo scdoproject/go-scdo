@@ -3,13 +3,13 @@ package seeleCredo
 import (
 	"math/big"
 
-	"github.com/seeledevteam/slc/api"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/core/store"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/log"
-	"github.com/seeledevteam/slc/p2p"
-	"github.com/seeledevteam/slc/seeleCredo/download"
+	"github.com/seelecredoteam/go-seelecredo/api"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/core/store"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredoteam/go-seelecredo/p2p"
+	"github.com/seelecredoteam/go-seelecredo/seeleCredo/download"
 )
 
 type SlcBackend struct {

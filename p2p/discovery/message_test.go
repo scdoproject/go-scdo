@@ -11,8 +11,8 @@ import (
 	"net"
 	"testing"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/crypto"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
 	"github.com/stretchr/testify/assert"
 )
 

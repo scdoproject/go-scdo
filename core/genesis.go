@@ -12,13 +12,13 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/common/errors"
-	"github.com/seeledevteam/slc/core/state"
-	"github.com/seeledevteam/slc/core/store"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/crypto"
-	"github.com/seeledevteam/slc/database"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/common/errors"
+	"github.com/seelecredoteam/go-seelecredo/core/state"
+	"github.com/seelecredoteam/go-seelecredo/core/store"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
+	"github.com/seelecredoteam/go-seelecredo/database"
 	leveldbErrors "github.com/syndtr/goleveldb/leveldb/errors"
 )
 

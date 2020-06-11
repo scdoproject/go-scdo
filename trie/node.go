@@ -5,7 +5,7 @@
 
 package trie
 
-import "github.com/seeledevteam/slc/common"
+import "github.com/seelecredoteam/go-seelecredo/common"
 
 const (
 	// numBranchChildren number children in branch node

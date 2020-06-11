@@ -9,7 +9,7 @@ import (
 	"errors"
 	"runtime"
 
-	"github.com/seeledevteam/slc/common"
+	"github.com/seelecredoteam/go-seelecredo/common"
 )
 
 // error infos

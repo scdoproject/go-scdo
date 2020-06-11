@@ -9,16 +9,16 @@ import (
 	"math/big"
 	"sync"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/common/errors"
-	"github.com/seeledevteam/slc/consensus"
-	"github.com/seeledevteam/slc/core"
-	"github.com/seeledevteam/slc/core/state"
-	"github.com/seeledevteam/slc/core/store"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/database"
-	"github.com/seeledevteam/slc/event"
-	"github.com/seeledevteam/slc/log"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/common/errors"
+	"github.com/seelecredoteam/go-seelecredo/consensus"
+	"github.com/seelecredoteam/go-seelecredo/core"
+	"github.com/seelecredoteam/go-seelecredo/core/state"
+	"github.com/seelecredoteam/go-seelecredo/core/store"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/database"
+	"github.com/seelecredoteam/go-seelecredo/event"
+	"github.com/seelecredoteam/go-seelecredo/log"
 )
 
 // LightChain represents a canonical chain that by default only handles block headers.

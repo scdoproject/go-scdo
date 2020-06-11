@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/crypto"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
 )
 
 // Event is an event potentially triggered by the EVM's LOG mechanism. The Event

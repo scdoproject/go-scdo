@@ -8,9 +8,9 @@ package core
 import (
 	"sync"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/core/store"
-	"github.com/seeledevteam/slc/core/types"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/core/store"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
 )
 
 // HeaderChain represents the block header chain that is shared by the archive node and light node.

@@ -9,10 +9,10 @@ import (
 	"net"
 	"testing"
 
-	"github.com/seeledevteam/slc/crypto"
-	log2 "github.com/seeledevteam/slc/log"
-	"github.com/seeledevteam/slc/p2p"
-	"github.com/seeledevteam/slc/p2p/discovery"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
+	log2 "github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredoteam/go-seelecredo/p2p"
+	"github.com/seelecredoteam/go-seelecredo/p2p/discovery"
 	"github.com/stretchr/testify/assert"
 )
 

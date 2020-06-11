@@ -8,7 +8,7 @@ package core
 import (
 	"reflect"
 
-	"github.com/seeledevteam/slc/consensus/istanbul"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
 )
 
 func (c *core) sendPrepare() {

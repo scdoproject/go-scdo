@@ -9,8 +9,8 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/core/types"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
 	leveldbErrors "github.com/syndtr/goleveldb/leveldb/errors"
 )
 

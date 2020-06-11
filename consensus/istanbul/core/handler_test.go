@@ -9,8 +9,8 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/consensus/istanbul"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
 )
 
 // notice: the normal case have been tested in integration tests.

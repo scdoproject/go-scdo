@@ -13,9 +13,9 @@ import (
 	"time"
 
 	"github.com/ethereum/go-ethereum/event"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/consensus/istanbul"
-	"github.com/seeledevteam/slc/log"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
+	"github.com/seelecredoteam/go-seelecredo/log"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 

@@ -8,7 +8,7 @@ package downloader
 import (
 	"testing"
 
-	"github.com/seeledevteam/slc/database/leveldb"
+	"github.com/seelecredoteam/go-seelecredo/database/leveldb"
 	"github.com/stretchr/testify/assert"
 )
 

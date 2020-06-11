@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/core"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/core"
 	"github.com/stretchr/testify/assert"
 )
 

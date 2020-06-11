@@ -12,13 +12,13 @@ import (
 	"math/big"
 
 	"github.com/hashicorp/golang-lru"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/common/errors"
-	"github.com/seeledevteam/slc/consensus"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/light"
-	"github.com/seeledevteam/slc/log"
-	"github.com/seeledevteam/slc/node"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/common/errors"
+	"github.com/seelecredoteam/go-seelecredo/consensus"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/light"
+	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredoteam/go-seelecredo/node"
 )
 
 var (

@@ -23,7 +23,7 @@ import (
 	"reflect"
 
 	"github.com/ethereum/go-ethereum/common"
-	slcCommon "github.com/seeledevteam/slc/common"
+	slcCommon "github.com/seelecredoteam/go-seelecredo/common"
 )
 
 var (

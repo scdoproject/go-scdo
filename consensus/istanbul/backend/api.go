@@ -6,10 +6,10 @@
 package backend
 
 import (
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/consensus"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/rpc"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/consensus"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/rpc"
 )
 
 // API is a user facing RPC API to dump Istanbul state

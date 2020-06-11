@@ -13,9 +13,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/crypto"
-	"github.com/seeledevteam/slc/log"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
+	"github.com/seelecredoteam/go-seelecredo/log"
 )
 
 // NodeHook some hook funcs

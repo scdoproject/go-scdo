@@ -6,7 +6,7 @@
 package core
 
 import (
-	"github.com/seeledevteam/slc/consensus/istanbul"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 

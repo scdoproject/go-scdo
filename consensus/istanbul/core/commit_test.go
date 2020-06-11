@@ -10,10 +10,10 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/consensus/istanbul"
-	"github.com/seeledevteam/slc/consensus/istanbul/validator"
-	"github.com/seeledevteam/slc/crypto"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul/validator"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
 )
 
 func TestHandleCommit(t *testing.T) {

@@ -4,8 +4,8 @@ import (
 	"math/big"
 
 	"fmt"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/crypto"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
 )
 
 const (

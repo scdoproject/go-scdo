@@ -12,10 +12,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seeledevteam/slc/common"
+	"github.com/seelecredoteam/go-seelecredo/common"
 
-	"github.com/seeledevteam/slc/log"
-	"github.com/seeledevteam/slc/p2p/discovery"
+	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredoteam/go-seelecredo/p2p/discovery"
 )
 
 const (

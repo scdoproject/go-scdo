@@ -10,8 +10,8 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/consensus/istanbul"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
 )
 
 func newTestRoundState(view *istanbul.View, validatorSet istanbul.ValidatorSet) *roundState {

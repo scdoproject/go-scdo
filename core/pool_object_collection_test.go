@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeledevteam/slc/core/types"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
 	"github.com/stretchr/testify/assert"
 )
 

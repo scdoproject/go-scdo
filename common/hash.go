@@ -11,7 +11,7 @@ import (
 	"math/big"
 	"strings"
 
-	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
 )
 
 const (

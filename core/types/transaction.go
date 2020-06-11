@@ -15,9 +15,9 @@ import (
 	"sync/atomic"
 
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/crypto"
-	"github.com/seeledevteam/slc/trie"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
+	"github.com/seelecredoteam/go-seelecredo/trie"
 )
 
 // TxType represents transaction type

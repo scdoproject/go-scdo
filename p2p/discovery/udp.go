@@ -16,9 +16,9 @@ import (
 	"time"
 
 	cmap "github.com/orcaman/concurrent-map"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/crypto"
-	"github.com/seeledevteam/slc/log"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
+	"github.com/seelecredoteam/go-seelecredo/log"
 	"github.com/sirupsen/logrus"
 )
 

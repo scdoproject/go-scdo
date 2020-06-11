@@ -13,11 +13,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/consensus/istanbul"
-	"github.com/seeledevteam/slc/consensus/istanbul/validator"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/crypto"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul/validator"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
 )
 
 func TestSign(t *testing.T) {

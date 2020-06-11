@@ -12,15 +12,15 @@ import (
 
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/hashicorp/golang-lru"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/consensus"
-	"github.com/seeledevteam/slc/consensus/istanbul"
-	istanbulCore "github.com/seeledevteam/slc/consensus/istanbul/core"
-	"github.com/seeledevteam/slc/consensus/istanbul/validator"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/crypto"
-	"github.com/seeledevteam/slc/database"
-	"github.com/seeledevteam/slc/log"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/consensus"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
+	istanbulCore "github.com/seelecredoteam/go-seelecredo/consensus/istanbul/core"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul/validator"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/crypto"
+	"github.com/seelecredoteam/go-seelecredo/database"
+	"github.com/seelecredoteam/go-seelecredo/log"
 )
 
 const (

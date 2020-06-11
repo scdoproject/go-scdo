@@ -9,7 +9,7 @@
 	 "fmt"
 	 "encoding/hex"
 
-	 "github.com/seeledevteam/slc/crypto"
+	 "github.com/seelecredoteam/go-seelecredo/crypto"
 	 "github.com/spf13/cobra"
  )
  

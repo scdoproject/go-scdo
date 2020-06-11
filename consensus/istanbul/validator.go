@@ -8,7 +8,7 @@ package istanbul
 import (
 	"strings"
 
-	"github.com/seeledevteam/slc/common"
+	"github.com/seelecredoteam/go-seelecredo/common"
 )
 
 type Validator interface {

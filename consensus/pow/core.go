@@ -12,8 +12,8 @@ import (
 	"sync/atomic"
 
 	"github.com/rcrowley/go-metrics"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/log"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/log"
 )
 
 // StartMining starts calculating the nonce for the block.

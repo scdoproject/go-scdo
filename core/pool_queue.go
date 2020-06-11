@@ -9,7 +9,7 @@ import (
 	"container/heap"
 	"math/big"
 
-	"github.com/seeledevteam/slc/common"
+	"github.com/seelecredoteam/go-seelecredo/common"
 )
 
 type heapedTxList struct {

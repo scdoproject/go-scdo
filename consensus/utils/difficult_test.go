@@ -9,7 +9,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seeledevteam/slc/core/types"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
 	"github.com/stretchr/testify/assert"
 )
 

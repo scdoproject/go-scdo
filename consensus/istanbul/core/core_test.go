@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seeledevteam/slc/consensus/istanbul"
-	"github.com/seeledevteam/slc/core/types"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
 )
 
 func makeBlock(number int64) *types.Block {

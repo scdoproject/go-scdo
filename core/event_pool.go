@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/common/errors"
-	"github.com/seeledevteam/slc/core/store"
-	"github.com/seeledevteam/slc/listener"
-	"github.com/seeledevteam/slc/log"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/common/errors"
+	"github.com/seelecredoteam/go-seelecredo/core/store"
+	"github.com/seelecredoteam/go-seelecredo/listener"
+	"github.com/seelecredoteam/go-seelecredo/log"
 )
 
 const MaxBlockHeightGap = 40

@@ -6,8 +6,8 @@
 package validator
 
 import (
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/consensus/istanbul"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/consensus/istanbul"
 )
 
 func New(addr common.Address) istanbul.Validator {

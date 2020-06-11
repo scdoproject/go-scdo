@@ -11,7 +11,7 @@ import (
 	"io/ioutil"
 	"time"
 
-	"github.com/seeledevteam/slc/common"
+	"github.com/seelecredoteam/go-seelecredo/common"
 )
 
 const (

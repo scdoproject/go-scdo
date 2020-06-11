@@ -7,7 +7,7 @@ import (
 
 	"github.com/influxdata/influxdb/client"
 	"github.com/rcrowley/go-metrics"
-	"github.com/seeledevteam/slc/log"
+	"github.com/seelecredoteam/go-seelecredo/log"
 )
 
 type reporter struct {

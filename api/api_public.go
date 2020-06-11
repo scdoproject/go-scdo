@@ -12,10 +12,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/common/errors"
-	"github.com/seeledevteam/slc/core/state"
-	"github.com/seeledevteam/slc/core/types"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/common/errors"
+	"github.com/seelecredoteam/go-seelecredo/core/state"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
 )
 
 // ErrInvalidAccount the account is invalid

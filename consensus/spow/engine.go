@@ -18,13 +18,13 @@ import (
 	"time"
 
 	"github.com/rcrowley/go-metrics"
-	"github.com/seeledevteam/slc/common"
-	"github.com/seeledevteam/slc/consensus"
-	"github.com/seeledevteam/slc/consensus/utils"
-	"github.com/seeledevteam/slc/core/types"
-	"github.com/seeledevteam/slc/database"
-	"github.com/seeledevteam/slc/log"
-	"github.com/seeledevteam/slc/rpc"
+	"github.com/seelecredoteam/go-seelecredo/common"
+	"github.com/seelecredoteam/go-seelecredo/consensus"
+	"github.com/seelecredoteam/go-seelecredo/consensus/utils"
+	"github.com/seelecredoteam/go-seelecredo/core/types"
+	"github.com/seelecredoteam/go-seelecredo/database"
+	"github.com/seelecredoteam/go-seelecredo/log"
+	"github.com/seelecredoteam/go-seelecredo/rpc"
 	"gonum.org/v1/gonum/mat"
 )
 

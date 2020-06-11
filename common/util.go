@@ -10,7 +10,7 @@ import (
 	"reflect"
 
 	"github.com/hashicorp/golang-lru"
-	"github.com/seeledevteam/slc/common/hexutil"
+	"github.com/seelecredoteam/go-seelecredo/common/hexutil"
 )
 
 // Bytes is a array byte that is converted to hex string display format when marshal

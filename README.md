@@ -1,6 +1,6 @@
 
 # slc
-[![Build Status](https://travis-ci.org/seeledevteam/slc.svg?branch=master)](https://travis-ci.org/seeledevteam/slc)
+[![Build Status](https://travis-ci.org/seelecredoteam/go-seelecredo.svg?branch=master)](https://travis-ci.org/seelecredoteam/go-seelecredo)
 
 |        Features        |      Descriptions                                                                              |
 |:-----------------------|------------------------------------------------------------------------------------------------|
@@ -24,9 +24,9 @@ If you want to directly run the node and use client without setting up the compi
 
 | Operation System |      Download Link     |
 |---------|----------------------------------------------------------|
-| Linux   | [https://github.com/seeledevteam/slc/releases]|
-| MacOs   | [https://github.com/seeledevteam/slc/releases]|
-| Windows | [https://github.com/seeledevteam/slc/releases]|
+| Linux   | [https://github.com/seelecredoteam/go-seelecredo/releases]|
+| MacOs   | [https://github.com/seelecredoteam/go-seelecredo/releases]|
+| Windows | [https://github.com/seelecredoteam/go-seelecredo/releases]|
 
 # Or Download & Build the source
 
@@ -37,13 +37,13 @@ Building the Seele project requires both a Go (version 1.7 or later) compiler an
 - Clone the slc repository to the GOPATH directory:
 
 ```
-go get -u -v github.com/seelecredoteam/slc/...
+go get -u -v github.com/seelecredoteam/go-seelecredo/...
 ```
 
 - Once successfully cloned source code:
 
 ```
-cd GOPATH/src/github.com/seelecredoteam/slc/
+cd GOPATH/src/github.com/seelecredoteam/go-seelecredo/
 ```
 
 - Linux & Mac
@@ -59,7 +59,7 @@ buildall.bat
 ```
 
 # Run SeeleCredo
-A simple version SeeleCredo mining tutorial: English-[SeeleMiningTutorial](https://github.com/seeledevteam/slc/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Seele挖矿教程中文简版](https://github.com/seeledevteam/slc/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
+A simple version SeeleCredo mining tutorial: English-[SeeleMiningTutorial](https://github.com/seelecredoteam/go-seelecredo/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Seele挖矿教程中文简版](https://github.com/seelecredoteam/go-seelecredo/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
 
 For running a node, please refer to [Get Started](https://seeletech.gitbook.io/wiki/developer/slc/gettingstarted)([Older version](https://seeleteam.github.io/seele-doc/docs/Getting-Started-With-Seele.html)).
 For more usage details and deeper explanations, please consult the [Seele Wiki](https://seeletech.gitbook.io/wiki/)([Older version](https://seeleteam.github.io/seele-doc/index.html)).
@@ -86,4 +86,4 @@ Here are some guidelines before you start:
 
 # License
 
-[slc/LICENSE](https://github.com/seeledevteam/slc/blob/master/LICENSE)
+[slc/LICENSE](https://github.com/seelecredoteam/go-seelecredo/blob/master/LICENSE)
