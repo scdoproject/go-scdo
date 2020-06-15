@@ -68,8 +68,8 @@ func codeToStr(code uint16) string {
 	return downloader.CodeToStr(code)
 }
 
-// SeeleCredoProtocol service implementation of seeleCredo
-type SeeleCredoProtocol struct {
+// ScdoProtocol service implementation of seeleCredo
+type ScdoProtocol struct {
 	p2p.Protocol
 	peerSet *peerSet
 
@@ -82,20 +82,20 @@ type SeeleCredoProtocol struct {
 	wg     sync.WaitGroup
 	quitCh chan struct{}
 	syncCh chan struct{}
-	log    *log.SeeleCredoLog
+	log    *log.ScdoLog
 
 	debtManager *DebtManager
 }
 
 // Downloader return a pointer of the downloader
-func (s *SeeleCredoProtocol) Downloader() *downloader.Downloader { return s.downloader }
+func (s *ScdoProtocol) Downloader() *downloader.Downloader { return s.downloader }
 
-// NewSeeleCredoProtocol create SeeleCredoProtocol
-func NewSeeleCredoProtocol(seeleCredo *SeeleCredoService, log *log.SeeleCredoLog) (s *SeeleCredoProtocol, err error) {
-	s = &SeeleCredoProtocol{
+// NewScdoProtocol create ScdoProtocol
+func NewScdoProtocol(seeleCredo *ScdoService, log *log.ScdoLog) (s *ScdoProtocol, err error) {
+	s = &ScdoProtocol{
 		Protocol: p2p.Protocol{
-			Name:    common.SeeleCredoProtoName,
-			Version: common.SeeleCredoVersion,
+			Name:    common.ScdoProtoName,
+			Version: common.ScdoVersion,
 			Length:  protocolMsgCodeLength,
 		},
 		networkID:  seeleCredo.networkID,
@@ -123,14 +123,14 @@ func NewSeeleCredoProtocol(seeleCredo *SeeleCredoService, log *log.SeeleCredoLog
 	return s, nil
 }
 
-func (sp *SeeleCredoProtocol) Start() {
-	sp.log.Debug("SeeleCredoProtocol.Start called!")
+func (sp *ScdoProtocol) Start() {
+	sp.log.Debug("ScdoProtocol.Start called!")
 	go sp.syncer()
 	go sp.debtManager.TimingChecking()
 }
 
 // Stop stops protocol, called when seeleService quits.
-func (sp *SeeleCredoProtocol) Stop() {
+func (sp *ScdoProtocol) Stop() {
 	event.BlockMinedEventManager.RemoveListener(sp.handleNewMinedBlock)
 	event.TransactionInsertedEventManager.RemoveListener(sp.handleNewTx)
 	event.DebtsInsertedEventManager.RemoveListener(sp.handleNewDebt)
@@ -140,7 +140,7 @@ func (sp *SeeleCredoProtocol) Stop() {
 }
 
 // syncer try to synchronise with remote peer
-func (sp *SeeleCredoProtocol) syncer() {
+func (sp *ScdoProtocol) syncer() {
 	defer sp.downloader.Terminate()
 	//defer sp.wg.Done()
 	//sp.wg.Add(1)
@@ -180,11 +180,11 @@ func (sp *SeeleCredoProtocol) syncer() {
 	}
 }
 
-func (sp *SeeleCredoProtocol) synchronise(peers []*peer) {
+func (sp *ScdoProtocol) synchronise(peers []*peer) {
 	defer sp.wg.Done()
 	now := time.Now()
 	// entrance
-	memory.Print(sp.log, "SeeleCredoProtocol synchronise entrance", now, false)
+	memory.Print(sp.log, "ScdoProtocol synchronise entrance", now, false)
 
 	if len(peers) == 0 {
 		return
@@ -195,7 +195,7 @@ func (sp *SeeleCredoProtocol) synchronise(peers []*peer) {
 	//if err != nil {
 	//	sp.log.Error("sp.synchronise GetBlockTotalDifficulty err.[%s], Hash: %v", err, block.HeaderHash)
 	//	// one step
-	//	memory.Print(sp.log, "SeeleCredoProtocol synchronise GetBlockTotalDifficulty error", now, true)
+	//	memory.Print(sp.log, "ScdoProtocol synchronise GetBlockTotalDifficulty error", now, true)
 	//	return
 	//}
 
@@ -205,7 +205,7 @@ func (sp *SeeleCredoProtocol) synchronise(peers []*peer) {
 		// if total difficulty is not smaller than remote peer td, then do not need synchronise.
 		//if localTD.Cmp(pTd) >= 0 {
 		// two step
-		//	memory.Print(sp.log, "SeeleCredoProtocol synchronise difficulty is bigger than remote", now, true)
+		//	memory.Print(sp.log, "ScdoProtocol synchronise difficulty is bigger than remote", now, true)
 		//	return //no need to continue because peers are selected to be the best peers
 		//}
 		err := sp.downloader.Synchronise(p.peerStrID, pHead)
@@ -218,7 +218,7 @@ func (sp *SeeleCredoProtocol) synchronise(peers []*peer) {
 			}
 
 			// three step
-			memory.Print(sp.log, "SeeleCredoProtocol synchronise downloader error", now, true)
+			memory.Print(sp.log, "ScdoProtocol synchronise downloader error", now, true)
 
 			continue
 		}
@@ -227,17 +227,17 @@ func (sp *SeeleCredoProtocol) synchronise(peers []*peer) {
 		sp.broadcastChainHead()
 
 		// exit
-		memory.Print(sp.log, "SeeleCredoProtocol synchronise exit", now, true)
+		memory.Print(sp.log, "ScdoProtocol synchronise exit", now, true)
 
 		return
 	}
 }
 
-func (sp *SeeleCredoProtocol) broadcastChainHead() {
+func (sp *ScdoProtocol) broadcastChainHead() {
 
 	now := time.Now()
 	// entrance
-	memory.Print(sp.log, "SeeleCredoProtocol broadcastChainHead entrance", now, false)
+	memory.Print(sp.log, "ScdoProtocol broadcastChainHead entrance", now, false)
 
 	block := sp.chain.CurrentBlock()
 	head := block.HeaderHash
@@ -270,11 +270,11 @@ func (sp *SeeleCredoProtocol) broadcastChainHead() {
 	}
 	wg.Wait()
 	// exit
-	memory.Print(sp.log, "SeeleCredoProtocol broadcastChainHead exit", now, true)
+	memory.Print(sp.log, "ScdoProtocol broadcastChainHead exit", now, true)
 }
 
 // syncTransactions sends pending transactions to remote peer.
-func (sp *SeeleCredoProtocol) syncTransactions(p *peer) {
+func (sp *ScdoProtocol) syncTransactions(p *peer) {
 	defer sp.wg.Done()
 	sp.wg.Add(1)
 	pending := sp.txPool.GetTransactions(false, true)
@@ -319,10 +319,10 @@ loopOut:
 	close(resultCh)
 }
 
-func (p *SeeleCredoProtocol) handleNewTx(e event.Event) {
+func (p *ScdoProtocol) handleNewTx(e event.Event) {
 	now := time.Now()
 	// entrance
-	memory.Print(p.log, "SeeleCredoProtocol handleNewTx entrance", now, false)
+	memory.Print(p.log, "ScdoProtocol handleNewTx entrance", now, false)
 
 	tx := e.(*types.Transaction)
 
@@ -342,18 +342,18 @@ func (p *SeeleCredoProtocol) handleNewTx(e event.Event) {
 	}
 
 	//exit
-	memory.Print(p.log, "SeeleCredoProtocol handleNewTx exit", now, true)
+	memory.Print(p.log, "ScdoProtocol handleNewTx exit", now, true)
 }
 
-func (p *SeeleCredoProtocol) handleNewDebt(e event.Event) {
+func (p *ScdoProtocol) handleNewDebt(e event.Event) {
 	debt := e.(*types.Debt)
 	p.propagateDebtMap(types.DebtArrayToMap([]*types.Debt{debt}), true)
 }
 
-func (p *SeeleCredoProtocol) propagateDebtMap(debtsMap [][]*types.Debt, filter bool) {
+func (p *ScdoProtocol) propagateDebtMap(debtsMap [][]*types.Debt, filter bool) {
 	now := time.Now()
 	// entrance
-	memory.Print(p.log, "SeeleCredoProtocol propagateDebtMap entrance", now, false)
+	memory.Print(p.log, "ScdoProtocol propagateDebtMap entrance", now, false)
 
 	//peers := p.peerSet.getAllPeers()
 	wg := new(sync.WaitGroup)
@@ -370,10 +370,10 @@ func (p *SeeleCredoProtocol) propagateDebtMap(debtsMap [][]*types.Debt, filter b
 	}
 	wg.Wait()
 	// exit
-	memory.Print(p.log, "SeeleCredoProtocol propagateDebtMap exit", now, true)
+	memory.Print(p.log, "ScdoProtocol propagateDebtMap exit", now, true)
 }
 
-func (p *SeeleCredoProtocol) handleNewBlock(e event.Event) {
+func (p *ScdoProtocol) handleNewBlock(e event.Event) {
 	block := e.(*types.Block)
 
 	// propagate confirmed block
@@ -382,7 +382,7 @@ func (p *SeeleCredoProtocol) handleNewBlock(e event.Event) {
 		confirmedBlock, err := p.chain.GetStore().GetBlockByHeight(confirmedHeight)
 
 		if err != nil {
-			if confirmedHeight < common.SeeleCredoForkHeight {
+			if confirmedHeight < common.ScdoForkHeight {
 				p.log.Debug("Scdo fork range, need to comfirm!")
 			} else {
 				p.log.Warn("failed to load confirmed block height %d, err %s", confirmedHeight, err)
@@ -390,22 +390,22 @@ func (p *SeeleCredoProtocol) handleNewBlock(e event.Event) {
 		} else {
 			now := time.Now()
 			// entrance
-			memory.Print(p.log, "SeeleCredoProtocol handleNewBlock entrance", now, false)
+			memory.Print(p.log, "ScdoProtocol handleNewBlock entrance", now, false)
 
 			debts := types.NewDebtMap(confirmedBlock.Transactions)
 			p.debtManager.AddDebtMap(debts, confirmedHeight)
 			go p.propagateDebtMap(debts, true)
 
 			// exit
-			memory.Print(p.log, "SeeleCredoProtocol handleNewBlock exit", now, true)
+			memory.Print(p.log, "ScdoProtocol handleNewBlock exit", now, true)
 		}
 	}
 }
 
-func (p *SeeleCredoProtocol) handleNewMinedBlock(e event.Event) {
+func (p *ScdoProtocol) handleNewMinedBlock(e event.Event) {
 	now := time.Now()
 	// entrance
-	memory.Print(p.log, "SeeleCredoProtocol handleNewMinedBlock entrance", now, false)
+	memory.Print(p.log, "ScdoProtocol handleNewMinedBlock entrance", now, false)
 	block := e.(*types.Block)
 
 	p.log.Debug("handleNewMinedBlock broadcast chainhead changed. new block: %d %s <- %s ",
@@ -414,16 +414,16 @@ func (p *SeeleCredoProtocol) handleNewMinedBlock(e event.Event) {
 	p.broadcastChainHead()
 
 	// exit
-	memory.Print(p.log, "SeeleCredoProtocol handleNewMinedBlock exit", now, true)
+	memory.Print(p.log, "ScdoProtocol handleNewMinedBlock exit", now, true)
 }
 
-func (p *SeeleCredoProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWriter) bool {
+func (p *ScdoProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWriter) bool {
 	if p.peerSet.Find(p2pPeer.Node.ID) != nil {
 		p.log.Error("handleAddPeer called, but peer of this public-key has already existed, so need quit!")
 		return false
 	}
 
-	newPeer := newPeer(common.SeeleCredoVersion, p2pPeer, rw, p.log)
+	newPeer := newPeer(common.ScdoVersion, p2pPeer, rw, p.log)
 
 	block := p.chain.CurrentBlock()
 	head := block.HeaderHash
@@ -432,7 +432,7 @@ func (p *SeeleCredoProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWrit
 		return false
 	}
 
-	genesisBlock, err := p.chain.GetStore().GetBlockByHeight(common.SeeleCredoForkHeight)
+	genesisBlock, err := p.chain.GetStore().GetBlockByHeight(common.ScdoForkHeight)
 	if err != nil {
 		return false
 	}
@@ -443,7 +443,7 @@ func (p *SeeleCredoProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWrit
 		return false
 	}
 
-	p.log.Debug("add peer %s -> %s to SeeleCredoProtocol. nodeid=%s", p2pPeer.LocalAddr(), p2pPeer.RemoteAddr(), newPeer.peerStrID)
+	p.log.Debug("add peer %s -> %s to ScdoProtocol. nodeid=%s", p2pPeer.LocalAddr(), p2pPeer.RemoteAddr(), newPeer.peerStrID)
 	p.peerSet.Add(newPeer)
 	if newPeer.Node.Shard == common.LocalShardNumber {
 		p.downloader.RegisterPeer(newPeer.peerStrID, newPeer)
@@ -454,14 +454,14 @@ func (p *SeeleCredoProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWrit
 	return true
 }
 
-func (s *SeeleCredoProtocol) handleGetPeer(address common.Address) interface{} {
+func (s *ScdoProtocol) handleGetPeer(address common.Address) interface{} {
 	if p := s.peerSet.Find(address); p != nil {
 		return p.Info()
 	}
 	return nil
 }
 
-func (s *SeeleCredoProtocol) handleDelPeer(peer *p2p.Peer) {
+func (s *ScdoProtocol) handleDelPeer(peer *p2p.Peer) {
 	s.log.Debug("delete peer from peer set. %s", peer.Node)
 	s.peerSet.Remove(peer.Node.ID)
 
@@ -471,7 +471,7 @@ func (s *SeeleCredoProtocol) handleDelPeer(peer *p2p.Peer) {
 }
 
 // SendDifferentShardTx send tx to different shards
-func (p *SeeleCredoProtocol) SendDifferentShardTx(tx *types.Transaction, shard uint) {
+func (p *ScdoProtocol) SendDifferentShardTx(tx *types.Transaction, shard uint) {
 	var peers []*peer
 
 	peers = p.peerSet.getPeerByShard(shard)
@@ -492,7 +492,7 @@ func (p *SeeleCredoProtocol) SendDifferentShardTx(tx *types.Transaction, shard u
 	}
 }
 
-func (p *SeeleCredoProtocol) handleMsg(peer *peer) {
+func (p *ScdoProtocol) handleMsg(peer *peer) {
 handler:
 	for {
 		msg, err := peer.rw.ReadMsg()
@@ -845,11 +845,11 @@ handler:
 	peer.Disconnect(fmt.Sprintf("called from seeleprotocol.handlemsg. id=%s", peer.peerStrID))
 }
 
-func (p *SeeleCredoProtocol) GetProtocolVersion() (uint, error) {
+func (p *ScdoProtocol) GetProtocolVersion() (uint, error) {
 	return p.Protocol.Version, nil
 }
 
-func (sp *SeeleCredoProtocol) FindPeers(targets map[common.Address]bool) map[common.Address]consensus.Peer {
+func (sp *ScdoProtocol) FindPeers(targets map[common.Address]bool) map[common.Address]consensus.Peer {
 	m := make(map[common.Address]consensus.Peer)
 	for _, p := range sp.peerSet.getPeerByShard(common.LocalShardNumber) {
 		addr := p.Node.ID

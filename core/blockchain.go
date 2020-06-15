@@ -82,7 +82,7 @@ type Blockchain struct {
 
 	blockLeaves  *BlockLeaves
 	currentBlock atomic.Value
-	log          *log.SeeleCredoLog
+	log          *log.ScdoLog
 
 	rp           *recoveryPoint // used to recover blockchain in case of program crashed when write a block
 	debtVerifier types.DebtVerifier

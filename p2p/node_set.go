@@ -30,7 +30,7 @@ type nodeSet struct {
 	lock    sync.RWMutex
 	nodeMap map[common.Address]*nodeItem
 	ipSet   map[uint]map[string]uint
-	log     *log.SeeleCredoLog
+	log     *log.ScdoLog
 }
 
 // NewNodeSet creates new nodeSet

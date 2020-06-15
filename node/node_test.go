@@ -112,21 +112,21 @@ func Test_ServiceStart(t *testing.T) {
 	}
 
 	// unsupported shard number
-	stack.config.SeeleCredoConfig.GenesisConfig.ShardNumber = 21
+	stack.config.ScdoConfig.GenesisConfig.ShardNumber = 21
 	err = stack.checkConfig()
 	assert.Equal(t, err != nil, true)
 	assert.Equal(t, strings.Contains(err.Error(), "unsupported shard number"), true)
 
 	// coinbase does not match with specific shard number
-	stack.config.SeeleCredoConfig.GenesisConfig.ShardNumber = 2
-	stack.config.SeeleCredoConfig.Coinbase = common.BytesToAddress([]byte("testAddr"))
+	stack.config.ScdoConfig.GenesisConfig.ShardNumber = 2
+	stack.config.ScdoConfig.Coinbase = common.BytesToAddress([]byte("testAddr"))
 	err = stack.checkConfig()
 	assert.Equal(t, err != nil, true)
 	assert.Equal(t, strings.Contains(err.Error(), "coinbase does not match with specific shard number"), true)
 
 	// started normally
-	stack.config.SeeleCredoConfig.GenesisConfig.ShardNumber = 1
-	stack.config.SeeleCredoConfig.Coinbase = common.BytesToAddress([]byte("testAddr"))
+	stack.config.ScdoConfig.GenesisConfig.ShardNumber = 1
+	stack.config.ScdoConfig.Coinbase = common.BytesToAddress([]byte("testAddr"))
 
 	// Register a batch of services
 	services := []Service{testServiceA, testServiceB, testServiceC}

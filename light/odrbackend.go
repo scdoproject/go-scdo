@@ -31,7 +31,7 @@ type odrBackend struct {
 	wg         sync.WaitGroup
 	peers      *peerSet
 	bcStore    store.BlockchainStore // used to validate the retrieved ODR object.
-	log        *log.SeeleCredoLog
+	log        *log.ScdoLog
 
 	shard uint
 }

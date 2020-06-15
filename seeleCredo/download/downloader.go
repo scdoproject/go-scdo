@@ -96,7 +96,7 @@ type Downloader struct {
 	seeleCredo     SlcBackend
 	chain     *core.Blockchain
 	sessionWG sync.WaitGroup
-	log       *log.SeeleCredoLog
+	log       *log.ScdoLog
 	lock      sync.RWMutex
 }
 

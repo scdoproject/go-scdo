@@ -37,7 +37,7 @@ type txPool struct {
 	currentHeader             *types.BlockHeader                 // current HEAD header in canonical chain.
 	headerChangedEventManager *event.EventManager
 	headRollbackEventManager  *event.EventManager
-	log                       *log.SeeleCredoLog
+	log                       *log.ScdoLog
 }
 
 func newTxPool(chain BlockChain, odrBackend *odrBackend, headerChangedEventManager *event.EventManager, headRollbackEventManager *event.EventManager) *txPool {

@@ -70,7 +70,7 @@ type Pool struct {
 	hashToTxMap        map[common.Hash]*poolItem
 	pendingQueue       *pendingQueue
 	processingObjects  map[common.Hash]struct{}
-	log                *log.SeeleCredoLog
+	log                *log.ScdoLog
 	getObjectFromBlock getObjectFromBlockFunc
 	canRemove          canRemoveFunc
 	objectValidation   objectValidationFunc
@@ -80,7 +80,7 @@ type Pool struct {
 
 // NewPool creates and returns a transaction pool.
 func NewPool(capacity int, chain blockchain, getObjectFromBlock getObjectFromBlockFunc,
-	canRemove canRemoveFunc, log *log.SeeleCredoLog, objectValidation objectValidationFunc, afterAdd afterAddFunc, cachedTxs *CachedTxs) *Pool {
+	canRemove canRemoveFunc, log *log.ScdoLog, objectValidation objectValidationFunc, afterAdd afterAddFunc, cachedTxs *CachedTxs) *Pool {
 	pool := &Pool{
 		capacity:           capacity,
 		chain:              chain,

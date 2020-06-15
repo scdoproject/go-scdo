@@ -22,19 +22,19 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// TestSeeleCredoBackend implements the SlcBackend interface.
-type TestSeeleCredoBackend struct{}
+// TestScdoBackend implements the SlcBackend interface.
+type TestScdoBackend struct{}
 
-func (slcBackend *TestSeeleCredoBackend) TxPool() *core.TransactionPool {
+func (slcBackend *TestScdoBackend) TxPool() *core.TransactionPool {
 	return nil
 }
 
-func (slcBackend *TestSeeleCredoBackend) DebtPool() *core.DebtPool {
+func (slcBackend *TestScdoBackend) DebtPool() *core.DebtPool {
 	return nil
 }
 
-func NewTestSeeleBackend() *TestSeeleCredoBackend {
-	slcBackend := &TestSeeleCredoBackend{}
+func NewTestSeeleBackend() *TestScdoBackend {
+	slcBackend := &TestScdoBackend{}
 	return slcBackend
 }
 

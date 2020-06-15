@@ -28,9 +28,9 @@ const (
 )
 
 var constErrors = map[ErrorCode]error{
-	ErrDecrypt:                newSeeleCredoError(ErrDecrypt, "could not decrypt key with given passphrase"),
-	ErrEmptyAuthKey:           newSeeleCredoError(ErrEmptyAuthKey, "encryption auth key could not be empty"),
-	ErrPasswordRepeatMismatch: newSeeleCredoError(ErrPasswordRepeatMismatch, "repeat password is not equal to orignal one"),
+	ErrDecrypt:                newScdoError(ErrDecrypt, "could not decrypt key with given passphrase"),
+	ErrEmptyAuthKey:           newScdoError(ErrEmptyAuthKey, "encryption auth key could not be empty"),
+	ErrPasswordRepeatMismatch: newScdoError(ErrPasswordRepeatMismatch, "repeat password is not equal to orignal one"),
 }
 
 var parameterizedErrors = map[ErrorCode]string{

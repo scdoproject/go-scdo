@@ -25,7 +25,7 @@ import (
 // isNonceFound is a flag to mark nonce is found by other threads
 // hashrate is the average hashrate of miner
 func StartMining(block *types.Block, seed uint64, min uint64, max uint64, result chan<- *types.Block, abort <-chan struct{},
-	isNonceFound *int32, once *sync.Once, hashrate metrics.Meter, log *log.SeeleCredoLog) {
+	isNonceFound *int32, once *sync.Once, hashrate metrics.Meter, log *log.ScdoLog) {
 	var nonce = seed
 	var hashInt big.Int
 	var caltimes = int64(0)
@@ -96,6 +96,6 @@ miner:
 }
 
 // logAbort logs the info that nonce finding is aborted
-func logAbort(log *log.SeeleCredoLog) {
+func logAbort(log *log.ScdoLog) {
 	log.Info("nonce finding aborted")
 }

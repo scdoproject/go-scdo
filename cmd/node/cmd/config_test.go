@@ -41,16 +41,16 @@ func Test_LoadConfigFromFile(t *testing.T) {
 	assert.Equal(t, len(config.P2PConfig.StaticNodes[0].IP), 16, "12")
 	assert.Equal(t, config.P2PConfig.StaticNodes[0].TCPPort, 0, "13")
 
-	assert.Equal(t, len(config.SeeleCredoConfig.GenesisConfig.Accounts), 2, "14")
-	assert.Equal(t, config.SeeleCredoConfig.GenesisConfig.Difficult, int64(22), "15")
-	assert.Equal(t, config.SeeleCredoConfig.GenesisConfig.ShardNumber, uint(1), "16")
+	assert.Equal(t, len(config.ScdoConfig.GenesisConfig.Accounts), 2, "14")
+	assert.Equal(t, config.ScdoConfig.GenesisConfig.Difficult, int64(22), "15")
+	assert.Equal(t, config.ScdoConfig.GenesisConfig.ShardNumber, uint(1), "16")
 }
 
 func Test_CopyConfig(t *testing.T) {
 	config := getConfig(t)
 	copied := config.Clone()
 
-	assert.Equal(t, config.SeeleCredoConfig.GenesisConfig.ShardNumber, uint(1))
-	copied.SeeleCredoConfig.GenesisConfig.ShardNumber = uint(2)
-	assert.Equal(t, copied.SeeleCredoConfig.GenesisConfig.ShardNumber, uint(2))
+	assert.Equal(t, config.ScdoConfig.GenesisConfig.ShardNumber, uint(1))
+	copied.ScdoConfig.GenesisConfig.ShardNumber = uint(2)
+	assert.Equal(t, copied.ScdoConfig.GenesisConfig.ShardNumber, uint(2))
 }

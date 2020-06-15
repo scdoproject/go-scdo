@@ -26,65 +26,65 @@ var (
 	LogFolder = filepath.Join(common.GetTempFolder(), "log")
 )
 
-// SeeleCredoLog wraps log class
-type SeeleCredoLog struct {
+// ScdoLog wraps log class
+type ScdoLog struct {
 	log *logrus.Logger
 }
 
-var logMap map[string]*SeeleCredoLog
+var logMap map[string]*ScdoLog
 var getLogMutex sync.Mutex
 
 // Panic Level, highest level of severity. Panic logs and then calls panic with the
 // message passed to Debug, Info, ...
-func (p *SeeleCredoLog) Panic(format string, args ...interface{}) {
+func (p *ScdoLog) Panic(format string, args ...interface{}) {
 	p.log.Panicf(format, args...)
 }
 
 // Fatal Level. Fatal logs and then calls `os.Exit(1)`. It will exit even if the
 // logging level is set to Panic.
-func (p *SeeleCredoLog) Fatal(format string, args ...interface{}) {
+func (p *ScdoLog) Fatal(format string, args ...interface{}) {
 	p.log.Fatalf(format, args...)
 }
 
 // Error Level. Error logs and is used for errors that should be definitely noted.
 // Commonly used for hooks to send errors to an error tracking service.
-func (p *SeeleCredoLog) Error(format string, args ...interface{}) {
+func (p *ScdoLog) Error(format string, args ...interface{}) {
 	p.log.Errorf(format, args...)
 }
 
 // Warn Level. Non-critical entries that deserve eyes.
-func (p *SeeleCredoLog) Warn(format string, args ...interface{}) {
+func (p *ScdoLog) Warn(format string, args ...interface{}) {
 	p.log.Warnf(format, args...)
 }
 
 // Info Level. General operational entries about what's going on inside the
 // application.
-func (p *SeeleCredoLog) Info(format string, args ...interface{}) {
+func (p *ScdoLog) Info(format string, args ...interface{}) {
 	p.log.Infof(format, args...)
 }
 
 // Debug Level. Usually only enabled when debugging. Very verbose logging.
-func (p *SeeleCredoLog) Debug(format string, args ...interface{}) {
+func (p *ScdoLog) Debug(format string, args ...interface{}) {
 	p.log.Debugf(format, args...)
 }
 
 // SetLevel set the log level
-func (p *SeeleCredoLog) SetLevel(level logrus.Level) {
+func (p *ScdoLog) SetLevel(level logrus.Level) {
 	p.log.SetLevel(level)
 }
 
 // GetLevel get the log level
-func (p *SeeleCredoLog) GetLevel() logrus.Level {
+func (p *ScdoLog) GetLevel() logrus.Level {
 	return p.log.Level
 }
 
 // GetLogger gets logrus.Logger object according to module name
 // each module can have its own logger
-func GetLogger(module string) *SeeleCredoLog {
+func GetLogger(module string) *ScdoLog {
 	getLogMutex.Lock()
 	defer getLogMutex.Unlock()
 	if logMap == nil {
-		logMap = make(map[string]*SeeleCredoLog)
+		logMap = make(map[string]*ScdoLog)
 	}
 	curLog, ok := logMap[module]
 	if ok {
@@ -125,7 +125,7 @@ func GetLogger(module string) *SeeleCredoLog {
 	}
 
 	log.AddHook(&CallerHook{module: module}) // add caller hook to print caller's file and line number
-	curLog = &SeeleCredoLog{
+	curLog = &ScdoLog{
 		log: log,
 	}
 	logMap[module] = curLog

@@ -24,7 +24,7 @@ type NodeHook func(node *Node)
 // Database definition
 type Database struct {
 	m              map[common.Hash]*Node
-	log            *log.SeeleCredoLog
+	log            *log.ScdoLog
 	mutex          sync.RWMutex
 	addNodeHook    NodeHook
 	deleteNodeHook NodeHook
@@ -92,7 +92,7 @@ func (db *Database) SaveNodes(nodeDir string) {
 }
 
 // NewDatabase new database
-func NewDatabase(log *log.SeeleCredoLog) *Database {
+func NewDatabase(log *log.ScdoLog) *Database {
 	return &Database{
 		m:   make(map[common.Hash]*Node),
 		log: log,

@@ -15,14 +15,14 @@ import (
 
 const (
 
-	// SeeleCredoProtoName protoName of Scdo service
-	SeeleCredoProtoName = "seeleCredo"
+	// ScdoProtoName protoName of Scdo service
+	ScdoProtoName = "seeleCredo"
 
-	// SeeleCredoVersion Version number of Scdo protocol
-	SeeleCredoVersion uint = 1
+	// ScdoVersion Version number of Scdo protocol
+	ScdoVersion uint = 1
 
-	// SeeleCredoVersion for simpler display
-	SeeleCredoNodeVersion string = "Scdo_V1.0.0"
+	// ScdoVersion for simpler display
+	ScdoNodeVersion string = "Scdo_V1.0.0"
 
 	// ShardCount represents the total number of shards.
 	ShardCount = 4
@@ -36,21 +36,21 @@ const (
 	// ConfirmedBlockNumber is the block number for confirmed a block, it should be more than 12 in product
 	ConfirmedBlockNumber = 120
 
-	SeeleCredoForkHeight = 2916666
+	ScdoForkHeight = 2916666
 
 	// ForkHeight after this height we change the content of block: hardFork
-	ForkHeight = SeeleCredoForkHeight
+	ForkHeight = ScdoForkHeight
 
 	// ForkHeight after this height we change the content of block: hardFork
-	SecondForkHeight = SeeleCredoForkHeight
+	SecondForkHeight = ScdoForkHeight
 
 	// ForkHeight after this height we change the validation of tx: hardFork
-	ThirdForkHeight = SeeleCredoForkHeight
+	ThirdForkHeight = ScdoForkHeight
 
-	SmartContractNonceForkHeight = SeeleCredoForkHeight
+	SmartContractNonceForkHeight = ScdoForkHeight
 
 	// SmartContractNonceFixHeight fix smart contract nonce bug when user use setNonce
-	SmartContractNonceFixHeight = SeeleCredoForkHeight
+	SmartContractNonceFixHeight = ScdoForkHeight
 
 	// LightChainDir lightchain data directory based on config.DataRoot
 	LightChainDir = "/db/lightchain"

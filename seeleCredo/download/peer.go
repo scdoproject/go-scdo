@@ -41,11 +41,11 @@ type peerConn struct {
 	waitingMsgMap  map[uint16]chan *p2p.Message
 	lockForWaiting sync.RWMutex
 
-	log    *log.SeeleCredoLog
+	log    *log.ScdoLog
 	quitCh chan struct{}
 }
 
-func newPeerConn(p Peer, peerID string, log *log.SeeleCredoLog) *peerConn {
+func newPeerConn(p Peer, peerID string, log *log.ScdoLog) *peerConn {
 	return &peerConn{
 		peerID:        peerID,
 		peer:          p,

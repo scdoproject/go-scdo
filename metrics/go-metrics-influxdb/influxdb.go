@@ -22,14 +22,14 @@ type reporter struct {
 
 	client *client.Client
 
-	log *log.SeeleCredoLog
+	log *log.ScdoLog
 }
 
 // only one reporter is allowed
 var rep *reporter
 
 // InfluxDBWithTags starts a InfluxDB reporter which will post the metrics from the given registry at each d interval with the specified tags
-func InfluxDBWithTags(r metrics.Registry, d time.Duration, url, database, username, password string, tags map[string]string, log *log.SeeleCredoLog) {
+func InfluxDBWithTags(r metrics.Registry, d time.Duration, url, database, username, password string, tags map[string]string, log *log.ScdoLog) {
 	if rep != nil {
 		log.Error("reporter already running!")
 		return

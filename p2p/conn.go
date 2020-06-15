@@ -54,7 +54,7 @@ type connection struct {
 	writeErr error
 
 	// log
-	log *log.SeeleCredoLog
+	log *log.ScdoLog
 }
 
 // readFull receive from fd till outBuf is full,

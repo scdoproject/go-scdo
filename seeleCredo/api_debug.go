@@ -18,11 +18,11 @@ import (
 
 // PrivateDebugAPI provides an API to access full node-related information for debug.
 type PrivateDebugAPI struct {
-	s *SeeleCredoService
+	s *ScdoService
 }
 
 // NewPrivateDebugAPI creates a new NewPrivateDebugAPI object for rpc service.
-func NewPrivateDebugAPI(s *SeeleCredoService) *PrivateDebugAPI {
+func NewPrivateDebugAPI(s *ScdoService) *PrivateDebugAPI {
 	return &PrivateDebugAPI{s}
 }
 

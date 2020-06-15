@@ -18,14 +18,14 @@ var globalAuditorID uint64
 // Auditor is used for auditing step by step via log.
 type Auditor struct {
 	id        uint64
-	log       *SeeleCredoLog
+	log       *ScdoLog
 	method    string
 	enterTime time.Time // timestamp for enter.
 	lastTime  time.Time // timestamp for last audit.
 }
 
 // NewAuditor returns a new auditor instance with specified log and an optional last time.
-func NewAuditor(log *SeeleCredoLog) *Auditor {
+func NewAuditor(log *ScdoLog) *Auditor {
 	return &Auditor{
 		id:       atomic.AddUint64(&globalAuditorID, 1),
 		log:      log,

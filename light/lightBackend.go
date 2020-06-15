@@ -38,7 +38,7 @@ func (l *LightBackend) GetP2pServer() *p2p.Server { return l.s.p2pServer }
 func (l *LightBackend) ChainBackend() api.Chain { return l.s.chain }
 
 // Log gets instance of log
-func (l *LightBackend) Log() *log.SeeleCredoLog { return l.s.log }
+func (l *LightBackend) Log() *log.ScdoLog { return l.s.log }
 
 func (l *LightBackend) IsSyncing() bool {
 	return l.s.seeleProtocol.downloader.syncStatus == statusDownloading

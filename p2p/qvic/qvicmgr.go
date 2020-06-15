@@ -44,7 +44,7 @@ type QvicMgr struct {
 	portStart, portEnd int      // udp port's range used by QConn
 	slots              []*QConn // holds all QConns.
 	loopWG             sync.WaitGroup
-	log                *log.SeeleCredoLog
+	log                *log.ScdoLog
 }
 
 // acceptInfo represents acceptance information for both tcp and qvic.

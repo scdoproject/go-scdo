@@ -52,23 +52,23 @@ func NewLightClientManager(targetShard uint, context context.Context, config *no
 		}
 
 		shard := uint(i)
-		copyConf.SeeleCredoConfig.GenesisConfig.ShardNumber = shard
+		copyConf.ScdoConfig.GenesisConfig.ShardNumber = shard
 
 		if shard == uint(1) {
-			copyConf.SeeleCredoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0xd9dd0a837a3eb6f6a605a5929555b36ced68fdd1")
-			copyConf.SeeleCredoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
+			copyConf.ScdoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0xd9dd0a837a3eb6f6a605a5929555b36ced68fdd1")
+			copyConf.ScdoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
 		} else if shard == uint(2) {
-			copyConf.SeeleCredoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0xc71265f11acdacffe270c4f45dceff31747b6ac1")
-			copyConf.SeeleCredoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
+			copyConf.ScdoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0xc71265f11acdacffe270c4f45dceff31747b6ac1")
+			copyConf.ScdoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
 		} else if shard == uint(3) {
-			copyConf.SeeleCredoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0x509bb3c2285a542e96d3500e1d04f478be12faa1")
-			copyConf.SeeleCredoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
+			copyConf.ScdoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0x509bb3c2285a542e96d3500e1d04f478be12faa1")
+			copyConf.ScdoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
 		} else if shard == uint(4) {
-			copyConf.SeeleCredoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0xc6c5c85c585ee33aae502b874afe6cbc3727ebf1")
-			copyConf.SeeleCredoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
+			copyConf.ScdoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0xc6c5c85c585ee33aae502b874afe6cbc3727ebf1")
+			copyConf.ScdoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
 		} else {
-			copyConf.SeeleCredoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0x0000000000000000000000000000000000000000")
-			copyConf.SeeleCredoConfig.GenesisConfig.Balance = big.NewInt(0)
+			copyConf.ScdoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0x0000000000000000000000000000000000000000")
+			copyConf.ScdoConfig.GenesisConfig.Balance = big.NewInt(0)
 		}
 
 		dbFolder := filepath.Join("db", fmt.Sprintf("lightchainforshard_%d", i))

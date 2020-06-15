@@ -28,7 +28,7 @@ func getTmpConfig() *node.Config {
 	acctAddr := crypto.MustGenerateShardAddress(1)
 
 	return &node.Config{
-		SeeleCredoConfig: node.SeeleCredoConfig{
+		ScdoConfig: node.ScdoConfig{
 			TxConf:   *core.DefaultTxPoolConfig(),
 			Coinbase: *acctAddr,
 			GenesisConfig: core.GenesisInfo{
@@ -58,7 +58,7 @@ func createTestAPI(t *testing.T) (api *PublicMonitorAPI, dispose func()) {
 			Address:      "127.0.0.1:8047",
 			CrossOrigins: []string{"*"},
 		},
-		SeeleCredoConfig: conf.SeeleCredoConfig,
+		ScdoConfig: conf.ScdoConfig,
 	}
 
 	serviceContext := seeleCredo.ServiceContext{
@@ -75,7 +75,7 @@ func createTestAPI(t *testing.T) (api *PublicMonitorAPI, dispose func()) {
 		return
 	}
 
-	slcService, err := seeleCredo.NewSeeleCredoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	slcService, err := seeleCredo.NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		t.Fatal(err)
 		return
@@ -120,7 +120,7 @@ func createTestAPIErr(errBranch int) (api *PublicMonitorAPI, dispose func()) {
 				PrivateKey: key,
 				ListenAddr: "0.0.0.0:39008",
 			},
-			SeeleCredoConfig: conf.SeeleCredoConfig,
+			ScdoConfig: conf.ScdoConfig,
 		}
 	} else {
 		key, _ := crypto.GenerateKey()
@@ -135,7 +135,7 @@ func createTestAPIErr(errBranch int) (api *PublicMonitorAPI, dispose func()) {
 				PrivateKey: key,
 				ListenAddr: "0.0.0.0:39009",
 			},
-			SeeleCredoConfig: conf.SeeleCredoConfig,
+			ScdoConfig: conf.ScdoConfig,
 		}
 	}
 
@@ -153,7 +153,7 @@ func createTestAPIErr(errBranch int) (api *PublicMonitorAPI, dispose func()) {
 		return
 	}
 
-	slcService, err := seeleCredo.NewSeeleCredoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	slcService, err := seeleCredo.NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -70,18 +70,18 @@ func LoadConfigFromFile(configFile string, accounts string) (*node.Config, error
 	}
 
 	if len(config.BasicConfig.Coinbase) > 0 {
-		config.SeeleCredoConfig.Coinbase = common.HexMustToAddres(config.BasicConfig.Coinbase)
+		config.ScdoConfig.Coinbase = common.HexMustToAddres(config.BasicConfig.Coinbase)
 	}
 
 	if len(config.BasicConfig.PrivateKey) > 0 {
-		config.SeeleCredoConfig.CoinbasePrivateKey, err = crypto.LoadECDSAFromString(config.BasicConfig.PrivateKey)
+		config.ScdoConfig.CoinbasePrivateKey, err = crypto.LoadECDSAFromString(config.BasicConfig.PrivateKey)
 		if err != nil {
 			return config, err
 		}
 	}
 
-	config.SeeleCredoConfig.TxConf = *core.DefaultTxPoolConfig()
-	config.SeeleCredoConfig.GenesisConfig = cmdConfig.GenesisConfig
+	config.ScdoConfig.TxConf = *core.DefaultTxPoolConfig()
+	config.ScdoConfig.GenesisConfig = cmdConfig.GenesisConfig
 	comm.LogConfiguration.PrintLog = config.LogConfig.PrintLog
 	comm.LogConfiguration.IsDebug = config.LogConfig.IsDebug
 	comm.LogConfiguration.DataDir = config.BasicConfig.DataDir
@@ -109,7 +109,7 @@ func CopyConfig(cmdConfig *util.Config) *node.Config {
 		HTTPServer:     cmdConfig.HTTPServer,
 		WSServerConfig: cmdConfig.WSServerConfig,
 		P2PConfig:      cmdConfig.P2PConfig,
-		SeeleCredoConfig:    node.SeeleCredoConfig{},
+		ScdoConfig:    node.ScdoConfig{},
 		MetricsConfig:  cmdConfig.MetricsConfig,
 	}
 	return config

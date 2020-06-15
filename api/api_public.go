@@ -23,18 +23,18 @@ var ErrInvalidAccount = errors.New("invalid account")
 
 const maxSizeLimit = 64
 
-// PublicSeeleCredoAPI provides an API to access full node-related information.
-type PublicSeeleCredoAPI struct {
+// PublicScdoAPI provides an API to access full node-related information.
+type PublicScdoAPI struct {
 	s Backend
 }
 
-// NewPublicSeeleAPI creates a new PublicSeeleCredoAPI object for rpc service.
-func NewPublicSeeleAPI(s Backend) *PublicSeeleCredoAPI {
-	return &PublicSeeleCredoAPI{s}
+// NewPublicSeeleAPI creates a new PublicScdoAPI object for rpc service.
+func NewPublicSeeleAPI(s Backend) *PublicScdoAPI {
+	return &PublicScdoAPI{s}
 }
 
 // GetBalance get balance of the account.
-func (api *PublicSeeleCredoAPI) GetBalance(account common.Address, hexHash string, height int64) (*GetBalanceResponse, error) {
+func (api *PublicScdoAPI) GetBalance(account common.Address, hexHash string, height int64) (*GetBalanceResponse, error) {
 	if account.IsEmpty() {
 		return nil, ErrInvalidAccount
 	}
@@ -61,7 +61,7 @@ func (api *PublicSeeleCredoAPI) GetBalance(account common.Address, hexHash strin
 	return &info, nil
 }
 
-func (api *PublicSeeleCredoAPI) getStatedb(hexHash string, height int64) (*state.Statedb, error) {
+func (api *PublicScdoAPI) getStatedb(hexHash string, height int64) (*state.Statedb, error) {
 	var blockHash common.Hash
 	var err error
 
@@ -84,7 +84,7 @@ func (api *PublicSeeleCredoAPI) getStatedb(hexHash string, height int64) (*state
 }
 
 // GetAccountNonce get account next used nonce
-func (api *PublicSeeleCredoAPI) GetAccountNonce(account common.Address, hexHash string, height int64) (uint64, error) {
+func (api *PublicScdoAPI) GetAccountNonce(account common.Address, hexHash string, height int64) (uint64, error) {
 	if account.Equal(common.EmptyAddress) {
 		return 0, ErrInvalidAccount
 	}
@@ -101,13 +101,13 @@ func (api *PublicSeeleCredoAPI) GetAccountNonce(account common.Address, hexHash 
 }
 
 // GetBlockHeight get the block height of the chain head
-func (api *PublicSeeleCredoAPI) GetBlockHeight() (uint64, error) {
+func (api *PublicScdoAPI) GetBlockHeight() (uint64, error) {
 	header := api.s.ChainBackend().CurrentHeader()
 	return header.Height, nil
 }
 
 // GetBlock returns the requested block.
-func (api *PublicSeeleCredoAPI) GetBlock(hashHex string, height int64, fulltx bool) (map[string]interface{}, error) {
+func (api *PublicScdoAPI) GetBlock(hashHex string, height int64, fulltx bool) (map[string]interface{}, error) {
 	if len(hashHex) > 0 {
 		return api.GetBlockByHash(hashHex, fulltx)
 	}
@@ -117,7 +117,7 @@ func (api *PublicSeeleCredoAPI) GetBlock(hashHex string, height int64, fulltx bo
 
 // GetBlockByHeight returns the requested block. When blockNr is less than 0 the chain head is returned. When fullTx is true all
 // transactions in the block are returned in full detail, otherwise only the transaction hash is returned
-func (api *PublicSeeleCredoAPI) GetBlockByHeight(height int64, fulltx bool) (map[string]interface{}, error) {
+func (api *PublicScdoAPI) GetBlockByHeight(height int64, fulltx bool) (map[string]interface{}, error) {
 	block, err := api.s.GetBlock(common.EmptyHash, height)
 	if err != nil {
 		return nil, err
@@ -132,7 +132,7 @@ func (api *PublicSeeleCredoAPI) GetBlockByHeight(height int64, fulltx bool) (map
 // GetBlocks returns the size of requested block. When the blockNr is -1 the chain head is returned.
 //When the size is greater than 64, the size will be set to 64.When it's -1 that the blockNr minus size, the blocks in 64 is returned.
 // When fullTx is true all transactions in the block are returned in full detail, otherwise only the transaction hash is returned
-func (api *PublicSeeleCredoAPI) GetBlocks(height int64, fulltx bool, size uint) ([]map[string]interface{}, error) {
+func (api *PublicScdoAPI) GetBlocks(height int64, fulltx bool, size uint) ([]map[string]interface{}, error) {
 	blocks := make([]*types.Block, 0)
 	totalDifficultys := make([]*big.Int, 0)
 	if height < 0 {
@@ -176,7 +176,7 @@ func (api *PublicSeeleCredoAPI) GetBlocks(height int64, fulltx bool, size uint) 
 
 // GetBlockByHash returns the requested block. When fullTx is true all transactions in the block are returned in full
 // detail, otherwise only the transaction hash is returned
-func (api *PublicSeeleCredoAPI) GetBlockByHash(hashHex string, fulltx bool) (map[string]interface{}, error) {
+func (api *PublicScdoAPI) GetBlockByHash(hashHex string, fulltx bool) (map[string]interface{}, error) {
 	hash, err := common.HexToHash(hashHex)
 	if err != nil {
 		return nil, err
@@ -267,7 +267,7 @@ func PrintableOutputTx(tx *types.Transaction) map[string]interface{} {
 }
 
 // AddTx add a tx to miner
-func (api *PublicSeeleCredoAPI) AddTx(tx types.Transaction) (bool, error) {
+func (api *PublicScdoAPI) AddTx(tx types.Transaction) (bool, error) {
 	shard := tx.Data.From.Shard()
 	var err error
 	if shard != common.LocalShardNumber {
@@ -286,7 +286,7 @@ func (api *PublicSeeleCredoAPI) AddTx(tx types.Transaction) (bool, error) {
 }
 
 // GetReceiptByTxHash get receipt by transaction hash
-func (api *PublicSeeleCredoAPI) GetCode(contractAdd common.Address, height int64) (interface{}, error) {
+func (api *PublicScdoAPI) GetCode(contractAdd common.Address, height int64) (interface{}, error) {
 	block, err := api.s.GetBlock(common.EmptyHash, height)
 	if err != nil {
 		return nil, err
@@ -319,7 +319,7 @@ func (api *PublicSeeleCredoAPI) GetCode(contractAdd common.Address, height int64
 }
 
 // GetReceiptByTxHash get receipt by transaction hash
-func (api *PublicSeeleCredoAPI) GetReceiptByTxHash(txHash, abiJSON string) (map[string]interface{}, error) {
+func (api *PublicScdoAPI) GetReceiptByTxHash(txHash, abiJSON string) (map[string]interface{}, error) {
 	hash, err := common.HexToHash(txHash)
 	if err != nil {
 		return nil, err
@@ -334,7 +334,7 @@ func (api *PublicSeeleCredoAPI) GetReceiptByTxHash(txHash, abiJSON string) (map[
 }
 
 // GetTransactionByBlockIndex returns the transaction in the block with the given block hash/height and index.
-func (api *PublicSeeleCredoAPI) GetTransactionByBlockIndex(hashHex string, height int64, index uint) (map[string]interface{}, error) {
+func (api *PublicScdoAPI) GetTransactionByBlockIndex(hashHex string, height int64, index uint) (map[string]interface{}, error) {
 	if len(hashHex) > 0 {
 		return api.GetTransactionByBlockHashAndIndex(hashHex, index)
 	}
@@ -343,7 +343,7 @@ func (api *PublicSeeleCredoAPI) GetTransactionByBlockIndex(hashHex string, heigh
 }
 
 // GetTransactionByBlockHeightAndIndex returns the transaction in the block with the given block height and index.
-func (api *PublicSeeleCredoAPI) GetTransactionByBlockHeightAndIndex(height int64, index uint) (map[string]interface{}, error) {
+func (api *PublicScdoAPI) GetTransactionByBlockHeightAndIndex(height int64, index uint) (map[string]interface{}, error) {
 	block, err := api.s.GetBlock(common.EmptyHash, height)
 	if err != nil {
 		return nil, err
@@ -358,7 +358,7 @@ func (api *PublicSeeleCredoAPI) GetTransactionByBlockHeightAndIndex(height int64
 }
 
 // GetTransactionByBlockHashAndIndex returns the transaction in the block with the given block hash and index.
-func (api *PublicSeeleCredoAPI) GetTransactionByBlockHashAndIndex(hashHex string, index uint) (map[string]interface{}, error) {
+func (api *PublicScdoAPI) GetTransactionByBlockHashAndIndex(hashHex string, index uint) (map[string]interface{}, error) {
 	hash, err := common.HexToHash(hashHex)
 	if err != nil {
 		return nil, err
@@ -378,7 +378,7 @@ func (api *PublicSeeleCredoAPI) GetTransactionByBlockHashAndIndex(hashHex string
 }
 
 // GetBlockTransactionCount returns the count of transactions in the block with the given block hash or height.
-func (api *PublicSeeleCredoAPI) GetBlockTransactionCount(blockHash string, height int64) (int, error) {
+func (api *PublicScdoAPI) GetBlockTransactionCount(blockHash string, height int64) (int, error) {
 	if len(blockHash) > 0 {
 		return api.GetBlockTransactionCountByHash(blockHash)
 	}
@@ -387,7 +387,7 @@ func (api *PublicSeeleCredoAPI) GetBlockTransactionCount(blockHash string, heigh
 }
 
 // GetBlockDebtCount returns the count of debts in the block with the given block hash or height.
-func (api *PublicSeeleCredoAPI) GetBlockDebtCount(blockHash string, height int64) (int, error) {
+func (api *PublicScdoAPI) GetBlockDebtCount(blockHash string, height int64) (int, error) {
 	if len(blockHash) > 0 {
 		return api.GetBlockDebtCountByHash(blockHash)
 	}
@@ -396,7 +396,7 @@ func (api *PublicSeeleCredoAPI) GetBlockDebtCount(blockHash string, height int64
 }
 
 // GetBlockTransactionCountByHeight returns the count of transactions in the block with the given height.
-func (api *PublicSeeleCredoAPI) GetBlockTransactionCountByHeight(height int64) (int, error) {
+func (api *PublicScdoAPI) GetBlockTransactionCountByHeight(height int64) (int, error) {
 	block, err := api.s.GetBlock(common.EmptyHash, height)
 	if err != nil {
 		return 0, err
@@ -406,7 +406,7 @@ func (api *PublicSeeleCredoAPI) GetBlockTransactionCountByHeight(height int64) (
 }
 
 // GetBlockTransactionCountByHash returns the count of transactions in the block with the given hash.
-func (api *PublicSeeleCredoAPI) GetBlockTransactionCountByHash(blockHash string) (int, error) {
+func (api *PublicScdoAPI) GetBlockTransactionCountByHash(blockHash string) (int, error) {
 	hash, err := common.HexToHash(blockHash)
 	if err != nil {
 		return 0, err
@@ -421,7 +421,7 @@ func (api *PublicSeeleCredoAPI) GetBlockTransactionCountByHash(blockHash string)
 }
 
 // GetBlockDebtCountByHeight returns the count of debts in the block with the given height.
-func (api *PublicSeeleCredoAPI) GetBlockDebtCountByHeight(height int64) (int, error) {
+func (api *PublicScdoAPI) GetBlockDebtCountByHeight(height int64) (int, error) {
 	block, err := api.s.GetBlock(common.EmptyHash, height)
 	if err != nil {
 		return 0, err
@@ -431,7 +431,7 @@ func (api *PublicSeeleCredoAPI) GetBlockDebtCountByHeight(height int64) (int, er
 }
 
 // GetBlockDebtCountByHash returns the count of debts in the block with the given hash.
-func (api *PublicSeeleCredoAPI) GetBlockDebtCountByHash(blockHash string) (int, error) {
+func (api *PublicScdoAPI) GetBlockDebtCountByHash(blockHash string) (int, error) {
 	hash, err := common.HexToHash(blockHash)
 	if err != nil {
 		return 0, err
@@ -446,7 +446,7 @@ func (api *PublicSeeleCredoAPI) GetBlockDebtCountByHash(blockHash string) (int, 
 }
 
 // GetReceiptsByBlockHash get receipts by block hash
-func (api *PublicSeeleCredoAPI) GetReceiptsByBlockHash(blockHash string) (map[string]interface{}, error) {
+func (api *PublicScdoAPI) GetReceiptsByBlockHash(blockHash string) (map[string]interface{}, error) {
 	hash, err := common.HexToHash(blockHash)
 	if err != nil {
 		return nil, err
@@ -472,14 +472,14 @@ func (api *PublicSeeleCredoAPI) GetReceiptsByBlockHash(blockHash string) (map[st
 	}, nil
 }
 
-func (api *PublicSeeleCredoAPI) IsSyncing() bool {
+func (api *PublicScdoAPI) IsSyncing() bool {
 	return api.s.IsSyncing()
 }
 
 // Always listening
-func (api *PublicSeeleCredoAPI) IsListening() bool { return true }
+func (api *PublicScdoAPI) IsListening() bool { return true }
 
-func (api *PublicSeeleCredoAPI) GetTransactionsFrom(account common.Address, blockHash string, height int64) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetTransactionsFrom(account common.Address, blockHash string, height int64) (result []map[string]interface{}, err error) {
 	if len(blockHash) > 0 {
 		return api.GetTransactionsFromByHash(account, blockHash)
 	}
@@ -487,7 +487,7 @@ func (api *PublicSeeleCredoAPI) GetTransactionsFrom(account common.Address, bloc
 }
 
 //GetTransactionsTo get transaction to one account at specific height or blockhash
-func (api *PublicSeeleCredoAPI) GetTransactionsTo(account common.Address, blockHash string, height int64) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetTransactionsTo(account common.Address, blockHash string, height int64) (result []map[string]interface{}, err error) {
 	if len(blockHash) > 0 {
 		return api.GetTransactionsToByHash(account, blockHash)
 	}
@@ -495,7 +495,7 @@ func (api *PublicSeeleCredoAPI) GetTransactionsTo(account common.Address, blockH
 }
 
 // GetTransactionsFromByHash get transaction from one account at specific blockhash
-func (api *PublicSeeleCredoAPI) GetTransactionsFromByHash(account common.Address, blockHash string) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetTransactionsFromByHash(account common.Address, blockHash string) (result []map[string]interface{}, err error) {
 	var txCount = 0
 	hash, err := common.HexToHash(blockHash)
 	if err != nil {
@@ -520,7 +520,7 @@ func (api *PublicSeeleCredoAPI) GetTransactionsFromByHash(account common.Address
 }
 
 // GetTransactionsToByHash get transaction from one account at specific blockhash
-func (api *PublicSeeleCredoAPI) GetTransactionsToByHash(account common.Address, blockHash string) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetTransactionsToByHash(account common.Address, blockHash string) (result []map[string]interface{}, err error) {
 	var txCount = 0
 	hash, err := common.HexToHash(blockHash)
 	if err != nil {
@@ -545,7 +545,7 @@ func (api *PublicSeeleCredoAPI) GetTransactionsToByHash(account common.Address, 
 }
 
 // GetTransactionsFromByHeight get transaction from one account at specific height
-func (api *PublicSeeleCredoAPI) GetTransactionsFromByHeight(account common.Address, height int64) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetTransactionsFromByHeight(account common.Address, height int64) (result []map[string]interface{}, err error) {
 	var txCount = 0
 	block, err := api.s.GetBlock(common.EmptyHash, height)
 	if err != nil {
@@ -566,7 +566,7 @@ func (api *PublicSeeleCredoAPI) GetTransactionsFromByHeight(account common.Addre
 }
 
 // GetTransactionsToByHeight get transaction from one account at specific height
-func (api *PublicSeeleCredoAPI) GetTransactionsToByHeight(account common.Address, height int64) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetTransactionsToByHeight(account common.Address, height int64) (result []map[string]interface{}, err error) {
 	var txCount = 0
 	block, err := api.s.GetBlock(common.EmptyHash, height)
 	if err != nil {
@@ -587,7 +587,7 @@ func (api *PublicSeeleCredoAPI) GetTransactionsToByHeight(account common.Address
 }
 
 // GetAccountTransactions get transaction of one account at specific height or blockhash
-func (api *PublicSeeleCredoAPI) GetAccountTransactions(account common.Address, blockHash string, height int64) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetAccountTransactions(account common.Address, blockHash string, height int64) (result []map[string]interface{}, err error) {
 	if len(blockHash) > 0 {
 		return api.GetAccountTransactionsByHash(account, blockHash)
 	}
@@ -595,7 +595,7 @@ func (api *PublicSeeleCredoAPI) GetAccountTransactions(account common.Address, b
 }
 
 // GetAccountTransactionsByHash get transaction of one account at specific height
-func (api *PublicSeeleCredoAPI) GetAccountTransactionsByHash(account common.Address, blockHash string) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetAccountTransactionsByHash(account common.Address, blockHash string) (result []map[string]interface{}, err error) {
 	hash, err := common.HexToHash(blockHash)
 	if err != nil {
 		return nil, err
@@ -617,7 +617,7 @@ func (api *PublicSeeleCredoAPI) GetAccountTransactionsByHash(account common.Addr
 }
 
 // GetAccountTransactionsByHeight get transaction of one account at specific blockhash
-func (api *PublicSeeleCredoAPI) GetAccountTransactionsByHeight(account common.Address, height int64) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetAccountTransactionsByHeight(account common.Address, height int64) (result []map[string]interface{}, err error) {
 	block, err := api.s.GetBlock(common.EmptyHash, height)
 	if err != nil {
 		return nil, err
@@ -635,7 +635,7 @@ func (api *PublicSeeleCredoAPI) GetAccountTransactionsByHeight(account common.Ad
 }
 
 // GetBlockTransactions get all txs in the block with heigth or blockhash
-func (api *PublicSeeleCredoAPI) GetBlockTransactions(blockHash string, height int64) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetBlockTransactions(blockHash string, height int64) (result []map[string]interface{}, err error) {
 	if len(blockHash) > 0 {
 		return api.GetBlockTransactionsByHash(blockHash)
 	}
@@ -644,7 +644,7 @@ func (api *PublicSeeleCredoAPI) GetBlockTransactions(blockHash string, height in
 }
 
 // GetBlockTransactionsByHeight returns the transactions in the block with the given height.
-func (api *PublicSeeleCredoAPI) GetBlockTransactionsByHeight(height int64) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetBlockTransactionsByHeight(height int64) (result []map[string]interface{}, err error) {
 	block, err := api.s.GetBlock(common.EmptyHash, height)
 	if err != nil {
 		return nil, err
@@ -660,7 +660,7 @@ func (api *PublicSeeleCredoAPI) GetBlockTransactionsByHeight(height int64) (resu
 }
 
 // GetBlockTransactionsByHash returns the transactions in the block with the given height.
-func (api *PublicSeeleCredoAPI) GetBlockTransactionsByHash(blockHash string) (result []map[string]interface{}, err error) {
+func (api *PublicScdoAPI) GetBlockTransactionsByHash(blockHash string) (result []map[string]interface{}, err error) {
 	hash, err := common.HexToHash(blockHash)
 	if err != nil {
 		return nil, err

@@ -15,10 +15,10 @@ import (
 
 const (
 	// LightProtoName protoName of Scdo service
-	LightProtoName = "lightSeeleCredo"
+	LightProtoName = "lightScdo"
 
-	// LightSeeleCredoVersion version number of Scdo protocol
-	LightSeeleCredoVersion uint = 1
+	// LightScdoVersion version number of Scdo protocol
+	LightScdoVersion uint = 1
 
 	// MaxBlockHashRequest maximum hashes to request per message
 	MaxBlockHashRequest uint64 = 1024

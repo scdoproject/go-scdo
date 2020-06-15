@@ -32,7 +32,7 @@ type DBMetrics struct {
 }
 
 // StartMetrics create metrics and run a goroutine to collect
-func StartMetrics(db database.Database, dbname string, log *log.SeeleCredoLog) {
+func StartMetrics(db database.Database, dbname string, log *log.ScdoLog) {
 	m := DBMetrics{
 		metricsCompTimeMeter:    metrics.GetOrRegisterMeter(dbname+".compact.time", nil),
 		metricsCompReadMeter:    metrics.GetOrRegisterMeter(dbname+".compact.input", nil),
@@ -48,7 +48,7 @@ func StartMetrics(db database.Database, dbname string, log *log.SeeleCredoLog) {
 	}
 }
 
-func collectDBMetrics(db *LevelDB, m *DBMetrics, log *log.SeeleCredoLog) {
+func collectDBMetrics(db *LevelDB, m *DBMetrics, log *log.ScdoLog) {
 	if metrics.UseNilMetrics {
 		return
 	}

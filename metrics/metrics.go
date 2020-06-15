@@ -27,7 +27,7 @@ type Config struct {
 }
 
 // StartMetricsWithConfig start recording metrics with configure
-func StartMetricsWithConfig(conf *Config, log *log.SeeleCredoLog, name, version string, networkID string, coinBase common.Address) {
+func StartMetricsWithConfig(conf *Config, log *log.ScdoLog, name, version string, networkID string, coinBase common.Address) {
 	if conf == nil {
 		log.Error("failed to start the metrics: the config of metrics is null")
 		return
@@ -58,7 +58,7 @@ func StartMetrics(
 	networkID string,
 	version string,
 	coinBase common.Address,
-	log *log.SeeleCredoLog) {
+	log *log.ScdoLog) {
 	log.Info("Start metrics!")
 
 	go influxdb.InfluxDBWithTags(

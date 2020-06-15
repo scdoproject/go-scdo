@@ -65,7 +65,7 @@ type taskMgr struct {
 	lock       sync.RWMutex
 	quitCh     chan struct{}
 	wg         sync.WaitGroup
-	log        *log.SeeleCredoLog
+	log        *log.ScdoLog
 	startTime  time.Time
 }
 

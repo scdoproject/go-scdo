@@ -54,7 +54,7 @@ type Miner struct {
 	recv     chan *types.Block
 
 	seeleCredo SlcBackend
-	log        *log.SeeleCredoLog
+	log        *log.ScdoLog
 
 	isFirstDownloader    int32
 	isFirstBlockPrepared int32

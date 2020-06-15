@@ -96,7 +96,7 @@ type Server struct {
 	nodeSet  *nodeSet
 	peerSet  *peerSet
 	peerLock sync.Mutex // lock for peer set
-	log      *log.SeeleCredoLog
+	log      *log.ScdoLog
 
 	// MaxPendingPeers is the maximum number of peers that can be pending in the
 	// handshake phase, counted separately for inbound and outbound connections.

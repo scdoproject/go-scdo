@@ -21,7 +21,7 @@ type CachedTxs struct {
 	capacity uint64
 	lock     sync.RWMutex
 	content  map[common.Hash]*types.Transaction
-	log      *log.SeeleCredoLog
+	log      *log.ScdoLog
 }
 
 // 10 * 60 * 60s / 15(s) (block) * 500txs/block = 1.2M txs

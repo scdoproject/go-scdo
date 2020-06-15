@@ -61,14 +61,14 @@ type peer struct {
 	updatedAncestor uint64
 
 	lastAnnounceCodeTime int64
-	log             *log.SeeleCredoLog
+	log             *log.ScdoLog
 }
 
 func idToStr(id common.Address) string {
 	return fmt.Sprintf("%x", id[:8])
 }
 
-func newPeer(version uint, p *p2p.Peer, rw p2p.MsgReadWriter, log *log.SeeleCredoLog, protocolManager *LightProtocol) *peer {
+func newPeer(version uint, p *p2p.Peer, rw p2p.MsgReadWriter, log *log.ScdoLog, protocolManager *LightProtocol) *peer {
 	return &peer{
 		Peer:            p,
 		quitCh:          make(chan struct{}),
@@ -468,7 +468,7 @@ func (p *peer) handleAnnounce(msg *AnnounceBody) error {
 // handShake exchange networkid td etc between two connected peers.
 func (p *peer) handShake(networkID string, td *big.Int, head common.Hash, headBlockNum uint64, genesis common.Hash) error {
 	msg := &statusData{
-		ProtocolVersion: uint32(LightSeeleCredoVersion),
+		ProtocolVersion: uint32(LightScdoVersion),
 		NetworkID:       networkID,
 		IsServer:        p.protocolManager.bServerMode,
 		TD:              td,

@@ -29,8 +29,8 @@ type Config struct {
 	// HttpServer config for http server
 	HTTPServer HTTPServer
 
-	// The SeeleCredoConfig is the configuration to create the seeleCredo service.
-	SeeleCredoConfig SeeleCredoConfig
+	// The ScdoConfig is the configuration to create the seeleCredo service.
+	ScdoConfig ScdoConfig
 
 	// The configuration of websocket rpc service
 	WSServerConfig WSServerConfig
@@ -97,7 +97,7 @@ type WSServerConfig struct {
 }
 
 // Config is the seeleCredo's configuration to create seeleCredo service
-type SeeleCredoConfig struct {
+type ScdoConfig struct {
 	TxConf core.TransactionPoolConfig
 
 	Coinbase common.Address

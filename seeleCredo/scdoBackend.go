@@ -13,11 +13,11 @@ import (
 )
 
 type SlcBackend struct {
-	s *SeeleCredoService
+	s *ScdoService
 }
 
-// NewSeeleCredoBackend backend
-func NewSeeleCredoBackend(s *SeeleCredoService) *SlcBackend {
+// NewScdoBackend backend
+func NewScdoBackend(s *ScdoService) *SlcBackend {
 	return &SlcBackend{s}
 }
 
@@ -37,7 +37,7 @@ func (sd *SlcBackend) GetP2pServer() *p2p.Server { return sd.s.p2pServer }
 func (sd *SlcBackend) ChainBackend() api.Chain { return sd.s.chain }
 
 // Log return log pointer
-func (sd *SlcBackend) Log() *log.SeeleCredoLog { return sd.s.log }
+func (sd *SlcBackend) Log() *log.ScdoLog { return sd.s.log }
 
 // IsSyncing check status
 func (sd *SlcBackend) IsSyncing() bool {

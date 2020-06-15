@@ -28,7 +28,7 @@ type seeleParameterizedError struct {
 	parameters []interface{}
 }
 
-func newSeeleCredoError(code ErrorCode, msg string) error {
+func newScdoError(code ErrorCode, msg string) error {
 	return &seeleError{code, msg}
 }
 

@@ -29,7 +29,7 @@ var (
 // Engine provides the consensus operations based on POW.
 type Engine struct {
 	threads  int
-	log      *log.SeeleCredoLog
+	log      *log.ScdoLog
 	hashrate metrics.Meter
 }
 

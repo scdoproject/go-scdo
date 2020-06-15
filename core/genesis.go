@@ -31,7 +31,7 @@ var (
 	ErrGenesisNotFound = errors.New("genesis block not found")
 )
 
-const genesisBlockHeight = common.SeeleCredoForkHeight
+const genesisBlockHeight = common.ScdoForkHeight
 
 // Genesis represents the genesis block in the blockchain.
 type Genesis struct {
@@ -234,9 +234,9 @@ func (genesis *Genesis) store(bcStore store.BlockchainStore, accountStateDB data
 func getStateDB(info *GenesisInfo) *state.Statedb {
 	statedb := state.NewEmptyStatedb(nil)
 
-	curReward := consensus.GetReward(common.SeeleCredoForkHeight)
+	curReward := consensus.GetReward(common.ScdoForkHeight)
 	var minedRewardsPerShard = big.NewInt(0)
-	minedRewardsPerShard.Mul(curReward, big.NewInt(common.SeeleCredoForkHeight))
+	minedRewardsPerShard.Mul(curReward, big.NewInt(common.ScdoForkHeight))
 
 	if info.ShardNumber == 1 {
 		info.Masteraccount, _ = common.HexToAddress("0xd9dd0a837a3eb6f6a605a5929555b36ced68fdd1")

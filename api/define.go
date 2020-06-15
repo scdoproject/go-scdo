@@ -22,7 +22,7 @@ type Backend interface {
 	TxPoolBackend() Pool
 	ChainBackend() Chain
 	ProtocolBackend() Protocol
-	Log() *log.SeeleCredoLog
+	Log() *log.ScdoLog
 	IsSyncing() bool
 
 	GetBlock(hash common.Hash, height int64) (*types.Block, error)

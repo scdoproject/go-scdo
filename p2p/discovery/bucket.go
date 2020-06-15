@@ -24,10 +24,10 @@ type bucket struct {
 	peers []*Node
 	lock  sync.RWMutex //used for peers change
 
-	log *log2.SeeleCredoLog
+	log *log2.ScdoLog
 }
 
-func newBuckets(log *log2.SeeleCredoLog) *bucket {
+func newBuckets(log *log2.ScdoLog) *bucket {
 	return &bucket{
 		peers: make([]*Node, 0),
 		lock:  sync.RWMutex{},

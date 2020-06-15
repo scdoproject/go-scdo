@@ -23,12 +23,12 @@ import (
 type ServiceServer struct {
 	p2pServer     *p2p.Server
 	seeleProtocol *LightProtocol
-	log           *log.SeeleCredoLog
+	log           *log.ScdoLog
 	shard         uint
 }
 
 // NewServiceServer create ServiceServer
-func NewServiceServer(service *seeleCredo.SeeleCredoService, conf *node.Config, log *log.SeeleCredoLog, shard uint) (*ServiceServer, error) {
+func NewServiceServer(service *seeleCredo.ScdoService, conf *node.Config, log *log.ScdoLog, shard uint) (*ServiceServer, error) {
 	seeleProtocol, err := NewLightProtocol(conf.P2PConfig.NetworkID, service.TxPool(), service.DebtPool(), service.BlockChain(), true, nil, log, shard)
 	if err != nil {
 		return nil, err

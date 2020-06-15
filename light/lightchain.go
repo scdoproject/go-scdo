@@ -31,7 +31,7 @@ type LightChain struct {
 	canonicalTD               *big.Int
 	headerChangedEventManager *event.EventManager
 	headRollbackEventManager  *event.EventManager
-	log                       *log.SeeleCredoLog
+	log                       *log.ScdoLog
 }
 
 func newLightChain(bcStore store.BlockchainStore, lightDB database.Database, odrBackend *odrBackend, engine consensus.Engine) (*LightChain, error) {

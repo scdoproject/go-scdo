@@ -30,13 +30,13 @@ import (
 const chainHeaderChangeBuffSize = 100
 const maxProgatePeerPerShard = 7
 
-// SeeleCredoService implements full node service.
-type SeeleCredoService struct {
+// ScdoService implements full node service.
+type ScdoService struct {
 	networkID     string
 	netVersion    string
 	p2pServer     *p2p.Server
-	seeleProtocol *SeeleCredoProtocol
-	log           *log.SeeleCredoLog
+	seeleProtocol *ScdoProtocol
+	log           *log.ScdoLog
 
 	txPool             *core.TransactionPool
 	debtPool           *core.DebtPool
@@ -61,37 +61,37 @@ type ServiceContext struct {
 }
 
 // AccountStateDB return account state db
-func (s *SeeleCredoService) AccountStateDB() database.Database { return s.accountStateDB }
+func (s *ScdoService) AccountStateDB() database.Database { return s.accountStateDB }
 
 // BlockChain get blockchain
-func (s *SeeleCredoService) BlockChain() *core.Blockchain { return s.chain }
+func (s *ScdoService) BlockChain() *core.Blockchain { return s.chain }
 
 // TxPool tx pool
-func (s *SeeleCredoService) TxPool() *core.TransactionPool { return s.txPool }
+func (s *ScdoService) TxPool() *core.TransactionPool { return s.txPool }
 
 // DebtPool debt pool
-func (s *SeeleCredoService) DebtPool() *core.DebtPool { return s.debtPool }
+func (s *ScdoService) DebtPool() *core.DebtPool { return s.debtPool }
 
 // NetVersion net version
-func (s *SeeleCredoService) NetVersion() string { return s.netVersion }
+func (s *ScdoService) NetVersion() string { return s.netVersion }
 
 // NetWorkID net id
-func (s *SeeleCredoService) NetWorkID() string { return s.networkID }
+func (s *ScdoService) NetWorkID() string { return s.networkID }
 
 // Miner get miner
-func (s *SeeleCredoService) Miner() *miner.Miner { return s.miner }
+func (s *ScdoService) Miner() *miner.Miner { return s.miner }
 
 // Downloader get downloader
-func (s *SeeleCredoService) Downloader() *downloader.Downloader {
+func (s *ScdoService) Downloader() *downloader.Downloader {
 	return s.seeleProtocol.Downloader()
 }
 
 // P2PServer get p2pServer
-func (s *SeeleCredoService) P2PServer() *p2p.Server { return s.p2pServer }
+func (s *ScdoService) P2PServer() *p2p.Server { return s.p2pServer }
 
-// NewSeeleCredoService create SeeleCredoService
-func NewSeeleCredoService(ctx context.Context, conf *node.Config, log *log.SeeleCredoLog, engine consensus.Engine, verifier types.DebtVerifier, startHeight int) (s *SeeleCredoService, err error) {
-	s = &SeeleCredoService{
+// NewScdoService create ScdoService
+func NewScdoService(ctx context.Context, conf *node.Config, log *log.ScdoLog, engine consensus.Engine, verifier types.DebtVerifier, startHeight int) (s *ScdoService, err error) {
+	s = &ScdoService{
 		log:          log,
 		networkID:    conf.P2PConfig.NetworkID,
 		netVersion:   conf.BasicConfig.Version,
@@ -117,7 +117,7 @@ func NewSeeleCredoService(ctx context.Context, conf *node.Config, log *log.Seele
 		return nil, err
 	}
 
-	s.miner = miner.NewMiner(conf.SeeleCredoConfig.Coinbase, s, s.debtVerifier, engine)
+	s.miner = miner.NewMiner(conf.ScdoConfig.Coinbase, s, s.debtVerifier, engine)
 
 	// initialize and validate genesis
 	if err = s.initGenesisAndChain(&serviceContext, conf, startHeight); err != nil {
@@ -128,74 +128,74 @@ func NewSeeleCredoService(ctx context.Context, conf *node.Config, log *log.Seele
 		return nil, err
 	}
 
-	if s.seeleProtocol, err = NewSeeleCredoProtocol(s, log); err != nil {
+	if s.seeleProtocol, err = NewScdoProtocol(s, log); err != nil {
 		s.Stop()
-		log.Error("failed to create seeleProtocol in NewSeeleCredoService, %s", err)
+		log.Error("failed to create seeleProtocol in NewScdoService, %s", err)
 		return nil, err
 	}
 
 	return s, nil
 }
 
-func (s *SeeleCredoService) initBlockchainDB(serviceContext *ServiceContext) (err error) {
+func (s *ScdoService) initBlockchainDB(serviceContext *ServiceContext) (err error) {
 	s.chainDBPath = filepath.Join(serviceContext.DataDir, BlockChainDir)
-	s.log.Info("NewSeeleCredoService BlockChain datadir is %s", s.chainDBPath)
+	s.log.Info("NewScdoService BlockChain datadir is %s", s.chainDBPath)
 
 	if s.chainDB, err = leveldb.NewLevelDB(s.chainDBPath); err != nil {
-		s.log.Error("NewSeeleCredoService Create BlockChain err. %s", err)
+		s.log.Error("NewScdoService Create BlockChain err. %s", err)
 		return err
 	}
 
 	return nil
 }
 
-func (s *SeeleCredoService) initAccountStateDB(serviceContext *ServiceContext) (err error) {
+func (s *ScdoService) initAccountStateDB(serviceContext *ServiceContext) (err error) {
 	s.accountStateDBPath = filepath.Join(serviceContext.DataDir, AccountStateDir)
-	s.log.Info("NewSeeleCredoService account state datadir is %s", s.accountStateDBPath)
+	s.log.Info("NewScdoService account state datadir is %s", s.accountStateDBPath)
 
 	if s.accountStateDB, err = leveldb.NewLevelDB(s.accountStateDBPath); err != nil {
 		s.Stop()
-		s.log.Error("NewSeeleCredoService Create BlockChain err: failed to create account state DB, %s", err)
+		s.log.Error("NewScdoService Create BlockChain err: failed to create account state DB, %s", err)
 		return err
 	}
 
 	return nil
 }
 
-func (s *SeeleCredoService) initDebtManagerDB(serviceContext *ServiceContext) (err error) {
+func (s *ScdoService) initDebtManagerDB(serviceContext *ServiceContext) (err error) {
 	s.debtManagerDBPath = filepath.Join(serviceContext.DataDir, DebtManagerDir)
-	s.log.Info("NewSeeleCredoService debt manager datadir is %s", s.debtManagerDBPath)
+	s.log.Info("NewScdoService debt manager datadir is %s", s.debtManagerDBPath)
 
 	if s.debtManagerDB, err = leveldb.NewLevelDB(s.debtManagerDBPath); err != nil {
 		s.Stop()
-		s.log.Error("NewSeeleCredoService Create BlockChain err: failed to create debt manager DB, %s", err)
+		s.log.Error("NewScdoService Create BlockChain err: failed to create debt manager DB, %s", err)
 		return err
 	}
 
 	return nil
 }
 
-func (s *SeeleCredoService) initGenesisAndChain(serviceContext *ServiceContext, conf *node.Config, startHeight int) (err error) {
+func (s *ScdoService) initGenesisAndChain(serviceContext *ServiceContext, conf *node.Config, startHeight int) (err error) {
 	bcStore := store.NewCachedStore(store.NewBlockchainDatabase(s.chainDB))
-	genesis := core.GetGenesis(&conf.SeeleCredoConfig.GenesisConfig)
+	genesis := core.GetGenesis(&conf.ScdoConfig.GenesisConfig)
 
 	if err = genesis.InitializeAndValidate(bcStore, s.accountStateDB); err != nil {
 		s.Stop()
-		s.log.Error("NewSeeleCredoService genesis.Initialize err. %s", err)
+		s.log.Error("NewScdoService genesis.Initialize err. %s", err)
 		return err
 	}
 
 	recoveryPointFile := filepath.Join(serviceContext.DataDir, BlockChainRecoveryPointFile)
 	if s.chain, err = core.NewBlockchain(bcStore, s.accountStateDB, recoveryPointFile, s.miner.GetEngine(), s.debtVerifier, startHeight); err != nil {
 		s.Stop()
-		s.log.Error("failed to init chain in NewSeeleCredoService. %s", err)
+		s.log.Error("failed to init chain in NewScdoService. %s", err)
 		return err
 	}
 
 	return nil
 }
 
-func (s *SeeleCredoService) initPool(conf *node.Config) (err error) {
+func (s *ScdoService) initPool(conf *node.Config) (err error) {
 	if s.lastHeader, err = s.chain.GetStore().GetHeadBlockHash(); err != nil {
 		s.Stop()
 		return fmt.Errorf("failed to get chain header, %s", err)
@@ -203,7 +203,7 @@ func (s *SeeleCredoService) initPool(conf *node.Config) (err error) {
 
 	s.chainHeaderChangeChannel = make(chan common.Hash, chainHeaderChangeBuffSize)
 	s.debtPool = core.NewDebtPool(s.chain, s.debtVerifier)
-	s.txPool = core.NewTransactionPool(conf.SeeleCredoConfig.TxConf, s.chain)
+	s.txPool = core.NewTransactionPool(conf.ScdoConfig.TxConf, s.chain)
 
 	event.ChainHeaderChangedEventMananger.AddAsyncListener(s.chainHeaderChanged)
 	go s.MonitorChainHeaderChange()
@@ -214,7 +214,7 @@ func (s *SeeleCredoService) initPool(conf *node.Config) (err error) {
 // chainHeaderChanged handle chain header changed event.
 // add forked transaction back
 // deleted invalid transaction
-func (s *SeeleCredoService) chainHeaderChanged(e event.Event) {
+func (s *ScdoService) chainHeaderChanged(e event.Event) {
 	newBlock := e.(*types.Block)
 	if newBlock == nil || newBlock.HeaderHash.IsEmpty() {
 		return
@@ -224,7 +224,7 @@ func (s *SeeleCredoService) chainHeaderChanged(e event.Event) {
 }
 
 // MonitorChainHeaderChange monitor and handle chain header event
-func (s *SeeleCredoService) MonitorChainHeaderChange() {
+func (s *ScdoService) MonitorChainHeaderChange() {
 	for {
 		select {
 		case newHeader := <-s.chainHeaderChangeChannel:
@@ -243,13 +243,13 @@ func (s *SeeleCredoService) MonitorChainHeaderChange() {
 
 // Protocols implements node.Service, returning all the currently configured
 // network protocols to start.
-func (s *SeeleCredoService) Protocols() (protos []p2p.Protocol) {
+func (s *ScdoService) Protocols() (protos []p2p.Protocol) {
 	protos = append(protos, s.seeleProtocol.Protocol)
 	return protos
 }
 
-// Start implements node.Service, starting goroutines needed by SeeleCredoService.
-func (s *SeeleCredoService) Start(srvr *p2p.Server) error {
+// Start implements node.Service, starting goroutines needed by ScdoService.
+func (s *ScdoService) Start(srvr *p2p.Server) error {
 	s.p2pServer = srvr
 	s.seeleProtocol.Start()
 
@@ -257,7 +257,7 @@ func (s *SeeleCredoService) Start(srvr *p2p.Server) error {
 }
 
 // Stop implements node.Service, terminating all internal goroutines.
-func (s *SeeleCredoService) Stop() error {
+func (s *ScdoService) Stop() error {
 	//TODO
 	// s.txPool.Stop() s.chain.Stop()
 	// retries? leave it to future
@@ -286,8 +286,8 @@ func (s *SeeleCredoService) Stop() error {
 
 // APIs implements node.Service, returning the collection of RPC services the seeleCredo package offers.
 // must to make sure that the order of the download api is 5; we get the download api by 5
-func (s *SeeleCredoService) APIs() (apis []rpc.API) {
-	apis = append(apis, api.GetAPIs(NewSeeleCredoBackend(s))...)
+func (s *ScdoService) APIs() (apis []rpc.API) {
+	apis = append(apis, api.GetAPIs(NewScdoBackend(s))...)
 	apis = append(apis, []rpc.API{
 		{
 			Namespace: "seeleCredo",

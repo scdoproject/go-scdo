@@ -24,14 +24,14 @@ func getTmpConfig() *node.Config {
 	acctAddr := crypto.MustGenerateRandomAddress()
 
 	return &node.Config{
-		SeeleCredoConfig: node.SeeleCredoConfig{
+		ScdoConfig: node.ScdoConfig{
 			TxConf:   *core.DefaultTxPoolConfig(),
 			Coinbase: *acctAddr,
 		},
 	}
 }
 
-func newTestSeeleService() *SeeleCredoService {
+func newTestSeeleService() *ScdoService {
 	conf := getTmpConfig()
 	serviceContext := ServiceContext{
 		DataDir: filepath.Join(common.GetTempFolder(), "n1"),
@@ -41,7 +41,7 @@ func newTestSeeleService() *SeeleCredoService {
 	ctx := context.WithValue(context.Background(), key, serviceContext)
 	log := log.GetLogger("seeleCredo")
 
-	seeleService, err := NewSeeleCredoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	seeleService, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		panic(err)
 	}

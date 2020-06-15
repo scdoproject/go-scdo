@@ -34,7 +34,7 @@ func Test_peer_Info(t *testing.T) {
 	okStr := fmt.Sprintf(`{"version":1,"difficulty":100,"head":"%v000000000000000000000000"}`, strings.TrimPrefix(myAddr.Hex(), "0x"))
 
 	// Create peer for test
-	peer := newPeer(common.SeeleCredoVersion, p2pPeer, nil, log)
+	peer := newPeer(common.ScdoVersion, p2pPeer, nil, log)
 	peer.SetHead(myHash, bigInt)
 
 	peerInfo := peer.Info()

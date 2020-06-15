@@ -60,7 +60,7 @@ type backend struct {
 	privateKey       *ecdsa.PrivateKey
 	address          common.Address
 	core             istanbulCore.Engine
-	logger           *log.SeeleCredoLog
+	logger           *log.ScdoLog
 	db               database.Database
 	chain            consensus.ChainReader
 	currentBlock     func() *types.Block

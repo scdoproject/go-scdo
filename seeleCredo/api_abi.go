@@ -15,7 +15,7 @@ import (
 )
 
 // GeneratePayload according to abi json string and methodName and args to generate payload hex string
-func (api *PublicSeeleCredoAPI) GeneratePayload(abiJSON string, methodName string, args []string) (string, error) {
+func (api *PublicScdoAPI) GeneratePayload(abiJSON string, methodName string, args []string) (string, error) {
 	parsed, err := abi.JSON(strings.NewReader(abiJSON))
 	if err != nil {
 		return "", fmt.Errorf("invalid abiJSON '%s', err: %s", abiJSON, err)

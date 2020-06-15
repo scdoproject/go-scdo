@@ -115,7 +115,7 @@ type Ethash struct {
 	closeOnce sync.Once       // Ensures exit channel will not be closed twice.
 	exitCh    chan chan error // Notification channel to exiting backend threads
 
-	log *log.SeeleCredoLog
+	log *log.ScdoLog
 }
 
 // New creates a full sized ethash PoW scheme and starts a background thread for

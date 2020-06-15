@@ -49,7 +49,7 @@ type HashItem struct {
 // Engine provides the consensus operations based on SPOW.
 type SpowEngine struct {
 	threads        int
-	log            *log.SeeleCredoLog
+	log            *log.ScdoLog
 	hashrate       metrics.Meter
 	hashPoolDB     database.Database
 	hashPoolDBPath string
@@ -357,7 +357,7 @@ func (engine *SpowEngine) startCollision(block *types.Block, results chan<- *typ
 	pend.Wait()
 }
 
-func handleResults(block *types.Block, result chan<- *types.Block, abort <-chan struct{}, isNonceFound *int32, nonceA uint64, nonceB uint64, log *log.SeeleCredoLog) {
+func handleResults(block *types.Block, result chan<- *types.Block, abort <-chan struct{}, isNonceFound *int32, nonceA uint64, nonceB uint64, log *log.ScdoLog) {
 
 	// put the nonce pair in the block
 	header := block.Header.Clone()
@@ -378,7 +378,7 @@ func handleResults(block *types.Block, result chan<- *types.Block, abort <-chan 
 }
 
 // logAbort logs the info that nonce finding is aborted
-func logAbort(log *log.SeeleCredoLog) {
+func logAbort(log *log.ScdoLog) {
 	log.Info("nonce finding aborted")
 	time.Sleep(RestTime)
 }
@@ -501,7 +501,7 @@ func (engine *SpowEngine) MSeal(reader consensus.ChainReader, block *types.Block
 }
 
 func (engine *SpowEngine) MStartMining(block *types.Block, seed uint64, min uint64, max uint64, result chan<- *types.Block, abort <-chan struct{},
-	isNonceFound *int32, once *sync.Once, hashrate metrics.Meter, log *log.SeeleCredoLog) {
+	isNonceFound *int32, once *sync.Once, hashrate metrics.Meter, log *log.ScdoLog) {
 	var nonce = seed
 	var hashInt big.Int
 	var caltimes = int64(0)
@@ -623,7 +623,7 @@ func getNonZeroCountTarget(matrixDim int) int {
 	return (256-matrixDim)/2 + matrixDim/5
 }
 
-func newMatrix(headerTarget *types.BlockHeader, seedNonce uint64, dim int, log *log.SeeleCredoLog) *mat.Dense {
+func newMatrix(headerTarget *types.BlockHeader, seedNonce uint64, dim int, log *log.ScdoLog) *mat.Dense {
 	header := headerTarget.Clone()
 	nonce := seedNonce
 	matrix := mat.NewDense(dim, 256, nil)
@@ -641,7 +641,7 @@ func newMatrix(headerTarget *types.BlockHeader, seedNonce uint64, dim int, log *
 	return matrix
 }
 
-func calDetm(matrix *mat.Dense, dim int, log *log.SeeleCredoLog) float64 {
+func calDetm(matrix *mat.Dense, dim int, log *log.ScdoLog) float64 {
 	submatrix := mat.NewDense(dim, dim, nil)
 	submatrix.Copy(matrix)
 	log.Debug("\n%0.1v\n\n", mat.Formatted(submatrix))
@@ -652,7 +652,7 @@ func calDetm(matrix *mat.Dense, dim int, log *log.SeeleCredoLog) float64 {
 
 // matrix is dim x 256
 // calDetmLoop will loop from 0 to 256 - dim
-func (engine *SpowEngine) calDetmLoopForMining(matrix *mat.Dense, dim int, target *big.Int, log *log.SeeleCredoLog) (float64, int) {
+func (engine *SpowEngine) calDetmLoopForMining(matrix *mat.Dense, dim int, target *big.Int, log *log.ScdoLog) (float64, int) {
 	var ret = float64(0)
 	var nonZerosCount = int(0)
 	nonZeroCountTarget := getNonZeroCountTarget(dim)
@@ -723,7 +723,7 @@ func (engine *SpowEngine) calDetmLoopForMining(matrix *mat.Dense, dim int, targe
 
 // matrix is dim x 256
 // calDetmLoop will loop from 0 to 256 - dim
-func calDetmLoopForVerification(matrix *mat.Dense, dim int, log *log.SeeleCredoLog) (float64, int) {
+func calDetmLoopForVerification(matrix *mat.Dense, dim int, log *log.ScdoLog) (float64, int) {
 	var ret = float64(0)
 	var nonZerosCount = int(0)
 	nonZeroCountTarget := getNonZeroCountTarget(dim)

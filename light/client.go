@@ -28,7 +28,7 @@ type ServiceClient struct {
 	netVersion    string
 	p2pServer     *p2p.Server
 	seeleProtocol *LightProtocol
-	log           *log.SeeleCredoLog
+	log           *log.ScdoLog
 	odrBackend    *odrBackend
 
 	txPool  *txPool
@@ -39,7 +39,7 @@ type ServiceClient struct {
 }
 
 // NewServiceClient create ServiceClient
-func NewServiceClient(ctx context.Context, conf *node.Config, log *log.SeeleCredoLog, dbFolder string, shard uint, engine consensus.Engine) (s *ServiceClient, err error) {
+func NewServiceClient(ctx context.Context, conf *node.Config, log *log.ScdoLog, dbFolder string, shard uint, engine consensus.Engine) (s *ServiceClient, err error) {
 	s = &ServiceClient{
 		log:        log,
 		networkID:  conf.P2PConfig.NetworkID,
@@ -60,7 +60,7 @@ func NewServiceClient(ctx context.Context, conf *node.Config, log *log.SeeleCred
 	bcStore := store.NewCachedStore(store.NewBlockchainDatabase(s.lightDB))
 	s.odrBackend = newOdrBackend(bcStore, shard)
 	// initialize and validate genesis
-	genesis := core.GetGenesis(&conf.SeeleCredoConfig.GenesisConfig)
+	genesis := core.GetGenesis(&conf.ScdoConfig.GenesisConfig)
 
 	err = genesis.InitializeAndValidate(bcStore, s.lightDB)
 	if err != nil {

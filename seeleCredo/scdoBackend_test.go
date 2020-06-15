@@ -69,7 +69,7 @@ func Test_GetReceiptByHash(t *testing.T) {
 	assert.Equal(t, err, nil)
 
 	// verify block receipt
-	poolAPI := NewSeeleCredoBackend(api.s)
+	poolAPI := NewScdoBackend(api.s)
 	receipt, err := poolAPI.GetReceiptByTxHash(tx1.Hash)
 	assert.Equal(t, err, nil)
 	outputs, err := api2.PrintableReceipt(receipt)
@@ -82,7 +82,7 @@ func Test_GetReceiptByHash(t *testing.T) {
 	assert.Equal(t, outputs["totalFee"], receipts[0].TotalFee)
 }
 
-func newTestTx(t *testing.T, s *SeeleCredoService, amount, price int64, nonce uint64) *types.Transaction {
+func newTestTx(t *testing.T, s *ScdoService, amount, price int64, nonce uint64) *types.Transaction {
 	statedb, err := s.chain.GetCurrentState()
 	assert.Equal(t, err, nil)
 
@@ -90,7 +90,7 @@ func newTestTx(t *testing.T, s *SeeleCredoService, amount, price int64, nonce ui
 	fromAddress, fromPrivKey, err := crypto.GenerateKeyPair()
 	assert.Equal(t, err, nil)
 	statedb.CreateAccount(*fromAddress)
-	statedb.SetBalance(*fromAddress, common.SeeleCredoToFan)
+	statedb.SetBalance(*fromAddress, common.ScdoToFan)
 	statedb.SetNonce(*fromAddress, nonce-1)
 	err = storeStatedb(t, s, statedb)
 	assert.Equal(t, err, nil)
@@ -101,7 +101,7 @@ func newTestTx(t *testing.T, s *SeeleCredoService, amount, price int64, nonce ui
 	return tx
 }
 
-func storeStatedb(t *testing.T, s *SeeleCredoService, statedb *state.Statedb) error {
+func storeStatedb(t *testing.T, s *ScdoService, statedb *state.Statedb) error {
 	batch := s.accountStateDB.NewBatch()
 	block := s.chain.CurrentBlock()
 	block.Header.StateHash, _ = statedb.Commit(batch)
@@ -121,7 +121,7 @@ func newTestTxPoolAPI(t *testing.T, dbPath string) *TransactionPoolAPI {
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
 	log := log.GetLogger("seeleCredo")
-	ss, err := NewSeeleCredoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	ss, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		panic("new seeleCredo service error")
 	}

@@ -91,7 +91,7 @@ var startCmd = &cobra.Command{
 
 		var engine consensus.Engine
 		if nCfg.BasicConfig.MinerAlgorithm == common.BFTEngine {
-			engine, err = factory.GetBFTEngine(nCfg.SeeleCredoConfig.CoinbasePrivateKey, nCfg.BasicConfig.DataDir)
+			engine, err = factory.GetBFTEngine(nCfg.ScdoConfig.CoinbasePrivateKey, nCfg.BasicConfig.DataDir)
 		} else {
 			engine, err = factory.GetConsensusEngine(nCfg.BasicConfig.MinerAlgorithm, nCfg.BasicConfig.DataSetDir, percentage)
 		}
@@ -141,7 +141,7 @@ var startCmd = &cobra.Command{
 			}
 
 			// fullnode mode
-			seeleService, err := seeleCredo.NewSeeleCredoService(ctx, nCfg, slclog, engine, manager, startHeight)
+			seeleService, err := seeleCredo.NewScdoService(ctx, nCfg, slclog, engine, manager, startHeight)
 			if err != nil {
 				fmt.Println(err.Error())
 				return
@@ -205,7 +205,7 @@ var startCmd = &cobra.Command{
 				nCfg.BasicConfig.Name,
 				nCfg.BasicConfig.Version,
 				nCfg.P2PConfig.NetworkID,
-				nCfg.SeeleCredoConfig.Coinbase,
+				nCfg.ScdoConfig.Coinbase,
 			)
 		}
 

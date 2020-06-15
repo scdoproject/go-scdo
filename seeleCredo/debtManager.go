@@ -45,7 +45,7 @@ type DebtManager struct {
 
 	checker     types.DebtVerifier
 	propagation propagateDebts
-	log         *log.SeeleCredoLog
+	log         *log.ScdoLog
 	chain       *core.Blockchain
 	blockHeights []uint64 
 	dmDB        database.Database

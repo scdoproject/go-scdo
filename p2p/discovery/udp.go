@@ -49,7 +49,7 @@ type udp struct {
 	addPending chan *pending
 	writer     chan *send
 
-	log *log.SeeleCredoLog
+	log *log.ScdoLog
 
 	timeoutNodesCount cmap.ConcurrentMap //node id -> count
 }

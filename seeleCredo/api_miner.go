@@ -16,11 +16,11 @@ import (
 
 // PrivateMinerAPI provides an API to access miner information.
 type PrivateMinerAPI struct {
-	s *SeeleCredoService
+	s *ScdoService
 }
 
 // NewPrivateMinerAPI creates a new PrivateMinerAPI object for miner rpc service.
-func NewPrivateMinerAPI(s *SeeleCredoService) *PrivateMinerAPI {
+func NewPrivateMinerAPI(s *ScdoService) *PrivateMinerAPI {
 	return &PrivateMinerAPI{s}
 }
 

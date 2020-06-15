@@ -273,7 +273,7 @@ func newTestBlockHeader(coinbase common.Address) *types.BlockHeader {
 	}
 }
 
-var fromBalance = uint64(1000 * common.SeeleCredoToFan.Uint64())
+var fromBalance = uint64(1000 * common.ScdoToFan.Uint64())
 
 func newTestContext(amount *big.Int) (*Context, error) {
 	statedb, bcStore, address, dispose := preprocessContract(fromBalance, 38)
