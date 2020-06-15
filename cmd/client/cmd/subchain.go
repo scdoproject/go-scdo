@@ -40,7 +40,7 @@ var (
 	errSubChainInfo          = errors.New("failed to get sub-chain information")
 
 	defaultTokenFullName  = "scdocoin"
-	defaultTokenShortName = "seeleCredo"
+	defaultTokenShortName = "scdo"
 )
 
 func registerSubChain(client *rpc.Client) (interface{}, interface{}, error) {

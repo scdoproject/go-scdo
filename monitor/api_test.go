@@ -21,7 +21,7 @@ import (
 	"github.com/scdoproject/go-scdo/log"
 	"github.com/scdoproject/go-scdo/node"
 	"github.com/scdoproject/go-scdo/p2p"
-	"github.com/scdoproject/go-scdo/seeleCredo"
+	"github.com/scdoproject/go-scdo/scdo"
 )
 
 func getTmpConfig() *node.Config {
@@ -61,13 +61,13 @@ func createTestAPI(t *testing.T) (api *PublicMonitorAPI, dispose func()) {
 		ScdoConfig: conf.ScdoConfig,
 	}
 
-	serviceContext := seeleCredo.ServiceContext{
+	serviceContext := scdo.ServiceContext{
 		DataDir: filepath.Join(common.GetTempFolder(), "n1", fmt.Sprintf("%d", time.Now().UnixNano())),
 	}
 
 	ctx := context.WithValue(context.Background(), "ServiceContext", serviceContext)
-	dataDir := ctx.Value("ServiceContext").(seeleCredo.ServiceContext).DataDir
-	log := log.GetLogger("seeleCredo")
+	dataDir := ctx.Value("ServiceContext").(scdo.ServiceContext).DataDir
+	log := log.GetLogger("scdo")
 
 	slcNode, err := node.New(&testConf)
 	if err != nil {
@@ -75,7 +75,7 @@ func createTestAPI(t *testing.T) (api *PublicMonitorAPI, dispose func()) {
 		return
 	}
 
-	slcService, err := seeleCredo.NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	slcService, err := scdo.NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		t.Fatal(err)
 		return
@@ -97,7 +97,7 @@ func createTestAPI(t *testing.T) (api *PublicMonitorAPI, dispose func()) {
 	slcService.Miner().Start()
 
 	return api, func() {
-		api.s.seeleCredo.Stop()
+		api.s.scdo.Stop()
 		os.RemoveAll(dataDir)
 	}
 }
@@ -139,13 +139,13 @@ func createTestAPIErr(errBranch int) (api *PublicMonitorAPI, dispose func()) {
 		}
 	}
 
-	serviceContext := seeleCredo.ServiceContext{
+	serviceContext := scdo.ServiceContext{
 		DataDir: common.GetTempFolder() + "/n2/",
 	}
 
 	ctx := context.WithValue(context.Background(), "ServiceContext", serviceContext)
-	dataDir := ctx.Value("ServiceContext").(seeleCredo.ServiceContext).DataDir
-	log := log.GetLogger("seeleCredo")
+	dataDir := ctx.Value("ServiceContext").(scdo.ServiceContext).DataDir
+	log := log.GetLogger("scdo")
 
 	slcNode, err := node.New(&testConf)
 	if err != nil {
@@ -153,7 +153,7 @@ func createTestAPIErr(errBranch int) (api *PublicMonitorAPI, dispose func()) {
 		return
 	}
 
-	slcService, err := seeleCredo.NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	slcService, err := scdo.NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -173,7 +173,7 @@ func createTestAPIErr(errBranch int) (api *PublicMonitorAPI, dispose func()) {
 	}
 
 	return api, func() {
-		api.s.seeleCredo.Stop()
+		api.s.scdo.Stop()
 		os.RemoveAll(dataDir)
 	}
 }

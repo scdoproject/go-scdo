@@ -15,14 +15,14 @@ import (
 )
 
 const (
-	TestName      = "seeleCredo node1"
+	TestName      = "scdo node1"
 	TestVersion   = "1.0"
-	TestNetworkID = "seeleCredo"
+	TestNetworkID = "scdo"
 )
 
 var (
 	TestCoinbase = crypto.MustGenerateShardAddress(1)
-	slclog         = log.GetLogger("seeleCredo")
+	slclog         = log.GetLogger("scdo")
 	address      = "127.0.0.1:8086"
 	result       = new(string)
 	mux          sync.Mutex

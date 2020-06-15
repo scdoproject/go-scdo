@@ -41,12 +41,12 @@ type GroupInfo struct {
 }
 
 var (
-	configPath  = "/home/seeleCredo/node/getconfig/"
+	configPath  = "/home/scdo/node/getconfig/"
 	nodeFile    = "node.json"
 	hostsFile   = "hosts.json"
 	keyNodeFile = "keyStore.json"
 	configDir   = "config"
-	seeleDir    = "seeleCredo_node"
+	seeleDir    = "scdo_node"
 	port        = 8057
 	staticNum   = 20
 

@@ -21,13 +21,13 @@ import (
 )
 
 var defaultMinerAddr = common.BytesToAddress([]byte{1})
-var seeleCredo = NewTestSeeleBackend()
+var scdo = NewTestSeeleBackend()
 
 func Test_NewMiner(t *testing.T) {
 	miner := createMiner()
 
 	assert.Equal(t, miner != nil, true)
-	checkMinerMembers(miner, defaultMinerAddr, seeleCredo, t)
+	checkMinerMembers(miner, defaultMinerAddr, scdo, t)
 
 	assert.Equal(t, miner.GetCoinbase(), defaultMinerAddr)
 	assert.Equal(t, miner.IsMining(), false)
@@ -169,27 +169,27 @@ func mineNewBlock(t *testing.T, miner *Miner) *types.Block {
 
 	wg.Wait()
 
-	bc := miner.seeleCredo.BlockChain()
+	bc := miner.scdo.BlockChain()
 	err = bc.WriteBlock(resultBlock)
 	assert.Nil(t, err)
 	oldHeader := bc.GetHeaderByHeight(resultBlock.Header.Height - 1).Hash()
-	miner.seeleCredo.TxPool().HandleChainHeaderChanged(resultBlock.HeaderHash, oldHeader)
-	miner.seeleCredo.DebtPool().HandleChainHeaderChanged(resultBlock.HeaderHash, oldHeader)
+	miner.scdo.TxPool().HandleChainHeaderChanged(resultBlock.HeaderHash, oldHeader)
+	miner.scdo.DebtPool().HandleChainHeaderChanged(resultBlock.HeaderHash, oldHeader)
 
 	return resultBlock
 }
 
 func createMiner() *Miner {
-	return NewMiner(defaultMinerAddr, seeleCredo, nil, factory.MustGetConsensusEngine(common.Sha256Algorithm))
+	return NewMiner(defaultMinerAddr, scdo, nil, factory.MustGetConsensusEngine(common.Sha256Algorithm))
 }
 
-func checkMinerMembers(miner *Miner, addr common.Address, seeleCredo SlcBackend, t *testing.T) {
+func checkMinerMembers(miner *Miner, addr common.Address, scdo SlcBackend, t *testing.T) {
 	assert.Equal(t, miner.coinbase, addr)
 
 	assert.Equal(t, miner.mining, int32(0))
 	assert.Equal(t, miner.canStart, int32(1))
 	assert.Equal(t, miner.stopped, int32(0))
-	assert.Equal(t, miner.seeleCredo, seeleCredo)
+	assert.Equal(t, miner.scdo, scdo)
 	assert.Equal(t, miner.isFirstDownloader, int32(1))
 	assert.Equal(t, miner.isFirstBlockPrepared, int32(0))
 	assert.Equal(t, miner.isFirstDownloader, int32(1))

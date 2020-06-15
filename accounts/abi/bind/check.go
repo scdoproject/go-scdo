@@ -127,7 +127,7 @@ func parseArg(abiType string, arg string) (interface{}, error) {
 				}
 				return b, nil
 			default:
-				return nil, fmt.Errorf("Now abi only supports bytes32 and bytes, and it will totally support in seeleCredo.js, reject: %s", length)
+				return nil, fmt.Errorf("Now abi only supports bytes32 and bytes, and it will totally support in scdo.js, reject: %s", length)
 			}
 		}
 

@@ -1,4 +1,4 @@
-package seeleCredo
+package scdo
 
 import (
 	"math/big"
@@ -9,7 +9,7 @@ import (
 	"github.com/scdoproject/go-scdo/core/types"
 	"github.com/scdoproject/go-scdo/log"
 	"github.com/scdoproject/go-scdo/p2p"
-	"github.com/scdoproject/go-scdo/seeleCredo/download"
+	"github.com/scdoproject/go-scdo/scdo/download"
 )
 
 type SlcBackend struct {

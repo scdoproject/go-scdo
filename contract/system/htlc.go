@@ -28,9 +28,9 @@ const (
 const (
 	// CmdNewContract create HTLC
 	CmdNewContract byte = iota
-	// CmdWithdraw withdraw seeleCredo from HTLC
+	// CmdWithdraw withdraw scdo from HTLC
 	CmdWithdraw
-	// CmdRefund refund seeleCredo from HTLC
+	// CmdRefund refund scdo from HTLC
 	CmdRefund
 	// CmdGetContract get HTLC
 	CmdGetContract
@@ -119,7 +119,7 @@ func newHTLC(lockbytes []byte, context *Context) ([]byte, error) {
 	return value, nil
 }
 
-// withdraw the seeleCredo from contract
+// withdraw the scdo from contract
 func withdraw(jsonWithdraw []byte, context *Context) ([]byte, error) {
 	var input Withdrawing
 	if err := json.Unmarshal(jsonWithdraw, &input); err != nil {
@@ -160,7 +160,7 @@ func withdraw(jsonWithdraw []byte, context *Context) ([]byte, error) {
 	return value, nil
 }
 
-// refund the seeleCredo from contract after timelock
+// refund the scdo from contract after timelock
 func refund(bytes []byte, context *Context) ([]byte, error) {
 	databytes, err := haveContract(context, common.BytesToHash(bytes))
 	if err != nil {

@@ -548,7 +548,7 @@ func getBalance(address common.Address, hexHash string, height int64) (int, bool
 	client := getClient(address)
 
 	var result api.GetBalanceResponse
-	if err := client.Call(&result, "seeleCredo_getBalance", address, hexHash, height); err != nil {
+	if err := client.Call(&result, "scdo_getBalance", address, hexHash, height); err != nil {
 		panic(fmt.Sprintf("failed to get the balance: %s\n", err))
 	}
 

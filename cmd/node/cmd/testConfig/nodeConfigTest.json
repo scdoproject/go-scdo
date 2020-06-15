@@ -1,6 +1,6 @@
 {
     "basic": {
-        "name": "seeleCredo node2",
+        "name": "scdo node2",
         "version": "1.0",
         "dataDir": "node2",
         "address": "0.0.0.0:55028",
@@ -14,7 +14,7 @@
             "127.0.0.1:39007",
             "127.0.0.1:39008"
         ],
-        "networkID": "seeleCredo"
+        "networkID": "scdo"
     },
     "log": {
         "isDebug": true,

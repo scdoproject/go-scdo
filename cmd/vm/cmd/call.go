@@ -27,7 +27,7 @@ func init() {
 	callCmd.Flags().StringVarP(&input, "input", "i", "", "call function input")
 	callCmd.Flags().StringVarP(&methodName, "method", "m", "", "call function method name")
 	callCmd.Flags().StringVarP(&contractHexAddr, "contractAddr", "c", "", "the contract address")
-	callCmd.Flags().StringVarP(&account, "account", "a", "", "invoking the address of calling the smart contract(Default is random and has 1 seeleCredo)")
+	callCmd.Flags().StringVarP(&account, "account", "a", "", "invoking the address of calling the smart contract(Default is random and has 1 scdo)")
 	callCmd.Flags().Uint64VarP(&fee, "fee", "f", 100000000, "call function fee")
 
 	rootCmd.AddCommand(callCmd)

@@ -5,7 +5,7 @@
 
 package errors
 
-// ErrorCode represents the error code type in seeleCredo.
+// ErrorCode represents the error code type in scdo.
 type ErrorCode int
 
 const (

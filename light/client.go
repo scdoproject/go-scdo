@@ -19,7 +19,7 @@ import (
 	"github.com/scdoproject/go-scdo/node"
 	"github.com/scdoproject/go-scdo/p2p"
 	"github.com/scdoproject/go-scdo/rpc"
-	"github.com/scdoproject/go-scdo/seeleCredo"
+	"github.com/scdoproject/go-scdo/scdo"
 )
 
 // ServiceClient implements service for light mode.
@@ -47,7 +47,7 @@ func NewServiceClient(ctx context.Context, conf *node.Config, log *log.ScdoLog, 
 		shard:      shard,
 	}
 
-	serviceContext := ctx.Value("ServiceContext").(seeleCredo.ServiceContext)
+	serviceContext := ctx.Value("ServiceContext").(scdo.ServiceContext)
 	// Initialize blockchain DB.
 	chainDBPath := filepath.Join(serviceContext.DataDir, dbFolder)
 	log.Info("NewServiceClient BlockChain datadir is %s", chainDBPath)
@@ -115,7 +115,7 @@ func (s *ServiceClient) Stop() error {
 	return nil
 }
 
-// APIs implements node.Service, returning the collection of RPC services the seeleCredo package offers.
+// APIs implements node.Service, returning the collection of RPC services the scdo package offers.
 func (s *ServiceClient) APIs() (apis []rpc.API) {
 	return append(apis, api.GetAPIs(NewLightBackend(s))...)
 }

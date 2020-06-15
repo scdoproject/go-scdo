@@ -30,7 +30,7 @@ func Test_DomainNameToKey(t *testing.T) {
 	assert.Equal(t, err, errNameTooLong)
 
 	// valid domain name
-	name := []byte("test.seeleCredo")
+	name := []byte("test.scdo")
 	key, err = domainNameToKey(name)
 	assert.Equal(t, key, common.EmptyHash)
 	assert.Equal(t, err, errInvalidName)
@@ -40,7 +40,7 @@ func Test_DomainNameToKey(t *testing.T) {
 	assert.Equal(t, key, common.EmptyHash)
 	assert.Equal(t, err, errInvalidName)
 
-	name = []byte("test-seeleCredo-12")
+	name = []byte("test-scdo-12")
 	key, err = domainNameToKey(name)
 	assert.Equal(t, key, common.BytesToHash(name))
 	assert.Equal(t, err, nil)

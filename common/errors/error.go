@@ -15,13 +15,13 @@ func New(text string) error {
 	return errors.New(text)
 }
 
-// seeleError represents a seeleCredo error with code and message.
+// seeleError represents a scdo error with code and message.
 type seeleError struct {
 	code ErrorCode
 	msg  string
 }
 
-// seeleParameterizedError represents a seeleCredo error with code and parameterized message.
+// seeleParameterizedError represents a scdo error with code and parameterized message.
 // For type safe of common used business error, developer could define a concrete error to process.
 type seeleParameterizedError struct {
 	seeleError
@@ -37,7 +37,7 @@ func (err *seeleError) Error() string {
 	return err.msg
 }
 
-// Get returns a seeleCredo error with specified error code.
+// Get returns a scdo error with specified error code.
 func Get(code ErrorCode) error {
 	err, found := constErrors[code]
 	if !found {
@@ -47,7 +47,7 @@ func Get(code ErrorCode) error {
 	return err
 }
 
-// Create creates a seeleCredo error with specified error code and parameters.
+// Create creates a scdo error with specified error code and parameters.
 func Create(code ErrorCode, args ...interface{}) error {
 	errFormat, found := parameterizedErrors[code]
 	if !found {

@@ -12,7 +12,7 @@ import (
 // KeyABIHash is the hash key to storing abi to statedb
 var KeyABIHash = common.StringToHash("KeyABIHash")
 
-type seeleCredoLog struct {
+type scdoLog struct {
 	Topics []string
 	Event  string
 	Args   []interface{}
@@ -53,29 +53,29 @@ func printReceiptByABI(api *PublicScdoAPI, receipt *types.Receipt, abiJSON strin
 }
 
 func printLogByABI(log *types.Log, parsed abi.ABI) (string, error) {
-	seeleCredolog := &seeleCredoLog{}
+	scdolog := &scdoLog{}
 	if len(log.Topics) < 1 {
 		return "", nil
 	}
 
 	for _, topic := range log.Topics {
-		seeleCredolog.Topics = append(seeleCredolog.Topics, topic.Hex())
+		scdolog.Topics = append(scdolog.Topics, topic.Hex())
 	}
 
 	for _, event := range parsed.Events {
-		if event.Id().Hex() == seeleCredolog.Topics[0] {
-			seeleCredolog.Event = event.Name
+		if event.Id().Hex() == scdolog.Topics[0] {
+			scdolog.Event = event.Name
 			break
 		}
 	}
 
 	var err error
-	seeleCredolog.Args, err = parsed.Events[seeleCredolog.Event].Inputs.UnpackValues(log.Data)
+	scdolog.Args, err = parsed.Events[scdolog.Event].Inputs.UnpackValues(log.Data)
 	if err != nil {
 		return "", err
 	}
 
-	encoded, err := json.Marshal(seeleCredolog)
+	encoded, err := json.Marshal(scdolog)
 	if err != nil {
 		return "", err
 	}

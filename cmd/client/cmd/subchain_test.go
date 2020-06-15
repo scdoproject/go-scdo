@@ -35,13 +35,13 @@ func Test_getConfigFromSubChain(t *testing.T) {
 		},
 	}
 
-	config, err := getConfigFromSubChain("seeleCredo", &subChainInfo)
+	config, err := getConfigFromSubChain("scdo", &subChainInfo)
 	assert.NotEqual(t, err, nil)
 	assert.Equal(t, config == nil, true)
 
 	coinbaseValue = "0xe1c54e4b1b3448e382d87e50a427ae319e5ea611"
 
-	config, err = getConfigFromSubChain("seeleCredo", &subChainInfo)
+	config, err = getConfigFromSubChain("scdo", &subChainInfo)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, config != nil, true)
 	assert.Equal(t, config.BasicConfig.Coinbase, coinbaseValue)

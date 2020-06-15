@@ -98,7 +98,7 @@ func Test_Run(t *testing.T) {
 	assert.Equal(t, err != nil, true)
 	assert.Equal(t, arrayByte == nil, true)
 
-	domainName := []byte("seeleCredo-test")
+	domainName := []byte("scdo-test")
 	arrayByte, err = c.Run(append([]byte{CmdCreateDomainName}, domainName...), context)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, arrayByte, context.tx.Data.From.Bytes())

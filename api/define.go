@@ -36,7 +36,7 @@ type Backend interface {
 func GetAPIs(apiBackend Backend) []rpc.API {
 	return []rpc.API{
 		{
-			Namespace: "seeleCredo",
+			Namespace: "scdo",
 			Version:   "1.0",
 			Service:   NewPublicSeeleAPI(apiBackend),
 			Public:    true,

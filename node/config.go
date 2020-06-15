@@ -29,7 +29,7 @@ type Config struct {
 	// HttpServer config for http server
 	HTTPServer HTTPServer
 
-	// The ScdoConfig is the configuration to create the seeleCredo service.
+	// The ScdoConfig is the configuration to create the scdo service.
 	ScdoConfig ScdoConfig
 
 	// The configuration of websocket rpc service
@@ -96,7 +96,7 @@ type WSServerConfig struct {
 	CrossOrigins []string `json:"crossorigins"`
 }
 
-// Config is the seeleCredo's configuration to create seeleCredo service
+// Config is the scdo's configuration to create scdo service
 type ScdoConfig struct {
 	TxConf core.TransactionPoolConfig
 

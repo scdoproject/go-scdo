@@ -3,7 +3,7 @@
 *  @copyright defined in slc/LICENSE
  */
 
-package seeleCredo
+package scdo
 
 import (
 	"errors"
@@ -20,7 +20,7 @@ import (
 	"github.com/scdoproject/go-scdo/event"
 	"github.com/scdoproject/go-scdo/log"
 	"github.com/scdoproject/go-scdo/p2p"
-	downloader "github.com/scdoproject/go-scdo/seeleCredo/download"
+	downloader "github.com/scdoproject/go-scdo/scdo/download"
 )
 
 var (
@@ -68,7 +68,7 @@ func codeToStr(code uint16) string {
 	return downloader.CodeToStr(code)
 }
 
-// ScdoProtocol service implementation of seeleCredo
+// ScdoProtocol service implementation of scdo
 type ScdoProtocol struct {
 	p2p.Protocol
 	peerSet *peerSet
@@ -91,18 +91,18 @@ type ScdoProtocol struct {
 func (s *ScdoProtocol) Downloader() *downloader.Downloader { return s.downloader }
 
 // NewScdoProtocol create ScdoProtocol
-func NewScdoProtocol(seeleCredo *ScdoService, log *log.ScdoLog) (s *ScdoProtocol, err error) {
+func NewScdoProtocol(scdo *ScdoService, log *log.ScdoLog) (s *ScdoProtocol, err error) {
 	s = &ScdoProtocol{
 		Protocol: p2p.Protocol{
 			Name:    common.ScdoProtoName,
 			Version: common.ScdoVersion,
 			Length:  protocolMsgCodeLength,
 		},
-		networkID:  seeleCredo.networkID,
-		txPool:     seeleCredo.TxPool(),
-		debtPool:   seeleCredo.debtPool,
-		chain:      seeleCredo.BlockChain(),
-		downloader: downloader.NewDownloader(seeleCredo.BlockChain(), seeleCredo),
+		networkID:  scdo.networkID,
+		txPool:     scdo.TxPool(),
+		debtPool:   scdo.debtPool,
+		chain:      scdo.BlockChain(),
+		downloader: downloader.NewDownloader(scdo.BlockChain(), scdo),
 		log:        log,
 		quitCh:     make(chan struct{}),
 		syncCh:     make(chan struct{}),
@@ -114,7 +114,7 @@ func NewScdoProtocol(seeleCredo *ScdoService, log *log.ScdoLog) (s *ScdoProtocol
 	s.Protocol.DeletePeer = s.handleDelPeer
 	s.Protocol.GetPeer = s.handleGetPeer
 
-	s.debtManager = NewDebtManager(seeleCredo.debtVerifier, s, s.chain, seeleCredo.debtManagerDB)
+	s.debtManager = NewDebtManager(scdo.debtVerifier, s, s.chain, scdo.debtManagerDB)
 
 	event.TransactionInsertedEventManager.AddAsyncListener(s.handleNewTx)
 	event.BlockMinedEventManager.AddAsyncListener(s.handleNewMinedBlock)
@@ -841,7 +841,7 @@ handler:
 	}
 
 	p.handleDelPeer(peer.Peer)
-	p.log.Debug("seeleCredo.protocol.handlemsg run out! peer= %s!", peer.peerStrID)
+	p.log.Debug("scdo.protocol.handlemsg run out! peer= %s!", peer.peerStrID)
 	peer.Disconnect(fmt.Sprintf("called from seeleprotocol.handlemsg. id=%s", peer.peerStrID))
 }
 

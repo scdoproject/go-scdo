@@ -30,11 +30,11 @@ func Test_Trie_Get(t *testing.T) {
 	dbPrefix := []byte("test prefix")
 	trie := trie.NewEmptyTrie(dbPrefix, db)
 	trie.Put([]byte("hello"), []byte("HELLO"))
-	trie.Put([]byte("seeleCredo"), []byte("SEELECREDO"))
+	trie.Put([]byte("scdo"), []byte("SEELECREDO"))
 	trie.Put([]byte("world"), []byte("WORLD"))
 
 	// prepare mock odr retriever
-	proof, err := trie.GetProof([]byte("seeleCredo"))
+	proof, err := trie.GetProof([]byte("scdo"))
 	assert.Nil(t, err)
 	retriever := &mockOdrRetriever{
 		resp: &odrTriePoof{
@@ -46,13 +46,13 @@ func Test_Trie_Get(t *testing.T) {
 	lightTrie := newOdrTrie(retriever, trie.Hash(), dbPrefix, common.EmptyHash)
 
 	// key exists
-	v, ok, err := lightTrie.Get([]byte("seeleCredo"))
+	v, ok, err := lightTrie.Get([]byte("scdo"))
 	assert.Nil(t, err)
 	assert.True(t, ok)
 	assert.Equal(t, []byte("SEELECREDO"), v)
 
 	// key not found
-	v, ok, err = lightTrie.Get([]byte("seeleCredo 2"))
+	v, ok, err = lightTrie.Get([]byte("scdo 2"))
 	assert.Nil(t, err)
 	assert.False(t, ok)
 	assert.Nil(t, v)

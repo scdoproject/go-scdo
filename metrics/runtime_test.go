@@ -44,8 +44,8 @@ func Test_doMark(t *testing.T) {
 	if registry.Get("cpu.os") == nil {
 		t.Fatal("get cpu.os failed")
 	}
-	if registry.Get("cpu.seeleCredo") == nil {
-		t.Fatal("get cpu.seeleCredo failed")
+	if registry.Get("cpu.scdo") == nil {
+		t.Fatal("get cpu.scdo failed")
 	}
 	if registry.Get("disk.free.count") == nil {
 		t.Fatal("get disk.free.count failed")

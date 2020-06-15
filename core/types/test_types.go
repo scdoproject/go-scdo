@@ -16,7 +16,7 @@ import (
 const TestGenesisShard = 1
 const TestDebtTargetShard = 2
 
-// genesis account with enough balance (100K seeleCredo) for benchmark test
+// genesis account with enough balance (100K scdo) for benchmark test
 var TestGenesisAccount = NewTestAccount(new(big.Int).Mul(big.NewInt(100000), common.ScdoToFan), 0, TestGenesisShard)
 
 type testAccount struct {

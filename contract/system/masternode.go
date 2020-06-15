@@ -15,11 +15,11 @@ import (
 )
 
 const (
-	// CmdDeposit deposit seeleCredo and register as masternode
+	// CmdDeposit deposit scdo and register as masternode
 	CmdDeposit byte = iota
 	// CmdQueryMasternode query masternode
 	CmdQueryMasternode
-	// CmdRecall recallCmd seeleCredo and unregister as masternode
+	// CmdRecall recallCmd scdo and unregister as masternode
 	CmdRecall
 	// CmdQuit quitCmd masternode
 	CmdQuit

@@ -51,7 +51,7 @@ func createHTLC(client *rpc.Client) (interface{}, interface{}, error) {
 	return output, tx, err
 }
 
-// withdraw obtain seeleCredo from transaction
+// withdraw obtain scdo from transaction
 func withdraw(client *rpc.Client) (interface{}, interface{}, error) {
 	amountValue = "0"
 	txHashBytes, err := common.HexToHash(hashValue)
@@ -84,7 +84,7 @@ func withdraw(client *rpc.Client) (interface{}, interface{}, error) {
 	return output, tx, err
 }
 
-// refund used to refund seeleCredo from HTLC
+// refund used to refund scdo from HTLC
 func refund(client *rpc.Client) (interface{}, interface{}, error) {
 	amountValue = "0"
 	txHashBytes, err := hexutil.HexToBytes(hashValue)

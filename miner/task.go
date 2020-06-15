@@ -41,13 +41,13 @@ func NewTask(header *types.BlockHeader, coinbase common.Address, verifier types.
 }
 
 // applyTransactionsAndDebts TODO need to check more about the transactions, such as gas limit
-func (task *Task) applyTransactionsAndDebts(seeleCredo SlcBackend, statedb *state.Statedb, accountStateDB database.Database, log *log.ScdoLog) error {
+func (task *Task) applyTransactionsAndDebts(scdo SlcBackend, statedb *state.Statedb, accountStateDB database.Database, log *log.ScdoLog) error {
 	now := time.Now()
 	// entrance
 	memory.Print(log, "task applyTransactionsAndDebts entrance", now, false)
 
 	// choose transactions from the given txs
-	size := task.chooseDebts(seeleCredo, statedb, log)
+	size := task.chooseDebts(scdo, statedb, log)
 
 	// the reward tx will always be at the first of the block's transactions
 	reward, err := task.handleMinerRewardTx(statedb)
@@ -55,7 +55,7 @@ func (task *Task) applyTransactionsAndDebts(seeleCredo SlcBackend, statedb *stat
 		return err
 	}
 
-	task.chooseTransactions(seeleCredo, statedb, log, size)
+	task.chooseTransactions(scdo, statedb, log, size)
 
 	log.Info("mining block height:%d, reward:%s, transaction number:%d, debt number: %d",
 		task.header.Height, reward, len(task.txs), len(task.debts))
@@ -74,7 +74,7 @@ func (task *Task) applyTransactionsAndDebts(seeleCredo SlcBackend, statedb *stat
 	return nil
 }
 
-func (task *Task) chooseDebts(seeleCredo SlcBackend, statedb *state.Statedb, log *log.ScdoLog) int {
+func (task *Task) chooseDebts(scdo SlcBackend, statedb *state.Statedb, log *log.ScdoLog) int {
 	now := time.Now()
 	// entrance
 	memory.Print(log, "task chooseDebts entrance", now, false)
@@ -82,16 +82,16 @@ func (task *Task) chooseDebts(seeleCredo SlcBackend, statedb *state.Statedb, log
 	size := core.BlockByteLimit
 
 	for size > 0 {
-		debts, _ := seeleCredo.DebtPool().GetProcessableDebts(size)
+		debts, _ := scdo.DebtPool().GetProcessableDebts(size)
 		if len(debts) == 0 {
 			break
 		}
 
 		for _, d := range debts {
-			err := seeleCredo.BlockChain().ApplyDebtWithoutVerify(statedb, d, task.coinbase)
+			err := scdo.BlockChain().ApplyDebtWithoutVerify(statedb, d, task.coinbase)
 			if err != nil {
 				log.Debug("apply debt error %s", err)
-				seeleCredo.DebtPool().RemoveDebtByHash(d.Hash)
+				scdo.DebtPool().RemoveDebtByHash(d.Hash)
 				continue
 			}
 
@@ -127,7 +127,7 @@ func (task *Task) handleMinerRewardTx(statedb *state.Statedb) (*big.Int, error) 
 	return reward, nil
 }
 
-func (task *Task) chooseTransactions(seeleCredo SlcBackend, statedb *state.Statedb, log *log.ScdoLog, size int) {
+func (task *Task) chooseTransactions(scdo SlcBackend, statedb *state.Statedb, log *log.ScdoLog, size int) {
 	now := time.Now()
 	// entrance
 	memory.Print(log, "task chooseTransactions entrance", now, false)
@@ -135,22 +135,22 @@ func (task *Task) chooseTransactions(seeleCredo SlcBackend, statedb *state.State
 	txIndex := 1 // the first tx is miner reward
 
 	for size > 0 {
-		txs, txsSize := seeleCredo.TxPool().GetProcessableTransactions(size)
+		txs, txsSize := scdo.TxPool().GetProcessableTransactions(size)
 		if len(txs) == 0 {
 			break
 		}
 
 		for _, tx := range txs {
 			if err := tx.Validate(statedb, task.header.Height); err != nil {
-				seeleCredo.TxPool().RemoveTransaction(tx.Hash)
+				scdo.TxPool().RemoveTransaction(tx.Hash)
 				log.Error("failed to validate tx %s, for %s", tx.Hash.Hex(), err)
 				txsSize = txsSize - tx.Size()
 				continue
 			}
 
-			receipt, err := seeleCredo.BlockChain().ApplyTransaction(tx, txIndex, task.coinbase, statedb, task.header)
+			receipt, err := scdo.BlockChain().ApplyTransaction(tx, txIndex, task.coinbase, statedb, task.header)
 			if err != nil {
-				seeleCredo.TxPool().RemoveTransaction(tx.Hash)
+				scdo.TxPool().RemoveTransaction(tx.Hash)
 				log.Error("failed to apply tx %s, %s", tx.Hash.Hex(), err)
 				txsSize = txsSize - tx.Size()
 				continue

@@ -3,7 +3,7 @@
 *  @copyright defined in slc/LICENSE
  */
 
-package seeleCredo
+package scdo
 
 import (
 	api2 "github.com/scdoproject/go-scdo/api"

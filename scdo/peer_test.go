@@ -3,7 +3,7 @@
 *  @copyright defined in slc/LICENSE
  */
 
-package seeleCredo
+package scdo
 
 import (
 	"encoding/json"
@@ -46,7 +46,7 @@ func Test_peer_Info(t *testing.T) {
 }
 
 func Test_verifyGenesis(t *testing.T) {
-	networkID := "seeleCredo"
+	networkID := "scdo"
 	statusData := statusData{
 		ProtocolVersion: uint32(0),
 		NetworkID:       networkID,

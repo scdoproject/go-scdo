@@ -10,14 +10,14 @@ import (
 	"github.com/scdoproject/go-scdo/node"
 	"github.com/scdoproject/go-scdo/p2p"
 	rpc "github.com/scdoproject/go-scdo/rpc"
-	"github.com/scdoproject/go-scdo/seeleCredo"
+	"github.com/scdoproject/go-scdo/scdo"
 )
 
 // MonitorService implements some rpc interfaces provided by a monitor server
 type MonitorService struct {
 	p2pServer  *p2p.Server                   // Peer-to-Peer server infos
-	seeleCredo *seeleCredo.ScdoService // seeleCredo full node service
-	slcNode    *node.Node                    // seeleCredo node
+	scdo *scdo.ScdoService // scdo full node service
+	slcNode    *node.Node                    // scdo node
 	log        *log.ScdoLog
 
 	rpcAddr string // listening port
@@ -27,9 +27,9 @@ type MonitorService struct {
 }
 
 // NewMonitorService returns a MonitorService instance
-func NewMonitorService(slcService *seeleCredo.ScdoService, slcNode *node.Node, conf *node.Config, slclog *log.ScdoLog, name string) (*MonitorService, error) {
+func NewMonitorService(slcService *scdo.ScdoService, slcNode *node.Node, conf *node.Config, slclog *log.ScdoLog, name string) (*MonitorService, error) {
 	return &MonitorService{
-		seeleCredo: slcService,
+		scdo: slcService,
 		slcNode:    slcNode,
 		log:        slclog,
 		name:       name,
@@ -57,7 +57,7 @@ func (s *MonitorService) Stop() error {
 	return nil
 }
 
-// APIs implements node.Service, returning the collection of RPC services the seeleCredo package offers.
+// APIs implements node.Service, returning the collection of RPC services the scdo package offers.
 func (s *MonitorService) APIs() (apis []rpc.API) {
 	return append(apis, []rpc.API{
 		{

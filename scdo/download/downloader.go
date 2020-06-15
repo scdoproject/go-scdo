@@ -93,7 +93,7 @@ type Downloader struct {
 	syncStatus int
 	tm         *taskMgr
 
-	seeleCredo     SlcBackend
+	scdo     SlcBackend
 	chain     *core.Blockchain
 	sessionWG sync.WaitGroup
 	log       *log.ScdoLog
@@ -119,11 +119,11 @@ type SlcBackend interface {
 }
 
 // NewDownloader create Downloader
-func NewDownloader(chain *core.Blockchain, seeleCredo SlcBackend) *Downloader {
+func NewDownloader(chain *core.Blockchain, scdo SlcBackend) *Downloader {
 	d := &Downloader{
 		cancelCh:   make(chan struct{}),
 		peers:      make(map[string]*peerConn),
-		seeleCredo:      seeleCredo,
+		scdo:      scdo,
 		chain:      chain,
 		syncStatus: statusNone,
 	}
@@ -586,7 +586,7 @@ func (d *Downloader) processBlocks(headInfos []*downloadInfo, ancestor uint64, l
 		// add it for all received block messages
 		d.log.Info("got block message and save it. height=%d, hash=%s, time=%d", h.block.Header.Height, h.block.HeaderHash.Hex(), time.Now().UnixNano())
 		// writeblock
-		txPool := d.seeleCredo.TxPool().Pool
+		txPool := d.scdo.TxPool().Pool
 		err := d.chain.WriteBlock(h.block, txPool)
 
 		if err != nil && !errors.IsOrContains(err, core.ErrBlockAlreadyExists) {
@@ -663,8 +663,8 @@ func (d *Downloader) reverseBCstore(ancestor uint64) (uint64, *big.Int, []*types
 		localBlocks = append([]*types.Block{block}, localBlocks...)
 
 		// reinject the block objects to the pool
-		d.seeleCredo.TxPool().HandleChainReversed(block)
-		d.seeleCredo.DebtPool().HandleChainReversed(block)
+		d.scdo.TxPool().HandleChainReversed(block)
+		d.scdo.DebtPool().HandleChainReversed(block)
 
 		if err = bcStore.DeleteBlock(hash); err != nil {
 			return localHeight, localTD, localBlocks, errors.NewStackedErrorf(err, "failed to delete block %v", block.HeaderHash)

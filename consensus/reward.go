@@ -34,9 +34,9 @@ func init() {
 	tailRewardCoin = convertScdoToFan(tailReward / common.ShardCount)
 }
 
-func convertScdoToFan(seeleCredo float64) *big.Int {
+func convertScdoToFan(scdo float64) *big.Int {
 	unit := common.ScdoToFan.Int64()
-	f := uint64(seeleCredo * float64(unit))
+	f := uint64(scdo * float64(unit))
 
 	return big.NewInt(0).SetUint64(f)
 }

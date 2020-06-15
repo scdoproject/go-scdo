@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/scdoproject/go-scdo/seeleCredo"
+	"github.com/scdoproject/go-scdo/scdo"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +27,7 @@ var gettps = &cobra.Command{
 			sum := float64(0)
 
 			for _, client := range clientList {
-				var tps seeleCredo.TpsInfo
+				var tps scdo.TpsInfo
 				err := client.Call(&tps, "debug_getTPS")
 				if err != nil {
 					fmt.Println("failed to get tps ", err)

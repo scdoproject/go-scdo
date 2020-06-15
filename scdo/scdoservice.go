@@ -3,7 +3,7 @@
 *  @copyright defined in slc/LICENSE
  */
 
-package seeleCredo
+package scdo
 
 import (
 	"context"
@@ -24,7 +24,7 @@ import (
 	"github.com/scdoproject/go-scdo/node"
 	"github.com/scdoproject/go-scdo/p2p"
 	"github.com/scdoproject/go-scdo/rpc"
-	downloader "github.com/scdoproject/go-scdo/seeleCredo/download"
+	downloader "github.com/scdoproject/go-scdo/scdo/download"
 )
 
 const chainHeaderChangeBuffSize = 100
@@ -284,13 +284,13 @@ func (s *ScdoService) Stop() error {
 	return nil
 }
 
-// APIs implements node.Service, returning the collection of RPC services the seeleCredo package offers.
+// APIs implements node.Service, returning the collection of RPC services the scdo package offers.
 // must to make sure that the order of the download api is 5; we get the download api by 5
 func (s *ScdoService) APIs() (apis []rpc.API) {
 	apis = append(apis, api.GetAPIs(NewScdoBackend(s))...)
 	apis = append(apis, []rpc.API{
 		{
-			Namespace: "seeleCredo",
+			Namespace: "scdo",
 			Version:   "1.0",
 			Service:   NewPublicSeeleAPI(s),
 			Public:    true,

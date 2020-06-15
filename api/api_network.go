@@ -32,12 +32,12 @@ func (n *PrivateNetworkAPI) GetNetVersion() (string, error) {
 	return n.s.GetNetVersion(), nil
 }
 
-// GetNetworkID returns the network ID, unique mark of seeleCredo Network
+// GetNetworkID returns the network ID, unique mark of scdo Network
 func (n *PrivateNetworkAPI) GetNetworkID() (string, error) {
 	return n.s.GetNetWorkID(), nil
 }
 
-// GetProtocolVersion returns the current seeleCredo protocol version this node supports
+// GetProtocolVersion returns the current scdo protocol version this node supports
 func (n *PrivateNetworkAPI) GetProtocolVersion() (uint, error) {
 	return n.s.ProtocolBackend().GetProtocolVersion()
 }

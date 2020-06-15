@@ -3,7 +3,7 @@
 *  @copyright defined in slc/LICENSE
  */
 
-package seeleCredo
+package scdo
 
 import (
 	"bytes"
@@ -33,7 +33,7 @@ func Test_PublicSeeleAPI(t *testing.T) {
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
 	dataDir := ctx.Value("ServiceContext").(ServiceContext).DataDir
-	log := log.GetLogger("seeleCredo")
+	log := log.GetLogger("scdo")
 	ss, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		t.Fatal()
@@ -122,7 +122,7 @@ func newTestAPI(t *testing.T, dbPath string) *PublicScdoAPI {
 	}
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
-	log := log.GetLogger("seeleCredo")
+	log := log.GetLogger("scdo")
 	ss, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	assert.Equal(t, err, nil)
 	return NewPublicSeeleAPI(ss)

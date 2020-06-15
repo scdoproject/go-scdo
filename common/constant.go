@@ -16,7 +16,7 @@ import (
 const (
 
 	// ScdoProtoName protoName of Scdo service
-	ScdoProtoName = "seeleCredo"
+	ScdoProtoName = "scdo"
 
 	// ScdoVersion Version number of Scdo protocol
 	ScdoVersion uint = 1
@@ -82,7 +82,7 @@ const (
 
 	WindowsPipeDir = `\\.\pipe\`
 
-	defaultPipeFile = `\seeleCredo.ipc`
+	defaultPipeFile = `\scdo.ipc`
 )
 
 var (
@@ -115,7 +115,7 @@ func init() {
 
 	tempFolder = filepath.Join(usr.HomeDir, "seeleTemp")
 
-	defaultDataFolder = filepath.Join(usr.HomeDir, ".seeleCredo")
+	defaultDataFolder = filepath.Join(usr.HomeDir, ".scdo")
 
 	if runtime.GOOS == "windows" {
 		defaultIPCPath = WindowsPipeDir + defaultPipeFile

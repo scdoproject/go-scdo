@@ -166,7 +166,7 @@ func (p *Peer) notifyProtocolsAddPeer() {
 				if !proto.AddPeer(p, &proto) {
 					proto.bQuited = true
 
-					// seeleCredo protocol is the highest weight, tcp of peer need to be closed
+					// scdo protocol is the highest weight, tcp of peer need to be closed
 					if proto.Name == common.ScdoProtoName {
 						p.log.Debug("notifyProtocolsAddPeer AddPeer err got. name=%s node=%s", proto.Name, fmt.Sprintf("%x", p.Node.ID))
 						// close connection of peer

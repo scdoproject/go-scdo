@@ -3,7 +3,7 @@
 *  @copyright defined in slc/LICENSE
  */
 
-package seeleCredo
+package scdo
 
 import (
 	"context"
@@ -120,10 +120,10 @@ func newTestTxPoolAPI(t *testing.T, dbPath string) *TransactionPoolAPI {
 
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
-	log := log.GetLogger("seeleCredo")
+	log := log.GetLogger("scdo")
 	ss, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
-		panic("new seeleCredo service error")
+		panic("new scdo service error")
 	}
 	return NewTransactionPoolAPI(ss)
 }

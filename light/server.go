@@ -16,7 +16,7 @@ import (
 	"github.com/scdoproject/go-scdo/node"
 	"github.com/scdoproject/go-scdo/p2p"
 	"github.com/scdoproject/go-scdo/rpc"
-	"github.com/scdoproject/go-scdo/seeleCredo"
+	"github.com/scdoproject/go-scdo/scdo"
 )
 
 // ServiceServer implements light server service.
@@ -28,7 +28,7 @@ type ServiceServer struct {
 }
 
 // NewServiceServer create ServiceServer
-func NewServiceServer(service *seeleCredo.ScdoService, conf *node.Config, log *log.ScdoLog, shard uint) (*ServiceServer, error) {
+func NewServiceServer(service *scdo.ScdoService, conf *node.Config, log *log.ScdoLog, shard uint) (*ServiceServer, error) {
 	seeleProtocol, err := NewLightProtocol(conf.P2PConfig.NetworkID, service.TxPool(), service.DebtPool(), service.BlockChain(), true, nil, log, shard)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,7 @@ func (s *ServiceServer) Stop() error {
 	return nil
 }
 
-// APIs implements node.Service, returning the collection of RPC services the seeleCredo package offers.
+// APIs implements node.Service, returning the collection of RPC services the scdo package offers.
 func (s *ServiceServer) APIs() (apis []rpc.API) {
 	return
 }

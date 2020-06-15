@@ -3,7 +3,7 @@
 *  @copyright defined in slc/LICENSE
  */
 
-package seeleCredo
+package scdo
 
 import (
 	"encoding/hex"
@@ -17,7 +17,7 @@ import (
 	"github.com/scdoproject/go-scdo/core/types"
 	"github.com/scdoproject/go-scdo/log"
 	"github.com/scdoproject/go-scdo/p2p"
-	downloader "github.com/scdoproject/go-scdo/seeleCredo/download"
+	downloader "github.com/scdoproject/go-scdo/scdo/download"
 )
 
 const (
