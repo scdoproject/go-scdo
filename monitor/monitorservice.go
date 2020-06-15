@@ -27,9 +27,9 @@ type MonitorService struct {
 }
 
 // NewMonitorService returns a MonitorService instance
-func NewMonitorService(slcService *scdo.ScdoService, slcNode *node.Node, conf *node.Config, slclog *log.ScdoLog, name string) (*MonitorService, error) {
+func NewMonitorService(scdoService *scdo.ScdoService, slcNode *node.Node, conf *node.Config, slclog *log.ScdoLog, name string) (*MonitorService, error) {
 	return &MonitorService{
-		scdo: slcService,
+		scdo: scdoService,
 		slcNode:    slcNode,
 		log:        slclog,
 		name:       name,

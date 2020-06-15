@@ -41,7 +41,7 @@ func NewTask(header *types.BlockHeader, coinbase common.Address, verifier types.
 }
 
 // applyTransactionsAndDebts TODO need to check more about the transactions, such as gas limit
-func (task *Task) applyTransactionsAndDebts(scdo SlcBackend, statedb *state.Statedb, accountStateDB database.Database, log *log.ScdoLog) error {
+func (task *Task) applyTransactionsAndDebts(scdo ScdoBackend, statedb *state.Statedb, accountStateDB database.Database, log *log.ScdoLog) error {
 	now := time.Now()
 	// entrance
 	memory.Print(log, "task applyTransactionsAndDebts entrance", now, false)
@@ -74,7 +74,7 @@ func (task *Task) applyTransactionsAndDebts(scdo SlcBackend, statedb *state.Stat
 	return nil
 }
 
-func (task *Task) chooseDebts(scdo SlcBackend, statedb *state.Statedb, log *log.ScdoLog) int {
+func (task *Task) chooseDebts(scdo ScdoBackend, statedb *state.Statedb, log *log.ScdoLog) int {
 	now := time.Now()
 	// entrance
 	memory.Print(log, "task chooseDebts entrance", now, false)
@@ -127,7 +127,7 @@ func (task *Task) handleMinerRewardTx(statedb *state.Statedb) (*big.Int, error) 
 	return reward, nil
 }
 
-func (task *Task) chooseTransactions(scdo SlcBackend, statedb *state.Statedb, log *log.ScdoLog, size int) {
+func (task *Task) chooseTransactions(scdo ScdoBackend, statedb *state.Statedb, log *log.ScdoLog, size int) {
 	now := time.Now()
 	// entrance
 	memory.Print(log, "task chooseTransactions entrance", now, false)

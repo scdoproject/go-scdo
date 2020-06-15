@@ -183,7 +183,7 @@ func createMiner() *Miner {
 	return NewMiner(defaultMinerAddr, scdo, nil, factory.MustGetConsensusEngine(common.Sha256Algorithm))
 }
 
-func checkMinerMembers(miner *Miner, addr common.Address, scdo SlcBackend, t *testing.T) {
+func checkMinerMembers(miner *Miner, addr common.Address, scdo ScdoBackend, t *testing.T) {
 	assert.Equal(t, miner.coinbase, addr)
 
 	assert.Equal(t, miner.mining, int32(0))
@@ -195,7 +195,7 @@ func checkMinerMembers(miner *Miner, addr common.Address, scdo SlcBackend, t *te
 	assert.Equal(t, miner.isFirstDownloader, int32(1))
 }
 
-// TestScdoBackend implements the SlcBackend interface.
+// TestScdoBackend implements the ScdoBackend interface.
 type TestScdoBackend struct {
 	txPool     *core.TransactionPool
 	debtPool   *core.DebtPool

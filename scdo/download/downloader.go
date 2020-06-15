@@ -93,7 +93,7 @@ type Downloader struct {
 	syncStatus int
 	tm         *taskMgr
 
-	scdo     SlcBackend
+	scdo     ScdoBackend
 	chain     *core.Blockchain
 	sessionWG sync.WaitGroup
 	log       *log.ScdoLog
@@ -112,14 +112,14 @@ type BlocksMsgBody struct {
 	Blocks []*types.Block
 }
 
-// SlcBackend wraps all methods required for downloader.
-type SlcBackend interface {
+// ScdoBackend wraps all methods required for downloader.
+type ScdoBackend interface {
 	TxPool() *core.TransactionPool
 	DebtPool() *core.DebtPool
 }
 
 // NewDownloader create Downloader
-func NewDownloader(chain *core.Blockchain, scdo SlcBackend) *Downloader {
+func NewDownloader(chain *core.Blockchain, scdo ScdoBackend) *Downloader {
 	d := &Downloader{
 		cancelCh:   make(chan struct{}),
 		peers:      make(map[string]*peerConn),

@@ -9,38 +9,38 @@ import (
 	"github.com/scdoproject/go-scdo/core/types"
 	"github.com/scdoproject/go-scdo/log"
 	"github.com/scdoproject/go-scdo/p2p"
-	"github.com/scdoproject/go-scdo/scdo/download"
+	downloader "github.com/scdoproject/go-scdo/scdo/download"
 )
 
-type SlcBackend struct {
+type ScdoBackend struct {
 	s *ScdoService
 }
 
 // NewScdoBackend backend
-func NewScdoBackend(s *ScdoService) *SlcBackend {
-	return &SlcBackend{s}
+func NewScdoBackend(s *ScdoService) *ScdoBackend {
+	return &ScdoBackend{s}
 }
 
 // TxPoolBackend tx pool
-func (sd *SlcBackend) TxPoolBackend() api.Pool { return sd.s.txPool }
+func (sd *ScdoBackend) TxPoolBackend() api.Pool { return sd.s.txPool }
 
 // GetNetVersion net version
-func (sd *SlcBackend) GetNetVersion() string { return sd.s.netVersion }
+func (sd *ScdoBackend) GetNetVersion() string { return sd.s.netVersion }
 
 // GetNetWorkID net id
-func (sd *SlcBackend) GetNetWorkID() string { return sd.s.networkID }
+func (sd *ScdoBackend) GetNetWorkID() string { return sd.s.networkID }
 
 // GetP2pServer p2p server
-func (sd *SlcBackend) GetP2pServer() *p2p.Server { return sd.s.p2pServer }
+func (sd *ScdoBackend) GetP2pServer() *p2p.Server { return sd.s.p2pServer }
 
 // ChainBackend block chain db
-func (sd *SlcBackend) ChainBackend() api.Chain { return sd.s.chain }
+func (sd *ScdoBackend) ChainBackend() api.Chain { return sd.s.chain }
 
 // Log return log pointer
-func (sd *SlcBackend) Log() *log.ScdoLog { return sd.s.log }
+func (sd *ScdoBackend) Log() *log.ScdoLog { return sd.s.log }
 
 // IsSyncing check status
-func (sd *SlcBackend) IsSyncing() bool {
+func (sd *ScdoBackend) IsSyncing() bool {
 	seeleserviceAPI := sd.s.APIs()[5]
 	d := seeleserviceAPI.Service.(downloader.PrivatedownloaderAPI)
 
@@ -48,10 +48,10 @@ func (sd *SlcBackend) IsSyncing() bool {
 }
 
 // ProtocolBackend return protocol
-func (sd *SlcBackend) ProtocolBackend() api.Protocol { return sd.s.seeleProtocol }
+func (sd *ScdoBackend) ProtocolBackend() api.Protocol { return sd.s.seeleProtocol }
 
 // GetBlock returns the requested block by hash or height
-func (sd *SlcBackend) GetBlock(hash common.Hash, height int64) (*types.Block, error) {
+func (sd *ScdoBackend) GetBlock(hash common.Hash, height int64) (*types.Block, error) {
 	var block *types.Block
 	var err error
 	if !hash.IsEmpty() {
@@ -76,13 +76,13 @@ func (sd *SlcBackend) GetBlock(hash common.Hash, height int64) (*types.Block, er
 }
 
 // GetBlockTotalDifficulty return total difficulty
-func (sd *SlcBackend) GetBlockTotalDifficulty(hash common.Hash) (*big.Int, error) {
+func (sd *ScdoBackend) GetBlockTotalDifficulty(hash common.Hash) (*big.Int, error) {
 	store := sd.s.chain.GetStore()
 	return store.GetBlockTotalDifficulty(hash)
 }
 
 // GetReceiptByTxHash get receipt by transaction hash
-func (sd *SlcBackend) GetReceiptByTxHash(hash common.Hash) (*types.Receipt, error) {
+func (sd *ScdoBackend) GetReceiptByTxHash(hash common.Hash) (*types.Receipt, error) {
 	store := sd.s.chain.GetStore()
 	receipt, err := store.GetReceiptByTxHash(hash)
 	if err != nil {
@@ -92,6 +92,6 @@ func (sd *SlcBackend) GetReceiptByTxHash(hash common.Hash) (*types.Receipt, erro
 }
 
 // GetTransaction return tx
-func (sd *SlcBackend) GetTransaction(pool api.PoolCore, bcStore store.BlockchainStore, txHash common.Hash) (*types.Transaction, *api.BlockIndex, error) {
+func (sd *ScdoBackend) GetTransaction(pool api.PoolCore, bcStore store.BlockchainStore, txHash common.Hash) (*types.Transaction, *api.BlockIndex, error) {
 	return api.GetTransaction(pool, bcStore, txHash)
 }

@@ -23,9 +23,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func newTestSeeleBackend() *SlcBackend {
+func newTestSeeleBackend() *ScdoBackend {
 	seeleService := newTestSeeleService()
-	return &SlcBackend{seeleService}
+	return &ScdoBackend{seeleService}
 }
 
 func Test_SeeleBackend_GetBlock(t *testing.T) {

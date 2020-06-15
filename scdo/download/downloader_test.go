@@ -22,7 +22,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// TestScdoBackend implements the SlcBackend interface.
+// TestScdoBackend implements the ScdoBackend interface.
 type TestScdoBackend struct{}
 
 func (slcBackend *TestScdoBackend) TxPool() *core.TransactionPool {

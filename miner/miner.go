@@ -35,8 +35,8 @@ var (
 	minerCount = 0
 )
 
-// SlcBackend wraps all methods required for minier.
-type SlcBackend interface {
+// ScdoBackend wraps all methods required for minier.
+type ScdoBackend interface {
 	TxPool() *core.TransactionPool
 	BlockChain() *core.Blockchain
 	DebtPool() *core.DebtPool
@@ -53,7 +53,7 @@ type Miner struct {
 	current  *Task
 	recv     chan *types.Block
 
-	scdo SlcBackend
+	scdo ScdoBackend
 	log        *log.ScdoLog
 
 	isFirstDownloader    int32
@@ -67,7 +67,7 @@ type Miner struct {
 }
 
 // NewMiner constructs and returns a miner instance
-func NewMiner(addr common.Address, scdo SlcBackend, verifier types.DebtVerifier, engine consensus.Engine) *Miner {
+func NewMiner(addr common.Address, scdo ScdoBackend, verifier types.DebtVerifier, engine consensus.Engine) *Miner {
 	miner := &Miner{
 		coinbase:             addr,
 		canStart:             1,

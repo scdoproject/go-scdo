@@ -75,16 +75,16 @@ func createTestAPI(t *testing.T) (api *PublicMonitorAPI, dispose func()) {
 		return
 	}
 
-	slcService, err := scdo.NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	scdoService, err := scdo.NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		t.Fatal(err)
 		return
 	}
 
-	monitorService, _ := NewMonitorService(slcService, slcNode, &testConf, log, "run test")
+	monitorService, _ := NewMonitorService(scdoService, slcNode, &testConf, log, "run test")
 
 	slcNode.Register(monitorService)
-	slcNode.Register(slcService)
+	slcNode.Register(scdoService)
 
 	api = NewPublicMonitorAPI(monitorService)
 
@@ -94,7 +94,7 @@ func createTestAPI(t *testing.T) (api *PublicMonitorAPI, dispose func()) {
 		return
 	}
 
-	slcService.Miner().Start()
+	scdoService.Miner().Start()
 
 	return api, func() {
 		api.s.scdo.Stop()
@@ -153,23 +153,23 @@ func createTestAPIErr(errBranch int) (api *PublicMonitorAPI, dispose func()) {
 		return
 	}
 
-	slcService, err := scdo.NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	scdoService, err := scdo.NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	monitorService, _ := NewMonitorService(slcService, slcNode, &testConf, log, "run test")
+	monitorService, _ := NewMonitorService(scdoService, slcNode, &testConf, log, "run test")
 
 	slcNode.Register(monitorService)
-	slcNode.Register(slcService)
+	slcNode.Register(scdoService)
 
 	api = NewPublicMonitorAPI(monitorService)
 
 	if errBranch != 1 {
 		slcNode.Start()
 	} else {
-		slcService.Miner().Start()
+		scdoService.Miner().Start()
 	}
 
 	return api, func() {
