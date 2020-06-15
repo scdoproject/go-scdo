@@ -22,7 +22,7 @@ const (
 	SeeleCredoVersion uint = 1
 
 	// SeeleCredoVersion for simpler display
-	SeeleCredoNodeVersion string = "v1.3.2"
+	SeeleCredoNodeVersion string = "Scdo_V1.0.0"
 
 	// ShardCount represents the total number of shards.
 	ShardCount = 4
@@ -36,19 +36,21 @@ const (
 	// ConfirmedBlockNumber is the block number for confirmed a block, it should be more than 12 in product
 	ConfirmedBlockNumber = 120
 
-	// ForkHeight after this height we change the content of block: hardFork
-	ForkHeight = 130000
+	SeeleCredoForkHeight = 2916666
 
 	// ForkHeight after this height we change the content of block: hardFork
-	SecondForkHeight = 145000
+	ForkHeight = SeeleCredoForkHeight
+
+	// ForkHeight after this height we change the content of block: hardFork
+	SecondForkHeight = SeeleCredoForkHeight
 
 	// ForkHeight after this height we change the validation of tx: hardFork
-	ThirdForkHeight = 735000
+	ThirdForkHeight = SeeleCredoForkHeight
 
-	SmartContractNonceForkHeight = 1100000
+	SmartContractNonceForkHeight = SeeleCredoForkHeight
 
 	// SmartContractNonceFixHeight fix smart contract nonce bug when user use setNonce
-	SmartContractNonceFixHeight = 2100000
+	SmartContractNonceFixHeight = SeeleCredoForkHeight
 
 	// LightChainDir lightchain data directory based on config.DataRoot
 	LightChainDir = "/db/lightchain"

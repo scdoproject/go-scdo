@@ -117,11 +117,11 @@ func (api *PublicSeeleCredoAPI) Call(contract, payload string, height int64) (ma
 	coinbase := api.s.miner.GetCoinbase()
 	from := crypto.MustGenerateShardAddress(coinbase.Shard())
 	statedb.CreateAccount(*from)
-	statedb.SetBalance(*from, common.SeeleCredoToFan)
+	statedb.SetBalance(*from, common.ScdoToFan)
 
 	amount, price, nonce := big.NewInt(0), big.NewInt(1), uint64(1)
 	// gasLimit = balance / fee
-	gasLimit := common.SeeleCredoToFan.Uint64()
+	gasLimit := common.ScdoToFan.Uint64()
 	tx, err := types.NewMessageTransaction(*from, contractAddr, amount, price, gasLimit, nonce, msg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create transaction: %s", err)

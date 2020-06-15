@@ -14,6 +14,7 @@ import (
 	"github.com/ethereum/go-ethereum/rlp"
 	"github.com/seelecredo/go-seelecredo/common"
 	"github.com/seelecredo/go-seelecredo/common/errors"
+	"github.com/seelecredo/go-seelecredo/consensus"
 	"github.com/seelecredo/go-seelecredo/core/state"
 	"github.com/seelecredo/go-seelecredo/core/store"
 	"github.com/seelecredo/go-seelecredo/core/types"
@@ -30,7 +31,7 @@ var (
 	ErrGenesisNotFound = errors.New("genesis block not found")
 )
 
-const genesisBlockHeight = uint64(0)
+const genesisBlockHeight = common.SeeleCredoForkHeight
 
 // Genesis represents the genesis block in the blockchain.
 type Genesis struct {
@@ -181,7 +182,6 @@ func (genesis *Genesis) GetShardNumber() uint {
 func (genesis *Genesis) InitializeAndValidate(bcStore store.BlockchainStore, accountStateDB database.Database) error {
 	storedGenesisHash, err := bcStore.GetBlockHash(genesisBlockHeight)
 
-	// FIXME use seeleCredo-defined common error instead of concrete levelDB error.
 	if err == leveldbErrors.ErrNotFound {
 		return genesis.store(bcStore, accountStateDB)
 	}
@@ -234,24 +234,28 @@ func (genesis *Genesis) store(bcStore store.BlockchainStore, accountStateDB data
 func getStateDB(info *GenesisInfo) *state.Statedb {
 	statedb := state.NewEmptyStatedb(nil)
 
+	curReward := consensus.GetReward(common.SeeleCredoForkHeight)
+	var minedRewardsPerShard = big.NewInt(0)
+	minedRewardsPerShard.Mul(curReward, big.NewInt(common.SeeleCredoForkHeight))
+
 	if info.ShardNumber == 1 {
 		info.Masteraccount, _ = common.HexToAddress("0xd9dd0a837a3eb6f6a605a5929555b36ced68fdd1")
-		info.Balance = big.NewInt(17500000000000000)
+		info.Balance = minedRewardsPerShard
 		statedb.CreateAccount(info.Masteraccount)
 		statedb.SetBalance(info.Masteraccount, info.Balance)
 	} else if info.ShardNumber == 2 {
 		info.Masteraccount, _ = common.HexToAddress("0xc71265f11acdacffe270c4f45dceff31747b6ac1")
-		info.Balance = big.NewInt(17500000000000000)
+		info.Balance = minedRewardsPerShard
 		statedb.CreateAccount(info.Masteraccount)
 		statedb.SetBalance(info.Masteraccount, info.Balance)
 	} else if info.ShardNumber == 3 {
 		info.Masteraccount, _ = common.HexToAddress("0x509bb3c2285a542e96d3500e1d04f478be12faa1")
-		info.Balance = big.NewInt(17500000000000000)
+		info.Balance = minedRewardsPerShard
 		statedb.CreateAccount(info.Masteraccount)
 		statedb.SetBalance(info.Masteraccount, info.Balance)
 	} else if info.ShardNumber == 4 {
 		info.Masteraccount, _ = common.HexToAddress("0xc6c5c85c585ee33aae502b874afe6cbc3727ebf1")
-		info.Balance = big.NewInt(17500000000000000)
+		info.Balance = minedRewardsPerShard
 		statedb.CreateAccount(info.Masteraccount)
 		statedb.SetBalance(info.Masteraccount, info.Balance)
 	} else {

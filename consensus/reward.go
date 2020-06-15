@@ -28,14 +28,14 @@ func init() {
 
 	rewardTableCoin = make([]*big.Int, len(rewardTable))
 	for i, r := range rewardTable {
-		rewardTableCoin[i] = convertSeeleToFan(r / common.ShardCount)
+		rewardTableCoin[i] = convertScdoToFan(r / common.ShardCount)
 	}
 
-	tailRewardCoin = convertSeeleToFan(tailReward / common.ShardCount)
+	tailRewardCoin = convertScdoToFan(tailReward / common.ShardCount)
 }
 
-func convertSeeleToFan(seeleCredo float64) *big.Int {
-	unit := common.SeeleCredoToFan.Int64()
+func convertScdoToFan(seeleCredo float64) *big.Int {
+	unit := common.ScdoToFan.Int64()
 	f := uint64(seeleCredo * float64(unit))
 
 	return big.NewInt(0).SetUint64(f)

@@ -428,7 +428,7 @@ func (p *SeeleCredoProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWrit
 		return false
 	}
 
-	genesisBlock, err := p.chain.GetStore().GetBlockByHeight(0)
+	genesisBlock, err := p.chain.GetStore().GetBlockByHeight(common.SeeleCredoForkHeight)
 	if err != nil {
 		return false
 	}

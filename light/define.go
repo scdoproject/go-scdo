@@ -15,7 +15,7 @@ import (
 
 const (
 	// LightProtoName protoName of SeeleCredo service
-	LightProtoName = "lightSeele"
+	LightProtoName = "lightSeeleCredo"
 
 	// LightSeeleCredoVersion version number of SeeleCredo protocol
 	LightSeeleCredoVersion uint = 1
