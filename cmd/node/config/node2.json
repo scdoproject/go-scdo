@@ -37,7 +37,7 @@
         ]
     },
     "ipcconfig": {
-        "name": "seele2.ipc"
+        "name": "scdo2.ipc"
     },
     "metrics": {
         "address": "0.0.0.0:8087",

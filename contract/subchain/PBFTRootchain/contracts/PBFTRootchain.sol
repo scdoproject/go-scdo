@@ -9,7 +9,7 @@ import "./PriorityQueue.sol";
 /// @title A PBFT consensus subchain contract in Scdo root chain
 /// @notice You can use this contract for a PBFT consensus subchain in Scdo.
 /// @dev The contract is based on the fact that the operator is trustworthy.
-/// @author seeledev@seeletech.net
+/// @author scdodev@scdotech.net
 contract PBFTRootchain {
     using SafeMath for uint256;
     using PriorityQueue for uint256[];

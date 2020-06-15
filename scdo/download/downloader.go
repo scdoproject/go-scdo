@@ -446,7 +446,7 @@ func (d *Downloader) UnRegisterPeer(peerID string) {
 	}
 }
 
-// DeliverMsg called by seeleprotocol to deliver received msg from network
+// DeliverMsg called by scdoprotocol to deliver received msg from network
 func (d *Downloader) DeliverMsg(peerID string, msg *p2p.Message) {
 	d.lock.Lock()
 	peerConn, ok := d.peers[peerID]

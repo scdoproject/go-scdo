@@ -41,8 +41,8 @@ func (sd *ScdoBackend) Log() *log.ScdoLog { return sd.s.log }
 
 // IsSyncing check status
 func (sd *ScdoBackend) IsSyncing() bool {
-	seeleserviceAPI := sd.s.APIs()[5]
-	d := seeleserviceAPI.Service.(downloader.PrivatedownloaderAPI)
+	scdoserviceAPI := sd.s.APIs()[5]
+	d := scdoserviceAPI.Service.(downloader.PrivatedownloaderAPI)
 
 	return d.IsSyncing()
 }

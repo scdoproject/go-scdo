@@ -92,7 +92,7 @@ func NewApp(isFullNode bool) *cli.App {
 	app.Authors = []cli.Author{
 		cli.Author{
 			Name:  "scdoteamteam",
-			Email: "dev@seelenet.com",
+			Email: "dev@scdonet.com",
 		},
 	}
 

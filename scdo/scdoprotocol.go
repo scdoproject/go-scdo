@@ -331,7 +331,7 @@ func (p *ScdoProtocol) handleNewTx(e event.Event) {
 	peers := p.peerSet.getPeerByShard(shardId)
 	for _, peer := range peers {
 		if peer.knownTxs.Contains(tx.Hash) {
-			p.log.Debug("seeleprotocol handleNewTx: peer: %s already contains tx %s", peer.peerStrID, tx.Hash.String())
+			p.log.Debug("scdoprotocol handleNewTx: peer: %s already contains tx %s", peer.peerStrID, tx.Hash.String())
 			continue
 		}
 
@@ -842,7 +842,7 @@ handler:
 
 	p.handleDelPeer(peer.Peer)
 	p.log.Debug("scdo.protocol.handlemsg run out! peer= %s!", peer.peerStrID)
-	peer.Disconnect(fmt.Sprintf("called from seeleprotocol.handlemsg. id=%s", peer.peerStrID))
+	peer.Disconnect(fmt.Sprintf("called from scdoprotocol.handlemsg. id=%s", peer.peerStrID))
 }
 
 func (p *ScdoProtocol) GetProtocolVersion() (uint, error) {

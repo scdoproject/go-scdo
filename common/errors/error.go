@@ -21,9 +21,9 @@ type scdoError struct {
 	msg  string
 }
 
-// seeleParameterizedError represents a scdo error with code and parameterized message.
+// scdoParameterizedError represents a scdo error with code and parameterized message.
 // For type safe of common used business error, developer could define a concrete error to process.
-type seeleParameterizedError struct {
+type scdoParameterizedError struct {
 	scdoError
 	parameters []interface{}
 }
@@ -54,7 +54,7 @@ func Create(code ErrorCode, args ...interface{}) error {
 		return fmt.Errorf("system internal error, cannot find the error code %v", code)
 	}
 
-	return &seeleParameterizedError{
+	return &scdoParameterizedError{
 		scdoError: scdoError{code, fmt.Sprintf(errFormat, args...)},
 		parameters: args,
 	}

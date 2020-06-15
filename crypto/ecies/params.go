@@ -13,7 +13,7 @@ import (
 	"fmt"
 	"hash"
 
-	seelecrypto "github.com/scdoproject/go-scdo/crypto"
+	scdocrypto "github.com/scdoproject/go-scdo/crypto"
 )
 
 // The default curve for this package is the NIST P256 curve, which
@@ -74,7 +74,7 @@ var (
 )
 
 var paramsFromCurve = map[elliptic.Curve]*ECIESParams{
-	seelecrypto.S256(): ECIES_AES128_SHA256, // add item for crypto.secp256k1
+	scdocrypto.S256(): ECIES_AES128_SHA256, // add item for crypto.secp256k1
 	elliptic.P256():    ECIES_AES128_SHA256,
 	elliptic.P384():    ECIES_AES256_SHA384,
 	elliptic.P521():    ECIES_AES256_SHA512,
