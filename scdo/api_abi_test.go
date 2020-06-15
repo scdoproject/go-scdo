@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in slc/LICENSE
+*  @copyright defined in scdo/LICENSE
  */
 package scdo
 

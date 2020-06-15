@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in slc/LICENSE
+*  @copyright defined in scdo/LICENSE
  */
 
 package cmd
@@ -16,11 +16,11 @@ type rpcFlag interface {
 	getValue() (interface{}, error)
 }
 
-type slcAddressFlag struct {
+type scdoAddressFlag struct {
 	cli.StringFlag
 }
 
-func (flag slcAddressFlag) getValue() (interface{}, error) {
+func (flag scdoAddressFlag) getValue() (interface{}, error) {
 	if val := *flag.Destination; len(val) > 0 {
 		return common.HexToAddress(val)
 	}
@@ -54,7 +54,7 @@ var (
 	}
 
 	accountValue string
-	accountFlag  = slcAddressFlag{
+	accountFlag  = scdoAddressFlag{
 		StringFlag: cli.StringFlag{
 			Name:        "account",
 			Value:       "",
@@ -147,7 +147,7 @@ var (
 	}
 
 	contractValue string
-	contractFlag  = slcAddressFlag{
+	contractFlag  = scdoAddressFlag{
 		StringFlag: cli.StringFlag{
 			Name:        "contract",
 			Usage:       "contract code in hex",

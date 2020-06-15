@@ -1,6 +1,6 @@
 /**
 *  Package p2p
-*  @copyright defined in slc/LICENSE
+*  @copyright defined in scdo/LICENSE
  */
 
 package qvic
