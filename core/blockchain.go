@@ -784,7 +784,7 @@ func (bc *Blockchain) recoverHeightIndices() {
 	numGetBlockByHeight := 0
 	numGetBlockByHash := 0
 	numIrrecoverable := 0
-	for curHeight > 0 {
+	for curHeight > common.SecondForkHeight {
 		bc.log.Debug("checking blockchain database, height: %d", curHeight)
 		if curBlock, err := bc.bcStore.GetBlockByHeight(curHeight); err != nil {
 			bc.log.Error("height: %d, can't get block by height.", curHeight)

@@ -382,7 +382,11 @@ func (p *SeeleCredoProtocol) handleNewBlock(e event.Event) {
 		confirmedBlock, err := p.chain.GetStore().GetBlockByHeight(confirmedHeight)
 
 		if err != nil {
-			p.log.Warn("failed to load confirmed block height %d, err %s", confirmedHeight, err)
+			if confirmedHeight < common.SeeleCredoForkHeight {
+				p.log.Debug("SeeleCredo fork range, need to comfirm!")
+			} else {
+				p.log.Warn("failed to load confirmed block height %d, err %s", confirmedHeight, err)
+			}
 		} else {
 			now := time.Now()
 			// entrance
