@@ -163,7 +163,7 @@ func (lp *LightProtocol) Start() {
 	}
 }
 
-// Stop stops protocol, called when seeleService quits.
+// Stop stops protocol, called when scdoService quits.
 func (lp *LightProtocol) Stop() {
 	close(lp.quitCh)
 	close(lp.syncCh)

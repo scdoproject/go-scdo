@@ -129,7 +129,7 @@ func (sp *ScdoProtocol) Start() {
 	go sp.debtManager.TimingChecking()
 }
 
-// Stop stops protocol, called when seeleService quits.
+// Stop stops protocol, called when scdoService quits.
 func (sp *ScdoProtocol) Stop() {
 	event.BlockMinedEventManager.RemoveListener(sp.handleNewMinedBlock)
 	event.TransactionInsertedEventManager.RemoveListener(sp.handleNewTx)

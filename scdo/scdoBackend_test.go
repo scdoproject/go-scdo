@@ -24,8 +24,8 @@ import (
 )
 
 func newTestSeeleBackend() *ScdoBackend {
-	seeleService := newTestSeeleService()
-	return &ScdoBackend{seeleService}
+	scdoService := newTestSeeleService()
+	return &ScdoBackend{scdoService}
 }
 
 func Test_SeeleBackend_GetBlock(t *testing.T) {

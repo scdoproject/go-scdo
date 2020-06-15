@@ -41,12 +41,12 @@ func newTestSeeleService() *ScdoService {
 	ctx := context.WithValue(context.Background(), key, serviceContext)
 	log := log.GetLogger("scdo")
 
-	seeleService, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	scdoService, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
 	if err != nil {
 		panic(err)
 	}
 
-	return seeleService
+	return scdoService
 }
 
 func Test_SeeleService_Protocols(t *testing.T) {
