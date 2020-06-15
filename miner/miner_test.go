@@ -207,13 +207,13 @@ func NewTestSeeleBackend() *TestScdoBackend {
 }
 
 func NewTestSeeleBackendWithVerifier(verifier types.DebtVerifier) *TestScdoBackend {
-	seeleBeckend := &TestScdoBackend{}
+	scdoBackend := &TestScdoBackend{}
 
-	seeleBeckend.blockchain = core.NewTestBlockchainWithVerifier(verifier)
-	seeleBeckend.debtPool = core.NewDebtPool(seeleBeckend.blockchain, verifier)
-	seeleBeckend.txPool = core.NewTransactionPool(*core.DefaultTxPoolConfig(), seeleBeckend.blockchain)
+	scdoBackend.blockchain = core.NewTestBlockchainWithVerifier(verifier)
+	scdoBackend.debtPool = core.NewDebtPool(scdoBackend.blockchain, verifier)
+	scdoBackend.txPool = core.NewTransactionPool(*core.DefaultTxPoolConfig(), scdoBackend.blockchain)
 
-	return seeleBeckend
+	return scdoBackend
 }
 
 func (t TestScdoBackend) TxPool() *core.TransactionPool {
