@@ -22,8 +22,7 @@ import (
 	"math/big"
 	"reflect"
 
-	"github.com/ethereum/go-ethereum/common"
-	slcCommon "github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 var (
@@ -206,7 +205,7 @@ func toGoType(index int, t Type, output []byte) (interface{}, error) {
 	case BoolTy:
 		return readBool(returnOutput)
 	case AddressTy:
-		return slcCommon.BytesToAddress(returnOutput), nil
+		return common.BytesToAddress(returnOutput), nil
 	case HashTy:
 		return common.BytesToHash(returnOutput), nil
 	case BytesTy:
