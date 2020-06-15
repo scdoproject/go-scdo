@@ -82,7 +82,7 @@ var startCmd = &cobra.Command{
 		}
 
 		// Create scdo service and register the service
-		slclog := log.GetLogger("scdo")
+		scdolog := log.GetLogger("scdo")
 		lightLog := log.GetLogger("scdo-light")
 		serviceContext := scdo.ServiceContext{
 			DataDir: nCfg.BasicConfig.DataDir,
@@ -141,7 +141,7 @@ var startCmd = &cobra.Command{
 			}
 
 			// fullnode mode
-			seeleService, err := scdo.NewScdoService(ctx, nCfg, slclog, engine, manager, startHeight)
+			seeleService, err := scdo.NewScdoService(ctx, nCfg, scdolog, engine, manager, startHeight)
 			if err != nil {
 				fmt.Println(err.Error())
 				return
@@ -156,7 +156,7 @@ var startCmd = &cobra.Command{
 			}
 
 			// monitor service
-			monitorService, err := monitor.NewMonitorService(seeleService, slcNode, nCfg, slclog, "Test monitor")
+			monitorService, err := monitor.NewMonitorService(seeleService, slcNode, nCfg, scdolog, "Test monitor")
 			if err != nil {
 				fmt.Println(err.Error())
 				return
@@ -201,7 +201,7 @@ var startCmd = &cobra.Command{
 		if metricsEnableFlag {
 			metrics.StartMetricsWithConfig(
 				nCfg.MetricsConfig,
-				slclog,
+				scdolog,
 				nCfg.BasicConfig.Name,
 				nCfg.BasicConfig.Version,
 				nCfg.P2PConfig.NetworkID,

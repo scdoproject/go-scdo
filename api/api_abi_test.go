@@ -21,15 +21,15 @@ func Test_printLogByABI(t *testing.T) {
 	logOut, err2 := printLogByABI(log, parsed)
 	assert.NoError(t, err2)
 
-	slclog := &scdoLog{}
-	err3 := json.Unmarshal([]byte(logOut), slclog)
+	scdolog := &scdoLog{}
+	err3 := json.Unmarshal([]byte(logOut), scdolog)
 	assert.NoError(t, err3)
-	assert.Equal(t, len(slclog.Topics), len(log.Topics))
-	assert.Equal(t, slclog.Event, "lossAction")
-	assert.Equal(t, len(slclog.Args), 3)
-	assert.Equal(t, slclog.Args[0], "0xd3ee9ab572ed74f0b837ad9ea86f85e30e1dd6d1")
-	assert.Equal(t, slclog.Args[1], float64(50))
-	assert.Equal(t, slclog.Args[2], float64(60))
+	assert.Equal(t, len(scdolog.Topics), len(log.Topics))
+	assert.Equal(t, scdolog.Event, "lossAction")
+	assert.Equal(t, len(scdolog.Args), 3)
+	assert.Equal(t, scdolog.Args[0], "0xd3ee9ab572ed74f0b837ad9ea86f85e30e1dd6d1")
+	assert.Equal(t, scdolog.Args[1], float64(50))
+	assert.Equal(t, scdolog.Args[2], float64(60))
 }
 
 func newTestLog(t *testing.T) *types.Log {

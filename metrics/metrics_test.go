@@ -22,7 +22,7 @@ const (
 
 var (
 	TestCoinbase = crypto.MustGenerateShardAddress(1)
-	slclog         = log.GetLogger("scdo")
+	scdolog         = log.GetLogger("scdo")
 	address      = "127.0.0.1:8086"
 	result       = new(string)
 	mux          sync.Mutex
@@ -53,7 +53,7 @@ func influxdbSimulate() {
 	http.HandleFunc("/write", saveResult)
 	err := http.ListenAndServe(address, nil)
 	if err != nil {
-		slclog.Fatal("ListenAndServe: %s", err)
+		scdolog.Fatal("ListenAndServe: %s", err)
 	}
 }
 
@@ -79,7 +79,7 @@ func Test_StartMetrics(t *testing.T) {
 	nCfg := getTmpConfig()
 	StartMetricsWithConfig(
 		nCfg,
-		slclog,
+		scdolog,
 		TestName,
 		TestVersion,
 		TestNetworkID,
