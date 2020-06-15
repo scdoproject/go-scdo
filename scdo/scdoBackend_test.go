@@ -29,18 +29,18 @@ func newTestSeeleBackend() *ScdoBackend {
 }
 
 func Test_SeeleBackend_GetBlock(t *testing.T) {
-	slcBackend := newTestSeeleBackend()
-	defer slcBackend.s.Stop()
+	scdoBackend := newTestSeeleBackend()
+	defer scdoBackend.s.Stop()
 
-	block, err := slcBackend.GetBlock(common.EmptyHash, -1)
+	block, err := scdoBackend.GetBlock(common.EmptyHash, -1)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, block.Header.Height, uint64(0))
 
-	block1, err := slcBackend.GetBlock(block.HeaderHash, -1)
+	block1, err := scdoBackend.GetBlock(block.HeaderHash, -1)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, block1.HeaderHash, block.HeaderHash)
 
-	block2, err := slcBackend.GetBlock(common.EmptyHash, 0)
+	block2, err := scdoBackend.GetBlock(common.EmptyHash, 0)
 	assert.Equal(t, err, nil)
 	assert.Equal(t, block2.Header.Height, uint64(0))
 	assert.Equal(t, block2.HeaderHash, block.HeaderHash)

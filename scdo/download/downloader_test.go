@@ -25,17 +25,17 @@ import (
 // TestScdoBackend implements the ScdoBackend interface.
 type TestScdoBackend struct{}
 
-func (slcBackend *TestScdoBackend) TxPool() *core.TransactionPool {
+func (scdoBackend *TestScdoBackend) TxPool() *core.TransactionPool {
 	return nil
 }
 
-func (slcBackend *TestScdoBackend) DebtPool() *core.DebtPool {
+func (scdoBackend *TestScdoBackend) DebtPool() *core.DebtPool {
 	return nil
 }
 
 func NewTestSeeleBackend() *TestScdoBackend {
-	slcBackend := &TestScdoBackend{}
-	return slcBackend
+	scdoBackend := &TestScdoBackend{}
+	return scdoBackend
 }
 
 func randomAccount(t *testing.T) (*ecdsa.PrivateKey, common.Address) {
