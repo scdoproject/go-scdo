@@ -16,7 +16,7 @@ import (
 	"github.com/seelecredo/go-seelecredo/common/hexutil"
 )
 
-// ParseArgs parse the args string into the SeeleCredo type and return an error if
+// ParseArgs parse the args string into the Scdo type and return an error if
 // the args length does not match or the parsed type fails.
 func ParseArgs(abiArgs abi.Arguments, args []string) ([]interface{}, error) {
 	if len(args) != len(abiArgs) {

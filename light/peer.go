@@ -37,7 +37,7 @@ var (
 
 // PeerInfo represents a short summary of a connected peer.
 type PeerInfo struct {
-	Version    uint     `json:"version"`    // SeeleCredo protocol version negotiated
+	Version    uint     `json:"version"`    // Scdo protocol version negotiated
 	Difficulty *big.Int `json:"difficulty"` // Total difficulty of the peer's blockchain
 	Head       string   `json:"head"`       // SHA3 hash of the peer's best owned block
 }
@@ -47,7 +47,7 @@ type peer struct {
 	quitCh          chan struct{}
 	peerStrID       string
 	peerID          common.Address
-	version         uint // SeeleCredo protocol version negotiated
+	version         uint // Scdo protocol version negotiated
 	head            common.Hash
 	headBlockNum    uint64
 	td              *big.Int // total difficulty

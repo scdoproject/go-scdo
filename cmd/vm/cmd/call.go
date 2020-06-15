@@ -36,7 +36,7 @@ func init() {
 var callCmd = &cobra.Command{
 	Use:   "call",
 	Short: "call a contract",
-	Long:  `All contract could callable. This is SeeleCredo contract simulator's`,
+	Long:  `All contract could callable. This is Scdo contract simulator's`,
 	Run: func(cmd *cobra.Command, args []string) {
 		callContract(contractHexAddr)
 	},

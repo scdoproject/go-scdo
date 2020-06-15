@@ -383,7 +383,7 @@ func (p *SeeleCredoProtocol) handleNewBlock(e event.Event) {
 
 		if err != nil {
 			if confirmedHeight < common.SeeleCredoForkHeight {
-				p.log.Debug("SeeleCredo fork range, need to comfirm!")
+				p.log.Debug("Scdo fork range, need to comfirm!")
 			} else {
 				p.log.Warn("failed to load confirmed block height %d, err %s", confirmedHeight, err)
 			}

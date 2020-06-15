@@ -15,10 +15,10 @@ import (
 
 const (
 
-	// SeeleCredoProtoName protoName of SeeleCredo service
+	// SeeleCredoProtoName protoName of Scdo service
 	SeeleCredoProtoName = "seeleCredo"
 
-	// SeeleCredoVersion Version number of SeeleCredo protocol
+	// SeeleCredoVersion Version number of Scdo protocol
 	SeeleCredoVersion uint = 1
 
 	// SeeleCredoVersion for simpler display

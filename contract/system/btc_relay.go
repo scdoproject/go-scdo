@@ -110,7 +110,7 @@ func verifyTx(request []byte, ctx *Context) ([]byte, error) {
 	return failure, nil
 }
 
-// optionally relay the btc transaction to any SeeleCredo contract
+// optionally relay the btc transaction to any Scdo contract
 func relayTx(request []byte, ctx *Context) ([]byte, error) {
 	ok, err := verifyTx(request, ctx)
 	if err != nil {

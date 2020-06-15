@@ -25,7 +25,7 @@ func NewContext(tx *types.Transaction, statedb *state.Statedb, BlockHeader *type
 	return &Context{tx, statedb, BlockHeader}
 }
 
-// Contract is the basic interface for native Go contracts in SeeleCredo.
+// Contract is the basic interface for native Go contracts in Scdo.
 type Contract interface {
 	RequiredGas(input []byte) uint64
 	Run(input []byte, context *Context) ([]byte, error)

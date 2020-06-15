@@ -1,4 +1,4 @@
-# Makefile to build the command lines and tests in SeeleCredo project.
+# Makefile to build the command lines and tests in Scdo project.
 # This Makefile doesn't consider Windows Environment. If you use it in Windows, please be careful.
 
 all: discovery node client light tool vm

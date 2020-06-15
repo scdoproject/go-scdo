@@ -108,7 +108,7 @@ func (db *LevelDB) NewBatch() database.Batch {
 
 // NewTestDatabase creates a database instance under temp folder.
 func NewTestDatabase() (db database.Database, dispose func()) {
-	dir, err := ioutil.TempDir("", "SeeleCredo-LevelDB-")
+	dir, err := ioutil.TempDir("", "Scdo-LevelDB-")
 	if err != nil {
 		panic(err)
 	}

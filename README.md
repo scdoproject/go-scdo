@@ -58,8 +58,8 @@ make all
 buildall.bat
 ```
 
-# Run SeeleCredo
-A simple version SeeleCredo mining tutorial: English-[SeeleMiningTutorial](https://github.com/seelecredo/go-seelecredo/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Seele挖矿教程中文简版](https://github.com/seelecredo/go-seelecredo/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
+# Run Scdo
+A simple version Scdo mining tutorial: English-[SeeleMiningTutorial](https://github.com/seelecredo/go-seelecredo/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Seele挖矿教程中文简版](https://github.com/seelecredo/go-seelecredo/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
 
 For running a node, please refer to [Get Started](https://seeletech.gitbook.io/wiki/developer/go-seelecredo/gettingstarted)([Older version](https://seeleteam.github.io/seele-doc/docs/Getting-Started-With-Seele Credo.html)).
 For more usage details and deeper explanations, please consult the [Seele Credo Wiki](https://seeletech.gitbook.io/wiki/)([Older version](https://seeleteam.github.io/seele-doc/index.html)).
