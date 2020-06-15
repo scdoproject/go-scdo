@@ -53,7 +53,7 @@ func (api *PublicMonitorAPI) NodeStats() (*NodeStats, error) {
 		return nil, ErrP2PServerInfoFailed
 	}
 
-	if api.s.slcNode == nil {
+	if api.s.scdoNode == nil {
 		return nil, ErrNodeInfoFailed
 	}
 
