@@ -15,14 +15,14 @@ FROM alpine:latest
 
 RUN apk add --no-cache ca-certificates
 
-COPY --from=builder /go/src/github.com/scdoproject/go-scdo/build /slc
+COPY --from=builder /go/src/github.com/scdoproject/go-scdo/build /scdo
 
-ENV PATH /slc:$PATH
+ENV PATH /scdo:$PATH
 
-RUN chmod +x /slc/node
+RUN chmod +x /scdo/node
 
 EXPOSE 8027 8037 8057
 
 # start a node with your 'config.json' file, this file must be external from a volume
 # For example:
-#   docker run -v <your config path>:/slc/config:ro -it slc node start -c /slc/config/configfile
+#   docker run -v <your config path>:/scdo/config:ro -it scdo node start -c /scdo/config/configfile
