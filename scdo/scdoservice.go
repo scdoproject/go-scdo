@@ -35,7 +35,7 @@ type ScdoService struct {
 	networkID     string
 	netVersion    string
 	p2pServer     *p2p.Server
-	seeleProtocol *ScdoProtocol
+	scdoProtocol *ScdoProtocol
 	log           *log.ScdoLog
 
 	txPool             *core.TransactionPool
@@ -83,7 +83,7 @@ func (s *ScdoService) Miner() *miner.Miner { return s.miner }
 
 // Downloader get downloader
 func (s *ScdoService) Downloader() *downloader.Downloader {
-	return s.seeleProtocol.Downloader()
+	return s.scdoProtocol.Downloader()
 }
 
 // P2PServer get p2pServer
@@ -128,9 +128,9 @@ func NewScdoService(ctx context.Context, conf *node.Config, log *log.ScdoLog, en
 		return nil, err
 	}
 
-	if s.seeleProtocol, err = NewScdoProtocol(s, log); err != nil {
+	if s.scdoProtocol, err = NewScdoProtocol(s, log); err != nil {
 		s.Stop()
-		log.Error("failed to create seeleProtocol in NewScdoService, %s", err)
+		log.Error("failed to create scdoProtocol in NewScdoService, %s", err)
 		return nil, err
 	}
 
@@ -244,14 +244,14 @@ func (s *ScdoService) MonitorChainHeaderChange() {
 // Protocols implements node.Service, returning all the currently configured
 // network protocols to start.
 func (s *ScdoService) Protocols() (protos []p2p.Protocol) {
-	protos = append(protos, s.seeleProtocol.Protocol)
+	protos = append(protos, s.scdoProtocol.Protocol)
 	return protos
 }
 
 // Start implements node.Service, starting goroutines needed by ScdoService.
 func (s *ScdoService) Start(srvr *p2p.Server) error {
 	s.p2pServer = srvr
-	s.seeleProtocol.Start()
+	s.scdoProtocol.Start()
 
 	return nil
 }
@@ -261,9 +261,9 @@ func (s *ScdoService) Stop() error {
 	//TODO
 	// s.txPool.Stop() s.chain.Stop()
 	// retries? leave it to future
-	if s.seeleProtocol != nil {
-		s.seeleProtocol.Stop()
-		s.seeleProtocol = nil
+	if s.scdoProtocol != nil {
+		s.scdoProtocol.Stop()
+		s.scdoProtocol = nil
 	}
 
 	if s.chainDB != nil {
@@ -298,7 +298,7 @@ func (s *ScdoService) APIs() (apis []rpc.API) {
 		{
 			Namespace: "download",
 			Version:   "1.0",
-			Service:   downloader.NewPrivatedownloaderAPI(s.seeleProtocol.downloader),
+			Service:   downloader.NewPrivatedownloaderAPI(s.scdoProtocol.downloader),
 			Public:    true,
 		},
 		{

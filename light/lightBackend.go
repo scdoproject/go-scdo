@@ -41,11 +41,11 @@ func (l *LightBackend) ChainBackend() api.Chain { return l.s.chain }
 func (l *LightBackend) Log() *log.ScdoLog { return l.s.log }
 
 func (l *LightBackend) IsSyncing() bool {
-	return l.s.seeleProtocol.downloader.syncStatus == statusDownloading
+	return l.s.scdoProtocol.downloader.syncStatus == statusDownloading
 }
 
-// ProtocolBackend gets instance of seeleProtocol
-func (l *LightBackend) ProtocolBackend() api.Protocol { return l.s.seeleProtocol }
+// ProtocolBackend gets instance of scdoProtocol
+func (l *LightBackend) ProtocolBackend() api.Protocol { return l.s.scdoProtocol }
 
 // GetBlock gets a specific block through block's hash and height
 func (l *LightBackend) GetBlock(hash common.Hash, height int64) (*types.Block, error) {

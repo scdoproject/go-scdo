@@ -22,21 +22,21 @@ import (
 // ServiceServer implements light server service.
 type ServiceServer struct {
 	p2pServer     *p2p.Server
-	seeleProtocol *LightProtocol
+	scdoProtocol *LightProtocol
 	log           *log.ScdoLog
 	shard         uint
 }
 
 // NewServiceServer create ServiceServer
 func NewServiceServer(service *scdo.ScdoService, conf *node.Config, log *log.ScdoLog, shard uint) (*ServiceServer, error) {
-	seeleProtocol, err := NewLightProtocol(conf.P2PConfig.NetworkID, service.TxPool(), service.DebtPool(), service.BlockChain(), true, nil, log, shard)
+	scdoProtocol, err := NewLightProtocol(conf.P2PConfig.NetworkID, service.TxPool(), service.DebtPool(), service.BlockChain(), true, nil, log, shard)
 	if err != nil {
 		return nil, err
 	}
 
 	s := &ServiceServer{
 		log:           log,
-		seeleProtocol: seeleProtocol,
+		scdoProtocol: scdoProtocol,
 	}
 
 	rand2.Seed(time.Now().UnixNano())
@@ -47,21 +47,21 @@ func NewServiceServer(service *scdo.ScdoService, conf *node.Config, log *log.Scd
 // Protocols implements node.Service, returning all the currently configured
 // network protocols to start.
 func (s *ServiceServer) Protocols() (protos []p2p.Protocol) {
-	return append(protos, s.seeleProtocol.Protocol)
+	return append(protos, s.scdoProtocol.Protocol)
 }
 
 // Start implements node.Service, starting goroutines needed by ServiceServer.
 func (s *ServiceServer) Start(srvr *p2p.Server) error {
 	s.p2pServer = srvr
 
-	s.seeleProtocol.Start()
-	go s.seeleProtocol.blockLoop()
+	s.scdoProtocol.Start()
+	go s.scdoProtocol.blockLoop()
 	return nil
 }
 
 // Stop implements node.Service, terminating all internal goroutines.
 func (s *ServiceServer) Stop() error {
-	s.seeleProtocol.Stop()
+	s.scdoProtocol.Stop()
 	return nil
 }
 

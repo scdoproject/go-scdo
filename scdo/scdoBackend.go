@@ -48,7 +48,7 @@ func (sd *ScdoBackend) IsSyncing() bool {
 }
 
 // ProtocolBackend return protocol
-func (sd *ScdoBackend) ProtocolBackend() api.Protocol { return sd.s.seeleProtocol }
+func (sd *ScdoBackend) ProtocolBackend() api.Protocol { return sd.s.scdoProtocol }
 
 // GetBlock returns the requested block by hash or height
 func (sd *ScdoBackend) GetBlock(hash common.Hash, height int64) (*types.Block, error) {

@@ -27,7 +27,7 @@ type ServiceClient struct {
 	networkID     string
 	netVersion    string
 	p2pServer     *p2p.Server
-	seeleProtocol *LightProtocol
+	scdoProtocol *LightProtocol
 	log           *log.ScdoLog
 	odrBackend    *odrBackend
 
@@ -80,15 +80,15 @@ func NewServiceClient(ctx context.Context, conf *node.Config, log *log.ScdoLog, 
 
 	s.txPool = newTxPool(s.chain, s.odrBackend, s.chain.headerChangedEventManager, s.chain.headRollbackEventManager)
 
-	s.seeleProtocol, err = NewLightProtocol(conf.P2PConfig.NetworkID, s.txPool, nil, s.chain, false, s.odrBackend, log, shard)
+	s.scdoProtocol, err = NewLightProtocol(conf.P2PConfig.NetworkID, s.txPool, nil, s.chain, false, s.odrBackend, log, shard)
 	if err != nil {
 		s.lightDB.Close()
 		s.odrBackend.close()
-		log.Error("failed to create seeleProtocol in NewServiceClient, %s", err)
+		log.Error("failed to create scdoProtocol in NewServiceClient, %s", err)
 		return nil, err
 	}
 
-	s.odrBackend.start(s.seeleProtocol.peerSet)
+	s.odrBackend.start(s.scdoProtocol.peerSet)
 	log.Info("Light mode started.")
 	return s, nil
 }
@@ -96,20 +96,20 @@ func NewServiceClient(ctx context.Context, conf *node.Config, log *log.ScdoLog, 
 // Protocols implements node.Service, returning all the currently configured
 // network protocols to start.
 func (s *ServiceClient) Protocols() (protos []p2p.Protocol) {
-	return append(protos, s.seeleProtocol.Protocol)
+	return append(protos, s.scdoProtocol.Protocol)
 }
 
 // Start implements node.Service, starting goroutines needed by ServiceClient.
 func (s *ServiceClient) Start(srvr *p2p.Server) error {
 	s.p2pServer = srvr
 
-	s.seeleProtocol.Start()
+	s.scdoProtocol.Start()
 	return nil
 }
 
 // Stop implements node.Service, terminating all internal goroutines.
 func (s *ServiceClient) Stop() error {
-	s.seeleProtocol.Stop()
+	s.scdoProtocol.Stop()
 	s.lightDB.Close()
 	s.odrBackend.close()
 	return nil
