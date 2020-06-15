@@ -5,7 +5,7 @@
 
 package api
 
-import "github.com/seelecredo/go-seelecredo/p2p"
+import "github.com/scdoproject/go-scdo/p2p"
 
 // PrivateNetworkAPI provides an API to access network information.
 type PrivateNetworkAPI struct {

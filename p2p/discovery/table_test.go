@@ -6,8 +6,8 @@ import (
 	"net"
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/log"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/log"
 	"github.com/stretchr/testify/assert"
 )
 

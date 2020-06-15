@@ -9,7 +9,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 const (

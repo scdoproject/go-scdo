@@ -5,7 +5,7 @@
 
 package core
 
-import "github.com/seelecredo/go-seelecredo/consensus/istanbul"
+import "github.com/scdoproject/go-scdo/consensus/istanbul"
 
 func (c *core) handleRequest(request *istanbul.Request) error {
 	if err := c.checkRequestMsg(request); err != nil {

@@ -10,15 +10,15 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/seelecredo/go-seelecredo/database/leveldb"
+	"github.com/scdoproject/go-scdo/database/leveldb"
 
 	"github.com/ethereum/go-ethereum/event"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
-	"github.com/seelecredo/go-seelecredo/consensus/istanbul/validator"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/database"
-	"github.com/seelecredo/go-seelecredo/log"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/consensus/istanbul"
+	"github.com/scdoproject/go-scdo/consensus/istanbul/validator"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/database"
+	"github.com/scdoproject/go-scdo/log"
 )
 
 var testLogger = log.GetLogger("test")

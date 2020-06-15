@@ -14,13 +14,13 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/seelecredo/go-seelecredo/cmd/util"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/core"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/log/comm"
-	"github.com/seelecredo/go-seelecredo/node"
-	"github.com/seelecredo/go-seelecredo/p2p"
+	"github.com/scdoproject/go-scdo/cmd/util"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/core"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/log/comm"
+	"github.com/scdoproject/go-scdo/node"
+	"github.com/scdoproject/go-scdo/p2p"
 )
 
 // GetConfigFromFile unmarshals the config from the given file

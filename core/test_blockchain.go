@@ -8,11 +8,11 @@ package core
 import (
 	"math/big"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/consensus/pow"
-	"github.com/seelecredo/go-seelecredo/core/store"
-	"github.com/seelecredo/go-seelecredo/core/types"
-	"github.com/seelecredo/go-seelecredo/database/leveldb"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/consensus/pow"
+	"github.com/scdoproject/go-scdo/core/store"
+	"github.com/scdoproject/go-scdo/core/types"
+	"github.com/scdoproject/go-scdo/database/leveldb"
 )
 
 func newTestGenesis() *Genesis {

@@ -10,9 +10,9 @@ import (
 	"time"
 
 	metrics "github.com/rcrowley/go-metrics"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/log"
-	influxdb "github.com/seelecredo/go-seelecredo/metrics/go-metrics-influxdb"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/log"
+	influxdb "github.com/scdoproject/go-scdo/metrics/go-metrics-influxdb"
 )
 
 var MetricsWriteBlockMeter = metrics.GetOrRegisterMeter("core.blockchain.writeBlock.time", nil)

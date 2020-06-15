@@ -13,11 +13,11 @@ import (
 	"sync"
 
 	lru "github.com/hashicorp/golang-lru"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/core/types"
-	"github.com/seelecredo/go-seelecredo/log"
-	"github.com/seelecredo/go-seelecredo/p2p"
-	downloader "github.com/seelecredo/go-seelecredo/seeleCredo/download"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/core/types"
+	"github.com/scdoproject/go-scdo/log"
+	"github.com/scdoproject/go-scdo/p2p"
+	downloader "github.com/scdoproject/go-scdo/seeleCredo/download"
 )
 
 const (

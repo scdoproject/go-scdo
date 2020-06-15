@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/log/comm"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/log/comm"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )

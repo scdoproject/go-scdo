@@ -17,18 +17,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/seelecredo/go-seelecredo/cmd/util"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
-	"github.com/seelecredo/go-seelecredo/contract/system"
-	"github.com/seelecredo/go-seelecredo/core"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/log/comm"
-	"github.com/seelecredo/go-seelecredo/metrics"
-	"github.com/seelecredo/go-seelecredo/node"
-	"github.com/seelecredo/go-seelecredo/p2p"
-	"github.com/seelecredo/go-seelecredo/p2p/discovery"
-	"github.com/seelecredo/go-seelecredo/rpc"
+	"github.com/scdoproject/go-scdo/cmd/util"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/hexutil"
+	"github.com/scdoproject/go-scdo/contract/system"
+	"github.com/scdoproject/go-scdo/core"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/log/comm"
+	"github.com/scdoproject/go-scdo/metrics"
+	"github.com/scdoproject/go-scdo/node"
+	"github.com/scdoproject/go-scdo/p2p"
+	"github.com/scdoproject/go-scdo/p2p/discovery"
+	"github.com/scdoproject/go-scdo/rpc"
 	"github.com/urfave/cli"
 )
 
@@ -39,7 +39,7 @@ var (
 	errInvalidTokenAmount    = errors.New("invalid subchain token amount")
 	errSubChainInfo          = errors.New("failed to get sub-chain information")
 
-	defaultTokenFullName  = "seelecredocoin"
+	defaultTokenFullName  = "scdocoin"
 	defaultTokenShortName = "seeleCredo"
 )
 

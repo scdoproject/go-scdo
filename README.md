@@ -1,6 +1,6 @@
 
-# go-seelecredo
-[![Build Status](https://travis-ci.org/seelecredo/go-seelecredo.svg?branch=master)](https://travis-ci.org/seelecredo/go-seelecredo)
+# go-scdo
+[![Build Status](https://travis-ci.org/scdo/go-scdo.svg?branch=master)](https://travis-ci.org/scdo/go-scdo)
 
 |        Features        |      Descriptions                                                                              |
 |:-----------------------|------------------------------------------------------------------------------------------------|
@@ -24,9 +24,9 @@ If you want to directly run the node and use client without setting up the compi
 
 | Operation System |      Download Link     |
 |---------|----------------------------------------------------------|
-| Linux   | [https://github.com/seelecredo/go-seelecredo/releases]|
-| MacOs   | [https://github.com/seelecredo/go-seelecredo/releases]|
-| Windows | [https://github.com/seelecredo/go-seelecredo/releases]|
+| Linux   | [https://github.com/scdoproject/go-scdo/releases]|
+| MacOs   | [https://github.com/scdoproject/go-scdo/releases]|
+| Windows | [https://github.com/scdoproject/go-scdo/releases]|
 
 # Or Download & Build the source
 
@@ -34,16 +34,16 @@ Building the Seele Credo project requires both a Go (version 1.7 or later) compi
 
 - Building the Seele Credo project requires both a Go (version 1.7 or later) compiler and a C compiler. Install Go v1.10 or higher, Git, and the C compiler.
 
-- Clone the go-seelecredo repository to the GOPATH directory:
+- Clone the go-scdo repository to the GOPATH directory:
 
 ```
-go get -u -v github.com/seelecredo/go-seelecredo/...
+go get -u -v github.com/scdoproject/go-scdo/...
 ```
 
 - Once successfully cloned source code:
 
 ```
-cd GOPATH/src/github.com/seelecredo/go-seelecredo/
+cd GOPATH/src/github.com/scdoproject/go-scdo/
 ```
 
 - Linux & Mac
@@ -59,9 +59,9 @@ buildall.bat
 ```
 
 # Run Scdo
-A simple version Scdo mining tutorial: English-[SeeleMiningTutorial](https://github.com/seelecredo/go-seelecredo/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Seele挖矿教程中文简版](https://github.com/seelecredo/go-seelecredo/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
+A simple version Scdo mining tutorial: English-[SeeleMiningTutorial](https://github.com/scdoproject/go-scdo/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Seele挖矿教程中文简版](https://github.com/scdoproject/go-scdo/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
 
-For running a node, please refer to [Get Started](https://seeletech.gitbook.io/wiki/developer/go-seelecredo/gettingstarted)([Older version](https://seeleteam.github.io/seele-doc/docs/Getting-Started-With-Seele Credo.html)).
+For running a node, please refer to [Get Started](https://seeletech.gitbook.io/wiki/developer/go-scdo/gettingstarted)([Older version](https://seeleteam.github.io/seele-doc/docs/Getting-Started-With-Seele Credo.html)).
 For more usage details and deeper explanations, please consult the [Seele Credo Wiki](https://seeletech.gitbook.io/wiki/)([Older version](https://seeleteam.github.io/seele-doc/index.html)).
 
 # Contribution
@@ -86,4 +86,4 @@ Here are some guidelines before you start:
 
 # License
 
-[go-seelecredo/LICENSE](https://github.com/seelecredo/go-seelecredo/blob/master/LICENSE)
+[go-scdo/LICENSE](https://github.com/scdoproject/go-scdo/blob/master/LICENSE)

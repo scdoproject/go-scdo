@@ -9,11 +9,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/seelecredo/go-seelecredo/cmd/util"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
-	"github.com/seelecredo/go-seelecredo/core/types"
-	"github.com/seelecredo/go-seelecredo/rpc"
+	"github.com/scdoproject/go-scdo/cmd/util"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/hexutil"
+	"github.com/scdoproject/go-scdo/core/types"
+	"github.com/scdoproject/go-scdo/rpc"
 )
 
 type handler func(client *rpc.Client) (interface{}, interface{}, error)

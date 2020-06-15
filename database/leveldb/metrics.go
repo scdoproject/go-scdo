@@ -12,8 +12,8 @@ import (
 	"time"
 
 	metrics "github.com/rcrowley/go-metrics"
-	"github.com/seelecredo/go-seelecredo/database"
-	"github.com/seelecredo/go-seelecredo/log"
+	"github.com/scdoproject/go-scdo/database"
+	"github.com/scdoproject/go-scdo/log"
 )
 
 const (

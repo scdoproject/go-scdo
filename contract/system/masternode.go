@@ -9,9 +9,9 @@ import (
 	"math/big"
 
 	"github.com/pkg/errors"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/core/state"
-	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/core/state"
+	"github.com/scdoproject/go-scdo/crypto"
 )
 
 const (

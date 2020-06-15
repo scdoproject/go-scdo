@@ -10,7 +10,7 @@ import (
 	rand "math/rand"
 	"sync"
 
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 type peerSet struct {

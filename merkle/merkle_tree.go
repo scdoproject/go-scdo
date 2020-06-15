@@ -10,8 +10,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/crypto"
 )
 
 var (

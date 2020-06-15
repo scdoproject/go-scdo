@@ -6,11 +6,11 @@
 package light
 
 import (
-	"github.com/seelecredo/go-seelecredo/api"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/errors"
-	"github.com/seelecredo/go-seelecredo/core/store"
-	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/scdoproject/go-scdo/api"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/errors"
+	"github.com/scdoproject/go-scdo/core/store"
+	"github.com/scdoproject/go-scdo/core/types"
 )
 
 var errReceipIndexNil = errors.New("got a nil receipt index")

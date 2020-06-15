@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/consensus/istanbul"
 )
 
 func TestMessageSetWithPreprepare(t *testing.T) {

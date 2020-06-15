@@ -10,8 +10,8 @@ import (
 	"time"
 
 	metrics "github.com/rcrowley/go-metrics"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/log"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/log"
 )
 
 const (

@@ -10,10 +10,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	log2 "github.com/seelecredo/go-seelecredo/log"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/hexutil"
+	"github.com/scdoproject/go-scdo/crypto"
+	log2 "github.com/scdoproject/go-scdo/log"
 )
 
 const (

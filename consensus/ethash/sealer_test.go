@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/core/types"
 )
 
 // Tests whether remote HTTP servers are correctly notified of new work.

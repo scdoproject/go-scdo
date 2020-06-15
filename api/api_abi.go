@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/seelecredo/go-seelecredo/accounts/abi"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/scdoproject/go-scdo/accounts/abi"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/core/types"
 )
 
 // KeyABIHash is the hash key to storing abi to statedb

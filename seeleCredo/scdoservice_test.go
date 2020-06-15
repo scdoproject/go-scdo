@@ -11,12 +11,12 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/consensus/factory"
-	"github.com/seelecredo/go-seelecredo/core"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/log"
-	"github.com/seelecredo/go-seelecredo/node"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/consensus/factory"
+	"github.com/scdoproject/go-scdo/core"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/log"
+	"github.com/scdoproject/go-scdo/node"
 	"github.com/stretchr/testify/assert"
 )
 

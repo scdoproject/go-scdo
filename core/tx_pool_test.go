@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/core/types"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -8,7 +8,7 @@ package state
 import (
 	"math/big"
 
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 type journalEntry interface {

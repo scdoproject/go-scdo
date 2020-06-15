@@ -14,14 +14,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/consensus/factory"
-	"github.com/seelecredo/go-seelecredo/core"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/log"
-	"github.com/seelecredo/go-seelecredo/node"
-	"github.com/seelecredo/go-seelecredo/p2p"
-	"github.com/seelecredo/go-seelecredo/seeleCredo"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/consensus/factory"
+	"github.com/scdoproject/go-scdo/core"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/log"
+	"github.com/scdoproject/go-scdo/node"
+	"github.com/scdoproject/go-scdo/p2p"
+	"github.com/scdoproject/go-scdo/seeleCredo"
 )
 
 func getTmpConfig() *node.Config {

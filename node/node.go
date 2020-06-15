@@ -13,10 +13,10 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/log"
-	"github.com/seelecredo/go-seelecredo/p2p"
-	rpc "github.com/seelecredo/go-seelecredo/rpc"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/log"
+	"github.com/scdoproject/go-scdo/p2p"
+	rpc "github.com/scdoproject/go-scdo/rpc"
 )
 
 // error infos

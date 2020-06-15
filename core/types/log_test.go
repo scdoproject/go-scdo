@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
+	"github.com/scdoproject/go-scdo/common/hexutil"
 
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 	"github.com/stretchr/testify/assert"
 )
 

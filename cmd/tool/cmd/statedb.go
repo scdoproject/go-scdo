@@ -13,12 +13,12 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/errors"
-	"github.com/seelecredo/go-seelecredo/core/state"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/database"
-	"github.com/seelecredo/go-seelecredo/database/leveldb"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/errors"
+	"github.com/scdoproject/go-scdo/core/state"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/database"
+	"github.com/scdoproject/go-scdo/database/leveldb"
 	"github.com/spf13/cobra"
 )
 

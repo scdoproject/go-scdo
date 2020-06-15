@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/seelecredo/go-seelecredo/accounts/abi"
-	"github.com/seelecredo/go-seelecredo/accounts/abi/bind"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
+	"github.com/scdoproject/go-scdo/accounts/abi"
+	"github.com/scdoproject/go-scdo/accounts/abi/bind"
+	"github.com/scdoproject/go-scdo/common/hexutil"
 )
 
 // GeneratePayload according to abi json string and methodName and args to generate payload hex string

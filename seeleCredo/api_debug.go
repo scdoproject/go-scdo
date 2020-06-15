@@ -12,8 +12,8 @@ import (
 	"runtime"
 	"runtime/pprof"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/core/types"
 )
 
 // PrivateDebugAPI provides an API to access full node-related information for debug.

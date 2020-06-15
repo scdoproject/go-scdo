@@ -10,10 +10,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
-	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
-	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/hexutil"
+	"github.com/scdoproject/go-scdo/consensus/istanbul"
+	"github.com/scdoproject/go-scdo/crypto"
 	"math/big"
 	"github.com/stretchr/testify/assert"
 )

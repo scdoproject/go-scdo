@@ -8,10 +8,10 @@ package light
 import (
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/api"
+	"github.com/scdoproject/go-scdo/api"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/core/types"
 )
 
 func newTestReceipt() *types.Receipt {

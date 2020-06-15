@@ -5,7 +5,7 @@
 
 package trie
 
-import "github.com/seelecredo/go-seelecredo/common"
+import "github.com/scdoproject/go-scdo/common"
 
 const (
 	// numBranchChildren number children in branch node

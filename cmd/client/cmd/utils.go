@@ -10,12 +10,12 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/seelecredo/go-seelecredo/cmd/util"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
-	"github.com/seelecredo/go-seelecredo/core/types"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/rpc"
+	"github.com/scdoproject/go-scdo/cmd/util"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/hexutil"
+	"github.com/scdoproject/go-scdo/core/types"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/rpc"
 	"github.com/urfave/cli"
 )
 
@@ -91,7 +91,7 @@ func NewApp(isFullNode bool) *cli.App {
 	app.HideVersion = true
 	app.Authors = []cli.Author{
 		cli.Author{
-			Name:  "seelecredoteamteam",
+			Name:  "scdoteamteam",
 			Email: "dev@seelenet.com",
 		},
 	}

@@ -11,8 +11,8 @@ import (
 	"sync"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/consensus/istanbul"
 )
 
 // newRoundState creates a new roundState instance with the given view and validatorSet

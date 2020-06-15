@@ -10,12 +10,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/errors"
-	"github.com/seelecredo/go-seelecredo/core/state"
-	"github.com/seelecredo/go-seelecredo/core/store"
-	"github.com/seelecredo/go-seelecredo/core/types"
-	"github.com/seelecredo/go-seelecredo/log"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/errors"
+	"github.com/scdoproject/go-scdo/core/state"
+	"github.com/scdoproject/go-scdo/core/store"
+	"github.com/scdoproject/go-scdo/core/types"
+	"github.com/scdoproject/go-scdo/log"
 	"github.com/sirupsen/logrus"
 )
 

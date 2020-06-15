@@ -5,7 +5,7 @@
 
 package main
 
-import "github.com/seelecredo/go-seelecredo/cmd/tool/cmd"
+import "github.com/scdoproject/go-scdo/cmd/tool/cmd"
 
 func main() {
 	cmd.Execute()

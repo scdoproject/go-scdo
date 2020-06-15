@@ -30,10 +30,10 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/bitutil"
-	common2 "github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/crypto/sha3"
-	"github.com/seelecredo/go-seelecredo/log"
+	common2 "github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/crypto/sha3"
+	"github.com/scdoproject/go-scdo/log"
 )
 
 const (

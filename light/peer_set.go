@@ -9,7 +9,7 @@ import (
 	"math/big"
 	"math/rand"
 	"sync"
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 type peerFilter struct {

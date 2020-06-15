@@ -13,14 +13,14 @@ import (
 	"path/filepath"
 	"testing"
 
-	api2 "github.com/seelecredo/go-seelecredo/api"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
-	"github.com/seelecredo/go-seelecredo/consensus/factory"
-	"github.com/seelecredo/go-seelecredo/core/state"
-	"github.com/seelecredo/go-seelecredo/core/types"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/log"
+	api2 "github.com/scdoproject/go-scdo/api"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/hexutil"
+	"github.com/scdoproject/go-scdo/consensus/factory"
+	"github.com/scdoproject/go-scdo/core/state"
+	"github.com/scdoproject/go-scdo/core/types"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/log"
 	"github.com/stretchr/testify/assert"
 )
 

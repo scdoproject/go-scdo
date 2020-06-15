@@ -10,15 +10,15 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/errors"
-	"github.com/seelecredo/go-seelecredo/consensus"
-	"github.com/seelecredo/go-seelecredo/consensus/ethash"
-	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
-	"github.com/seelecredo/go-seelecredo/consensus/istanbul/backend"
-	"github.com/seelecredo/go-seelecredo/consensus/pow"
-	"github.com/seelecredo/go-seelecredo/consensus/spow"
-	"github.com/seelecredo/go-seelecredo/database/leveldb"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/errors"
+	"github.com/scdoproject/go-scdo/consensus"
+	"github.com/scdoproject/go-scdo/consensus/ethash"
+	"github.com/scdoproject/go-scdo/consensus/istanbul"
+	"github.com/scdoproject/go-scdo/consensus/istanbul/backend"
+	"github.com/scdoproject/go-scdo/consensus/pow"
+	"github.com/scdoproject/go-scdo/consensus/spow"
+	"github.com/scdoproject/go-scdo/database/leveldb"
 )
 
 // GetConsensusEngine get consensus engine according to miner algorithm name

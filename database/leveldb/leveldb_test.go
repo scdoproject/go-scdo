@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/seelecredo/go-seelecredo/database"
+	"github.com/scdoproject/go-scdo/database"
 	"github.com/syndtr/goleveldb/leveldb"
 )
 

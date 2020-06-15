@@ -6,7 +6,7 @@
 package core
 
 import (
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 func (c *core) handleFinalCommitted() error {

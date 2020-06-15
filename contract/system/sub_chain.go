@@ -9,8 +9,8 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/p2p/discovery"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/p2p/discovery"
 )
 
 const (

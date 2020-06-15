@@ -9,7 +9,7 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 	"github.com/stretchr/testify/assert"
 )
 

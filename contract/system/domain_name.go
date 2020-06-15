@@ -10,7 +10,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 const (

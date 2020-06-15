@@ -6,8 +6,8 @@
 package utils
 
 import (
-	"github.com/seelecredo/go-seelecredo/consensus"
-	"github.com/seelecredo/go-seelecredo/core/types"
+	"github.com/scdoproject/go-scdo/consensus"
+	"github.com/scdoproject/go-scdo/core/types"
 )
 
 func VerifyHeaderCommon(header, parent *types.BlockHeader) error {

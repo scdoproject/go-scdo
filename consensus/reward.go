@@ -8,7 +8,7 @@ package consensus
 import (
 	"math/big"
 
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 var (

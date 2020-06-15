@@ -15,10 +15,10 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/common/math"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
-	"github.com/seelecredo/go-seelecredo/crypto/secp256k1"
-	"github.com/seelecredo/go-seelecredo/crypto/sha3"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/hexutil"
+	"github.com/scdoproject/go-scdo/crypto/secp256k1"
+	"github.com/scdoproject/go-scdo/crypto/sha3"
 )
 
 const (

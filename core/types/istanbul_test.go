@@ -10,9 +10,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
-	//"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/hexutil"
+	//"github.com/scdoproject/go-scdo/crypto"
 )
 
 /*func TestHeaderHash(t *testing.T) {

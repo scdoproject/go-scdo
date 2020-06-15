@@ -9,7 +9,7 @@ import (
 	"net"
 	"strings"
 
-	rpc "github.com/seelecredo/go-seelecredo/rpc"
+	rpc "github.com/scdoproject/go-scdo/rpc"
 )
 
 // RemoteRPCQuest indicate wether this quest if from localhost or not

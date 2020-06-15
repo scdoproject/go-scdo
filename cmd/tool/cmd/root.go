@@ -11,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/seelecredo/go-seelecredo/rpc"
+	"github.com/scdoproject/go-scdo/rpc"
 	"github.com/spf13/cobra"
 )
 

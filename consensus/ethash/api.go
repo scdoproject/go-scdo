@@ -20,7 +20,7 @@ import (
 	"errors"
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 var errEthashStopped = errors.New("ethash stopped")

@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/crypto"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/crypto"
 )
 
 // TestContent implements the Content interface provided by merkletree and represents the content stored in the tree.

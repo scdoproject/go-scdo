@@ -9,9 +9,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/log/comm"
-	"github.com/seelecredo/go-seelecredo/p2p"
-	rpc "github.com/seelecredo/go-seelecredo/rpc"
+	"github.com/scdoproject/go-scdo/log/comm"
+	"github.com/scdoproject/go-scdo/p2p"
+	rpc "github.com/scdoproject/go-scdo/rpc"
 	"github.com/stretchr/testify/assert"
 )
 

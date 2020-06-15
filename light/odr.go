@@ -8,7 +8,7 @@ package light
 import (
 	"errors"
 
-	"github.com/seelecredo/go-seelecredo/core/store"
+	"github.com/scdoproject/go-scdo/core/store"
 )
 
 const (

@@ -4,9 +4,9 @@ FROM golang:alpine as builder
 
 RUN apk add --no-cache make gcc musl-dev linux-headers
 
-ADD . /go/src/github.com/seelecredo/go-seelecredo
+ADD . /go/src/github.com/scdoproject/go-scdo
 
-WORKDIR /go/src/github.com/seelecredo/go-seelecredo
+WORKDIR /go/src/github.com/scdoproject/go-scdo
 
 RUN make all
 
@@ -15,7 +15,7 @@ FROM alpine:latest
 
 RUN apk add --no-cache ca-certificates
 
-COPY --from=builder /go/src/github.com/seelecredo/go-seelecredo/build /slc
+COPY --from=builder /go/src/github.com/scdoproject/go-scdo/build /slc
 
 ENV PATH /slc:$PATH
 

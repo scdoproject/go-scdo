@@ -8,8 +8,8 @@ package system
 import (
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/database/leveldb"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/database/leveldb"
 	"github.com/stretchr/testify/assert"
 )
 

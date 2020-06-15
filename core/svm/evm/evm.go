@@ -9,10 +9,10 @@ import (
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/params"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/core/store"
-	"github.com/seelecredo/go-seelecredo/core/types"
-	"github.com/seelecredo/go-seelecredo/core/vm"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/core/store"
+	"github.com/scdoproject/go-scdo/core/types"
+	"github.com/scdoproject/go-scdo/core/vm"
 )
 
 // NewEVMByDefaultConfig returns a new EVM. The returned EVM is not thread safe and should

@@ -14,12 +14,12 @@ import (
 	"path/filepath"
 	"reflect"
 
-	"github.com/seelecredo/go-seelecredo/cmd/node/cmd"
-	"github.com/seelecredo/go-seelecredo/cmd/util"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
-	"github.com/seelecredo/go-seelecredo/crypto"
-	"github.com/seelecredo/go-seelecredo/p2p/discovery"
+	"github.com/scdoproject/go-scdo/cmd/node/cmd"
+	"github.com/scdoproject/go-scdo/cmd/util"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/hexutil"
+	"github.com/scdoproject/go-scdo/crypto"
+	"github.com/scdoproject/go-scdo/p2p/discovery"
 	"github.com/spf13/cobra"
 )
 

@@ -12,10 +12,10 @@
 	 "time"
 	 "path/filepath"
  
-	 "github.com/seelecredo/go-seelecredo/common"
-	 "github.com/seelecredo/go-seelecredo/consensus"
-	 "github.com/seelecredo/go-seelecredo/core/types"
-	 "github.com/seelecredo/go-seelecredo/crypto"
+	 "github.com/scdoproject/go-scdo/common"
+	 "github.com/scdoproject/go-scdo/consensus"
+	 "github.com/scdoproject/go-scdo/core/types"
+	 "github.com/scdoproject/go-scdo/crypto"
 	 "github.com/stretchr/testify/assert"
  )
  

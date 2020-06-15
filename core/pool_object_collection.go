@@ -9,7 +9,7 @@ import (
 	"container/heap"
 	"sort"
 
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 // txCollection represents the nonce sorted transactions of an account.

@@ -19,7 +19,7 @@ package vm
 import (
 	"fmt"
 
-	"github.com/seelecredo/go-seelecredo/common"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 func makeStackFunc(pop, push int) stackValidationFunc {

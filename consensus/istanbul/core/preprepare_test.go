@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
+	"github.com/scdoproject/go-scdo/consensus/istanbul"
 )
 
 func newTestPreprepare(v *istanbul.View) *istanbul.Preprepare {

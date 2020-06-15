@@ -6,11 +6,11 @@
 package monitor
 
 import (
-	"github.com/seelecredo/go-seelecredo/log"
-	"github.com/seelecredo/go-seelecredo/node"
-	"github.com/seelecredo/go-seelecredo/p2p"
-	rpc "github.com/seelecredo/go-seelecredo/rpc"
-	"github.com/seelecredo/go-seelecredo/seeleCredo"
+	"github.com/scdoproject/go-scdo/log"
+	"github.com/scdoproject/go-scdo/node"
+	"github.com/scdoproject/go-scdo/p2p"
+	rpc "github.com/scdoproject/go-scdo/rpc"
+	"github.com/scdoproject/go-scdo/seeleCredo"
 )
 
 // MonitorService implements some rpc interfaces provided by a monitor server

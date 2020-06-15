@@ -11,8 +11,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/consensus/istanbul"
 )
 
 // Construct a new message set to accumulate messages for given sequence/view number.

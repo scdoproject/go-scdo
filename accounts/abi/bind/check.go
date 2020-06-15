@@ -11,9 +11,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/seelecredo/go-seelecredo/accounts/abi"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/common/hexutil"
+	"github.com/scdoproject/go-scdo/accounts/abi"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/common/hexutil"
 )
 
 // ParseArgs parse the args string into the Scdo type and return an error if

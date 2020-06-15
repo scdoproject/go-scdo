@@ -14,10 +14,10 @@ import (
 
 	"github.com/ethereum/go-ethereum/event"
 	"github.com/rcrowley/go-metrics"
-	"github.com/seelecredo/go-seelecredo/common"
-	"github.com/seelecredo/go-seelecredo/consensus/istanbul"
-	"github.com/seelecredo/go-seelecredo/core/types"
-	"github.com/seelecredo/go-seelecredo/log"
+	"github.com/scdoproject/go-scdo/common"
+	"github.com/scdoproject/go-scdo/consensus/istanbul"
+	"github.com/scdoproject/go-scdo/core/types"
+	"github.com/scdoproject/go-scdo/log"
 	"gopkg.in/karalabe/cookiejar.v2/collections/prque"
 )
 
