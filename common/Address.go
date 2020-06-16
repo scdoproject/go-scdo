@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in scdo/LICENSE
+*  @copyright defined in slc/LICENSE
  */
 
 package common
@@ -28,7 +28,7 @@ type AddressType byte
 
 const (
 	// AddressLen length in bytes
-	AddressLen = 20
+	AddressLen = 21
 
 	// AddressTypeExternal is the address type for external account.
 	AddressTypeExternal = AddressType(1)
@@ -74,11 +74,11 @@ func PubKeyToAddress(pubKey *ecdsa.PublicKey, hashFunc func(interface{}) Hash) A
 	hash := hashFunc(buf[1:]).Bytes()
 
 	var addr Address
-	copy(addr[:], hash[12:]) // use last 20 bytes of public key hash
+	copy(addr[:], hash[11:]) // use last 21 bytes of public key hash
 
 	// set address type in the last 4 bits
-	addr[19] &= 0xF0
-	addr[19] |= byte(AddressTypeExternal)
+	addr[20] &= 0xF0
+	addr[20] |= byte(AddressTypeExternal)
 
 	return addr
 }
@@ -135,7 +135,9 @@ func (id Address) String() string {
 
 // Hex converts address to 0x prefixed HEX format.
 func (id Address) Hex() string {
-	return hexutil.BytesToHex(id.Bytes())
+	// return hexutil.BytesToHex(id.Bytes())
+	s := fmt.Sprint(id.Shard())
+	return s + "S" + hexutil.BytesToHex(id.Bytes())[2:]
 }
 
 // Equal checks if this address is the same with the specified address b.
@@ -150,7 +152,7 @@ func (id *Address) IsEmpty() bool {
 
 // HexToAddress converts the specified HEX string to address.
 func HexToAddress(id string) (Address, error) {
-	byte, err := hexutil.HexToBytes(id)
+	byte, err := hexutil.HexToBytes("0x" + id[2:])
 	if err != nil {
 		return Address{}, err
 	}
@@ -215,12 +217,12 @@ func (id *Address) Shard() uint {
 	var sum uint
 
 	// sum [0:18]
-	for _, b := range id[:18] {
+	for _, b := range id[:19] {
 		sum += uint(b)
 	}
 
 	// sum [18:20] except address type
-	tail := uint(binary.BigEndian.Uint16(id[18:]))
+	tail := uint(binary.BigEndian.Uint16(id[19:]))
 	sum += (tail >> 4)
 
 	return (sum % ShardCount) + 1
@@ -240,7 +242,7 @@ func (id *Address) CreateContractAddressWithHash(h Hash) Address {
 	var sum uint
 
 	// sum [14:] of public key hash
-	for _, b := range hash[14:] {
+	for _, b := range hash[15:] {
 		sum += uint(b)
 	}
 
@@ -258,8 +260,8 @@ func (id *Address) CreateContractAddressWithHash(h Hash) Address {
 	binary.BigEndian.PutUint16(encoded, uint16(mod))
 
 	var contractAddr Address
-	copy(contractAddr[:18], hash[14:]) // use last 18 bytes of hash (from address + nonce)
-	copy(contractAddr[18:], encoded)   // last 2 bytes for shard mod and address type
+	copy(contractAddr[:19], hash[15:]) // use last 18 bytes of hash (from address + nonce)
+	copy(contractAddr[19:], encoded)   // last 2 bytes for shard mod and address type
 
 	return contractAddr
 }
