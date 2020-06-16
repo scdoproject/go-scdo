@@ -8,10 +8,10 @@ package lightclients
 import (
 	"context"
 	"fmt"
-	"path/filepath"
 	"math/big"
+	"path/filepath"
 
-	"github.com/hashicorp/golang-lru"
+	lru "github.com/hashicorp/golang-lru"
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/common/errors"
 	"github.com/scdoproject/go-scdo/consensus"
