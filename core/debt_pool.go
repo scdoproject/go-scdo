@@ -82,6 +82,8 @@ func (dp *DebtPool) loopCheckingDebt() {
 			err := dp.DoMulCheckingDebt()
 			if err != nil {
 				dp.log.Warn("multiple threads checking error: %s", err)
+				// need to sleep some time
+				time.Sleep(5 * time.Second)
 			}
 		}
 	}
