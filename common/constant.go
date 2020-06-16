@@ -6,6 +6,8 @@
 package common
 
 import (
+	"encoding/json"
+	"fmt"
 	"math/big"
 	"os/user"
 	"path/filepath"
@@ -136,4 +138,12 @@ func GetDefaultDataFolder() string {
 
 func GetDefaultIPCPath() string {
 	return defaultIPCPath
+}
+
+func PrettyPrint(v interface{}) (err error) {
+	b, err := json.MarshalIndent(v, "", " ")
+	if err == nil {
+		fmt.Println(string(b))
+	}
+	return
 }
