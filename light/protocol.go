@@ -177,6 +177,7 @@ func (lp *LightProtocol) syncer() {
 	lp.wg.Add(1)
 
 	forceSync := time.NewTicker(forceSyncInterval * 5)
+	lp.log.Debug("lp with peerset size %d", len(lp.peerSet.getPeers()))
 	for {
 		select {
 		case <-lp.syncCh:
@@ -265,7 +266,7 @@ func (lp *LightProtocol) handleAddPeer(p2pPeer *p2p.Peer, rw p2p.MsgReadWriter) 
 		return false
 	}
 
-	genesisBlock, err := store.GetBlockByHeight(0)
+	genesisBlock, err := store.GetBlockByHeight(common.ScdoForkHeight)
 	if err != nil {
 		return false
 	}
