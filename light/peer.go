@@ -61,7 +61,7 @@ type peer struct {
 	updatedAncestor uint64
 
 	lastAnnounceCodeTime int64
-	log             *log.ScdoLog
+	log                  *log.ScdoLog
 }
 
 func idToStr(id common.Address) string {
@@ -70,16 +70,16 @@ func idToStr(id common.Address) string {
 
 func newPeer(version uint, p *p2p.Peer, rw p2p.MsgReadWriter, log *log.ScdoLog, protocolManager *LightProtocol) *peer {
 	return &peer{
-		Peer:            p,
-		quitCh:          make(chan struct{}),
-		version:         version,
-		td:              big.NewInt(0),
-		peerStrID:       idToStr(p.Node.ID),
-		peerID:          p.Node.ID,
-		rw:              rw,
-		protocolManager: protocolManager,
-		log:             log,
-		updatedAncestor: uint64(0),
+		Peer:                 p,
+		quitCh:               make(chan struct{}),
+		version:              version,
+		td:                   big.NewInt(0),
+		peerStrID:            idToStr(p.Node.ID),
+		peerID:               p.Node.ID,
+		rw:                   rw,
+		protocolManager:      protocolManager,
+		log:                  log,
+		updatedAncestor:      uint64(0),
 		lastAnnounceCodeTime: int64(0),
 	}
 }
@@ -318,7 +318,7 @@ func (p *peer) sendAnnounceQuery(magic uint32, begin uint64, end uint64) error {
 	}
 
 	buff := common.SerializePanic(query)
-	p.log.Debug("peer send [announceRequestCode] query with size %d byte,magic:%s, peer:%s", len(buff),magic,p.peerStrID)
+	p.log.Debug("peer send [announceRequestCode] query with size %d byte,magic:%s, peer:%s", len(buff), magic, p.peerStrID)
 	return p2p.SendMessage(p.rw, announceRequestCode, buff)
 }
 
@@ -326,6 +326,9 @@ func (p *peer) sendAnnounceQuery(magic uint32, begin uint64, end uint64) error {
 // if end equals 0, end should be maximum block number in blockchain.
 func (p *peer) sendAnnounce(magic uint32, begin uint64, end uint64) error {
 	chain := p.protocolManager.chain
+	if begin < common.ScdoForkHeight {
+		begin = common.ScdoForkHeight
+	}
 	if end == 0 {
 		end = chain.CurrentHeader().Height
 	}
