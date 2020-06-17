@@ -12,6 +12,7 @@ import (
 	"encoding/binary"
 	"fmt"
 	"math/big"
+	"regexp"
 
 	"github.com/scdoproject/go-scdo/common/errors"
 	"github.com/scdoproject/go-scdo/common/hexutil"
@@ -84,7 +85,10 @@ func PubKeyToAddress(pubKey *ecdsa.PublicKey, hashFunc func(interface{}) Hash) A
 	return addr
 }
 
-// Validate check whether the address is valid.
+// Validate check whether the address type is valid.
+// Two sources of address: external string address, internal publickey conversion
+// external Address length enforced in HexToAddress->NewAddress
+// internal Address length enforced in LoadECDSAFromString->ToECDSA->toECDSA
 func (id *Address) Validate() error {
 	if id.IsEmpty() {
 		return nil
@@ -153,6 +157,10 @@ func (id *Address) IsEmpty() bool {
 
 // HexToAddress converts the specified HEX string to address.
 func HexToAddress(id string) (Address, error) {
+	if match, _ := regexp.MatchString("^[1-4][sS][a-fA-F0-9]{40}$", id); !match {
+		return Address{}, fmt.Errorf("invalid address = %v", id)
+	}
+
 	byte, err := hexutil.HexToBytes("0x" + id[2:])
 	if err != nil {
 		return Address{}, err
