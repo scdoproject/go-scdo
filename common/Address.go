@@ -28,7 +28,7 @@ type AddressType byte
 
 const (
 	// AddressLen length in bytes
-	AddressLen = 21
+	AddressLen = 20
 
 	// AddressTypeExternal is the address type for external account.
 	AddressTypeExternal = AddressType(1)
@@ -74,11 +74,12 @@ func PubKeyToAddress(pubKey *ecdsa.PublicKey, hashFunc func(interface{}) Hash) A
 	hash := hashFunc(buf[1:]).Bytes()
 
 	var addr Address
-	copy(addr[:], hash[11:]) // use last 21 bytes of public key hash
+	// assume 32 bytes for total key length
+	copy(addr[:], hash[32-AddressLen:])
 
-	// set address type in the last 4 bits
-	addr[20] &= 0xF0
-	addr[20] |= byte(AddressTypeExternal)
+	// modify address type in last byte
+	addr[AddressLen-1] &= 0xF0
+	addr[AddressLen-1] |= byte(AddressTypeExternal)
 
 	return addr
 }
@@ -217,12 +218,12 @@ func (id *Address) Shard() uint {
 	var sum uint
 
 	// sum [0:18]
-	for _, b := range id[:19] {
+	for _, b := range id[:AddressLen-2] {
 		sum += uint(b)
 	}
 
 	// sum [18:20] except address type
-	tail := uint(binary.BigEndian.Uint16(id[19:]))
+	tail := uint(binary.BigEndian.Uint16(id[AddressLen-2:]))
 	sum += (tail >> 4)
 
 	return (sum % ShardCount) + 1
@@ -242,7 +243,7 @@ func (id *Address) CreateContractAddressWithHash(h Hash) Address {
 	var sum uint
 
 	// sum [14:] of public key hash
-	for _, b := range hash[15:] {
+	for _, b := range hash[14:] {
 		sum += uint(b)
 	}
 
@@ -260,8 +261,8 @@ func (id *Address) CreateContractAddressWithHash(h Hash) Address {
 	binary.BigEndian.PutUint16(encoded, uint16(mod))
 
 	var contractAddr Address
-	copy(contractAddr[:19], hash[15:]) // use last 18 bytes of hash (from address + nonce)
-	copy(contractAddr[19:], encoded)   // last 2 bytes for shard mod and address type
+	copy(contractAddr[:AddressLen-2], hash[14:]) // use last 18 bytes of hash (from address + nonce)
+	copy(contractAddr[AddressLen-2:], encoded)   // last 2 bytes for shard mod and address type
 
 	return contractAddr
 }
