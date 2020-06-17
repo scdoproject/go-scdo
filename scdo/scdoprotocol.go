@@ -723,7 +723,7 @@ handler:
 					curNum = orgNum + cnt
 				}
 
-				if curNum > maxHeight {
+				if curNum > maxHeight || curNum < common.ScdoForkHeight {
 					break
 				}
 				hash, err := p.chain.GetStore().GetBlockHash(curNum)
