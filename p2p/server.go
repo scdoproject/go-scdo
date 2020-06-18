@@ -521,7 +521,12 @@ func (srv *Server) listenLoop() {
 func (srv *Server) setupConn(fd net.Conn, flags int, dialDest *discovery.Node) (err error) {
 	if flags == inboundConn && srv.PeerCount() > srv.maxConnections {
 		srv.log.Warn("setup connection with peer %s. reached max incoming connection limit, reject!", dialDest)
-		return errors.New("Too many incoming connections")
+		return errors.New("too many incoming connections")
+	}
+	if flags == outboundConn {
+		srv.log.Debug("setup outbound connection with peer %s", dialDest)
+	}else {
+		srv.log.Debug("setup inbound connection with peer %s", fd.RemoteAddr())
 	}
 
 	srv.log.Debug("setup connection with peer %s", dialDest)
@@ -538,6 +543,9 @@ func (srv *Server) setupConn(fd net.Conn, flags int, dialDest *discovery.Node) (
 	if err != nil {
 		srv.log.Debug("failed to do handshake with peer %s, err info %s", dialDest, err)
 		peer.close()
+		if peer.Node != nil {
+			srv.deleteNode(peer.Node)
+		}
 		return err
 	}
 
@@ -551,7 +559,7 @@ func (srv *Server) setupConn(fd net.Conn, flags int, dialDest *discovery.Node) (
 			peer.close()
 			return errors.New("not found nodeID in discovery database")
 		}
-		//the connection from a different path, need to dd the node to the list
+		//the connection from a different path, need to add the node to the list
 		srv.nodeSet.tryAdd(peerNode)
 
 		srv.log.Info("p2p.setupConn peerNodeID found in nodeMap. %s", peerNode.ID.Hex())

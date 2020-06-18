@@ -19,6 +19,7 @@ func StartService(nodeDir string, myID common.Address, myAddr *net.UDPAddr, boot
 		udp.trustNodes = bootstrap
 	}
 	udp.loadNodes(nodeDir)
+	udp.loadBlockList(nodeDir)
 	udp.StartServe(nodeDir)
 
 	return udp.db

@@ -12,10 +12,11 @@ import (
 	"io/ioutil"
 	rand2 "math/rand"
 	"net"
+	"os"
 	"path/filepath"
 	"time"
 
-	cmap "github.com/orcaman/concurrent-map"
+	"github.com/orcaman/concurrent-map"
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/crypto"
 	"github.com/scdoproject/go-scdo/log"
@@ -33,6 +34,10 @@ const (
 
 	// a node will be delete after n continuous time out.
 	timeoutCountForDeleteNode = 16
+	blockListBackupFile = "blockList.json"
+	blockListCheckInterval = 60 * time.Second
+	blockListSaveInterval = 20 * time.Minute
+	blockDuration = 60 * time.Minute
 )
 
 type udp struct {
@@ -41,7 +46,6 @@ type udp struct {
 	table          *Table
 	trustNodes     []*Node
 	bootstrapNodes []*Node
-
 	db        *Database
 	localAddr *net.UDPAddr
 
@@ -52,6 +56,7 @@ type udp struct {
 	log *log.ScdoLog
 
 	timeoutNodesCount cmap.ConcurrentMap //node id -> count
+	blockList cmap.ConcurrentMap //blockList for ip, key is IP  and value is last (ping) message unix-timestamp
 }
 
 type pending struct {
@@ -103,6 +108,7 @@ func newUDP(id common.Address, addr *net.UDPAddr, shard uint) *udp {
 
 		log:               log,
 		timeoutNodesCount: cmap.New(),
+		blockList:cmap.New(),
 	}
 
 	return transport
@@ -176,7 +182,11 @@ func (u *udp) handleMsg(from *net.UDPAddr, data []byte) {
 				u.log.Warn(err.Error())
 				return
 			}
-
+			if msg.Version != discoveryProtocolVersion {
+				u.log.Error("pingMsg invalid discoveryProtocolVersion from addr:%s",from)
+				u.blockList.Set(from.IP.String(),time.Now().Unix())
+				return
+			}
 			// response ping
 			msg.handle(u, from)
 
@@ -187,13 +197,21 @@ func (u *udp) handleMsg(from *net.UDPAddr, data []byte) {
 				u.log.Warn(err.Error())
 				return
 			}
-
+			errPong := false
+			if msg.Version != discoveryProtocolVersion {
+				u.log.Error("pongMsg with invalid discoveryProtocolVersion %d,nodeID:%s",msg.Version,msg.SelfID)
+				errPong = true
+			}
+			if !isShardValid(msg.SelfShard){
+				u.log.Error("ignore pongMsg with invalid shard:%d,nodeID:%s",msg.SelfShard,msg.SelfID)
+				errPong = true
+			}
 			r := &reply{
 				fromID:   msg.SelfID,
 				fromAddr: from,
 				code:     code,
 				data:     msg,
-				err:      !isShardValid(msg.SelfShard),
+				err:      errPong,
 			}
 
 			u.gotReply <- r
@@ -206,7 +224,10 @@ func (u *udp) handleMsg(from *net.UDPAddr, data []byte) {
 				u.log.Warn(err.Error())
 				return
 			}
-
+			if msg.Version != discoveryProtocolVersion {
+				u.log.Warn("findNodeMsg invalid discoveryProtocolVersion %d,addr:%s,nodeID:%s",msg.Version,from,msg.SelfID)
+				return
+			}
 			//response find
 			msg.handle(u, from)
 
@@ -235,7 +256,10 @@ func (u *udp) handleMsg(from *net.UDPAddr, data []byte) {
 				u.log.Warn(err.Error())
 				return
 			}
-
+			if msg.Version != discoveryProtocolVersion {
+				u.log.Warn("findShardNodeMsg invalid discoveryProtocolVersion %d,addr:%s,nodeID:%s",msg.Version,from,msg.SelfID)
+				return
+			}
 			msg.handle(u, from)
 
 		case shardNodeMsgType:
@@ -274,7 +298,11 @@ func (u *udp) readLoop() {
 			
 			continue
 		}
-
+		if u.blockList.Has(remoteAddr.IP.String()) {
+			u.blockList.Set(remoteAddr.IP.String(),time.Now().Unix())
+			u.log.Warn("blockList update,addr:%s",remoteAddr)
+			continue
+		}
 		data = data[:n]
 		u.handleMsg(remoteAddr, data)
 
@@ -427,6 +455,10 @@ func (u *udp) pingPongService() {
 		u.log.Debug("loop ping pong nodes %d", len(loopPingPongNodes))
 		concurrentCount := 0
 		for _, n := range loopPingPongNodes {
+			if u.blockList.Has(n.IP.String()){
+				u.log.Warn("skip ping node in block list,%s",n.IP.String())
+				continue
+			}
 			u.ping(n)
 
 			concurrentCount++
@@ -453,14 +485,63 @@ func (u *udp) ping(value *Node) {
 }
 
 func (u *udp) StartServe(nodeDir string) {
+	go u.checkBlockList()
 	go u.readLoop()
 	go u.loopReply()
 	go u.discovery()
 	go u.pingPongService()
 	go u.sendLoop()
 	go u.db.StartSaveNodes(nodeDir, make(chan struct{}))
+	go u.saveBlockList(nodeDir)
 	if u.log.GetLevel() >= logrus.DebugLevel {
 		go u.printPeers()
+	}
+}
+
+func (u *udp) checkBlockList(){
+	ticker := time.NewTicker(blockListCheckInterval)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ticker.C:
+			for _, key := range u.blockList.Keys() {
+				timestamp, _ := u.blockList.Get(key)
+				if time.Now().Sub(time.Unix(timestamp.(int64), 0)) > blockDuration {
+					u.blockList.Remove(key)
+					u.log.Debug("remove from block list:%s", key)
+				}
+			}
+		}
+	}
+}
+
+func (u *udp) saveBlockList(nodeDir string){
+	ticker := time.NewTicker(blockListSaveInterval)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ticker.C:
+			nodeByte, err := json.MarshalIndent(u.blockList, "", "\t")
+			if err != nil {
+				u.log.Error("json marshal occur error, for:[%s]", err.Error())
+				return
+			}
+			u.log.Info("%s", nodeByte)
+			fileFullPath := filepath.Join(nodeDir, blockListBackupFile)
+			if !common.FileOrFolderExists(fileFullPath) {
+				if err := os.MkdirAll(nodeDir, os.ModePerm); err != nil {
+					u.log.Error("filePath:[%s], failed to create folder, for:[%s]", nodeDir, err.Error())
+					return
+				}
+			}
+			u.log.Info("backups block list. size %d", u.blockList.Count())
+			if err = ioutil.WriteFile(fileFullPath, nodeByte, 0666); err != nil {
+				u.log.Error("block list backup failed, for:[%s]", err.Error())
+				return
+			}
+
+			u.log.Debug("blockList:%s backup success\n", string(nodeByte))
+		}
 	}
 }
 
@@ -564,4 +645,32 @@ func (u *udp) loadNodes(nodeDir string) {
 	}
 
 	u.log.Debug("load %d nodes from back file", len(u.bootstrapNodes))
+}
+
+func (u *udp) loadBlockList(nodeDir string) {
+	fileFullPath := filepath.Join(nodeDir, blockListBackupFile)
+
+	if !common.FileOrFolderExists(fileFullPath) {
+		u.log.Debug("block list backup file doesn't exist in the path:%s", fileFullPath)
+		return
+	}
+
+	data, err := ioutil.ReadFile(fileFullPath)
+	if err != nil {
+		u.log.Error("failed to read black list info backup file for:[%s]", err)
+		return
+	}
+
+	var nodes map[string]int64
+	err = json.Unmarshal(data, &nodes)
+	if err != nil {
+		u.log.Error("failed to unmarshal block list for:[%s]", err)
+		return
+	}
+
+	for i := range nodes {
+		u.blockList.Set(i,nodes[i])
+	}
+
+	u.log.Debug("load %d blocked IPs from back file", u.blockList.Count())
 }
