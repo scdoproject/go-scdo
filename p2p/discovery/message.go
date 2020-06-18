@@ -45,11 +45,11 @@ func codeToStr(code msgType) string {
 }
 
 const (
-	discoveryProtocolVersion uint = 1
+	discoveryProtocolVersion uint = 2
 )
 
 type ping struct {
-	Version   uint // TODO add version check
+	Version   uint
 	SelfID    common.Address
 	SelfShard uint
 
@@ -57,11 +57,13 @@ type ping struct {
 }
 
 type pong struct {
+	Version   uint // check discoveryProtocolVersion
 	SelfID    common.Address
 	SelfShard uint
 }
 
 type findNode struct {
+	Version uint
 	SelfID  common.Address
 	QueryID common.Address // the ID we want to query in Kademila
 
@@ -74,6 +76,7 @@ type neighbors struct {
 }
 
 type findShardNode struct {
+	Version      uint
 	SelfID       common.Address
 	RequestShard uint // request shard info
 
@@ -126,7 +129,6 @@ func (m *ping) handle(t *udp, from *net.UDPAddr) {
 	if m.Version != discoveryProtocolVersion {
 		return
 	}
-
 	node := NewNodeWithAddr(m.SelfID, from, m.SelfShard)
 
 	// just allows valid shards to be added in table
@@ -135,6 +137,7 @@ func (m *ping) handle(t *udp, from *net.UDPAddr) {
 		t.timeoutNodesCount.Set(m.SelfID.Hex(), 0)
 
 		resp := &pong{
+			Version:   discoveryProtocolVersion,
 			SelfID:    t.self.ID,
 			SelfShard: t.self.Shard,
 		}
