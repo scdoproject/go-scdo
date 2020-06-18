@@ -250,6 +250,7 @@ func sendFindNodeRequest(u *udp, nodes []*Node, target common.Address) {
 	concurrentCount := 0
 	for _, n := range nodes {
 		f := &findNode{
+			Version: discoveryProtocolVersion,
 			SelfID:  u.self.ID,
 			QueryID: target,
 			to:      n,
@@ -269,6 +270,7 @@ func sendFindNodeRequest(u *udp, nodes []*Node, target common.Address) {
 
 func sendFindShardNodeRequest(u *udp, shard uint, to *Node) {
 	query := &findShardNode{
+		Version: 	  discoveryProtocolVersion,
 		SelfID:       u.self.ID,
 		RequestShard: shard,
 
