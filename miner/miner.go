@@ -70,9 +70,9 @@ type Miner struct {
 func NewMiner(addr common.Address, scdo ScdoBackend, verifier types.DebtVerifier, engine consensus.Engine) *Miner {
 	miner := &Miner{
 		coinbase:             addr,
-		canStart:             1,
-		stopped:              0,
-		stopper:              0,
+		canStart:             1, // used with downloader, canStart is 0 when downloading
+		stopped:              0, // indicate miner status (0/1), opposite to Miner.mining
+		stopper:              0, // indicate where miner could start or not. If stopper is 1, miner won't do mining
 		scdo:           scdo,
 		wg:                   sync.WaitGroup{},
 		recv:                 make(chan *types.Block, 1),
@@ -109,6 +109,10 @@ func (miner *Miner) SetCoinbase(coinbase common.Address) {
 
 func (miner *Miner) GetCoinbase() common.Address {
 	return miner.coinbase
+}
+
+func (miner *Miner)SetStopper(stopper int32){
+	miner.stopper = stopper
 }
 
 func (miner *Miner) CanStart() bool {

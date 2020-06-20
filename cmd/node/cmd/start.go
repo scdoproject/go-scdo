@@ -191,6 +191,7 @@ var startCmd = &cobra.Command{
 					return
 				}
 			} else if minerInfo == "stop" {
+				scdoService.Miner().SetStopper(1)
 				scdoService.Miner().Stop()
 			} else {
 				fmt.Println("invalid miner command, must be start or stop")
