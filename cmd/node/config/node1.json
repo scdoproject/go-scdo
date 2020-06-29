@@ -5,7 +5,7 @@
         "dataDir": "node1",
         "address": "0.0.0.0:8027",
         "coinbase": "0xcee66ad4a1909f6b5170dec230c1a69bfc2b21d1",
-        "algorithm": "spow"
+        "algorithm": "mpow"
     },
     "p2p": {
         "privateKey": "0xf65e40c6809643b25ce4df33153da2f3338876f181f83d2281c6ac4a987b1479",

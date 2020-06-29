@@ -86,7 +86,6 @@ func LoadConfigFromFile(configFile string, accounts string) (*node.Config, error
 	comm.LogConfiguration.IsDebug = config.LogConfig.IsDebug
 	comm.LogConfiguration.DataDir = config.BasicConfig.DataDir
 	config.BasicConfig.DataDir = filepath.Join(common.GetDefaultDataFolder(), config.BasicConfig.DataDir)
-	config.BasicConfig.DataSetDir = filepath.Join(common.GetTempFolder(), config.BasicConfig.DataDir)
 	return config, nil
 }
 
@@ -109,7 +108,7 @@ func CopyConfig(cmdConfig *util.Config) *node.Config {
 		HTTPServer:     cmdConfig.HTTPServer,
 		WSServerConfig: cmdConfig.WSServerConfig,
 		P2PConfig:      cmdConfig.P2PConfig,
-		ScdoConfig:    node.ScdoConfig{},
+		ScdoConfig:     node.ScdoConfig{},
 		MetricsConfig:  cmdConfig.MetricsConfig,
 	}
 	return config
