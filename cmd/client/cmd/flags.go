@@ -110,7 +110,7 @@ var (
 	amountValue string
 	amountFlag  = cli.StringFlag{
 		Name:        "amount",
-		Usage:       "amount value, unit is fan",
+		Usage:       "amount value, unit is wen",
 		Destination: &amountValue,
 	}
 
@@ -126,7 +126,7 @@ var (
 	priceFlag  = cli.StringFlag{
 		Name:        "price",
 		Value:       "10",
-		Usage:       "transaction gas price in Fan",
+		Usage:       "transaction gas price in Wen",
 		Destination: &priceValue,
 	}
 

@@ -12,13 +12,13 @@ import (
 )
 
 var (
-	//ScdoToFan base feifan coin number
-	ScdoToFan = big.NewInt(100000000)
+	//ScdoToWen base wen coin number
+	ScdoToWen = big.NewInt(100000000)
 )
 
 //BigToDecimal simply changes big int to decimal which will miss additional 0 in the last
 func BigToDecimal(amount *big.Int) string {
-	base := ScdoToFan
+	base := ScdoToWen
 	var quotient = big.NewInt(0)
 	var mod = big.NewInt(0)
 	var numstr string

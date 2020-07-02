@@ -28,14 +28,14 @@ func init() {
 
 	rewardTableCoin = make([]*big.Int, len(rewardTable))
 	for i, r := range rewardTable {
-		rewardTableCoin[i] = convertScdoToFan(r / common.ShardCount)
+		rewardTableCoin[i] = convertScdoToWen(r / common.ShardCount)
 	}
 
-	tailRewardCoin = convertScdoToFan(tailReward / common.ShardCount)
+	tailRewardCoin = convertScdoToWen(tailReward / common.ShardCount)
 }
 
-func convertScdoToFan(scdo float64) *big.Int {
-	unit := common.ScdoToFan.Int64()
+func convertScdoToWen(scdo float64) *big.Int {
+	unit := common.ScdoToWen.Int64()
 	f := uint64(scdo * float64(unit))
 
 	return big.NewInt(0).SetUint64(f)
