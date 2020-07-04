@@ -74,7 +74,7 @@ func getFromAddress(statedb *state.Statedb) common.Address {
 	if len(account) == 0 {
 		from := *crypto.MustGenerateRandomAddress()
 		statedb.CreateAccount(from)
-		statedb.SetBalance(from, common.ScdoToFan)
+		statedb.SetBalance(from, common.ScdoToWen)
 		statedb.SetNonce(from, DefaultNonce)
 		return from
 	}

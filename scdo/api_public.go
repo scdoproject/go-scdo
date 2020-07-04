@@ -117,11 +117,11 @@ func (api *PublicScdoAPI) Call(contract, payload string, height int64) (map[stri
 	coinbase := api.s.miner.GetCoinbase()
 	from := crypto.MustGenerateShardAddress(coinbase.Shard())
 	statedb.CreateAccount(*from)
-	statedb.SetBalance(*from, common.ScdoToFan)
+	statedb.SetBalance(*from, common.ScdoToWen)
 
 	amount, price, nonce := big.NewInt(0), big.NewInt(1), uint64(1)
 	// gasLimit = balance / fee
-	gasLimit := common.ScdoToFan.Uint64()
+	gasLimit := common.ScdoToWen.Uint64()
 	tx, err := types.NewMessageTransaction(*from, contractAddr, amount, price, gasLimit, nonce, msg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create transaction: %s", err)

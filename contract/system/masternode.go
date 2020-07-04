@@ -34,7 +34,7 @@ var (
 	ByteTrue  = []byte{1}
 	ByteFalse = []byte{0}
 
-	depositLimit        = big.NewInt(0).Mul(common.ScdoToFan, big.NewInt(20000))
+	depositLimit        = big.NewInt(0).Mul(common.ScdoToWen, big.NewInt(20000))
 	recallDistanceLimit = uint64(8640) // generate blocks in about one day
 )
 

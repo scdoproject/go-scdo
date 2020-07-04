@@ -26,7 +26,7 @@ func Test_Reward(t *testing.T) {
 }
 
 func Test_RewardTotal(t *testing.T) {
-	targetReward := new(big.Int).Mul(new(big.Int).SetInt64(300000000), common.ScdoToFan)
+	targetReward := new(big.Int).Mul(new(big.Int).SetInt64(300000000), common.ScdoToWen)
 
 	sum := big.NewInt(0)
 	for i := uint64(0); i < 10*blockNumberPerEra; i++ {
