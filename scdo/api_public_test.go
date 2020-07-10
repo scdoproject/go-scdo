@@ -148,7 +148,7 @@ func sendTx(t *testing.T, api *PublicScdoAPI, statedb *state.Statedb, tx *types.
 func getFromAddress(statedb *state.Statedb) common.Address {
 	from := *crypto.MustGenerateRandomAddress()
 	statedb.CreateAccount(from)
-	statedb.SetBalance(from, common.ScdoToFan)
+	statedb.SetBalance(from, common.ScdoToWen)
 	statedb.SetNonce(from, 0)
 	return from
 }

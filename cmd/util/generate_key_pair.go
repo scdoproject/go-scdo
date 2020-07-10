@@ -48,6 +48,7 @@ func GenerateKey(shard uint) (*common.Address, *ecdsa.PrivateKey, error) {
 	if shard > common.ShardCount {
 		return nil, nil, fmt.Errorf("not supported shard number, shard number should be [0, %d]", common.ShardCount)
 	} else if shard == 0 {
+		fmt.Println("INVALID/NO shard options: '--shard' provided, generate key with RANDOM shard")
 		publicKey, privateKey, err = crypto.GenerateKeyPair()
 		if err != nil {
 			return nil, nil, fmt.Errorf("failed to generate the key pair: %s", err)

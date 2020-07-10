@@ -163,7 +163,7 @@ func Test_TransactionPoolFull(t *testing.T) {
 	defer chain.dispose()
 
 	fromPrivKey, fromAddress := randomAccount(t)
-	chain.addAccount(fromAddress, uint64(config.Capacity*2)*common.ScdoToFan.Uint64(), 0)
+	chain.addAccount(fromAddress, uint64(config.Capacity*2)*common.ScdoToWen.Uint64(), 0)
 
 	for i := 0; i < config.Capacity; i++ {
 		poolTx := newTestPoolEx(t, fromPrivKey, fromAddress, 1, uint64(i), 1)

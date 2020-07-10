@@ -16,12 +16,27 @@ pause
 goto:eof
 
 :all
+call :copylib
 call :discovery
 call :node
 call :client
 call :light
 call :tool
 call :vm
+goto:eof
+
+:copylib
+for /f "delims=" %%i in ('go env GOPAH') do set gopath=%%i
+for /f "delims=" %%i in ('go env GOOS') do set goos=%%i
+for /f "delims=" %%i in ('go env GOARCH') do set goarch=%%i
+md %gopath%\pkg\%goos%_%goarch%\github.com
+md %gopath%\pkg\%goos%_%goarch%\github.com\scdoproject
+md %gopath%\pkg\%goos%_%goarch%\github.com\scdoproject\go-scdo
+md %gopath%\pkg\%goos%_%goarch%\github.com\scdoproject\go-scdo\consensus
+echo on
+echo copyTo=%gopath%\pkg\%goos%_%goarch%\github.com\scdoproject\go-scdo\consensus\scdorand.a
+copy .\consensus\scdorand\scdorand_windows_amd64.a  %gopath%\pkg\%goos%_%goarch%\github.com\scdoproject\go-scdo\consensus\scdorand.a
+@echo off
 goto:eof
 
 :discovery
@@ -33,7 +48,6 @@ goto:eof
 
 :node
 echo on
-go get gonum.org/v1/gonum/mat
 go build -o ./build/node.exe ./cmd/node
 @echo "Done node building"
 @echo off

@@ -15,10 +15,10 @@ import (
 // Gas fee model for test net
 ///////////////////////////////////////////////////////////////////////////////////////
 var (
-	contractFeeComplex       = new(big.Int).Div(common.ScdoToFan, big.NewInt(100))
-	contractFeeCustomToken   = new(big.Int).Div(common.ScdoToFan, big.NewInt(200))
-	contractFeeStandardToken = new(big.Int).Div(common.ScdoToFan, big.NewInt(500))
-	contractFeeSimple        = new(big.Int).Div(common.ScdoToFan, big.NewInt(1000))
+	contractFeeComplex       = new(big.Int).Div(common.ScdoToWen, big.NewInt(100))
+	contractFeeCustomToken   = new(big.Int).Div(common.ScdoToWen, big.NewInt(200))
+	contractFeeStandardToken = new(big.Int).Div(common.ScdoToWen, big.NewInt(500))
+	contractFeeSimple        = new(big.Int).Div(common.ScdoToWen, big.NewInt(1000))
 
 	lowPriceGas  = uint64(50000) // 2 storage op allowed
 	overUsedStep = uint64(20000) // about 1 storage op

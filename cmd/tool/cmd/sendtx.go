@@ -428,7 +428,7 @@ func sendtx(b *balance, amount int, shard uint) *balance {
 	}
 
 	value := big.NewInt(int64(amount))
-	value.Mul(value, common.ScdoToFan)
+	value.Mul(value, common.ScdoToWen)
 
 	client := getRandClient()
 	tx, err := util.GenerateTx(b.privateKey, *addr, value, big.NewInt(1), 0, b.nonce, nil)
@@ -552,7 +552,7 @@ func getBalance(address common.Address, hexHash string, height int64) (int, bool
 		panic(fmt.Sprintf("failed to get the balance: %s\n", err))
 	}
 
-	return int(result.Balance.Div(result.Balance, common.ScdoToFan).Uint64()), true
+	return int(result.Balance.Div(result.Balance, common.ScdoToWen).Uint64()), true
 }
 
 func getClient(address common.Address) *rpc.Client {

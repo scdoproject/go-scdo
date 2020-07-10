@@ -56,7 +56,7 @@ func Test_Process_EVM(t *testing.T) {
 func Test_Process_SysContract(t *testing.T) {
 	// CreateDomainName
 	ctx, _ := newTestContext(big.NewInt(0))
-	testBytes := []byte("scdo-fan")
+	testBytes := []byte("scdo-wen")
 	ctx.Tx.Data.Payload = append([]byte{system.CmdCreateDomainName}, testBytes...) // 0x007365656c652e66616e
 	ctx.Tx.Data.To = system.DomainNameContractAddress                              // 0x0000000000000000000000000000000000000101
 
@@ -202,7 +202,7 @@ func Test_Process_ErrOutOfGas(t *testing.T) {
 	// intrinsic gas too low
 	ctx3, _ := newTestContext(big.NewInt(0))
 	balanceOri3 := ctx3.Statedb.GetBalance(ctx3.Tx.Data.From)
-	testBytes := []byte("scdo-fan")
+	testBytes := []byte("scdo-wen")
 	ctx3.Tx.Data.Payload = append([]byte{system.CmdCreateDomainName}, testBytes...) // 0x007365656c652e66616e
 	ctx3.Tx.Data.To = system.DomainNameContractAddress                              // 0x0000000000000000000000000000000000000101
 	ctx3.Tx.Data.GasLimit = 0
@@ -273,7 +273,7 @@ func newTestBlockHeader(coinbase common.Address) *types.BlockHeader {
 	}
 }
 
-var fromBalance = uint64(1000 * common.ScdoToFan.Uint64())
+var fromBalance = uint64(1000 * common.ScdoToWen.Uint64())
 
 func newTestContext(amount *big.Int) (*Context, error) {
 	statedb, bcStore, address, dispose := preprocessContract(fromBalance, 38)
