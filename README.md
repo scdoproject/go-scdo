@@ -17,7 +17,7 @@
 
 The official Golang implementation of Seele Credo. Seele Credo is an open source blockchain project which consists of advanced sharding technology and the innovative anti-asic MPoW consensus algorithm. [https://scdo.pro](https://scdo.pro)
 
-The current mainnet release: Seele Credo mainchain is powered by a new anti-ASIC consensus PoW algorithm, which requires scientific calculation related to matrix. [MPOW PAPER](https://arxiv.org/abs/1905.04565) The mainchain has four shards. It can perform transactions within a shard or crossing shards. However, smart contracts currently can be only executed within the same shard. Seele Credo subchains are under development. [Seele Credo Stem subchain protocol](https://medium.com/@SeeleTech/scdo-stem-subchain-protocol-b5eceb02aaa3). 
+The current mainnet release: Seele Credo mainchain is powered by a new anti-ASIC consensus PoW algorithm, which requires scientific calculation related to matrix. [MPOW PAPER](https://arxiv.org/abs/1905.04565) The mainchain has four shards. It can perform transactions within a shard or crossing shards. However, smart contracts currently can be only executed within the same shard. Seele Credo subchains are under development. [Seele Credo Stem subchain protocol](https://medium.com/@SeeleTech/scdo-stem-subchain-protocol-b5eceb02aaa3). The so called EDA consensus algorithm [EDA PAPER](http://scdo.hk.ufileos.com/Seele_Yellow_Paper_EDA_A_Parallel_Data_Sorting_Mechanism_for_Distributed_Information_Processing_System_Pre-Release.pdf) from Seele Credo will be utilized for the subchains.
 
 # Download (without building)
 If you want to directly run the node and use client without setting up the compiling enviroment and building the executable files, you can choose right version to download and run:
@@ -30,9 +30,7 @@ If you want to directly run the node and use client without setting up the compi
 
 # Or Download & Build the source
 
-Building the Seele Credo project requires both a Go (version 1.12.7) compiler and a C compiler. You can install them using your favourite package manager. Once the dependencies are installed, run
-
-- Building the Seele Credo project requires both a Go (version 1.12.7) compiler and a C compiler. Install Go v1.12.7, Git, and the C compiler.
+- Building the Seele Credo project requires both a Go (version 1.12.7 ONLY currently) compiler Git, and a C compiler.
 
 - Clone the go-scdo repository to the GOPATH directory:
 
@@ -46,20 +44,20 @@ go get -u -v github.com/scdoproject/go-scdo/...
 cd GOPATH/src/github.com/scdoproject/go-scdo/
 ```
 
-- Linux & Mac
+- Linux & Mac amd64
 
 ```
 make all
 ```
 
-- Windows
+- Windows amd64
 
 ```
 buildall.bat
 ```
 
 # Run Scdo
-A simple version Scdo mining tutorial: English-[ScdoMiningTutorial](https://github.com/scdoproject/go-scdo/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Scdo挖矿教程中文简版](https://github.com/scdoproject/go-scdo/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
+A simple version Scdo mining tutorial: English-[SeeleMiningTutorial](https://github.com/scdoproject/go-scdo/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Seele挖矿教程中文简版](https://github.com/scdoproject/go-scdo/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
 
 For running a node, please refer to [Get Started](https://scdotech.gitbook.io/wiki/developer/go-scdo/gettingstarted)([Older version](https://scdoteam.github.io/scdo-doc/docs/Getting-Started-With-Seele Credo.html)).
 For more usage details and deeper explanations, please consult the [Seele Credo Wiki](https://scdotech.gitbook.io/wiki/)([Older version](https://scdoteam.github.io/scdo-doc/index.html)).
@@ -77,9 +75,9 @@ Here are some guidelines before you start:
 # Resources
 
 * [Seele Credo Website](https://scdo.pro/)
-* [Dev Chat Room](https://gitter.im/scdoteamchat/dev)
+* [Dev Chat Room](https://gitter.im/seleeteam/dev)
 * [Telegram Group](https://t.me/scdotech)
-* [White Paper]()
+* [White Paper](https://s3.ap-northeast-2.amazonaws.com/wp.s3.scdo.pro/Seele_White_Paper_English_v3.1.pdf)
 * [Roadmap](https://scdo.pro/)
 * [Seele Credo Wiki](https://scdotech.gitbook.io/wiki/)
 * [scdo-sdk-javascript](https://www.npmjs.com/package/scdo-sdk-javascript)
