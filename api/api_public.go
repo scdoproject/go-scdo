@@ -110,9 +110,9 @@ func (api *PublicScdoAPI) GetBlockHeight() (uint64, error) {
 	return header.Height, nil
 }
 
-// GetScdoForKHeight get the Scdo Fork height
-func (api *PublicScdoAPI) GetScdoForKHeight() (uint64, error) {
-	return common.ScdoForkHeight, nil
+// GetScdoForkHeight get the Scdo fork height
+func (api *PublicScdoAPI) GetScdoForkHeight() (uint64, error) {
+	return uint64(common.ScdoForkHeight), nil
 }
 
 // GetBlock returns the requested block.
