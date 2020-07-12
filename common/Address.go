@@ -132,6 +132,9 @@ func (id *Address) Validate() error {
 	if id.IsEmpty() {
 		return nil
 	}
+	if !ValidShard(id.Shard()) {
+		return fmt.Errorf("invalid address shard %v", id.Shard())
+	}
 
 	if addrType := id.Type(); addrType < AddressTypeReserved && (addrType < AddressTypeExternal || addrType > AddressTypeContract) {
 		return fmt.Errorf("invalid address type %v, address = %v", addrType, id.Hex())
@@ -182,9 +185,10 @@ func (id Address) Hex() string {
 	// return hexutil.BytesToHex(id.Bytes())
 	s := fmt.Sprint(id.Shard())
 	a := s + "S" + hexutil.BytesToHex(id.Bytes())[2:]
-	// fmt.Println("id.Hex()", a)
+
 	if !ValidAccountHex(a) {
-		panic(errors.ErrAccountInvalid)
+		fmt.Println("id.Hex()", a)
+		// panic(errors.ErrAccountInvalid)
 	}
 	return a
 }

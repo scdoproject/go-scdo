@@ -170,23 +170,23 @@ func (srv *Server) Start(nodeDir string, shard uint) (err error) {
 	if srv.running {
 		return errors.New("server already running")
 	}
-
-	address := *crypto.PubkeyToAddress(srv.PrivateKey.PublicKey)
+	address, err := crypto.GetAddress(&srv.PrivateKey.PublicKey, shard)
+	// address := *crypto.PubkeyToAddress(srv.PrivateKey.PublicKey)
 	addr, err := net.ResolveUDPAddr("udp", srv.ListenAddr)
 	if err != nil {
 		return err
 	}
 
 	srv.log.Debug("Starting P2P networking...")
-	srv.SelfNode = discovery.NewNodeWithAddr(address, addr, shard)
+	srv.SelfNode = discovery.NewNodeWithAddr(*address, addr, shard)
 
 	srv.log.Info("p2p.Server.Start: MyNodeID [%s]", srv.SelfNode)
-	srv.kadDB = discovery.StartService(nodeDir, address, addr, srv.Config.StaticNodes, shard)
+	srv.kadDB = discovery.StartService(nodeDir, *address, addr, srv.Config.StaticNodes, shard)
 	srv.kadDB.SetHookForNewNode(srv.addNode)
 	srv.kadDB.SetHookForDeleteNode(srv.deleteNode)
 	// add static nodes to srv node set;
 	for _, node := range srv.Config.StaticNodes {
-		if !node.ID.IsEmpty() {
+		if err := node.ID.Validate(); !node.ID.IsEmpty() && err != nil {
 			srv.nodeSet.tryAdd(node)
 		}
 
@@ -226,6 +226,11 @@ loop:
 
 //this function is triggered by udp when a new node is discovered
 func (srv *Server) addNode(node *discovery.Node) {
+	if err := node.ID.Validate(); err != nil {
+		srv.log.Info("invalid udp node address %v", node.ID)
+		return
+	}
+
 	if node.Shard == discovery.UndefinedShardNumber {
 		return
 	}
@@ -254,6 +259,7 @@ func (srv *Server) addNode(node *discovery.Node) {
 }
 
 func (srv *Server) connectNode(node *discovery.Node) {
+
 	if srv.checkPeerExist(node.ID) {
 		return
 	}
@@ -277,7 +283,6 @@ func (srv *Server) connectNode(node *discovery.Node) {
 	srv.log.Info("connect to a node with %s -> %s", conn.LocalAddr(), conn.RemoteAddr())
 	if err := srv.setupConn(conn, outboundConn, node); err != nil {
 		srv.log.Debug("failed to add new node. err=%s", err)
-
 	}
 	return
 
@@ -519,6 +524,7 @@ func (srv *Server) listenLoop() {
 // setupConn Confirm both side are valid peers, have sub-protocols supported by each other
 // Assume the inbound side is server side; outbound side is client side.
 func (srv *Server) setupConn(fd net.Conn, flags int, dialDest *discovery.Node) (err error) {
+
 	if flags == inboundConn && srv.PeerCount() > srv.maxConnections {
 		srv.log.Warn("setup connection with peer %s. reached max incoming connection limit, reject!", dialDest)
 		return errors.New("too many incoming connections")
@@ -560,6 +566,10 @@ func (srv *Server) setupConn(fd net.Conn, flags int, dialDest *discovery.Node) (
 			return errors.New("not found nodeID in discovery database")
 		}
 		//the connection from a different path, need to add the node to the list
+		if err := peerNode.ID.Validate(); err != nil {
+			return errors.New("Invalid node address")
+		}
+
 		srv.nodeSet.tryAdd(peerNode)
 
 		srv.log.Info("p2p.setupConn peerNodeID found in nodeMap. %s", peerNode.ID.Hex())

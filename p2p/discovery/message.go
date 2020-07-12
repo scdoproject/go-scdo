@@ -125,10 +125,14 @@ func generateBuff(code msgType, encoding []byte) []byte {
 
 // handle send pong msg and add pending
 func (m *ping) handle(t *udp, from *net.UDPAddr) {
+	if err := m.SelfID.Validate(); err != nil {
+		return
+	}
 	// response with pong
 	if m.Version != discoveryProtocolVersion {
 		return
 	}
+
 	node := NewNodeWithAddr(m.SelfID, from, m.SelfShard)
 
 	// just allows valid shards to be added in table
@@ -176,6 +180,9 @@ func (m *ping) send(t *udp) {
 
 // handle response find node request
 func (m *findNode) handle(t *udp, from *net.UDPAddr) {
+	if err := m.SelfID.Validate(); err != nil {
+		return
+	}
 	t.log.Debug("received request [findNodeMsg] from: %s, id: %s", from, m.SelfID.Hex())
 
 	nodes := t.table.findNodeWithTarget(crypto.HashBytes(m.QueryID.Bytes()))
@@ -270,7 +277,7 @@ func sendFindNodeRequest(u *udp, nodes []*Node, target common.Address) {
 
 func sendFindShardNodeRequest(u *udp, shard uint, to *Node) {
 	query := &findShardNode{
-		Version: 	  discoveryProtocolVersion,
+		Version:      discoveryProtocolVersion,
 		SelfID:       u.self.ID,
 		RequestShard: shard,
 
@@ -306,6 +313,9 @@ func (m *findShardNode) send(t *udp) {
 }
 
 func (m *findShardNode) handle(t *udp, from *net.UDPAddr) {
+	if err := m.SelfID.Validate(); err != nil {
+		return
+	}
 	t.log.Debug("got request [findShardNodeMsg] from: %s, find shard %d", from, m.RequestShard)
 
 	var nodes []*Node

@@ -16,7 +16,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/orcaman/concurrent-map"
+	cmap "github.com/orcaman/concurrent-map"
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/crypto"
 	"github.com/scdoproject/go-scdo/log"
@@ -34,10 +34,10 @@ const (
 
 	// a node will be delete after n continuous time out.
 	timeoutCountForDeleteNode = 16
-	blockListBackupFile = "blockList.json"
-	blockListCheckInterval = 60 * time.Second
-	blockListSaveInterval = 20 * time.Minute
-	blockDuration = 60 * time.Minute
+	blockListBackupFile       = "blockList.json"
+	blockListCheckInterval    = 60 * time.Second
+	blockListSaveInterval     = 20 * time.Minute
+	blockDuration             = 60 * time.Minute
 )
 
 type udp struct {
@@ -46,8 +46,8 @@ type udp struct {
 	table          *Table
 	trustNodes     []*Node
 	bootstrapNodes []*Node
-	db        *Database
-	localAddr *net.UDPAddr
+	db             *Database
+	localAddr      *net.UDPAddr
 
 	gotReply   chan *reply
 	addPending chan *pending
@@ -56,7 +56,7 @@ type udp struct {
 	log *log.ScdoLog
 
 	timeoutNodesCount cmap.ConcurrentMap //node id -> count
-	blockList cmap.ConcurrentMap //blockList for ip, key is IP  and value is last (ping) message unix-timestamp
+	blockList         cmap.ConcurrentMap //blockList for ip, key is IP  and value is last (ping) message unix-timestamp
 }
 
 type pending struct {
@@ -108,7 +108,7 @@ func newUDP(id common.Address, addr *net.UDPAddr, shard uint) *udp {
 
 		log:               log,
 		timeoutNodesCount: cmap.New(),
-		blockList:cmap.New(),
+		blockList:         cmap.New(),
 	}
 
 	return transport
@@ -183,8 +183,8 @@ func (u *udp) handleMsg(from *net.UDPAddr, data []byte) {
 				return
 			}
 			if msg.Version != discoveryProtocolVersion {
-				u.log.Error("pingMsg invalid discoveryProtocolVersion from addr:%s",from)
-				u.blockList.Set(from.IP.String(),time.Now().Unix())
+				u.log.Error("pingMsg invalid discoveryProtocolVersion from addr:%s", from)
+				u.blockList.Set(from.IP.String(), time.Now().Unix())
 				return
 			}
 			// response ping
@@ -199,11 +199,11 @@ func (u *udp) handleMsg(from *net.UDPAddr, data []byte) {
 			}
 			errPong := false
 			if msg.Version != discoveryProtocolVersion {
-				u.log.Error("pongMsg with invalid discoveryProtocolVersion %d,nodeID:%s",msg.Version,msg.SelfID)
+				u.log.Error("pongMsg with invalid discoveryProtocolVersion %d,nodeID:%s", msg.Version, msg.SelfID)
 				errPong = true
 			}
-			if !isShardValid(msg.SelfShard){
-				u.log.Error("ignore pongMsg with invalid shard:%d,nodeID:%s",msg.SelfShard,msg.SelfID)
+			if !isShardValid(msg.SelfShard) {
+				u.log.Error("ignore pongMsg with invalid shard:%d,nodeID:%s", msg.SelfShard, msg.SelfID)
 				errPong = true
 			}
 			r := &reply{
@@ -225,7 +225,7 @@ func (u *udp) handleMsg(from *net.UDPAddr, data []byte) {
 				return
 			}
 			if msg.Version != discoveryProtocolVersion {
-				u.log.Warn("findNodeMsg invalid discoveryProtocolVersion %d,addr:%s,nodeID:%s",msg.Version,from,msg.SelfID)
+				u.log.Warn("findNodeMsg invalid discoveryProtocolVersion %d,addr:%s,nodeID:%s", msg.Version, from, msg.SelfID)
 				return
 			}
 			//response find
@@ -257,7 +257,7 @@ func (u *udp) handleMsg(from *net.UDPAddr, data []byte) {
 				return
 			}
 			if msg.Version != discoveryProtocolVersion {
-				u.log.Warn("findShardNodeMsg invalid discoveryProtocolVersion %d,addr:%s,nodeID:%s",msg.Version,from,msg.SelfID)
+				u.log.Warn("findShardNodeMsg invalid discoveryProtocolVersion %d,addr:%s,nodeID:%s", msg.Version, from, msg.SelfID)
 				return
 			}
 			msg.handle(u, from)
@@ -295,12 +295,12 @@ func (u *udp) readLoop() {
 		n, remoteAddr, err := u.conn.ReadFromUDP(data)
 		if err != nil {
 			u.log.Warn("failed to discover reading from udp %s", err)
-			
+
 			continue
 		}
 		if u.blockList.Has(remoteAddr.IP.String()) {
-			u.blockList.Set(remoteAddr.IP.String(),time.Now().Unix())
-			u.log.Warn("blockList update,addr:%s",remoteAddr)
+			u.blockList.Set(remoteAddr.IP.String(), time.Now().Unix())
+			u.log.Warn("blockList update,addr:%s", remoteAddr)
 			continue
 		}
 		data = data[:n]
@@ -384,7 +384,7 @@ func (u *udp) discovery() {
 		if err != nil {
 			u.log.Error(err.Error())
 			//pause a little bit
-			time.Sleep(1*time.Second)
+			time.Sleep(1 * time.Second)
 			continue
 		}
 
@@ -455,8 +455,8 @@ func (u *udp) pingPongService() {
 		u.log.Debug("loop ping pong nodes %d", len(loopPingPongNodes))
 		concurrentCount := 0
 		for _, n := range loopPingPongNodes {
-			if u.blockList.Has(n.IP.String()){
-				u.log.Warn("skip ping node in block list,%s",n.IP.String())
+			if u.blockList.Has(n.IP.String()) {
+				u.log.Warn("skip ping node in block list,%s", n.IP.String())
 				continue
 			}
 			u.ping(n)
@@ -498,7 +498,7 @@ func (u *udp) StartServe(nodeDir string) {
 	}
 }
 
-func (u *udp) checkBlockList(){
+func (u *udp) checkBlockList() {
 	ticker := time.NewTicker(blockListCheckInterval)
 	defer ticker.Stop()
 	for {
@@ -515,7 +515,7 @@ func (u *udp) checkBlockList(){
 	}
 }
 
-func (u *udp) saveBlockList(nodeDir string){
+func (u *udp) saveBlockList(nodeDir string) {
 	ticker := time.NewTicker(blockListSaveInterval)
 	defer ticker.Stop()
 	for {
@@ -669,7 +669,7 @@ func (u *udp) loadBlockList(nodeDir string) {
 	}
 
 	for i := range nodes {
-		u.blockList.Set(i,nodes[i])
+		u.blockList.Set(i, nodes[i])
 	}
 
 	u.log.Debug("load %d blocked IPs from back file", u.blockList.Count())
