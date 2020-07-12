@@ -9,6 +9,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/scdoproject/go-scdo/common"
 	"github.com/spf13/cobra"
 )
 
@@ -44,7 +45,7 @@ var txAnalysisCmd = &cobra.Command{
 						panic(fmt.Sprintf("failed to get the block height: %s", err))
 					}
 					fmt.Printf("block height %d\n", height)
-					counter = 1
+					counter = common.ScdoForkHeight + 1
 					// get the tx count up to current block height
 					for counter <= height {
 						blockTxCount = 0
