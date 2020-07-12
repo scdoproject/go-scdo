@@ -20,6 +20,10 @@ const (
 	ErrAddressLenInvalid
 	// ErrPasswordRepeatMismatch is returned when the repeat password is not equal to the origin one.
 	ErrPasswordRepeatMismatch
+	// ErrShardInvalid is returned when the shard is not valid
+	ErrShardInvalid
+	// ErrAccountInvalid is returned when the account string is not valid
+	ErrAccountInvalid
 )
 
 const (
@@ -28,12 +32,14 @@ const (
 )
 
 var constErrors = map[ErrorCode]error{
-	ErrDecrypt:                newScdoError(ErrDecrypt, "could not decrypt key with given passphrase"),
-	ErrEmptyAuthKey:           newScdoError(ErrEmptyAuthKey, "encryption auth key could not be empty"),
-	ErrPasswordRepeatMismatch: newScdoError(ErrPasswordRepeatMismatch, "repeat password is not equal to orignal one"),
+	ErrDecrypt:                newScdoError(ErrDecrypt, "Could not decrypt key with given passphrase"),
+	ErrEmptyAuthKey:           newScdoError(ErrEmptyAuthKey, "Encryption auth key could not be empty"),
+	ErrPasswordRepeatMismatch: newScdoError(ErrPasswordRepeatMismatch, "Repeat password is not equal to orignal one"),
 }
 
 var parameterizedErrors = map[ErrorCode]string{
 	ErrKeyVersionMismatch: "Version not supported: %v",
-	ErrAddressLenInvalid:  "invalid address length %v, expected length is %v",
+	ErrAddressLenInvalid:  "Invalid address length %v, expected length is %v",
+	ErrShardInvalid:       "Shard number invalid: %v",
+	ErrAccountInvalid:     "Invalid account string: %v",
 }

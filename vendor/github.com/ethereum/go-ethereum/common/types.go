@@ -17,6 +17,7 @@
 package common
 
 import (
+	"encoding/binary"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
@@ -27,6 +28,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto/sha3"
+	"github.com/scdoproject/go-scdo/common"
 )
 
 const (
@@ -162,6 +164,12 @@ func (a Address) Bytes() []byte { return a[:] }
 func (a Address) Big() *big.Int { return new(big.Int).SetBytes(a[:]) }
 func (a Address) Hash() Hash    { return BytesToHash(a[:]) }
 
+func (id *Address) Shard() uint {
+	shard, _ := binary.Uvarint(id[:common.ShardByte])
+	// fmt.Println("SHARD!?", shard, num)
+	return uint(shard)
+}
+
 // Hex returns an EIP55-compliant hex string representation of the address.
 func (a Address) Hex() string {
 	unchecksummed := hex.EncodeToString(a[:])
@@ -181,7 +189,10 @@ func (a Address) Hex() string {
 			result[i] -= 32
 		}
 	}
-	return "0x" + string(result)
+	s := fmt.Sprint(a.Shard())
+	d := s + "S" + string(result)
+	return d
+	// return "0x" + string(result)
 }
 
 // String implements the stringer interface and is used also by the logger.

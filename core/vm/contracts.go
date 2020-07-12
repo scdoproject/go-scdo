@@ -17,6 +17,7 @@
 package vm
 
 import (
+	"crypto/ecdsa"
 	"crypto/sha256"
 	"errors"
 	"math/big"
@@ -91,16 +92,20 @@ func (c *ecrecover) Run(input []byte) ([]byte, error) {
 		return nil, nil
 	}
 	// v needs to be at the end for libsecp256k1
+	var pubKey *ecdsa.PublicKey
 	pubKey, err := crypto.SigToPub(input[:32], append(input[64:128], v))
 	// make sure the public key is a valid one
+	// !!! WARNINGING!!!
+	// The way this function is used might be of a problem concerning the inability of taking shard information
+	// shard := crypto.RandomShard()
+	addr := crypto.PubkeyToAddress(*pubKey)
+
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
 
-	addr := crypto.GetAddress(pubKey)
-
-	// the first byte of pubkey is bitcoin heritage
 	return common.LeftPadBytes(addr.Bytes(), 32), nil
+	// the first byte of pubkey is bitcoin heritage
 }
 
 // SHA256 implemented as a native contract.

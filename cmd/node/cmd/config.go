@@ -8,6 +8,7 @@ package cmd
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"math/big"
 	"path/filepath"
@@ -55,7 +56,6 @@ func LoadConfigFromFile(configFile string, accounts string) (*node.Config, error
 	if cmdConfig.GenesisConfig.CreateTimestamp == nil {
 		return nil, errors.New("Failed to get genesis timestamp")
 	}
-
 	cmdConfig.GenesisConfig.Accounts, err = LoadAccountConfig(accounts)
 	if err != nil {
 		return nil, err
@@ -70,6 +70,7 @@ func LoadConfigFromFile(configFile string, accounts string) (*node.Config, error
 	}
 
 	if len(config.BasicConfig.Coinbase) > 0 {
+		fmt.Println(config.BasicConfig.Coinbase)
 		config.ScdoConfig.Coinbase = common.HexMustToAddres(config.BasicConfig.Coinbase)
 	}
 

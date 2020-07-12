@@ -6,6 +6,8 @@
 package istanbul
 
 import (
+	"crypto/ecdsa"
+
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/crypto"
 )
@@ -17,11 +19,12 @@ func GetSignatureAddress(data []byte, sig []byte) (common.Address, error) {
 	// 1. Keccak data
 	hashData := crypto.Keccak256([]byte(data))
 	// 2. Recover public key
+	var pubkey *ecdsa.PublicKey
 	pubkey, err := crypto.SigToPub(hashData, sig)
 	if err != nil {
 		return common.Address{}, err
 	}
-	return *crypto.GetAddress(pubkey), nil
+	return *crypto.PubkeyToAddress(*pubkey), nil
 }
 
 func CheckValidatorSignature(valSet ValidatorSet, data []byte, sig []byte) (common.Address, error) {

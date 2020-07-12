@@ -236,6 +236,5 @@ func NewID() ID {
 	if rpcId == "" {
 		rpcId = "0"
 	}
-
 	return ID("0x" + rpcId)
 }

@@ -30,7 +30,7 @@ func GetGenerateKeyPairCmd(name string) (cmds *cobra.Command) {
 				return
 			}
 
-			fmt.Printf("public key:  %s\n", publicKey.Hex())
+			fmt.Printf("Account:  %s\n", publicKey.Hex())
 			fmt.Printf("private key: %s\n", hexutil.BytesToHex(crypto.FromECDSA(privateKey)))
 		},
 	}
@@ -48,7 +48,8 @@ func GenerateKey(shard uint) (*common.Address, *ecdsa.PrivateKey, error) {
 	if shard > common.ShardCount {
 		return nil, nil, fmt.Errorf("not supported shard number, shard number should be [0, %d]", common.ShardCount)
 	} else if shard == 0 {
-		publicKey, privateKey, err = crypto.GenerateKeyPair()
+		shard := crypto.RandomShard()
+		publicKey, privateKey, err = crypto.GenerateKeyPair(shard)
 		if err != nil {
 			return nil, nil, fmt.Errorf("failed to generate the key pair: %s", err)
 		}

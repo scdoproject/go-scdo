@@ -439,6 +439,7 @@ func (s *Server) readRequest(codec ServerCodec) ([]*serverRequest, bool, Error) 
 				if args, err := codec.ParseRequestArguments(callb.argTypes, r.params); err == nil {
 					requests[i].args = args
 				} else {
+					// fmt.Printf("!!!CALLED! %v", r.params)
 					requests[i].err = &invalidParamsError{err.Error()}
 				}
 			}

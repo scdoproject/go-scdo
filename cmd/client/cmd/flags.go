@@ -201,6 +201,7 @@ var (
 	shardValue uint
 	shardFlag  = cli.UintFlag{
 		Name:        "shard",
+		Value:       1,
 		Usage:       "shard number",
 		Destination: &shardValue,
 	}

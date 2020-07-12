@@ -13,15 +13,14 @@ import (
 	"github.com/scdoproject/go-scdo/api"
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/core/types"
-	"github.com/scdoproject/go-scdo/crypto"
 	"github.com/scdoproject/go-scdo/rpc"
 )
 
 // GetAccountNonce get account nonce by account
 func GetAccountNonce(client *rpc.Client, account common.Address, hexHash string, height int64) (uint64, error) {
 	var nonce uint64
+	// fmt.Println("PRINT GETACC:", account)
 	err := client.Call(&nonce, "scdo_getAccountNonce", account, hexHash, height)
-
 	return nonce, err
 }
 
@@ -33,11 +32,11 @@ func GetInfo(client *rpc.Client) (api.GetMinerInfo, error) {
 }
 
 // GenerateTx generate a transaction based on the address type of to
-func GenerateTx(from *ecdsa.PrivateKey, to common.Address, amount *big.Int, price *big.Int, gasLimit uint64, nonce uint64, payload []byte) (*types.Transaction, error) {
-	fromAddr := crypto.GetAddress(&from.PublicKey)
+func GenerateTx(from *ecdsa.PrivateKey, fromAddr *common.Address, to common.Address, amount *big.Int, price *big.Int, gasLimit uint64, nonce uint64, payload []byte) (*types.Transaction, error) {
+	var err error
+	// fromAddr, err := crypto.GetAddress(&from.PublicKey, shard)
 
 	var tx *types.Transaction
-	var err error
 	if to.IsEmpty() {
 		tx, err = types.NewContractTransaction(*fromAddr, amount, price, gasLimit, nonce, payload)
 	} else {

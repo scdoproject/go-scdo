@@ -23,7 +23,7 @@ func AddCommands(app *cli.App, isFullNode bool) {
 		{
 			Name:   "sendtx",
 			Usage:  "send transaction to node",
-			Flags:  rpcFlags(fromFlag, toFlag, amountFlag, priceFlag, gasLimitFlag, payloadFlag, nonceFlag),
+			Flags:  rpcFlags(fromFlag, toFlag, shardFlag, amountFlag, priceFlag, gasLimitFlag, payloadFlag, nonceFlag),
 			Action: rpcActionEx("scdo", "addTx", makeTransaction, onTxAdded),
 		},
 		{
@@ -133,7 +133,6 @@ func AddCommands(app *cli.App, isFullNode bool) {
 			Usage: "get account shard number",
 			Flags: []cli.Flag{
 				accountFlag,
-				privateKeyFlag,
 			},
 			Action: GetAccountShardNumAction,
 		},
@@ -143,6 +142,7 @@ func AddCommands(app *cli.App, isFullNode bool) {
 			Flags: []cli.Flag{
 				privateKeyFlag,
 				fileNameFlag,
+				shardFlag,
 			},
 			Action: SaveKeyAction,
 		},
@@ -151,6 +151,7 @@ func AddCommands(app *cli.App, isFullNode bool) {
 			Usage: "generate a signed transaction and print it out",
 			Flags: []cli.Flag{
 				addressFlag,
+				shardFlag,
 				privateKeyFlag,
 				toFlag,
 				amountFlag,

@@ -69,8 +69,8 @@ func NewAddress(b []byte) (Address, error) {
 	return id, nil
 }
 
-// PubKeyToAddress converts a ECC public key to an external address.
-func PubKeyToAddress(pubKey *ecdsa.PublicKey, hashFunc func(interface{}) Hash) Address {
+// PubKeyToAddressOld converts a ECC public key to an external address.
+func PubKeyToAddressOld(pubKey *ecdsa.PublicKey, hashFunc func(interface{}) Hash) Address {
 	buf := elliptic.Marshal(pubKey.Curve, pubKey.X, pubKey.Y)
 	hash := hashFunc(buf[1:]).Bytes()
 
@@ -83,6 +83,45 @@ func PubKeyToAddress(pubKey *ecdsa.PublicKey, hashFunc func(interface{}) Hash) A
 	addr[AddressLen-1] |= byte(AddressTypeExternal)
 
 	return addr
+}
+
+// ValidShard returns true if it is a valid shard number
+func ValidShard(shard uint) bool {
+	if shard > ShardCount || shard > ShardByte*256-1 || shard == 0 {
+		return false
+	}
+	return true
+}
+
+// ValidAccountHex returns true of it is a valid account string
+func ValidAccountHex(account string) bool {
+	if match, _ := regexp.MatchString("^((1s01|2s02|3s03|4s04|1S01|2S02|3S03|4S04)[a-fA-F0-9]{37}[1-2])|0[sSx]0{40}|0x0[1-4][a-fA-F0-9]{37}[1-2]$", account); !match {
+		// if match, _ := regexp.MatchString("^((1s01|2s02|3s03|4s04|1S01|2S02|3S03|4S04)[a-fA-F0-9]{37}[1-2])|0[sS]0{40}$", account); !match {
+		return false
+	}
+	return true
+}
+
+// PubKeyToAddress converts a ECC public key to an external address.
+func PubKeyToAddress(pubKey *ecdsa.PublicKey, shard uint, hashFunc func(interface{}) Hash) (Address, error) {
+	if !ValidShard(shard) {
+		return EmptyAddress, errors.Create(errors.ErrShardInvalid, shard)
+	}
+	// Last 20 bytes of public key
+	var addr Address
+	pubbytes := hashFunc(elliptic.Marshal(pubKey.Curve, pubKey.X, pubKey.Y)[1:]).Bytes()
+	copy(addr[:], pubbytes[32-AddressLen:])
+
+	// Add shard information in first few bytes
+	buf := make([]byte, ShardByte)
+	binary.PutUvarint(buf, uint64(shard))
+	copy(addr[:ShardByte], buf)
+
+	// Add shard type
+	addr[AddressLen-1] &= 0xF0
+	addr[AddressLen-1] |= byte(AddressTypeExternal)
+
+	return addr, nil
 }
 
 // Validate check whether the address type is valid.
@@ -129,7 +168,7 @@ func (id *Address) IsReserved() bool {
 //   (&addrBytes).Bytes()
 //
 // refer link: https://stackoverflow.com/questions/10535743/address-of-a-temporary-in-go
-func (id Address) Bytes() []byte {
+func (id *Address) Bytes() []byte {
 	return id[:]
 }
 
@@ -138,11 +177,16 @@ func (id Address) String() string {
 	return id.Hex()
 }
 
-// Hex converts address to 0x prefixed HEX format.
+// Hex converts address to S account string.
 func (id Address) Hex() string {
 	// return hexutil.BytesToHex(id.Bytes())
 	s := fmt.Sprint(id.Shard())
-	return s + "S" + hexutil.BytesToHex(id.Bytes())[2:]
+	a := s + "S" + hexutil.BytesToHex(id.Bytes())[2:]
+	// fmt.Println("id.Hex()", a)
+	if !ValidAccountHex(a) {
+		panic(errors.ErrAccountInvalid)
+	}
+	return a
 }
 
 // Equal checks if this address is the same with the specified address b.
@@ -157,8 +201,8 @@ func (id *Address) IsEmpty() bool {
 
 // HexToAddress converts the specified HEX string to address.
 func HexToAddress(id string) (Address, error) {
-	if match, _ := regexp.MatchString("^[1-4][sS][a-fA-F0-9]{40}$", id); !match {
-		return Address{}, fmt.Errorf("invalid address = %v", id)
+	if !ValidAccountHex(id) {
+		return Address{}, errors.Create(errors.ErrAccountInvalid, id)
 	}
 
 	byte, err := hexutil.HexToBytes("0x" + id[2:])
@@ -204,10 +248,14 @@ func BigToAddress(b *big.Int) Address { return BytesToAddress(b.Bytes()) }
 // Big converts address to a big int.
 func (id Address) Big() *big.Int { return new(big.Int).SetBytes(id[:]) }
 
-// MarshalText marshals the address to HEX string.
+// MarshalText marshals the address to byte array
 func (id Address) MarshalText() ([]byte, error) {
-	str := id.Hex()
-	return []byte(str), nil
+	// fmt.Println("marshal", id.Hex())
+
+	str := "0x" + id.Hex()[2:]
+	// return []byte(id), nil
+	arr := []byte(str)
+	return arr, nil
 }
 
 // UnmarshalText unmarshals address from HEX string.
@@ -221,8 +269,8 @@ func (id *Address) UnmarshalText(json []byte) error {
 	return nil
 }
 
-// Shard returns the shard number of this address.
-func (id *Address) Shard() uint {
+// ShardOld returns the shard number of this address.
+func (id *Address) ShardOld() uint {
 	var sum uint
 
 	// sum [0:18]
@@ -235,6 +283,16 @@ func (id *Address) Shard() uint {
 	sum += (tail >> 4)
 
 	return (sum % ShardCount) + 1
+}
+
+// Shard returns shard number of this address
+func (id *Address) Shard() uint {
+	if id.IsEmpty() {
+		return uint(0)
+	}
+	shard, _ := binary.Uvarint(id[:ShardByte])
+	// fmt.Println("SHARD!?", shard, num)
+	return uint(shard)
 }
 
 // CreateContractAddress returns a contract address that in the same shard of this address.
@@ -272,5 +330,8 @@ func (id *Address) CreateContractAddressWithHash(h Hash) Address {
 	copy(contractAddr[:AddressLen-2], hash[14:]) // use last 18 bytes of hash (from address + nonce)
 	copy(contractAddr[AddressLen-2:], encoded)   // last 2 bytes for shard mod and address type
 
+	buf := make([]byte, ShardByte)
+	binary.PutUvarint(buf, uint64(targetShardNum))
+	copy(contractAddr[:ShardByte], buf)
 	return contractAddr
 }

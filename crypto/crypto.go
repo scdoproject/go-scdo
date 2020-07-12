@@ -13,6 +13,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	mrand "math/rand"
 
 	"github.com/ethereum/go-ethereum/common/math"
 	"github.com/scdoproject/go-scdo/common"
@@ -28,6 +29,10 @@ const (
 // GenerateKey generates and returns an ECDSA private key.
 func GenerateKey() (*ecdsa.PrivateKey, error) {
 	return ecdsa.GenerateKey(S256(), rand.Reader)
+}
+
+func RandomShard() uint {
+	return uint(mrand.Intn(int(common.ShardCount)) + 1)
 }
 
 // ToECDSAPub creates ecdsa.PublicKey object by the given byte array.
@@ -52,9 +57,11 @@ func ToECDSAPub(pub []byte) *ecdsa.PublicKey {
 }
 
 // PubkeyToString returns the string of the given public key, with prefix 0x
-func PubkeyToString(pub *ecdsa.PublicKey) string {
-	return GetAddress(pub).Hex()
-}
+// func PubkeyToString(pub *ecdsa.PublicKey) string {
+// 	shard := randomshard()
+// 	addr, err := GetAddress(pub, shard)
+// 	return addr.
+// }
 
 // Keccak512 calculates and returns the Keccak512 hash of the input data.
 func Keccak512(data ...[]byte) []byte {
@@ -122,43 +129,52 @@ func FromECDSA(priv *ecdsa.PrivateKey) []byte {
 }
 
 // GenerateKeyPair generates public key and private key
-func GenerateKeyPair() (*common.Address, *ecdsa.PrivateKey, error) {
+func GenerateKeyPair(shard uint) (*common.Address, *ecdsa.PrivateKey, error) {
 	keypair, err := GenerateKey()
 	if err != nil {
-		return nil, nil, err
+		return &common.EmptyAddress, nil, err
 	}
 
-	id := GetAddress(&keypair.PublicKey)
+	id, err := GetAddress(&keypair.PublicKey, shard)
+	if err != nil {
+		return &common.EmptyAddress, nil, err
+	}
 	return id, keypair, err
 }
 
-// GetAddress gets an address from the given public key
-func GetAddress(key *ecdsa.PublicKey) *common.Address {
-	addr := common.PubKeyToAddress(key, MustHash)
-	return &addr
+// GetAddress gets an address from the given public key, with shard
+func GetAddress(key *ecdsa.PublicKey, shard uint) (*common.Address, error) {
+	addr, err := common.PubKeyToAddress(key, shard, MustHash)
+	return &addr, err
 }
 
 // PubkeyToAddress add this method for istanbul BFT integration
-func PubkeyToAddress(key ecdsa.PublicKey) common.Address  {
-	return *GetAddress(&key)
+func PubkeyToAddress(key ecdsa.PublicKey) *common.Address {
+	shard := uint(1)
+	addr, err := GetAddress(&key, shard)
+	if err != nil {
+		panic(err)
+	}
+	return addr
 }
 
 // GenerateRandomAddress generates and returns a random address.
 func GenerateRandomAddress() (*common.Address, error) {
-	addr, _, err := GenerateKeyPair()
+	shard := RandomShard()
+	addr, _, err := GenerateKeyPair(shard)
 	return addr, err
 }
 
 // MustGenerateRandomAddress generates and returns a random address.
 // Panic on any error.
-func MustGenerateRandomAddress() *common.Address {
-	address, err := GenerateRandomAddress()
-	if err != nil {
-		panic(err)
-	}
+// func MustGenerateRandomAddress() *common.Address {
+// 	address, err := GenerateRandomAddress()
+// 	if err != nil {
+// 		panic(err)
+// 	}
 
-	return address
-}
+// 	return address
+// }
 
 // MustGenerateShardAddress generates and returns a random address that match the specified shard number.
 // Panic on any error.
@@ -175,7 +191,7 @@ func MustGenerateShardKeyPair(shard uint) (*common.Address, *ecdsa.PrivateKey) {
 	}
 
 	for i := 1; ; i++ {
-		addr, privateKey, err := GenerateKeyPair()
+		addr, privateKey, err := GenerateKeyPair(shard)
 		if err != nil {
 			panic(err)
 		}
@@ -194,7 +210,7 @@ func MustGenerateKeyPairNotShard(shard uint) (*common.Address, *ecdsa.PrivateKey
 	}
 
 	for i := 1; i < 100; i++ {
-		addr, privateKey, err := GenerateKeyPair()
+		addr, privateKey, err := GenerateKeyPair(shard)
 		if err != nil {
 			panic(err)
 		}

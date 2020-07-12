@@ -133,7 +133,7 @@ func NewServer(genesis core.GenesisInfo, config Config, protocols []Protocol) *S
 	// set the master account and balance to empty to calculate hash
 	masteraccount := genesis.Masteraccount
 	balance := genesis.Balance
-	genesis.Masteraccount, _ = common.HexToAddress("0x0000000000000000000000000000000000000000")
+	genesis.Masteraccount, _ = common.HexToAddress("0S0000000000000000000000000000000000000000")
 	genesis.Balance = big.NewInt(0)
 
 	hash := genesis.Hash()
@@ -171,17 +171,17 @@ func (srv *Server) Start(nodeDir string, shard uint) (err error) {
 		return errors.New("server already running")
 	}
 
-	address := crypto.GetAddress(&srv.PrivateKey.PublicKey)
+	address := *crypto.PubkeyToAddress(srv.PrivateKey.PublicKey)
 	addr, err := net.ResolveUDPAddr("udp", srv.ListenAddr)
 	if err != nil {
 		return err
 	}
 
 	srv.log.Debug("Starting P2P networking...")
-	srv.SelfNode = discovery.NewNodeWithAddr(*address, addr, shard)
+	srv.SelfNode = discovery.NewNodeWithAddr(address, addr, shard)
 
 	srv.log.Info("p2p.Server.Start: MyNodeID [%s]", srv.SelfNode)
-	srv.kadDB = discovery.StartService(nodeDir, *address, addr, srv.Config.StaticNodes, shard)
+	srv.kadDB = discovery.StartService(nodeDir, address, addr, srv.Config.StaticNodes, shard)
 	srv.kadDB.SetHookForNewNode(srv.addNode)
 	srv.kadDB.SetHookForDeleteNode(srv.deleteNode)
 	// add static nodes to srv node set;
@@ -525,7 +525,7 @@ func (srv *Server) setupConn(fd net.Conn, flags int, dialDest *discovery.Node) (
 	}
 	if flags == outboundConn {
 		srv.log.Debug("setup outbound connection with peer %s", dialDest)
-	}else {
+	} else {
 		srv.log.Debug("setup inbound connection with peer %s", fd.RemoteAddr())
 	}
 

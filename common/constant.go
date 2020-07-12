@@ -23,11 +23,14 @@ const (
 	// ScdoVersion Version number of Scdo protocol
 	ScdoVersion uint = 1
 
-	// ScdoVersion for simpler display
+	// ScdoNodeVersion for simpler display
 	ScdoNodeVersion string = "Scdo_V1.0.0"
 
 	// ShardCount represents the total number of shards.
 	ShardCount = 4
+
+	// ShardByte represents the number of bytes used for shard information, must be smaller than 8
+	ShardByte = 1
 
 	// MetricsRefreshTime is the time of metrics sleep 1 minute
 	MetricsRefreshTime = time.Minute

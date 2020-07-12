@@ -57,11 +57,13 @@ func (s Signature) Verify(signer common.Address, hash []byte) bool {
 	}
 
 	pubKey, err := SigToPub(hash, s.Sig)
+	shard := signer.Shard()
+	signAdr, err := GetAddress(pubKey, shard)
 	if err != nil {
 		return false // Signature was modified
 	}
 
-	if !GetAddress(pubKey).Equal(signer) {
+	if signer != *signAdr {
 		return false
 	}
 

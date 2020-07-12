@@ -76,11 +76,12 @@ func DecryptKey(keyjson []byte, auth string) (*Key, error) {
 		return nil, err
 	}
 	key, err := crypto.ToECDSA(keyBytes)
+	address, err := common.HexToAddress(k.Address)
 	if err != nil {
 		return nil, err
 	}
-
-	addr := crypto.GetAddress(&key.PublicKey)
+	shard := address.Shard()
+	addr, err := crypto.GetAddress(&key.PublicKey, shard)
 
 	return &Key{
 		Address:    *addr,

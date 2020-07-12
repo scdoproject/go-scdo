@@ -24,7 +24,7 @@ const (
 	DefaultNonce uint64 = 0
 )
 
-func checkParameter(publicKey *ecdsa.PublicKey, client *rpc.Client) (*types.TransactionData, error) {
+func checkParameter(publicKey *ecdsa.PublicKey, client *rpc.Client, keyaddress common.Address) (*types.TransactionData, error) {
 	info := &types.TransactionData{}
 	var err error
 	if len(toValue) > 0 {
@@ -49,21 +49,39 @@ func checkParameter(publicKey *ecdsa.PublicKey, client *rpc.Client) (*types.Tran
 
 	info.GasLimit = gasLimitValue
 
-	fromAddr := crypto.GetAddress(publicKey)
-	info.From = *fromAddr
+	fromAddr, err := crypto.GetAddress(publicKey, shardValue)
+
+	// fmt.Println(fromAddr)
+	fmt.Println(keyaddress)
+	if keyaddress.IsEmpty() {
+		info.From = *fromAddr
+	} else {
+		info.From = keyaddress
+		if keyaddress.Shard() != shardValue {
+			modAddr, err := crypto.GetAddress(publicKey, shardValue)
+			if err != nil {
+				return info, fmt.Errorf("invalid shard num")
+			}
+			info.From = *modAddr
+		}
+	}
 
 	if nonceValue == DefaultNonce && client != nil {
 		// get current nonce
-		nonce, err := util.GetAccountNonce(client, *fromAddr, "", -1)
+		nonce, err := util.GetAccountNonce(client, info.From, "", -1)
 		if err != nil {
-			return info, fmt.Errorf("failed to get the sender account nonce: %s", err)
+			// fmt.Println(err)
+			// fmt.Println("what the hell", info.From)
+			return info, fmt.Errorf("failed to get the sender account's nonce: %s", err)
 		}
 		info.AccountNonce = nonce
 		fmt.Printf("sendtx without setting nonce, GetAccountNonce %d\n", nonce)
 	} else {
 		// get current nonce
-		dbnonce, nonceErr := util.GetAccountNonce(client, *fromAddr, "", -1)
+		dbnonce, nonceErr := util.GetAccountNonce(client, info.From, "", -1)
 		if nonceErr != nil {
+			// fmt.Println(info.From)
+			// panic(err)
 			return info, fmt.Errorf("failed to get the sender account nonce: %s", err)
 		}
 		if nonceValue < dbnonce {
@@ -80,7 +98,6 @@ func checkParameter(publicKey *ecdsa.PublicKey, client *rpc.Client) (*types.Tran
 		}
 	}
 	info.Payload = payload
-
 	return info, nil
 }
 

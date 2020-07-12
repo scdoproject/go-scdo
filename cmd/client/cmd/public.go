@@ -170,7 +170,7 @@ func makeTransaction(context *cli.Context, client *rpc.Client) ([]interface{}, e
 		return nil, err
 	}
 
-	tx, err := util.GenerateTx(key.PrivateKey, txd.To, txd.Amount, txd.GasPrice, txd.GasLimit, txd.AccountNonce, txd.Payload)
+	tx, err := util.GenerateTx(key.PrivateKey, &txd.From, txd.To, txd.Amount, txd.GasPrice, txd.GasLimit, txd.AccountNonce, txd.Payload)
 	if err != nil {
 		return nil, err
 	}
@@ -189,7 +189,7 @@ func makeTransactionData(client *rpc.Client) (*keystore.Key, *types.TransactionD
 		return nil, nil, fmt.Errorf("invalid sender key file. it should be a private key: %s", err)
 	}
 
-	txd, err := checkParameter(&key.PrivateKey.PublicKey, client)
+	txd, err := checkParameter(&key.PrivateKey.PublicKey, client, key.Address)
 	if err != nil {
 		return nil, nil, err
 	}

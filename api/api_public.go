@@ -89,6 +89,10 @@ func (api *PublicScdoAPI) GetAccountNonce(account common.Address, hexHash string
 		return 0, ErrInvalidAccount
 	}
 
+	if common.LocalShardNumber != account.Shard() {
+		return 0, fmt.Errorf("local shard is: %d, your shard is: %d, you need to change to shard %d to get your balance", common.LocalShardNumber, account.Shard(), account.Shard())
+	}
+
 	state, err := api.getStatedb(hexHash, height)
 	if err != nil {
 		return 0, err
@@ -314,7 +318,7 @@ func (api *PublicScdoAPI) GetCode(contractAdd common.Address, height int64) (int
 	if tx == nil {
 		return nil, nil
 	}
-	
+
 	return tx.Data.Payload, nil
 }
 

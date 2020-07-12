@@ -27,21 +27,13 @@ import (
 // GetAccountShardNumAction is a action to get the shard number of account
 func GetAccountShardNumAction(c *cli.Context) error {
 	var accountAddress common.Address
-	if len(privateKeyValue) > 0 {
-		key, err := crypto.LoadECDSAFromString(privateKeyValue)
-		if err != nil {
-			return fmt.Errorf("failed to load the private key: %s", err)
-		}
-
-		accountAddress = *(crypto.GetAddress(&key.PublicKey))
-	} else {
-		address, err := common.HexToAddress(accountValue)
-		if err != nil {
-			return fmt.Errorf("the account is invalid for: %v", err)
-		}
-
-		accountAddress = address
+	fmt.Println("s.GetAccountShardNumAction:", accountValue)
+	address, err := common.HexToAddress(accountValue)
+	if err != nil {
+		return fmt.Errorf("the account is invalid for: %v", err)
 	}
+
+	accountAddress = address
 
 	shard := accountAddress.Shard()
 	fmt.Printf("shard number: %d\n", shard)
@@ -59,13 +51,17 @@ func SaveKeyAction(c *cli.Context) error {
 		return fmt.Errorf("please specify the key file path")
 	}
 
+	if !common.ValidShard(shardValue) {
+		return fmt.Errorf("Invalid shard num %v", shardValue)
+	}
+
 	pass, err := common.SetPassword()
 	if err != nil {
 		return fmt.Errorf("get password err %s", err)
 	}
-
+	addr, err := crypto.GetAddress(&privateKey.PublicKey, shardValue)
 	key := keystore.Key{
-		Address:    *crypto.GetAddress(&privateKey.PublicKey),
+		Address:    *addr,
 		PrivateKey: privateKey,
 	}
 
@@ -95,7 +91,7 @@ func SignTxAction(c *cli.Context) error {
 		return fmt.Errorf("failed to load key %s", err)
 	}
 
-	txd, err := checkParameter(&key.PublicKey, client)
+	txd, err := checkParameter(&key.PublicKey, client, common.EmptyAddress)
 	if err != nil {
 		return err
 	}
@@ -108,7 +104,6 @@ func SignTxAction(c *cli.Context) error {
 	if err != nil {
 		return err
 	}
-
 	fmt.Println(string(result))
 	return nil
 }
@@ -120,13 +115,17 @@ func GenerateKeyAction(c *cli.Context) error {
 		return err
 	}
 
-	fmt.Printf("public key:  %s\n", publicKey.Hex())
-	fmt.Printf("private key: %s\n", hexutil.BytesToHex(crypto.FromECDSA(privateKey)))
+	fmt.Printf("Account:  %s\n", publicKey.Hex())
+	fmt.Printf("Private key: %s\n", hexutil.BytesToHex(crypto.FromECDSA(privateKey)))
 	return nil
 }
 
 // DecryptKeyFileAction decrypt key file
 func DecryptKeyFileAction(c *cli.Context) error {
+	if fileNameValue == "" {
+		return fmt.Errorf("Filename empty")
+	}
+
 	pass, err := common.GetPassword()
 	if err != nil {
 		return fmt.Errorf("failed to get password %s", err)
@@ -137,8 +136,8 @@ func DecryptKeyFileAction(c *cli.Context) error {
 		return fmt.Errorf("invalid key file: %s", err)
 	}
 
-	fmt.Printf("public key:  %s\n", key.Address.Hex())
-	fmt.Printf("private key: %s\n", hexutil.BytesToHex(crypto.FromECDSA(key.PrivateKey)))
+	fmt.Printf("Account:  %s\n", key.Address.Hex())
+	fmt.Printf("Private key: %s\n", hexutil.BytesToHex(crypto.FromECDSA(key.PrivateKey)))
 	return nil
 }
 

@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/ethereum/go-ethereum/event"
-	"github.com/hashicorp/golang-lru"
+	lru "github.com/hashicorp/golang-lru"
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/consensus"
 	"github.com/scdoproject/go-scdo/consensus/istanbul"
@@ -38,7 +38,7 @@ func New(config *istanbul.Config, privateKey *ecdsa.PrivateKey, db database.Data
 		config:           config,
 		istanbulEventMux: new(event.TypeMux),
 		privateKey:       privateKey,
-		address:          crypto.PubkeyToAddress(privateKey.PublicKey),
+		address:          *crypto.PubkeyToAddress(privateKey.PublicKey),
 		logger:           log.GetLogger("ibft"),
 		db:               db,
 		commitCh:         make(chan *types.Block, 1),

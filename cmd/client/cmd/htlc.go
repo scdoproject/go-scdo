@@ -28,6 +28,7 @@ func createHTLC(client *rpc.Client) (interface{}, interface{}, error) {
 	var data system.HashTimeLock
 	data.HashLock = hashLockBytes
 	data.TimeLock = timeLockValue
+	fmt.Println("s.createHTLC:", toValue)
 	toAddr, err := common.HexToAddress(toValue)
 	if err != nil {
 		return nil, nil, err

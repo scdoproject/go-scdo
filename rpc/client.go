@@ -247,6 +247,7 @@ func (c *Client) Call(result interface{}, method string, args ...interface{}) er
 // can also pass nil, in which case the result is ignored.
 func (c *Client) CallContext(ctx context.Context, result interface{}, method string, args ...interface{}) error {
 	msg, err := c.newMessage(method, args...)
+	// fmt.Println("THIS!", msg)
 	if err != nil {
 		return err
 	}
@@ -404,7 +405,9 @@ func (c *Client) Subscribe(ctx context.Context, namespace string, channel interf
 }
 
 func (c *Client) newMessage(method string, paramsIn ...interface{}) (*jsonrpcMessage, error) {
+	// fmt.Println("BEFORE:", paramsIn)
 	params, err := json.Marshal(paramsIn)
+	// fmt.Println("AFTER:", string(params))
 	if err != nil {
 		return nil, err
 	}
