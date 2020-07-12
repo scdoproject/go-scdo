@@ -56,7 +56,7 @@ var generateKeystoreCmd = &cobra.Command{
 			go func(start int) {
 				defer wg.Done()
 				for j := start; j < num; {
-					addr, privateKey, err := crypto.GenerateKeyPair()
+					addr, privateKey, err := crypto.GenerateKeyPair(crypto.RandomShard())
 					if err != nil {
 						panic(err)
 					}

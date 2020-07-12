@@ -431,7 +431,7 @@ func sendtx(b *balance, amount int, shard uint) *balance {
 	value.Mul(value, common.ScdoToWen)
 
 	client := getRandClient()
-	tx, err := util.GenerateTx(b.privateKey, *addr, value, big.NewInt(1), 0, b.nonce, nil)
+	tx, err := util.GenerateTx(b.privateKey, addr, *addr, value, big.NewInt(1), 0, b.nonce, nil)
 	if err != nil {
 		return newBalance
 	}
@@ -515,8 +515,8 @@ func initBalance(balanceList []*balance, keyList []string, start int, end int, w
 		if err != nil {
 			panic(fmt.Sprintf("failed to load key %s", err))
 		}
-
-		addr := crypto.GetAddress(&key.PublicKey)
+		// !!! Better if there is a way to get the needed shard
+		addr, err := crypto.GetAddress(&key.PublicKey, crypto.RandomShard())
 		// skip address that don't find the same shard client
 		if _, ok := clientList[addr.Shard()]; !ok {
 			continue

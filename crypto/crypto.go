@@ -167,14 +167,14 @@ func GenerateRandomAddress() (*common.Address, error) {
 
 // MustGenerateRandomAddress generates and returns a random address.
 // Panic on any error.
-// func MustGenerateRandomAddress() *common.Address {
-// 	address, err := GenerateRandomAddress()
-// 	if err != nil {
-// 		panic(err)
-// 	}
+func MustGenerateRandomAddress() *common.Address {
+	address, err := GenerateRandomAddress()
+	if err != nil {
+		panic(err)
+	}
 
-// 	return address
-// }
+	return address
+}
 
 // MustGenerateShardAddress generates and returns a random address that match the specified shard number.
 // Panic on any error.
