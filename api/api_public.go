@@ -110,6 +110,11 @@ func (api *PublicScdoAPI) GetBlockHeight() (uint64, error) {
 	return header.Height, nil
 }
 
+// GetScdoForKHeight get the Scdo Fork height
+func (api *PublicScdoAPI) GetScdoForKHeight() (uint64, error) {
+	return common.ScdoForkHeight, nil
+}
+
 // GetBlock returns the requested block.
 func (api *PublicScdoAPI) GetBlock(hashHex string, height int64, fulltx bool) (map[string]interface{}, error) {
 	if len(hashHex) > 0 {

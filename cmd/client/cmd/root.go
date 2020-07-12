@@ -39,6 +39,12 @@ func AddCommands(app *cli.App, isFullNode bool) {
 			Action: rpcAction("scdo", "getBlockHeight"),
 		},
 		{
+			Name:   "getscdoforkheight",
+			Usage:  "get Scdo fork height",
+			Flags:  rpcFlags(),
+			Action: rpcAction("scdo", "getScdoForkHeight"),
+		},
+		{
 			Name:   "getblock",
 			Usage:  "get block by height or hash",
 			Flags:  rpcFlags(hashFlag, heightFlag, fulltxFlag),
