@@ -30,9 +30,7 @@ If you want to directly run the node and use client without setting up the compi
 
 # Or Download & Build the source
 
-Building the Seele Credo project requires both a Go (version 1.7 or later) compiler and a C compiler. You can install them using your favourite package manager. Once the dependencies are installed, run
-
-- Building the Seele Credo project requires both a Go (version 1.7 or later) compiler and a C compiler. Install Go v1.10 or higher, Git, and the C compiler.
+- Building the Seele Credo project requires both a Go (version 1.12.7 ONLY currently) compiler Git, and a C compiler.
 
 - Clone the go-scdo repository to the GOPATH directory:
 
@@ -46,13 +44,13 @@ go get -u -v github.com/scdoproject/go-scdo/...
 cd GOPATH/src/github.com/scdoproject/go-scdo/
 ```
 
-- Linux & Mac
+- Linux & Mac amd64
 
 ```
 make all
 ```
 
-- Windows
+- Windows amd64
 
 ```
 buildall.bat
