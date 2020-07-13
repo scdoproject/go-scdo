@@ -4,7 +4,7 @@
         "version": "1.0",
         "dataDir": "node1",
         "address": "0.0.0.0:8027",
-        "coinbase": "0xcee66ad4a1909f6b5170dec230c1a69bfc2b21d1",
+        "coinbase": "1S01cf0b32593068f2ace7c472d5f127d3422d3b61",
         "algorithm": "mpow"
     },
     "p2p": {
