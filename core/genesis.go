@@ -275,22 +275,22 @@ func getStateDB(info *GenesisInfo) *state.Statedb {
 	minedRewardsPerShard.Mul(curReward, big.NewInt(common.ScdoForkHeight))
 
 	if info.ShardNumber == 1 {
-		info.Masteraccount, _ = common.HexToAddress("1S01b04cb8be750904e2c1912417afbf1f3bc61a51")
+		info.Masteraccount, _ = common.HexToAddress("1S01f1bb5c799305bcf3e7c1316445757a517ab291")
 		info.Balance = minedRewardsPerShard
 		statedb.CreateAccount(info.Masteraccount)
 		statedb.SetBalance(info.Masteraccount, info.Balance)
 	} else if info.ShardNumber == 2 {
-		info.Masteraccount, _ = common.HexToAddress("2S02b04cb8be750904e2c1912417afbf1f3bc61a51")
+		info.Masteraccount, _ = common.HexToAddress("2S02fb048755bd1f35d035406a6aab3c771f6e51c1")
 		info.Balance = minedRewardsPerShard
 		statedb.CreateAccount(info.Masteraccount)
 		statedb.SetBalance(info.Masteraccount, info.Balance)
 	} else if info.ShardNumber == 3 {
-		info.Masteraccount, _ = common.HexToAddress("3S03b04cb8be750904e2c1912417afbf1f3bc61a51")
+		info.Masteraccount, _ = common.HexToAddress("3S03a43b0c0c524e9a2f98bd605615e49d58c96491")
 		info.Balance = minedRewardsPerShard
 		statedb.CreateAccount(info.Masteraccount)
 		statedb.SetBalance(info.Masteraccount, info.Balance)
 	} else if info.ShardNumber == 4 {
-		info.Masteraccount, _ = common.HexToAddress("4S04b04cb8be750904e2c1912417afbf1f3bc61a51")
+		info.Masteraccount, _ = common.HexToAddress("4S04e58416cf2973ad208a797a2c115292d0166d01")
 		info.Balance = minedRewardsPerShard
 		statedb.CreateAccount(info.Masteraccount)
 		statedb.SetBalance(info.Masteraccount, info.Balance)
