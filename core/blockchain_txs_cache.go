@@ -55,7 +55,7 @@ func (c *CachedTxs) init(chain blockchain) error {
 	if curHeight > CachedBlocks {
 		start = curHeight - CachedBlocks
 	} else {
-		start = 0
+		start = common.ScdoForkHeight
 	}
 	for start < curHeight {
 		dup, tc, err := c.getTxsInOneBlock(chain, start)
