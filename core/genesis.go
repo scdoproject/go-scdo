@@ -72,22 +72,22 @@ func NewGenesisInfo(accounts map[common.Address]*big.Int, difficult int64, shard
 
 	var masteraccount common.Address
 	var balance *big.Int
-	if shard == 1 {
-		masteraccount, _ = common.HexToAddress("1S01b04cb8be750904e2c1912417afbf1f3bc61a51")
-		balance = big.NewInt(17500000000000000)
-	} else if shard == 2 {
-		masteraccount, _ = common.HexToAddress("2S02b04cb8be750904e2c1912417afbf1f3bc61a51")
-		balance = big.NewInt(17500000000000000)
-	} else if shard == 3 {
-		masteraccount, _ = common.HexToAddress("3S03b04cb8be750904e2c1912417afbf1f3bc61a51")
-		balance = big.NewInt(17500000000000000)
-	} else if shard == 4 {
-		masteraccount, _ = common.HexToAddress("4S04b04cb8be750904e2c1912417afbf1f3bc61a51")
-		balance = big.NewInt(17500000000000000)
-	} else {
-		masteraccount, _ = common.HexToAddress("0S0000000000000000000000000000000000000000")
-		balance = big.NewInt(0)
-	}
+	// if shard == 1 {
+	// 	masteraccount, _ = common.HexToAddress("1S01b04cb8be750904e2c1912417afbf1f3bc61a51")
+	// 	balance = big.NewInt(17500000000000000)
+	// } else if shard == 2 {
+	// 	masteraccount, _ = common.HexToAddress("2S02b04cb8be750904e2c1912417afbf1f3bc61a51")
+	// 	balance = big.NewInt(17500000000000000)
+	// } else if shard == 3 {
+	// 	masteraccount, _ = common.HexToAddress("3S03b04cb8be750904e2c1912417afbf1f3bc61a51")
+	// 	balance = big.NewInt(17500000000000000)
+	// } else if shard == 4 {
+	// 	masteraccount, _ = common.HexToAddress("4S04b04cb8be750904e2c1912417afbf1f3bc61a51")
+	// 	balance = big.NewInt(17500000000000000)
+	// } else {
+	// 	masteraccount, _ = common.HexToAddress("0S0000000000000000000000000000000000000000")
+	// 	balance = big.NewInt(0)
+	// }
 	return &GenesisInfo{
 		Accounts:        accounts,
 		Difficult:       difficult,
@@ -136,15 +136,51 @@ func GetGenesis(info *GenesisInfo) *Genesis {
 		ShardNumber: info.ShardNumber,
 	})
 
+	previousBlockHash := common.EmptyHash
+	creator := common.EmptyAddress
+	stateHash := stateRootHash
+	txHash := types.MerkleRootHash(nil)
+	createTimestamp := info.CreateTimestamp
+	// Scdo will fork from ScdoForkHeight,
+	// Below is the seele block information before forkHeight
+
+	if info.ShardNumber == 1 {
+		previousBlockHash = common.StringToHash("0x31906ed8685385b2c0a5fd47a731bfdf323120ed3998dd9e9b09081ba2893bba")
+		// creator, _ = common.HexToAddress("0xcd2da0aabfcfe5c6d8f968a6dab3dbab21650931")
+		createTimestamp = big.NewInt(1594465904)
+		txHash = common.StringToHash("0x138539eca2287bbef155db690fb8b1b697a27f50d83fb12aeb7c74d3b8ecd035")
+		// stateHash = common.StringToHash("0x17027f48e843817fcf0ac5db0be6b6c45a2f7197b23b5593592a8cecceb36010")
+	}
+	if info.ShardNumber == 2 {
+		previousBlockHash = common.StringToHash("0x0e87f3aa429e999181629b9f36d3f2c22e2a910d0799ff9bbcdc7705b328e23c")
+		// creator, _ = common.HexToAddress("0xebdd6c53aaed41dc48f358c05027207229f56bc1")
+		createTimestamp = big.NewInt(1594606936)
+		txHash = common.StringToHash("0xe166fa486fe5d612e9e02d58f26ece3e036017edf1f69ff118a187bbf3436aa3")
+		// stateHash = common.StringToHash("0xb30b802fd8d455035da1d981b72ea0500526d41e97abb610cac2951f3923805f")
+	}
+	if info.ShardNumber == 3 {
+		previousBlockHash = common.StringToHash("0x28ec6a67af2bd9c744c423682850e80f2b938fbc263bd9231f5afb5477929c1c")
+		// creator, _ = common.HexToAddress("0xe5c5a01d776ce738aae49f84425ae8ba0ccea2c1")
+		createTimestamp = big.NewInt(1593886151)
+		txHash = common.StringToHash("0xecd03c41bbdf4abf84eab125a4c2ee36de76f841dc457758aca91d3006669598")
+		// stateHash = common.StringToHash("0xd2b128028cc86af129b16b68ee6fa6313805d4bc36a06d073dff2cc2b4bd459c")
+	}
+	if info.ShardNumber == 4 {
+		previousBlockHash = common.StringToHash("0xb16f96ba74e41f01a8a89cc17617b18daa46499daea611306f06573437a8d182")
+		// creator, _ = common.HexToAddress("0x3bce94f9fe99d5464d0505ea67d9ee5009c2a851")
+		createTimestamp = big.NewInt(1594088340)
+		txHash = common.StringToHash("0x2412151d95434f7fbd80c7c69a8076494185670f7e32022ef4304817f4c75b5c")
+		// stateHash = common.StringToHash("0xcc6a4c2973b434098df477d4e129f00b2c02a6125b068a1712793f9a4457233e")
+	}
 	return &Genesis{
 		header: &types.BlockHeader{
-			PreviousBlockHash: common.EmptyHash,
-			Creator:           common.EmptyAddress,
-			StateHash:         stateRootHash,
-			TxHash:            types.MerkleRootHash(nil),
+			PreviousBlockHash: previousBlockHash, // Note: this blockhash is seele block=2818931 hash
+			Creator:           creator,
+			StateHash:         stateHash,
+			TxHash:            txHash,
 			Difficulty:        big.NewInt(info.Difficult),
 			Height:            genesisBlockHeight,
-			CreateTimestamp:   info.CreateTimestamp,
+			CreateTimestamp:   createTimestamp,
 			Consensus:         info.Consensus,
 			Witness:           shard,
 			ExtraData:         extraData,
