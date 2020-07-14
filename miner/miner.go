@@ -249,7 +249,7 @@ out:
 					break
 				}
 
-				miner.log.Info("found a new mined block, block height:%d, hash:%s, time: %d", result.Header.Height, result.HeaderHash.Hex(), time.Now().UnixNano())
+				miner.log.Info("found a new mined block, height:%d, hash:%s, time:%d", result.Header.Height, result.HeaderHash.Hex(), time.Now().Unix())
 				ret := miner.saveBlock(result)
 				if ret != nil {
 					miner.log.Error("failed to save the block, for %s", ret.Error())
