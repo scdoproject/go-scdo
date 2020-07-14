@@ -141,36 +141,38 @@ func GetGenesis(info *GenesisInfo) *Genesis {
 	stateHash := stateRootHash
 	txHash := types.MerkleRootHash(nil)
 	createTimestamp := info.CreateTimestamp
-	// Scdo will fork from ScdoForkHeight,
-	// Below is the seele block information before forkHeight
+
+	/* Scdo will fork from ScdoForkHeight,
+	   Below is the seele block information before forkHeight
+	*/
 
 	if info.ShardNumber == 1 {
-		previousBlockHash = common.StringToHash("0x31906ed8685385b2c0a5fd47a731bfdf323120ed3998dd9e9b09081ba2893bba")
-		// creator, _ = common.HexToAddress("0xcd2da0aabfcfe5c6d8f968a6dab3dbab21650931")
-		createTimestamp = big.NewInt(1594465904)
-		txHash = common.StringToHash("0x138539eca2287bbef155db690fb8b1b697a27f50d83fb12aeb7c74d3b8ecd035")
-		// stateHash = common.StringToHash("0x17027f48e843817fcf0ac5db0be6b6c45a2f7197b23b5593592a8cecceb36010")
+		previousBlockHash = common.StringToHash("0x4384e84ecc14d26d5ba35aa8c2fe1cf0b952f8ea512690131656640be99759fb")
+		// creator, _ = common.HexToAddress("0xdf5b4c0f52a8ec4b697c35046ba7fb9b26416891")
+		createTimestamp = big.NewInt(1594607812)
+		txHash = common.StringToHash("0x147a99f2f80d8d13a0eddb80d1fa3aaf072be5108e1f78a59358857977de6a7d")
+		// stateHash = common.StringToHash("0xeb83242b992027f86a14c05bbfe3b704c605b83b994d295ac51eae218bd15f26")
 	}
 	if info.ShardNumber == 2 {
-		previousBlockHash = common.StringToHash("0x0e87f3aa429e999181629b9f36d3f2c22e2a910d0799ff9bbcdc7705b328e23c")
-		// creator, _ = common.HexToAddress("0xebdd6c53aaed41dc48f358c05027207229f56bc1")
-		createTimestamp = big.NewInt(1594606936)
-		txHash = common.StringToHash("0xe166fa486fe5d612e9e02d58f26ece3e036017edf1f69ff118a187bbf3436aa3")
-		// stateHash = common.StringToHash("0xb30b802fd8d455035da1d981b72ea0500526d41e97abb610cac2951f3923805f")
+		previousBlockHash = common.StringToHash("0x5d8b650caccc314704d895d5485fa6d5be242f7282584f2dda868a5fb0bc8858")
+		// creator, _ = common.HexToAddress("0xa71b2b2fde959f33edb9a6940b3dc0c6771820b1")
+		createTimestamp = big.NewInt(1594748542)
+		txHash = common.StringToHash("0xdf847512609aa19753397d70c21c99672016130f113b94f44a9a63d3f45cff12")
+		// stateHash = common.StringToHash("0xb2ef42c3898ca872232c1757f6e9c827bfbe32de959a362b61e63789d313f05e")
 	}
 	if info.ShardNumber == 3 {
-		previousBlockHash = common.StringToHash("0x28ec6a67af2bd9c744c423682850e80f2b938fbc263bd9231f5afb5477929c1c")
-		// creator, _ = common.HexToAddress("0xe5c5a01d776ce738aae49f84425ae8ba0ccea2c1")
-		createTimestamp = big.NewInt(1593886151)
-		txHash = common.StringToHash("0xecd03c41bbdf4abf84eab125a4c2ee36de76f841dc457758aca91d3006669598")
-		// stateHash = common.StringToHash("0xd2b128028cc86af129b16b68ee6fa6313805d4bc36a06d073dff2cc2b4bd459c")
+		previousBlockHash = common.StringToHash("0xb72ddc18bc087da97381710b6f1a3f52a783b5d5cdd47d652ee1fd8e4cb3d152")
+		// creator, _ = common.HexToAddress("0x8aeeeec186d64db4712921b06c4ecfeac7476461")
+		createTimestamp = big.NewInt(1594027090)
+		txHash = common.StringToHash("0xdf0e38040963e5e6dffdc5bc9aa65f1c3511f230c7425bc45527337aadc18dd3")
+		// stateHash = common.StringToHash("0x832a90891732b63008237168b1fe6188d0d611f0d3044e12aa5b7ea0169bf3b4")
 	}
 	if info.ShardNumber == 4 {
-		previousBlockHash = common.StringToHash("0xb16f96ba74e41f01a8a89cc17617b18daa46499daea611306f06573437a8d182")
-		// creator, _ = common.HexToAddress("0x3bce94f9fe99d5464d0505ea67d9ee5009c2a851")
-		createTimestamp = big.NewInt(1594088340)
-		txHash = common.StringToHash("0x2412151d95434f7fbd80c7c69a8076494185670f7e32022ef4304817f4c75b5c")
-		// stateHash = common.StringToHash("0xcc6a4c2973b434098df477d4e129f00b2c02a6125b068a1712793f9a4457233e")
+		previousBlockHash = common.StringToHash("0xc96df35f12f04c42a3050a6e5336690dcb8311b9ac432ae79f9a8dd8ca68b1a9")
+		// creator, _ = common.HexToAddress("0xef3e6426f207fc27182ab07d22f40ba61cde9cc1")
+		createTimestamp = big.NewInt(1594230091)
+		txHash = common.StringToHash("0x762967d93f059c69752e7f97dcd56e44d2eefd49f6ee8db1ca2f9f4417358626")
+		// stateHash = common.StringToHash("0x5d745d82bc1dd5b1b2067da3112174f8527b66ce8d0a92748bdf3730b99a54e9")
 	}
 	return &Genesis{
 		header: &types.BlockHeader{
