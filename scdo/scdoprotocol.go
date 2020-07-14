@@ -393,8 +393,15 @@ func (p *ScdoProtocol) handleNewBlock(e event.Event) {
 			memory.Print(p.log, "ScdoProtocol handleNewBlock entrance", now, false)
 
 			debts := types.NewDebtMap(confirmedBlock.Transactions)
-			p.debtManager.AddDebtMap(debts, confirmedHeight)
-			go p.propagateDebtMap(debts, true)
+			size := 0
+			for i := 0; i < len(debts); i++ {
+				size += len(debts[i])
+			}
+			p.log.Debug("try to propagate debt map: %d", size)
+			if size > 0 { // only if there is debt, we do the progagation
+				p.debtManager.AddDebtMap(debts, confirmedHeight)
+				go p.propagateDebtMap(debts, true)
+			}
 
 			// exit
 			memory.Print(p.log, "ScdoProtocol handleNewBlock exit", now, true)
