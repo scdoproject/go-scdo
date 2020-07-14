@@ -186,10 +186,10 @@ func (id Address) Hex() string {
 	s := fmt.Sprint(id.Shard())
 	a := s + "S" + hexutil.BytesToHex(id.Bytes())[2:]
 
-	if !ValidAccountHex(a) {
-		fmt.Println("id.Hex()", a)
-		// panic(errors.ErrAccountInvalid)
-	}
+	// if !ValidAccountHex(a) {
+	// 	fmt.Println("id.Hex()", a)
+	// 	// panic(errors.ErrAccountInvalid)
+	// }
 	return a
 }
 

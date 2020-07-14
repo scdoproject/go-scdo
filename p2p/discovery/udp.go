@@ -638,7 +638,7 @@ func (u *udp) loadNodes(nodeDir string) {
 	for i := range nodes {
 		n, err := NewNodeFromString(nodes[i])
 		if err != nil {
-			u.log.Error("new node from string failed for:[%s]", err)
+			u.log.Debug("new node from string failed for:[%s]", err)
 			continue
 		}
 		u.bootstrapNodes = append(u.bootstrapNodes, n)
