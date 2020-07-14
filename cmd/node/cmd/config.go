@@ -8,7 +8,6 @@ package cmd
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"math/big"
 	"path/filepath"
@@ -70,7 +69,7 @@ func LoadConfigFromFile(configFile string, accounts string) (*node.Config, error
 	}
 
 	if len(config.BasicConfig.Coinbase) > 0 {
-		fmt.Println(config.BasicConfig.Coinbase)
+		// fmt.Println(config.BasicConfig.Coinbase)
 		config.ScdoConfig.Coinbase = common.HexMustToAddres(config.BasicConfig.Coinbase)
 	}
 

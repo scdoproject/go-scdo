@@ -72,7 +72,7 @@ var startCmd = &cobra.Command{
 		if !comm.LogConfiguration.PrintLog {
 			fmt.Printf("log folder: %s\n", filepath.Join(log.LogFolder, comm.LogConfiguration.DataDir))
 		}
-		fmt.Printf("data folder: %s\n", nCfg.BasicConfig.DataDir)
+		// fmt.Printf("data folder: %s\n", nCfg.BasicConfig.DataDir)
 
 		scdoNode, err := node.New(nCfg)
 		if err != nil {
