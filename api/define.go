@@ -68,6 +68,17 @@ type GetMinerInfo struct {
 	PeerCnt            string
 }
 
+type GetMinerInfo2 struct {
+	Coinbase           string
+	CurrentBlockHeight uint64
+	HeaderHash         common.Hash
+	Shard              uint
+	MinerStatus        string
+	Version            string
+	BlockAge           *big.Int
+	PeerCnt            string
+}
+
 // GetBalanceResponse response param for GetBalance api
 type GetBalanceResponse struct {
 	Account common.Address

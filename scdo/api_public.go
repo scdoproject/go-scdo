@@ -62,7 +62,7 @@ func (api *PublicScdoAPI) EstimateGas(tx *types.Transaction) (uint64, error) {
 }
 
 // GetInfo gets the account address that mining rewards will be send to.
-func (api *PublicScdoAPI) GetInfo() (api2.GetMinerInfo, error) {
+func (api *PublicScdoAPI) GetInfo() (api2.GetMinerInfo2, error) {
 	block := api.s.chain.CurrentBlock()
 
 	var status string
@@ -77,8 +77,8 @@ func (api *PublicScdoAPI) GetInfo() (api2.GetMinerInfo, error) {
 	p4 := api.s.scdoProtocol.peerSet.getPeerCountByShard(4)
 	p0 := p1 + p2 + p3 + p4
 	peers := fmt.Sprintf("%d (%d %d %d %d)", p0, p1, p2, p3, p4)
-	return api2.GetMinerInfo{
-		Coinbase:           api.s.miner.GetCoinbase(),
+	return api2.GetMinerInfo2{
+		Coinbase:           api.s.miner.GetCoinbase().String(),
 		CurrentBlockHeight: block.Header.Height,
 		HeaderHash:         block.HeaderHash,
 		Shard:              common.LocalShardNumber,
@@ -187,7 +187,7 @@ func (api *PublicScdoAPI) GetLogs(height int64, contractAddress common.Address, 
 				return nil, errors.NewStackedError(err, "failed to decode event arguments")
 			}
 
-			logs = append(logs, api2.GetLogsResponse{ log, receipt.TxHash, uint(logIndex), data})
+			logs = append(logs, api2.GetLogsResponse{log, receipt.TxHash, uint(logIndex), data})
 		}
 	}
 
@@ -213,10 +213,10 @@ func getBlock(chain *core.Blockchain, height int64) (*types.Block, error) {
 // GetShardNum gets the account shard number .
 // if the address is valid, return the corresponding shard number, otherwise return 0
 func (api *PublicScdoAPI) GetShardNum(account common.Address) (uint, error) {
-	err:=account.Validate()
-	if err==nil {
-		return account.Shard(),nil
-	}else{
-		return 0,err
+	err := account.Validate()
+	if err == nil {
+		return account.Shard(), nil
+	} else {
+		return 0, err
 	}
 }

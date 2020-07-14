@@ -54,7 +54,7 @@ type Miner struct {
 	recv     chan *types.Block
 
 	scdo ScdoBackend
-	log        *log.ScdoLog
+	log  *log.ScdoLog
 
 	isFirstDownloader    int32
 	isFirstBlockPrepared int32
@@ -73,7 +73,7 @@ func NewMiner(addr common.Address, scdo ScdoBackend, verifier types.DebtVerifier
 		canStart:             1, // used with downloader, canStart is 0 when downloading
 		stopped:              0, // indicate miner status (0/1), opposite to Miner.mining
 		stopper:              0, // indicate where miner could start or not. If stopper is 1, miner won't do mining
-		scdo:           scdo,
+		scdo:                 scdo,
 		wg:                   sync.WaitGroup{},
 		recv:                 make(chan *types.Block, 1),
 		log:                  log.GetLogger("miner"),
@@ -108,10 +108,11 @@ func (miner *Miner) SetCoinbase(coinbase common.Address) {
 }
 
 func (miner *Miner) GetCoinbase() common.Address {
+	fmt.Println("GetCoinbase()", miner.coinbase)
 	return miner.coinbase
 }
 
-func (miner *Miner)SetStopper(stopper int32){
+func (miner *Miner) SetStopper(stopper int32) {
 	miner.stopper = stopper
 }
 

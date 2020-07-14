@@ -32,11 +32,11 @@ const maxProgatePeerPerShard = 7
 
 // ScdoService implements full node service.
 type ScdoService struct {
-	networkID     string
-	netVersion    string
-	p2pServer     *p2p.Server
+	networkID    string
+	netVersion   string
+	p2pServer    *p2p.Server
 	scdoProtocol *ScdoProtocol
-	log           *log.ScdoLog
+	log          *log.ScdoLog
 
 	txPool             *core.TransactionPool
 	debtPool           *core.DebtPool
