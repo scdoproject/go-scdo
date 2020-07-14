@@ -166,9 +166,9 @@ miner:
 						logAbort(log)
 					case result <- block:
 						atomic.StoreInt32(isNonceFound, 1)
-						log.Info("found det:%e", restBig)
-						log.Info("target:%e", target)
-						log.Info("times2try:%d", caltimes)
+						log.Debug("found det:%e", restBig)
+						log.Debug("target:%e", target)
+						log.Debug("times2try:%d", caltimes)
 					}
 				})
 				break miner
