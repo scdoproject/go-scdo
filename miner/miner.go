@@ -108,7 +108,7 @@ func (miner *Miner) SetCoinbase(coinbase common.Address) {
 }
 
 func (miner *Miner) GetCoinbase() common.Address {
-	fmt.Println("GetCoinbase()", miner.coinbase)
+	// fmt.Println("GetCoinbase()", miner.coinbase)
 	return miner.coinbase
 }
 
