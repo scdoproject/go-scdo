@@ -8,7 +8,7 @@
 | **Smart Contracts**    | smart contracts are supported within the same shard                                          |
 | **Scdo Wallet**       | easy-to-use wallet                                                                             |
 | **High TPS**           | same shard TPS: 500/shard, cross shard TPS: 12/shard                                           |
-| **Auditable Supply**   | total supply: 300,000,000 Scdos                              |
+| **Auditable Supply**   | total supply: 300,000,000 Scdos, all from mining                              |
 | **Consensus Algorithm**| ZPOW algorithm                                                |
 | **Mining Reward**      | 3150000 blocks/era and block reward at each era follows [6, 4, 3, 2.5, 2, 2, 1.5, 1.5] order until reaches the last reward of 1.5 Scdos |
 | **Transaction Fee**    | self-customized transaction fee, higher fee for cross-shard transaction                        |
