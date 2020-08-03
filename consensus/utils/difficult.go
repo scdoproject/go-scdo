@@ -29,7 +29,7 @@ func GetDifficult(time uint64, parentHeader *types.BlockHeader) *big.Int {
 	big1024 := big.NewInt(1024)
 	big2048 := big.NewInt(2048)
 
-	interval := (time - parentTime) / 10
+	interval := (time - parentTime) / 20
 	var x *big.Int
 	x = big.NewInt(int64(interval))
 	x.Sub(big1, x)
