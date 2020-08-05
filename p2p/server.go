@@ -87,6 +87,7 @@ type Server struct {
 	running bool
 
 	kadDB    *discovery.Database
+	udp      *discovery.UDP
 	listener net.Listener
 
 	quit chan struct{}
@@ -157,6 +158,9 @@ func NewServer(genesis core.GenesisInfo, config Config, protocols []Protocol) *S
 	}
 }
 
+//
+func (srv *Server) GetUDP() *discovery.UDP { return srv.udp }
+
 // PeerCount return the count of peers
 func (srv *Server) PeerCount() int {
 	return srv.peerSet.count()
@@ -181,7 +185,7 @@ func (srv *Server) Start(nodeDir string, shard uint) (err error) {
 	srv.SelfNode = discovery.NewNodeWithAddr(*address, addr, shard)
 
 	srv.log.Info("p2p.Server.Start: MyNodeID [%s]", srv.SelfNode)
-	srv.kadDB = discovery.StartService(nodeDir, *address, addr, srv.Config.StaticNodes, shard)
+	srv.kadDB, srv.udp = discovery.StartService(nodeDir, *address, addr, srv.Config.StaticNodes, shard)
 	srv.kadDB.SetHookForNewNode(srv.addNode)
 	srv.kadDB.SetHookForDeleteNode(srv.deleteNode)
 	// add static nodes to srv node set;

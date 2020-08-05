@@ -336,6 +336,24 @@ func AddCommands(app *cli.App, isFullNode bool) {
 				Flags:  rpcFlags(),
 				Action: rpcAction("network", "isListening"),
 			},
+			{
+				Name:   "addtrustnode",
+				Usage:  "add the trusted node and always pingpong it, IP:PORT",
+				Flags:  rpcFlags(trustAddressFlag),
+				Action: rpcAction("network", "addTrustNode"),
+			},
+			{
+				Name:   "getaddnodecount",
+				Usage:  "add the trusted node and always pingpong it, IP:PORT",
+				Flags:  rpcFlags(),
+				Action: rpcAction("network", "getToTrustNodeCount"),
+			},
+			{
+				Name:   "getblocklistcount",
+				Usage:  "add the trusted node and always pingpong it, IP:PORT",
+				Flags:  rpcFlags(),
+				Action: rpcAction("network", "getBlockListCount"),
+			},
 		},
 	}
 

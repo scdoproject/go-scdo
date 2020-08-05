@@ -40,6 +40,11 @@ const (
 	blockDuration             = 60 * time.Minute
 )
 
+var toTrustNodes []*Node
+
+type UDP struct {
+	udp
+}
 type udp struct {
 	conn           *net.UDPConn
 	self           *Node
@@ -109,9 +114,36 @@ func newUDP(id common.Address, addr *net.UDPAddr, shard uint) *udp {
 		log:               log,
 		timeoutNodesCount: cmap.New(),
 		blockList:         cmap.New(),
+		// toTrustNodes:      make([]*Node, 0),
 	}
 
 	return transport
+}
+
+// AddTrustedNode will add the node into the trustNodes, then the loop pingpong service will pingpong it.
+func (u *udp) AddTrustNode(strNode string) error {
+	node, err := NewNodeFromIP(strNode)
+	if err != nil {
+		u.log.Warn("Create Node from IP Error: %+v", err)
+		return err
+	}
+	toTrustNodes = append(toTrustNodes, node)
+	// toTrustNodes.Set(strNode, node)
+	u.log.Debug("trustNode len %d", len(toTrustNodes))
+	for i, n := range toTrustNodes {
+		u.log.Debug("%dth node:%+v", i, n)
+	}
+	return nil
+}
+
+// AddTrustedNode will add the node into the trustNodes, then the loop pingpong service will pingpong it.
+func (u *udp) GetToTrustNodeCount() int {
+	return len(toTrustNodes)
+}
+
+// AddTrustedNode will add the node into the trustNodes, then the loop pingpong service will pingpong it.
+func (u *udp) GetBlockListCount() int {
+	return u.blockList.Count()
 }
 
 func (u *udp) sendMsg(t msgType, msg interface{}, toID common.Address, toAddr *net.UDPAddr) {
@@ -442,6 +474,18 @@ func (u *udp) pingPongService() {
 		if len(u.trustNodes) > 0 {
 			for i := range u.trustNodes {
 				loopPingPongNodes[u.trustNodes[i].GetUDPAddr().String()] = u.trustNodes[i]
+				u.log.Debug("udp trustNodes from bootstrap %+v", u.trustNodes[i])
+
+			}
+
+		}
+		u.log.Debug("toTrustNodes len %d", len(toTrustNodes))
+
+		if len(toTrustNodes) > 0 {
+			for i := range toTrustNodes {
+				loopPingPongNodes[toTrustNodes[i].GetUDPAddr().String()] = toTrustNodes[i]
+				u.log.Debug("udp toTrustNodes from bootstrap %+v", toTrustNodes[i])
+
 			}
 		}
 
@@ -467,7 +511,7 @@ func (u *udp) pingPongService() {
 				concurrentCount = 0
 			}
 		}
-
+		u.log.Debug("looppingpong sleep with %d, now %+v", pingpongInterval, time.Now())
 		time.Sleep(pingpongInterval)
 	}
 }
@@ -534,7 +578,7 @@ func (u *udp) saveBlockList(nodeDir string) {
 					return
 				}
 			}
-			u.log.Info("backups block list. size %d", u.blockList.Count())
+			u.log.Debug("backups block list. size %d", u.blockList.Count())
 			if err = ioutil.WriteFile(fileFullPath, nodeByte, 0666); err != nil {
 				u.log.Error("block list backup failed, for:[%s]", err.Error())
 				return

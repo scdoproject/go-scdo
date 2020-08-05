@@ -9,6 +9,7 @@ import (
 	"github.com/scdoproject/go-scdo/core/types"
 	"github.com/scdoproject/go-scdo/log"
 	"github.com/scdoproject/go-scdo/p2p"
+	"github.com/scdoproject/go-scdo/p2p/discovery"
 	downloader "github.com/scdoproject/go-scdo/scdo/download"
 )
 
@@ -32,6 +33,11 @@ func (sd *ScdoBackend) GetNetWorkID() string { return sd.s.networkID }
 
 // GetP2pServer p2p server
 func (sd *ScdoBackend) GetP2pServer() *p2p.Server { return sd.s.p2pServer }
+
+// GetUDPServer UDP server
+func (sd *ScdoBackend) GetUDPerver() *discovery.UDP {
+	return sd.s.udpServer
+}
 
 // ChainBackend block chain db
 func (sd *ScdoBackend) ChainBackend() api.Chain { return sd.s.chain }

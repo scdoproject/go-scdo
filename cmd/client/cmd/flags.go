@@ -45,6 +45,13 @@ func (flag abiFlag) getValue() (interface{}, error) {
 }
 
 var (
+	truestAddressValue string
+	trustAddressFlag   = cli.StringFlag{
+		Name:        "trust, t",
+		Value:       "",
+		Usage:       "node, for example: -t address:port",
+		Destination: &truestAddressValue,
+	}
 	addressValue string
 	addressFlag  = cli.StringFlag{
 		Name:        "address, a",

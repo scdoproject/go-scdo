@@ -12,9 +12,8 @@ import (
 )
 
 // StartService start node udp service
-func StartService(nodeDir string, myID common.Address, myAddr *net.UDPAddr, bootstrap []*Node, shard uint) *Database {
+func StartService(nodeDir string, myID common.Address, myAddr *net.UDPAddr, bootstrap []*Node, shard uint) (*Database, *UDP) {
 	udp := newUDP(myID, myAddr, shard)
-
 	if bootstrap != nil {
 		udp.trustNodes = bootstrap
 	}
@@ -22,5 +21,5 @@ func StartService(nodeDir string, myID common.Address, myAddr *net.UDPAddr, boot
 	udp.loadBlockList(nodeDir)
 	udp.StartServe(nodeDir)
 
-	return udp.db
+	return udp.db, &UDP{udp: *udp}
 }

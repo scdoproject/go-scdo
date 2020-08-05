@@ -46,3 +46,24 @@ func (n *PrivateNetworkAPI) GetProtocolVersion() (uint, error) {
 func (n *PrivateNetworkAPI) IsListening() bool {
 	return n.s.GetP2pServer().IsListening()
 }
+
+// AddTrustNode return whether the node is added
+func (n *PrivateNetworkAPI) AddTrustNode(node string) bool {
+	UDPB := n.s.GetP2pServer().GetUDP()
+	err := UDPB.AddTrustNode(node)
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+// GetToTrustNodeCount return count of toTrustNode added bu User
+func (n *PrivateNetworkAPI) GetToTrustNodeCount() int {
+	UDPB := n.s.GetP2pServer().GetUDP()
+	return UDPB.GetToTrustNodeCount()
+}
+
+func (n *PrivateNetworkAPI) GetBlockListCount() int {
+	UDPB := n.s.GetP2pServer().GetUDP()
+	return UDPB.GetBlockListCount()
+}

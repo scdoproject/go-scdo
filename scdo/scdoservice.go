@@ -23,6 +23,7 @@ import (
 	"github.com/scdoproject/go-scdo/miner"
 	"github.com/scdoproject/go-scdo/node"
 	"github.com/scdoproject/go-scdo/p2p"
+	"github.com/scdoproject/go-scdo/p2p/discovery"
 	"github.com/scdoproject/go-scdo/rpc"
 	downloader "github.com/scdoproject/go-scdo/scdo/download"
 )
@@ -35,6 +36,7 @@ type ScdoService struct {
 	networkID    string
 	netVersion   string
 	p2pServer    *p2p.Server
+	udpServer    *discovery.UDP
 	scdoProtocol *ScdoProtocol
 	log          *log.ScdoLog
 
