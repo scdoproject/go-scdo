@@ -41,7 +41,7 @@ const (
 	// ConfirmedBlockNumber is the block number for confirmed a block, it should be more than 12 in product
 	ConfirmedBlockNumber = 120
 
-	ScdoForkHeight = 2828849
+	ScdoForkHeight = 2979594
 
 	// ForkHeight after this height we change the content of block: hardFork
 	ForkHeight = ScdoForkHeight

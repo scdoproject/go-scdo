@@ -147,32 +147,32 @@ func GetGenesis(info *GenesisInfo) *Genesis {
 	*/
 
 	if info.ShardNumber == 1 {
-		previousBlockHash = common.StringToHash("0x4384e84ecc14d26d5ba35aa8c2fe1cf0b952f8ea512690131656640be99759fb")
-		// creator, _ = common.HexToAddress("0xdf5b4c0f52a8ec4b697c35046ba7fb9b26416891")
-		createTimestamp = big.NewInt(1594607812)
-		txHash = common.StringToHash("0x147a99f2f80d8d13a0eddb80d1fa3aaf072be5108e1f78a59358857977de6a7d")
-		// stateHash = common.StringToHash("0xeb83242b992027f86a14c05bbfe3b704c605b83b994d295ac51eae218bd15f26")
+		previousBlockHash = common.StringToHash("0xc439dd3398fb4d7596cce6382d18cacf1b873a49680959e0267f7588c591cacb")
+		// creator, _ = common.HexToAddress("0xde0c88a825e3d049853de9be6a188a1c1e591411")
+		createTimestamp = big.NewInt(1596764398)
+		// stateHash = common.StringToHash("0xa5ea0d7e9a17c5a92f4919963d63d0ce2b597c2ef5b2256c89bc72214c11c304")
+		txHash = common.StringToHash("0x9a43f0cacb52cae451defd3452cdd86b70373edca6dd724ff77e3b6c93f4b97e")
 	}
 	if info.ShardNumber == 2 {
-		previousBlockHash = common.StringToHash("0x5d8b650caccc314704d895d5485fa6d5be242f7282584f2dda868a5fb0bc8858")
-		// creator, _ = common.HexToAddress("0xa71b2b2fde959f33edb9a6940b3dc0c6771820b1")
-		createTimestamp = big.NewInt(1594748542)
-		txHash = common.StringToHash("0xdf847512609aa19753397d70c21c99672016130f113b94f44a9a63d3f45cff12")
-		// stateHash = common.StringToHash("0xb2ef42c3898ca872232c1757f6e9c827bfbe32de959a362b61e63789d313f05e")
+		previousBlockHash = common.StringToHash("0xa3f5dddb003600eb0a717fca3c234c93c21ceaac88cdb611cbce42eaa4f2645b")
+		// creator, _ = common.HexToAddress("0x544053ec780cb701c319d892edd540bb94f0d4b1")
+		createTimestamp = big.NewInt(1596928094)
+		// stateHash = common.StringToHash("0x67221984616afef08f7e0e9036a9d0b3c2f39e1f5295e4c32779c5d4649e3c3a")
+		txHash = common.StringToHash("0x8cead9e6cb9a9ca9299d4dd26208b800cb9b3d10f0ff9fab96ee90060517a199")
 	}
 	if info.ShardNumber == 3 {
-		previousBlockHash = common.StringToHash("0xb72ddc18bc087da97381710b6f1a3f52a783b5d5cdd47d652ee1fd8e4cb3d152")
-		// creator, _ = common.HexToAddress("0x8aeeeec186d64db4712921b06c4ecfeac7476461")
-		createTimestamp = big.NewInt(1594027090)
-		txHash = common.StringToHash("0xdf0e38040963e5e6dffdc5bc9aa65f1c3511f230c7425bc45527337aadc18dd3")
-		// stateHash = common.StringToHash("0x832a90891732b63008237168b1fe6188d0d611f0d3044e12aa5b7ea0169bf3b4")
+		previousBlockHash = common.StringToHash("0xfc1b5faa1a9a64f7479184ebf541659882f4ff6b2c0539bb36aec1b428bf2299")
+		// creator, _ = common.HexToAddress("0x0ead1657dec87b3af3316f1379f34661a8715711")
+		createTimestamp = big.NewInt(1596174170)
+		// stateHash = common.StringToHash("0x0b73ee4a1da5b60b1efa865ed707e7bc720f9c507b92d3a1eff06bb727e46c38")
+		txHash = common.StringToHash("0xf9fd5e150c980a356a34ca0290965a8a2d5b8b5290c3216ba5d0974932af8ac1")
 	}
 	if info.ShardNumber == 4 {
-		previousBlockHash = common.StringToHash("0xc96df35f12f04c42a3050a6e5336690dcb8311b9ac432ae79f9a8dd8ca68b1a9")
-		// creator, _ = common.HexToAddress("0xef3e6426f207fc27182ab07d22f40ba61cde9cc1")
-		createTimestamp = big.NewInt(1594230091)
-		txHash = common.StringToHash("0x762967d93f059c69752e7f97dcd56e44d2eefd49f6ee8db1ca2f9f4417358626")
-		// stateHash = common.StringToHash("0x5d745d82bc1dd5b1b2067da3112174f8527b66ce8d0a92748bdf3730b99a54e9")
+		previousBlockHash = common.StringToHash("0x3e2833eb7769f7f1881c364014ab662228fa3f6a6af669d15cea4b3cab974e16")
+		// creator, _ = common.HexToAddress("0x9b2413f544122c23e93b6cdce6fec0ebb981d421")
+		createTimestamp = big.NewInt(1596385932)
+		// stateHash = common.StringToHash("0x8fc546cf5e52ac4e5158c7b262aa0b366752913bfb12bb2eb38a3e6eb31d7439")
+		txHash = common.StringToHash("0x6453d364115e975bd5824fdd84beb5c995170db5575677724b026fe7516888cc")
 	}
 	return &Genesis{
 		header: &types.BlockHeader{
