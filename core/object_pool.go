@@ -119,7 +119,7 @@ func (pool *Pool) loopCheckingPool() {
 			pool.mutex.Lock()
 			if len(pool.hashToTxMap) > 0 {
 				for _, poolTx := range pool.hashToTxMap {
-					if _,ok := pool.processingObjects[poolTx.GetHash()]; ok{
+					if _, ok := pool.processingObjects[poolTx.GetHash()]; ok {
 						continue
 					}
 					pool.pendingQueue.add(poolTx)
@@ -276,11 +276,6 @@ func (pool *Pool) addObject(obj poolObject) error {
 	pool.mutex.Lock()
 	defer pool.mutex.Unlock()
 
-	// avoid to add duplicated obj
-	if pool.hashToTxMap[obj.GetHash()] != nil {
-		return errObjectHashExists
-	}
-
 	// update obj with higher price, otherwise return errObjectNonceUsed
 	if existTx := pool.pendingQueue.get(obj.FromAccount(), obj.Nonce()); existTx != nil {
 		if obj.Price().Cmp(existTx.Price()) > 0 {
@@ -387,6 +382,10 @@ func (pool *Pool) getProcessableObjects(size int) ([]poolObject, int) {
 
 	totalSize := 0
 	var txs []poolObject
+
+	for objHash, _ := range pool.processingObjects {
+		delete(pool.processingObjects, objHash)
+	}
 
 	for !pool.pendingQueue.empty() {
 		tx := pool.pendingQueue.peek().peek().poolObject
