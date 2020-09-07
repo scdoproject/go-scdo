@@ -34,7 +34,6 @@ func GetInfo(client *rpc.Client) (api.GetMinerInfo, error) {
 // GenerateTx generate a transaction based on the address type of to
 func GenerateTx(from *ecdsa.PrivateKey, fromAddr *common.Address, to common.Address, amount *big.Int, price *big.Int, gasLimit uint64, nonce uint64, payload []byte) (*types.Transaction, error) {
 	var err error
-	// fromAddr, err := crypto.GetAddress(&from.PublicKey, shard)
 
 	var tx *types.Transaction
 	if to.IsEmpty() {

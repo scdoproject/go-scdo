@@ -96,7 +96,6 @@ func ValidShard(shard uint) bool {
 // ValidAccountHex returns true of it is a valid account string
 func ValidAccountHex(account string) bool {
 	if match, _ := regexp.MatchString("^((1s01|2s02|3s03|4s04|1S01|2S02|3S03|4S04)[a-fA-F0-9]{37}[1-2])|0[sSx]0{40}|0x0[1-4][a-fA-F0-9]{37}[1-2]$", account); !match {
-		// if match, _ := regexp.MatchString("^((1s01|2s02|3s03|4s04|1S01|2S02|3S03|4S04)[a-fA-F0-9]{37}[1-2])|0[sS]0{40}$", account); !match {
 		return false
 	}
 	return true
@@ -182,14 +181,10 @@ func (id Address) String() string {
 
 // Hex converts address to S account string.
 func (id Address) Hex() string {
-	// return hexutil.BytesToHex(id.Bytes())
+
 	s := fmt.Sprint(id.Shard())
 	a := s + "S" + hexutil.BytesToHex(id.Bytes())[2:]
 
-	// if !ValidAccountHex(a) {
-	// 	fmt.Println("id.Hex()", a)
-	// 	// panic(errors.ErrAccountInvalid)
-	// }
 	return a
 }
 

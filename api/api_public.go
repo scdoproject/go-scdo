@@ -34,7 +34,7 @@ func NewPublicSeeleAPI(s Backend) *PublicScdoAPI {
 }
 
 // GetBalance get balance of the account.
-func (api *PublicScdoAPI) GetBalance(account common.Address, hexHash string, height int64) (*GetBalanceResponse, error) {
+func (api *PublicScdoAPI) GetBalance(account common.Address, hexHash string, height int64) (map[string]interface{}, error) {
 	if account.IsEmpty() {
 		return nil, ErrInvalidAccount
 	}
@@ -58,7 +58,11 @@ func (api *PublicScdoAPI) GetBalance(account common.Address, hexHash string, hei
 	info.Balance = balance
 	info.Account = account
 
-	return &info, nil
+	output := map[string]interface{}{
+		"Balance": info.Balance,
+		"Account": info.Account.Hex(),
+	}
+	return output, nil
 }
 
 func (api *PublicScdoAPI) getStatedb(hexHash string, height int64) (*state.Statedb, error) {
@@ -206,8 +210,25 @@ func (api *PublicScdoAPI) GetBlockByHash(hashHex string, fulltx bool) (map[strin
 // rpcOutputBlock converts the given block to the RPC output which depends on fullTx
 func rpcOutputBlock(b *types.Block, fullTx bool, totalDifficulty *big.Int) (map[string]interface{}, error) {
 	head := b.Header
+	headmap := map[string]interface{}{
+		"Consensus":         head.Consensus,
+		"CreateTimestamp":   head.CreateTimestamp,
+		"Creator":           head.Creator.Hex(),
+		"DebtHash":          head.DebtHash,
+		"Difficulty":        head.Difficulty,
+		"ExtraData":         head.ExtraData,
+		"Height":            head.Height,
+		"PreviousBlockHash": head.PreviousBlockHash,
+		"ReceiptHash":       head.ReceiptHash,
+		"SecondWitness":     head.SecondWitness,
+		"StateHash":         head.StateHash,
+		"TxDebtHash":        head.TxDebtHash,
+		"TxHash":            head.TxHash,
+		"Witness":           head.Witness,
+	}
+
 	fields := map[string]interface{}{
-		"header": head,
+		"header": headmap,
 		"hash":   b.HeaderHash.Hex(),
 	}
 
