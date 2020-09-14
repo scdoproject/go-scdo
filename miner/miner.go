@@ -108,7 +108,6 @@ func (miner *Miner) SetCoinbase(coinbase common.Address) {
 }
 
 func (miner *Miner) GetCoinbase() common.Address {
-	// fmt.Println("GetCoinbase()", miner.coinbase)
 	return miner.coinbase
 }
 
@@ -350,6 +349,7 @@ func (miner *Miner) commitTask(task *Task, recv chan *types.Block) {
 func (miner *Miner) GetWork() map[string]interface{} {
 	if miner.current == nil {
 		miner.log.Info("there is no task so far")
+		return nil
 	}
 	task := miner.current
 	return PrintableOutputTask(task)
@@ -371,7 +371,9 @@ func (miner *Miner) GetCurrentWorkHeader() (header *types.BlockHeader) {
 
 func (miner *Miner) GetTaskDifficulty() *big.Int {
 	difficulty := miner.current.header.Difficulty
-	target := new(big.Int).Mul(difficulty, big.NewInt(65))
-	return target
+	if difficulty == nil {
+		return nil
+	}
+	return difficulty
 
 }

@@ -80,8 +80,8 @@ func (api *PrivateMinerAPI) SetCoinbase(coinbaseStr string) (bool, error) {
 }
 
 // GetCoinbase API is used to get the coinbase.
-func (api *PrivateMinerAPI) GetCoinbase() (common.Address, error) {
-	return api.s.miner.GetCoinbase(), nil
+func (api *PrivateMinerAPI) GetCoinbase() (string, error) {
+	return api.s.miner.GetCoinbase().Hex(), nil
 }
 
 // GetTask return the hash of the current block, the seedHash, and the boundary condition to be met (“target”).

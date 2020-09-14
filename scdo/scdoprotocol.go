@@ -596,9 +596,6 @@ handler:
 						continue
 					} else {
 						p.txPool.AddTransaction(tx)
-						//if err := p.txPool.AddTransaction(tx); err != nil {
-						//	continue
-						//	}
 					}
 				}
 			}()

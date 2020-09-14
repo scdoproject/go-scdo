@@ -51,7 +51,6 @@ func checkParameter(publicKey *ecdsa.PublicKey, client *rpc.Client, keyaddress c
 
 	fromAddr, err := crypto.GetAddress(publicKey, shardValue)
 
-	// fmt.Println(fromAddr)
 	fmt.Println(keyaddress)
 	if keyaddress.IsEmpty() {
 		info.From = *fromAddr
@@ -70,8 +69,6 @@ func checkParameter(publicKey *ecdsa.PublicKey, client *rpc.Client, keyaddress c
 		// get current nonce
 		nonce, err := util.GetAccountNonce(client, info.From, "", -1)
 		if err != nil {
-			// fmt.Println(err)
-			// fmt.Println("what the hell", info.From)
 			return info, fmt.Errorf("failed to get the sender account's nonce: %s", err)
 		}
 		info.AccountNonce = nonce
@@ -80,8 +77,6 @@ func checkParameter(publicKey *ecdsa.PublicKey, client *rpc.Client, keyaddress c
 		// get current nonce
 		dbnonce, nonceErr := util.GetAccountNonce(client, info.From, "", -1)
 		if nonceErr != nil {
-			// fmt.Println(info.From)
-			// panic(err)
 			return info, fmt.Errorf("failed to get the sender account nonce: %s", err)
 		}
 		if nonceValue < dbnonce {

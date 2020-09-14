@@ -14,6 +14,7 @@ import (
 
 	"github.com/scdoproject/go-scdo/accounts/abi"
 	"github.com/scdoproject/go-scdo/accounts/abi/bind"
+	"github.com/scdoproject/go-scdo/api"
 	"github.com/scdoproject/go-scdo/cmd/util"
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/common/hexutil"
@@ -100,11 +101,15 @@ func SignTxAction(c *cli.Context) error {
 	tx.Data = *txd
 	tx.Sign(key)
 
-	result, err := json.MarshalIndent(tx, "", "\t")
+	output := map[string]interface{}{
+		"Transaction": api.PrintableOutputTx(&tx),
+	}
+	result, err := json.MarshalIndent(output, "", "\t")
 	if err != nil {
 		return err
 	}
 	fmt.Println(string(result))
+
 	return nil
 }
 

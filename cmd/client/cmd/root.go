@@ -398,10 +398,10 @@ func AddCommands(app *cli.App, isFullNode bool) {
 				Action: rpcAction("miner", "status"),
 			},
 			{
-				Name:   "hashrate",
-				Usage:  "get hashrate",
+				Name:   "detrate",
+				Usage:  "get detrate",
 				Flags:  rpcFlags(),
-				Action: rpcAction("miner", "getHashrate"),
+				Action: rpcAction("miner", "getDetrate"),
 			},
 			{
 				Name:   "threads",
@@ -414,13 +414,6 @@ func AddCommands(app *cli.App, isFullNode bool) {
 				Usage:  "get miner current mining task",
 				Flags:  rpcFlags(),
 				Action: rpcAction("miner", "getWork"),
-			},
-			{
-				Name:  "gettarget",
-				Usage: "get current SPOW mining difficulty ",
-				Flags: rpcFlags(),
-				// Action: rpcAction("miner", "getTaskDifficulty"),
-				Action: rpcAction("miner", "getTarget"),
 			},
 		},
 	}

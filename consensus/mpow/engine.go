@@ -36,18 +36,18 @@ var (
 
 // Engine provides the consensus operations based on MPOW.
 type MpowEngine struct {
-	threads  int
-	log      *log.ScdoLog
-	hashrate metrics.Meter
-	lock     sync.Mutex
+	threads int
+	log     *log.ScdoLog
+	detrate metrics.Meter
+	lock    sync.Mutex
 }
 
 func NewMpowEngine(threads int) *MpowEngine {
 
 	return &MpowEngine{
-		threads:  threads,
-		log:      log.GetLogger("mpow_engine"),
-		hashrate: metrics.NewMeter(),
+		threads: threads,
+		log:     log.GetLogger("mpow_engine"),
+		detrate: metrics.NewMeter(),
 	}
 }
 
@@ -111,7 +111,7 @@ func (engine *MpowEngine) Seal(reader consensus.ChainReader, block *types.Block,
 		}
 
 		go func(tseed uint64, tmin uint64, tmax uint64) {
-			engine.StartMining(block, tseed, tmin, tmax, results, stop, &isNonceFound, once, engine.hashrate, engine.log)
+			engine.StartMining(block, tseed, tmin, tmax, results, stop, &isNonceFound, once, engine.detrate, engine.log)
 		}(tSeed, min, max)
 	}
 
@@ -119,7 +119,7 @@ func (engine *MpowEngine) Seal(reader consensus.ChainReader, block *types.Block,
 }
 
 func (engine *MpowEngine) StartMining(block *types.Block, seed uint64, min uint64, max uint64, result chan<- *types.Block, abort <-chan struct{},
-	isNonceFound *int32, once *sync.Once, hashrate metrics.Meter, log *log.ScdoLog) {
+	isNonceFound *int32, once *sync.Once, detrate metrics.Meter, log *log.ScdoLog) {
 	var nonce = seed
 	var caltimes = int64(0)
 	target := new(big.Float).SetInt(getMiningTarget(block.Header.Difficulty))
@@ -131,7 +131,7 @@ miner:
 		select {
 		case <-abort:
 			logAbort(log)
-			hashrate.Mark(caltimes)
+			detrate.Mark(caltimes)
 			break miner
 
 		default:
@@ -142,7 +142,7 @@ miner:
 
 			caltimes++
 			if caltimes == 0x7FFF {
-				hashrate.Mark(caltimes)
+				detrate.Mark(caltimes)
 				caltimes = 0
 			}
 
