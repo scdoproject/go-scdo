@@ -39,9 +39,22 @@ func (api *TransactionPoolAPI) GetDebtByHash(debtHash string) (map[string]interf
 	if err != nil {
 		return nil, err
 	}
+	debtData := map[string]interface{}{
+		"Account": debt.Data.Account.Hex(),
+		"Amount":  debt.Data.Amount,
+		"Code":    debt.Data.Code,
+		"From":    debt.Data.From.Hex(),
+		"Nonce":   debt.Data.Nonce,
+		"Price":   debt.Data.Price,
+		"TxHash":  debt.Data.TxHash,
+	}
+	debtOutput := map[string]interface{}{
+		"Hash": debt.Hash,
+		"Data": debtData,
+	}
 
 	output := map[string]interface{}{
-		"debt": debt,
+		"debt": debtOutput,
 	}
 
 	if blockIdx == nil {

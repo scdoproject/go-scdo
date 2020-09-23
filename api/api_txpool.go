@@ -88,8 +88,22 @@ func (api *TransactionPoolAPI) GetTransactionByHash(txHash string) (map[string]i
 	}
 
 	debt := types.NewDebtWithContext(tx)
+
 	if debt != nil {
-		output["debt"] = debt
+		debtData := map[string]interface{}{
+			"Account": debt.Data.Account.Hex(),
+			"Amount":  debt.Data.Amount,
+			"Code":    debt.Data.Code,
+			"From":    debt.Data.From.Hex(),
+			"Nonce":   debt.Data.Nonce,
+			"Price":   debt.Data.Price,
+			"TxHash":  debt.Data.TxHash,
+		}
+		debtOutput := map[string]interface{}{
+			"Hash": debt.Hash,
+			"Data": debtData,
+		}
+		output["debt"] = debtOutput
 	}
 
 	if idx == nil {
