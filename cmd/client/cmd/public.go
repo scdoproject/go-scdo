@@ -206,7 +206,23 @@ func onTxAdded(inputs []interface{}, result interface{}) error {
 
 	fmt.Println("transaction sent successfully")
 
-	encoded, err := json.MarshalIndent(tx, "", "\t")
+	txData := map[string]interface{}{
+		"Type":         tx.Data.Type,
+		"From":         tx.Data.From.Hex(),
+		"To":           tx.Data.To.Hex(),
+		"Amount":       tx.Data.Amount,
+		"AccountNonce": tx.Data.AccountNonce,
+		"GasPrice":     tx.Data.GasPrice,
+		"GasLimit":     tx.Data.GasLimit,
+		"Timestamp":    tx.Data.Timestamp,
+		"Payload":      tx.Data.Payload,
+	}
+	txOutput := map[string]interface{}{
+		"Hash":      tx.Hash,
+		"Data":      txData,
+		"Signature": tx.Signature,
+	}
+	encoded, err := json.MarshalIndent(txOutput, "", "\t")
 	if err != nil {
 		return err
 	}
@@ -216,9 +232,23 @@ func onTxAdded(inputs []interface{}, result interface{}) error {
 	// print corresponding debt if exist
 	debt := types.NewDebtWithoutContext(&tx)
 	if debt != nil {
+		debtData := map[string]interface{}{
+			"Account": debt.Data.Account.Hex(),
+			"Amount":  debt.Data.Amount,
+			"Code":    debt.Data.Code,
+			"From":    debt.Data.From.Hex(),
+			"Nonce":   debt.Data.Nonce,
+			"Price":   debt.Data.Price,
+			"TxHash":  debt.Data.TxHash,
+		}
+		debtOutput := map[string]interface{}{
+			"Hash": debt.Hash,
+			"Data": debtData,
+		}
+
 		fmt.Println()
 		fmt.Println("It is a cross shard transaction, its debt is:")
-		str, err := json.MarshalIndent(debt, "", "\t")
+		str, err := json.MarshalIndent(debtOutput, "", "\t")
 		if err != nil {
 			return err
 		}

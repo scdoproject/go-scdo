@@ -173,6 +173,11 @@ miner:
 				})
 				break miner
 			}
+
+			// when nonce reached max, nonce traverses in [min, seed-1]
+			if nonce == max {
+				nonce = min
+			}
 			// outage
 			if nonce == seed-1 {
 				select {
