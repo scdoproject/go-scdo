@@ -87,8 +87,20 @@ func (task *Task) chooseDebts(scdo ScdoBackend, statedb *state.Statedb, log *log
 			break
 		}
 
+		canonicalHeadBlock := scdo.BlockChain().CurrentBlock()
+		preHeader, err := scdo.BlockChain().GetStore().GetBlockHeader(task.header.PreviousBlockHash)
+		if err != nil {
+			return size
+		}
+
+		commonAncestor, err := scdo.BlockChain().FindCommonForkAncestor(preHeader, canonicalHeadBlock.Header)
+		if err != nil {
+			return size
+		}
 		for _, d := range debts {
-			err := scdo.BlockChain().ApplyDebtWithoutVerify(statedb, d, task.coinbase)
+			// err := scdo.BlockChain().ApplyDebtWithoutVerify(statedb, d, task.coinbase)
+			log.Error("debt hash: %v", d.Hash)
+			err := scdo.BlockChain().ApplyDebtWithoutVerify(statedb, d, task.coinbase, preHeader, commonAncestor)
 			if err != nil {
 				log.Debug("apply debt error %s", err)
 				scdo.DebtPool().RemoveDebtByHash(d.Hash)

@@ -353,7 +353,7 @@ func (bc *Blockchain) doWriteBlock(block *types.Block, pool *Pool) error {
 
 	currentTd := new(big.Int).Add(previousTd, block.Header.Difficulty)
 	blockIndex := NewBlockIndex(currentBlock.HeaderHash, currentBlock.Header.Height, currentTd)
-	isHead := true
+	isHead := bc.blockLeaves.IsBestBlockIndex(blockIndex)
 	auditor.Audit("succeed to prepare block index")
 
 	/////////////////////////////////////////////////////////////////
@@ -380,7 +380,7 @@ func (bc *Blockchain) doWriteBlock(block *types.Block, pool *Pool) error {
 		return errors.NewStackedErrorf(err, "failed to save block into store, blockHash = %v, newTD = %v, isNewHead = %v", block.HeaderHash, currentTd, isHead)
 	}
 	auditor.Audit("succeed to save block into store, newHead = %v", isHead)
-
+	//panic(fmt.Sprintf("test"))
 	bc.rp.onPutBlockEnd()
 
 	// If the new block has larger TD, the canonical chain will be changed.
@@ -400,6 +400,7 @@ func (bc *Blockchain) doWriteBlock(block *types.Block, pool *Pool) error {
 	}
 
 	// update block header after meta info updated
+	bc.log.Error("Number of block leaves: %d", bc.blockLeaves.Count())
 	bc.blockLeaves.Add(blockIndex)
 	bc.blockLeaves.Remove(block.Header.PreviousBlockHash)
 	auditor.Audit("succeed to update block index, new = %v, old = %v", blockIndex.blockHash, block.Header.PreviousBlockHash)
@@ -507,9 +508,19 @@ func (bc *Blockchain) applyTxs(block *types.Block, root common.Hash) (*state.Sta
 		}
 	}
 
+	canonicalHeadBlock := bc.CurrentBlock()
+	preHeader, err := bc.GetStore().GetBlockHeader(block.Header.PreviousBlockHash)
+	if err != nil {
+		return nil, nil, errors.NewStackedError(err, "failed to batch previous block header")
+	}
+	commonAncestor, err := bc.FindCommonForkAncestor(preHeader, canonicalHeadBlock.Header)
+	if err != nil {
+		return nil, nil, errors.NewStackedError(err, "failed to find fork ancestor")
+	}
 	// update debts
 	for _, d := range block.Debts {
-		err = bc.ApplyDebtWithoutVerify(statedb, d, block.Header.Creator)
+		// err = bc.ApplyDebtWithoutVerify(statedb, d, block.Header.Creator)
+		err = bc.ApplyDebtWithoutVerify(statedb, d, block.Header.Creator, preHeader, commonAncestor)
 		if err != nil {
 			return nil, nil, errors.NewStackedError(err, "failed to apply debt")
 		}
@@ -588,10 +599,37 @@ func (bc *Blockchain) ApplyTransaction(tx *types.Transaction, txIndex int, coinb
 }
 
 // ApplyDebtWithoutVerify applies a debt and update statedb.
-func (bc *Blockchain) ApplyDebtWithoutVerify(statedb *state.Statedb, d *types.Debt, coinbase common.Address) error {
+func (bc *Blockchain) ApplyDebtWithoutVerify(statedb *state.Statedb, d *types.Debt, coinbase common.Address, blockHeader *types.BlockHeader, commonAncestor uint64) error {
+	// func (bc *Blockchain) ApplyDebtWithoutVerify(statedb *state.Statedb, d *types.Debt, coinbase common.Address) error {
 	debtIndex, _ := bc.bcStore.GetDebtIndex(d.Hash)
 	if debtIndex != nil {
-		return fmt.Errorf("debt already packed, debt hash %s", d.Hash.Hex())
+		// return fmt.Errorf("debt already packed, debt hash %s", d.Hash.Hex())
+		debtBlock, err := bc.bcStore.GetBlock(debtIndex.BlockHash)
+		if err != nil {
+			return err
+		}
+		if debtBlock.Header.Height <= commonAncestor {
+			return fmt.Errorf("debt already packed, debt hash %s", d.Hash.Hex())
+		}
+	}
+
+	// find debt in current fork (after fork height)
+	var blockHash common.Hash
+	blockHash = blockHeader.Hash()
+	blockHeight := blockHeader.Height
+	for blockHeight > commonAncestor {
+		if forkBlock, err := bc.GetStore().GetBlock(blockHash); err != nil {
+			return errors.NewStackedErrorf(err, "failed to get block header by hash %v", blockHash)
+		} else {
+			for _, debt := range forkBlock.Debts {
+				if d.Hash.Equal(debt.Hash) {
+					return fmt.Errorf("debt already packed, debt hash %s", d.Hash.Hex())
+				}
+			}
+			blockHeader = forkBlock.Header
+		}
+		blockHash = blockHeader.PreviousBlockHash
+		blockHeight--
 	}
 
 	if !statedb.Exist(d.Data.Account) {
@@ -810,4 +848,34 @@ func (bc *Blockchain) recoverHeightIndices() {
 		curHeight--
 	}
 	bc.log.Info("Blockchain database checked, chainHeight: %d, numGetBlockByHeight: %d, numGetBlockByHash: %d, numIrrecoverable: %d", chainHeight, numGetBlockByHeight, numGetBlockByHash, numIrrecoverable)
+}
+
+func (bc *Blockchain) FindCommonForkAncestor(forkHeader, canonicalHeader *types.BlockHeader) (uint64, error) {
+	forkHash, canonHash := forkHeader.Hash(), canonicalHeader.Hash()
+	var preHash common.Hash
+	var err error
+
+	for !forkHash.Equal(canonHash) {
+		if forkHeader.Height >= canonicalHeader.Height {
+			// fork chain
+			preHash = forkHeader.PreviousBlockHash
+			if forkHeader, err = bc.GetStore().GetBlockHeader(preHash); err != nil {
+				return 0, errors.NewStackedErrorf(err, "failed to get block header by hash %v", preHash)
+			}
+			forkHash = preHash
+		} else {
+			// canonical chain
+			preHash = canonicalHeader.PreviousBlockHash
+			if canonicalHeader, err = bc.GetStore().GetBlockHeader(preHash); err != nil {
+				return 0, errors.NewStackedErrorf(err, "failed to get block header by hash %v", preHash)
+			}
+			canonHash = preHash
+		}
+	}
+	// get the height of the common ancestor of fork chain and canonical chain
+	if forkHeader, err = bc.GetStore().GetBlockHeader(forkHash); err != nil {
+		return 0, errors.NewStackedErrorf(err, "failed to get block header by hash %v", forkHash)
+	}
+
+	return forkHeader.Height, nil
 }
