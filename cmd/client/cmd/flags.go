@@ -78,6 +78,14 @@ var (
 		Destination: &heightValue,
 	}
 
+	heightPosValue uint64
+	heightPosFlag  = cli.Uint64Flag{
+		Name:        "height",
+		Value:       0,
+		Usage:       "block height, default value is zero",
+		Destination: &heightPosValue,
+	}
+
 	trialValue string
 	trialFlag  = cli.StringFlag{
 		Name:        "trial, t",
