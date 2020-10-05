@@ -415,6 +415,12 @@ func AddCommands(app *cli.App, isFullNode bool) {
 				Flags:  rpcFlags(),
 				Action: rpcAction("miner", "getWork"),
 			},
+			{
+				Name:   "submitwork",
+				Usage:  "submit nonce to the mining task",
+				Flags:  rpcFlags(heightFlag, miningNonceFlag),
+				Action: rpcAction("miner", "submitNonce"),
+			},
 		},
 	}
 

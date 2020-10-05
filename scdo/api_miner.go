@@ -84,11 +84,9 @@ func (api *PrivateMinerAPI) GetCoinbase() (string, error) {
 	return api.s.miner.GetCoinbase().Hex(), nil
 }
 
-// GetTask return the hash of the current block, the seedHash, and the boundary condition to be met (“target”).
 // GetWork get the work needed to done
 func (api *PrivateMinerAPI) GetWork() map[string]interface{} {
 	return api.s.miner.GetWork()
-
 }
 
 func (api *PrivateMinerAPI) GetCurrentWorkHeader() (header *types.BlockHeader) {
@@ -97,5 +95,8 @@ func (api *PrivateMinerAPI) GetCurrentWorkHeader() (header *types.BlockHeader) {
 
 func (api *PrivateMinerAPI) GetTarget() string {
 	return api.s.miner.GetTaskDifficulty().String()
+}
 
+func (api *PrivateMinerAPI) SubmitNonce(height uint64, nonce uint64) error {
+	return api.s.miner.SubmitWork(height, nonce)
 }

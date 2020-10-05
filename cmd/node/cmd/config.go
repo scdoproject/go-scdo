@@ -46,7 +46,7 @@ func Cast(conf *node.Config) {
 }
 
 // LoadConfigFromFile gets node config from the given file
-func LoadConfigFromFile(configFile string, accounts string) (*node.Config, error) {
+func LoadConfigFromFile(configFile string, accounts string, poolAccounts string) (*node.Config, error) {
 	cmdConfig, err := GetConfigFromFile(configFile)
 	if err != nil {
 		return nil, err
@@ -77,6 +77,13 @@ func LoadConfigFromFile(configFile string, accounts string) (*node.Config, error
 		config.ScdoConfig.CoinbasePrivateKey, err = crypto.LoadECDSAFromString(config.BasicConfig.PrivateKey)
 		if err != nil {
 			return config, err
+		}
+	}
+
+	if len(poolAccounts) > 0 {
+		config.ScdoConfig.CoinbaseList, err = LoadPoolAccountConfig(poolAccounts)
+		if err != nil {
+			return nil, err
 		}
 	}
 
@@ -138,5 +145,25 @@ func LoadAccountConfig(account string) (map[common.Address]*big.Int, error) {
 	}
 
 	err = json.Unmarshal(buff, &result)
+	return result, err
+}
+
+func LoadPoolAccountConfig(account string) ([]common.Address, error) {
+	addrMap := make(map[common.Address]*big.Int)
+	var result []common.Address
+	if account == "" {
+		return result, nil
+	}
+
+	buff, err := ioutil.ReadFile(account)
+	if err != nil {
+		return result, err
+	}
+
+	err = json.Unmarshal(buff, &addrMap)
+
+	for addr, _ := range addrMap {
+		result = append(result, addr)
+	}
 	return result, err
 }

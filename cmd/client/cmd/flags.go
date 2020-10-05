@@ -183,6 +183,13 @@ var (
 		Destination: &coinbaseValue,
 	}
 
+	miningNonceValue uint64
+	miningNonceFlag  = cli.Uint64Flag{
+		Name:        "nonce",
+		Usage:       "mining nonce",
+		Destination: &miningNonceValue,
+	}
+
 	indexValue uint
 	indexFlag  = cli.UintFlag{
 		Name:        "index",

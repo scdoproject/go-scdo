@@ -101,6 +101,8 @@ type ScdoConfig struct {
 
 	CoinbasePrivateKey *ecdsa.PrivateKey
 
+	CoinbaseList []common.Address
+
 	GenesisConfig core.GenesisInfo
 }
 
