@@ -7,12 +7,12 @@
 | **Sharding**           | 4 shards, transactions within the same shard and between different shards are supported<br/> higher transaction fee for cross-shard transaction                                  |
 | **Smart Contracts**    | smart contracts are supported within the same shard                                          |
 | **Scdo Wallet**       | easy-to-use wallet                                                                             |
-| **High TPS**           | same shard TPS: 500/shard, cross shard TPS: 12/shard                                           |
+| **High TPS**           | same shard TPS: 250/shard, cross shard TPS: 6/shard                                           |
 | **Auditable Supply**   | total supply: 300,000,000 Scdos, all from mining                              |
 | **Consensus Algorithm**| ZPOW algorithm                                                |
 | **Mining Reward**      | 3150000 blocks/era and block reward at each era follows [6, 4, 3, 2.5, 2, 2, 1.5, 1.5] order until reaches the last reward of 1.5 Scdos |
 | **Transaction Fee**    | self-customized transaction fee, higher fee for cross-shard transaction                        |
-| **Block**              | 100 KB block size, 10 seconds block time, ~6000 transactions per block                         |
+| **Block**              | 100 KB block size, 20 seconds block time, ~6000 transactions per block                         |
 
 
 The official Golang implementation of Scdo. Scdo is an open source blockchain project which consists of advanced sharding technology, innovative ZPoW consensus algorithm and scalable subchain protocol. [https://scdo.pro](https://scdo.pro)
