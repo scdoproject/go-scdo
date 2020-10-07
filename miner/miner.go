@@ -376,13 +376,13 @@ func (miner *Miner) GetWorkTask() *Task {
 	return miner.current
 }
 
-func (miner *Miner) GetCurrentWorkHeader() (header *types.BlockHeader) {
+func (miner *Miner) GetCurrentWorkHeader() map[string]interface{} {
 	task := miner.GetWorkTask()
 	if task == nil {
 		miner.log.Info("there is no task so far")
 		return nil
 	}
-	return task.header
+	return PrintableOutputTaskHeader(task.header)
 }
 
 func (miner *Miner) SubmitWork(height uint64, nonce uint64) error {

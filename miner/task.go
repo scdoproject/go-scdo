@@ -190,3 +190,11 @@ func PrintableOutputTask(task *Task) map[string]interface{} {
 	}
 	return result
 }
+
+func PrintableOutputTaskHeader(header *types.BlockHeader) map[string]interface{} {
+
+	result := map[string]interface{}{
+		"header": header,
+	}
+	return result
+}
