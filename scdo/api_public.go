@@ -220,3 +220,16 @@ func (api *PublicScdoAPI) GetShardNum(account common.Address) (uint, error) {
 		return 0, err
 	}
 }
+
+// GetWork get the work needed to be done
+func (api *PublicScdoAPI) GetWork() map[string]interface{} {
+	return api.s.miner.GetWork()
+}
+
+func (api *PublicScdoAPI) GetCurrentWorkHeader() map[string]interface{} {
+	return api.s.miner.GetCurrentWorkHeader()
+}
+
+func (api *PublicScdoAPI) SubmitNonce(height uint64, nonce uint64) error {
+	return api.s.miner.SubmitWork(height, nonce)
+}

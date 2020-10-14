@@ -10,7 +10,6 @@ import (
 	"fmt"
 
 	"github.com/scdoproject/go-scdo/common"
-	"github.com/scdoproject/go-scdo/core/types"
 	"github.com/scdoproject/go-scdo/miner"
 )
 
@@ -84,18 +83,6 @@ func (api *PrivateMinerAPI) GetCoinbase() (string, error) {
 	return api.s.miner.GetCoinbase().Hex(), nil
 }
 
-// GetTask return the hash of the current block, the seedHash, and the boundary condition to be met (“target”).
-// GetWork get the work needed to done
-func (api *PrivateMinerAPI) GetWork() map[string]interface{} {
-	return api.s.miner.GetWork()
-
-}
-
-func (api *PrivateMinerAPI) GetCurrentWorkHeader() (header *types.BlockHeader) {
-	return api.s.miner.GetCurrentWorkHeader()
-}
-
 func (api *PrivateMinerAPI) GetTarget() string {
 	return api.s.miner.GetTaskDifficulty().String()
-
 }

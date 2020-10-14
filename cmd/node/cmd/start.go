@@ -37,8 +37,10 @@ var (
 	miner              string
 	metricsEnableFlag  bool
 	accountsConfig     string
+	poolAccountsConfig string
 	threads            int
 	startHeight        int
+	isPoolMode         bool
 
 	// default is full node
 	lightNode bool
@@ -63,7 +65,7 @@ var startCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		var wg sync.WaitGroup
-		nCfg, err := LoadConfigFromFile(scdoNodeConfigFile, accountsConfig)
+		nCfg, err := LoadConfigFromFile(scdoNodeConfigFile, accountsConfig, poolAccountsConfig)
 		if err != nil {
 			fmt.Printf("failed to reading the config file: %s\n", err.Error())
 			return
@@ -140,7 +142,7 @@ var startCmd = &cobra.Command{
 			}
 
 			// fullnode mode
-			scdoService, err := scdo.NewScdoService(ctx, nCfg, scdolog, engine, manager, startHeight)
+			scdoService, err := scdo.NewScdoService(ctx, nCfg, scdolog, engine, manager, startHeight, isPoolMode)
 			if err != nil {
 				fmt.Println(err.Error())
 				return
@@ -223,12 +225,15 @@ func init() {
 	startCmd.Flags().StringVarP(&miner, "miner", "m", "start", "miner start or not, [start, stop]")
 	startCmd.Flags().BoolVarP(&metricsEnableFlag, "metrics", "t", false, "start metrics")
 	startCmd.Flags().StringVarP(&accountsConfig, "accounts", "", "", "init accounts info")
+	startCmd.Flags().StringVarP(&poolAccountsConfig, "poolaccounts", "", "", "init pool accounts")
 	startCmd.Flags().IntVarP(&threads, "threads", "", 1, "miner thread value")
 	startCmd.Flags().BoolVarP(&lightNode, "light", "l", false, "whether start with light mode")
 	startCmd.Flags().Uint64VarP(&pprofPort, "port", "", 0, "which port pprof http server listen to")
 	startCmd.Flags().IntVarP(&startHeight, "startheight", "", -1, "the block height to start from")
 	startCmd.Flags().IntVarP(&maxConns, "maxConns", "", 0, "node max connections")
 	startCmd.Flags().IntVarP(&maxActiveConns, "maxActiveConns", "", 0, "node max active connections")
+	startCmd.Flags().BoolVarP(&isPoolMode, "pool", "", false, "pool mode")
+
 }
 
 func monitorPC() {

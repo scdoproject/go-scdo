@@ -9,6 +9,8 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"math/rand"
+	"strconv"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -48,6 +50,7 @@ type Miner struct {
 	canStart int32
 	stopped  int32
 	stopper  int32 // manually stop miner
+	poolMode bool
 	wg       sync.WaitGroup
 	stopChan chan struct{}
 	current  *Task
@@ -59,20 +62,23 @@ type Miner struct {
 	isFirstDownloader    int32
 	isFirstBlockPrepared int32
 
-	coinbase common.Address
-	engine   consensus.Engine
+	coinbase     common.Address
+	coinbaseList []common.Address
+	engine       consensus.Engine
 
 	debtVerifier types.DebtVerifier
 	msgChan      chan bool // use msgChan to receive msg setting miner to start or stop, and miner will deal with these msgs sequentially
 }
 
 // NewMiner constructs and returns a miner instance
-func NewMiner(addr common.Address, scdo ScdoBackend, verifier types.DebtVerifier, engine consensus.Engine) *Miner {
+func NewMiner(addr common.Address, addrList []common.Address, scdo ScdoBackend, verifier types.DebtVerifier, engine consensus.Engine, isPoolMode bool) *Miner {
 	miner := &Miner{
 		coinbase:             addr,
-		canStart:             1, // used with downloader, canStart is 0 when downloading
-		stopped:              0, // indicate miner status (0/1), opposite to Miner.mining
-		stopper:              0, // indicate where miner could start or not. If stopper is 1, miner won't do mining
+		coinbaseList:         addrList,   // for pool mode
+		canStart:             1,          // used with downloader, canStart is 0 when downloading
+		stopped:              0,          // indicate miner status (0/1), opposite to Miner.mining
+		stopper:              0,          // indicate where miner could start or not. If stopper is 1, miner won't do mining
+		poolMode:             isPoolMode, // whether miner is in pool mode
 		scdo:                 scdo,
 		wg:                   sync.WaitGroup{},
 		recv:                 make(chan *types.Block, 1),
@@ -312,15 +318,26 @@ func (miner *Miner) prepareNewBlock(recv chan *types.Block) error {
 		return fmt.Errorf("failed to prepare header, %s", err)
 	}
 
+	if miner.poolMode {
+		// pool mining mode
+		miner.chooseCoinBase()
+		header.Creator = miner.coinbase
+	}
+
 	miner.current = NewTask(header, miner.coinbase, miner.debtVerifier)
 	err = miner.current.applyTransactionsAndDebts(miner.scdo, stateDB, miner.scdo.BlockChain().AccountDB(), miner.log)
 	if err != nil {
 		return fmt.Errorf("failed to apply transaction %s", err)
 	}
 
-	miner.log.Info("committing a new task to engine, height:%d, difficult:%d", header.Height, header.Difficulty)
-	miner.commitTask(miner.current, recv)
-
+	if miner.poolMode {
+		miner.log.Info("create a new task for the pool, height:%d, difficult:%d", header.Height, header.Difficulty)
+		preBlock := miner.current.generateBlock()
+		miner.current.header = preBlock.Header.Clone()
+	} else {
+		miner.log.Info("committing a new task to engine, height:%d, difficult:%d", header.Height, header.Difficulty)
+		miner.commitTask(miner.current, recv)
+	}
 	return nil
 }
 
@@ -358,11 +375,41 @@ func (miner *Miner) GetWork() map[string]interface{} {
 func (miner *Miner) GetWorkTask() *Task {
 	return miner.current
 }
-func (miner *Miner) GetCurrentWorkHeader() (header *types.BlockHeader) {
-	return miner.GetWorkTask().header
+
+func (miner *Miner) GetCurrentWorkHeader() map[string]interface{} {
+	task := miner.GetWorkTask()
+	if task == nil {
+		miner.log.Info("there is no task so far")
+		return nil
+	}
+	return PrintableOutputTaskHeader(task.header)
 }
 
-// func (miner *Miner) CommitWork()()
+func (miner *Miner) SubmitWork(height uint64, nonce uint64) error {
+
+	// validate nonce based on miner.current
+	// If valid, create a block and pass it into miner.recv
+	if miner.current == nil {
+		return errors.New("there is no task so far")
+	}
+
+	if miner.current.header.Height != height {
+		return errors.New("Height not match")
+	}
+
+	taskHeader := miner.current.header.Clone()
+	taskHeader.Witness = []byte(strconv.FormatUint(nonce, 10))
+
+	err := miner.engine.VerifyHeader(miner.scdo.BlockChain(), taskHeader)
+	if err != nil {
+		return err
+	}
+	miner.current.header.Witness = taskHeader.Witness
+	block := miner.current.generateBlock()
+	miner.recv <- block
+	return nil
+
+}
 
 // func (miner *Miner) GetMiningTarget() {
 // 	df := miner.scdo.BlockChain().CurrentBlock().Header.Difficulty
@@ -370,10 +417,22 @@ func (miner *Miner) GetCurrentWorkHeader() (header *types.BlockHeader) {
 // }
 
 func (miner *Miner) GetTaskDifficulty() *big.Int {
+
+	if miner.current == nil {
+		miner.log.Info("there is no task so far")
+		return nil
+	}
 	difficulty := miner.current.header.Difficulty
 	if difficulty == nil {
 		return nil
 	}
 	return difficulty
+}
 
+func (miner *Miner) chooseCoinBase() {
+	if len(miner.coinbaseList) == 0 {
+		return
+	}
+	index := rand.Intn(len(miner.coinbaseList))
+	miner.coinbase = miner.coinbaseList[index]
 }

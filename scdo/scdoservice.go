@@ -92,7 +92,7 @@ func (s *ScdoService) Downloader() *downloader.Downloader {
 func (s *ScdoService) P2PServer() *p2p.Server { return s.p2pServer }
 
 // NewScdoService create ScdoService
-func NewScdoService(ctx context.Context, conf *node.Config, log *log.ScdoLog, engine consensus.Engine, verifier types.DebtVerifier, startHeight int) (s *ScdoService, err error) {
+func NewScdoService(ctx context.Context, conf *node.Config, log *log.ScdoLog, engine consensus.Engine, verifier types.DebtVerifier, startHeight int, isPoolMode bool) (s *ScdoService, err error) {
 	s = &ScdoService{
 		log:          log,
 		networkID:    conf.P2PConfig.NetworkID,
@@ -119,7 +119,7 @@ func NewScdoService(ctx context.Context, conf *node.Config, log *log.ScdoLog, en
 		return nil, err
 	}
 
-	s.miner = miner.NewMiner(conf.ScdoConfig.Coinbase, s, s.debtVerifier, engine)
+	s.miner = miner.NewMiner(conf.ScdoConfig.Coinbase, conf.ScdoConfig.CoinbaseList, s, s.debtVerifier, engine, isPoolMode)
 
 	// initialize and validate genesis
 	if err = s.initGenesisAndChain(&serviceContext, conf, startHeight); err != nil {
