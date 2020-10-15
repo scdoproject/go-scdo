@@ -324,6 +324,12 @@ func (miner *Miner) prepareNewBlock(recv chan *types.Block) error {
 		header.Creator = miner.coinbase
 	}
 
+	if common.IsShardEnabled() {
+		if coinbaseShardNum := miner.coinbase.Shard(); coinbaseShardNum != common.LocalShardNumber {
+			return fmt.Errorf("invalid coinbase, shard number is [%v], but local shard number is [%v]", coinbaseShardNum, common.LocalShardNumber)
+		}
+	}
+
 	miner.current = NewTask(header, miner.coinbase, miner.debtVerifier)
 	err = miner.current.applyTransactionsAndDebts(miner.scdo, stateDB, miner.scdo.BlockChain().AccountDB(), miner.log)
 	if err != nil {
