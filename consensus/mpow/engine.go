@@ -141,7 +141,7 @@ miner:
 			}
 
 			caltimes++
-			detrate.Mark(caltimes)
+			detrate.Mark(1)
 			if caltimes == 0X7FFFFFFFFFFFFFFF {
 				caltimes = 0
 			}
