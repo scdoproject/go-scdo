@@ -412,6 +412,7 @@ func (miner *Miner) SubmitWork(height uint64, nonce uint64) error {
 	}
 	miner.current.header.Witness = taskHeader.Witness
 	block := miner.current.generateBlock()
+	miner.current = nil
 	miner.recv <- block
 	return nil
 
