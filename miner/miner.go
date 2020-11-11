@@ -324,6 +324,12 @@ func (miner *Miner) prepareNewBlock(recv chan *types.Block) error {
 		header.Creator = miner.coinbase
 	}
 
+	if common.IsShardEnabled() {
+		if coinbaseShardNum := miner.coinbase.Shard(); coinbaseShardNum != common.LocalShardNumber {
+			return fmt.Errorf("invalid coinbase, shard number is [%v], but local shard number is [%v]", coinbaseShardNum, common.LocalShardNumber)
+		}
+	}
+
 	miner.current = NewTask(header, miner.coinbase, miner.debtVerifier)
 	err = miner.current.applyTransactionsAndDebts(miner.scdo, stateDB, miner.scdo.BlockChain().AccountDB(), miner.log)
 	if err != nil {
@@ -376,13 +382,13 @@ func (miner *Miner) GetWorkTask() *Task {
 	return miner.current
 }
 
-func (miner *Miner) GetCurrentWorkHeader() (header *types.BlockHeader) {
+func (miner *Miner) GetCurrentWorkHeader() map[string]interface{} {
 	task := miner.GetWorkTask()
 	if task == nil {
 		miner.log.Info("there is no task so far")
 		return nil
 	}
-	return task.header
+	return PrintableOutputTaskHeader(task.header)
 }
 
 func (miner *Miner) SubmitWork(height uint64, nonce uint64) error {
@@ -406,6 +412,7 @@ func (miner *Miner) SubmitWork(height uint64, nonce uint64) error {
 	}
 	miner.current.header.Witness = taskHeader.Witness
 	block := miner.current.generateBlock()
+	miner.current = nil
 	miner.recv <- block
 	return nil
 

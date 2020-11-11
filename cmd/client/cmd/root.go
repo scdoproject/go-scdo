@@ -413,13 +413,19 @@ func AddCommands(app *cli.App, isFullNode bool) {
 				Name:   "getwork",
 				Usage:  "get miner current mining task",
 				Flags:  rpcFlags(),
-				Action: rpcAction("miner", "getWork"),
+				Action: rpcAction("scdo", "getWork"),
+			},
+			{
+				Name:   "getworkheader",
+				Usage:  "get the header of current mining task",
+				Flags:  rpcFlags(),
+				Action: rpcAction("scdo", "getCurrentWorkHeader"),
 			},
 			{
 				Name:   "submitwork",
 				Usage:  "submit nonce to the mining task",
 				Flags:  rpcFlags(heightPosFlag, miningNonceFlag),
-				Action: rpcAction("miner", "submitNonce"),
+				Action: rpcAction("scdo", "submitNonce"),
 			},
 		},
 	}
