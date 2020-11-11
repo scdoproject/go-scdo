@@ -380,7 +380,6 @@ func (bc *Blockchain) doWriteBlock(block *types.Block, pool *Pool) error {
 		return errors.NewStackedErrorf(err, "failed to save block into store, blockHash = %v, newTD = %v, isNewHead = %v", block.HeaderHash, currentTd, isHead)
 	}
 	auditor.Audit("succeed to save block into store, newHead = %v", isHead)
-	//panic(fmt.Sprintf("test"))
 	bc.rp.onPutBlockEnd()
 
 	// If the new block has larger TD, the canonical chain will be changed.
@@ -400,7 +399,7 @@ func (bc *Blockchain) doWriteBlock(block *types.Block, pool *Pool) error {
 	}
 
 	// update block header after meta info updated
-	bc.log.Error("Number of block leaves: %d", bc.blockLeaves.Count())
+	bc.log.Debug("Number of block leaves: %d", bc.blockLeaves.Count())
 	bc.blockLeaves.Add(blockIndex)
 	bc.blockLeaves.Remove(block.Header.PreviousBlockHash)
 	auditor.Audit("succeed to update block index, new = %v, old = %v", blockIndex.blockHash, block.Header.PreviousBlockHash)
@@ -519,7 +518,6 @@ func (bc *Blockchain) applyTxs(block *types.Block, root common.Hash) (*state.Sta
 	}
 	// update debts
 	for _, d := range block.Debts {
-		// err = bc.ApplyDebtWithoutVerify(statedb, d, block.Header.Creator)
 		err = bc.ApplyDebtWithoutVerify(statedb, d, block.Header.Creator, preHeader, commonAncestor)
 		if err != nil {
 			return nil, nil, errors.NewStackedError(err, "failed to apply debt")
@@ -600,10 +598,8 @@ func (bc *Blockchain) ApplyTransaction(tx *types.Transaction, txIndex int, coinb
 
 // ApplyDebtWithoutVerify applies a debt and update statedb.
 func (bc *Blockchain) ApplyDebtWithoutVerify(statedb *state.Statedb, d *types.Debt, coinbase common.Address, blockHeader *types.BlockHeader, commonAncestor uint64) error {
-	// func (bc *Blockchain) ApplyDebtWithoutVerify(statedb *state.Statedb, d *types.Debt, coinbase common.Address) error {
 	debtIndex, _ := bc.bcStore.GetDebtIndex(d.Hash)
 	if debtIndex != nil {
-		// return fmt.Errorf("debt already packed, debt hash %s", d.Hash.Hex())
 		debtBlock, err := bc.bcStore.GetBlock(debtIndex.BlockHash)
 		if err != nil {
 			return err

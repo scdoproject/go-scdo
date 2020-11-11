@@ -98,8 +98,7 @@ func (task *Task) chooseDebts(scdo ScdoBackend, statedb *state.Statedb, log *log
 			return size
 		}
 		for _, d := range debts {
-			// err := scdo.BlockChain().ApplyDebtWithoutVerify(statedb, d, task.coinbase)
-			log.Error("debt hash: %v", d.Hash)
+			log.Debug("debt hash: %v", d.Hash)
 			err := scdo.BlockChain().ApplyDebtWithoutVerify(statedb, d, task.coinbase, preHeader, commonAncestor)
 			if err != nil {
 				log.Debug("apply debt error %s", err)
