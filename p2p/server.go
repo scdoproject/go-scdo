@@ -775,6 +775,13 @@ func (srv *Server) packWrapHSMsg(handshakeMsg *ProtoHandShake, peerNodeID []byte
 
 // unPackWrapHSMsg verify received msg, and recover the handshake msg
 func (srv *Server) unPackWrapHSMsg(recvWrapMsg *Message) (recvMsg *ProtoHandShake, nounceCnt uint64, err error) {
+	defer func(){
+		if err:=recover();err!=nil{
+			srv.log.Error("recover from unPackWrapHSMsg panic:%s",err)
+			srv.log.Debug("invalid message payload:%s",recvWrapMsg.Payload)
+			return
+		}
+	}()
 	size := uint32(len(recvWrapMsg.Payload))
 	if size < extraDataLen+4 {
 		err = errors.New("received msg with invalid length")
