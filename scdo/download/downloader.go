@@ -93,7 +93,7 @@ type Downloader struct {
 	syncStatus int
 	tm         *taskMgr
 
-	scdo     ScdoBackend
+	scdo      ScdoBackend
 	chain     *core.Blockchain
 	sessionWG sync.WaitGroup
 	log       *log.ScdoLog
@@ -123,7 +123,7 @@ func NewDownloader(chain *core.Blockchain, scdo ScdoBackend) *Downloader {
 	d := &Downloader{
 		cancelCh:   make(chan struct{}),
 		peers:      make(map[string]*peerConn),
-		scdo:      scdo,
+		scdo:       scdo,
 		chain:      chain,
 		syncStatus: statusNone,
 	}
@@ -237,15 +237,9 @@ func (d *Downloader) doSynchronise(conn *peerConn, head common.Hash) (err error)
 		conn.peer.DisconnectPeer("peerDownload anormaly")
 		return err
 	}
-	d.log.Debug("find ancestor at  %d reverseBCstore", ancestor)
-	localHeight, localTD, localBlocks, err := d.reverseBCstore(ancestor)
-	d.log.Debug("reverse to ancestor %d localHeight %d backup %d localBlocks", ancestor, localHeight, len(localBlocks))
-	if err != nil {
-		return err
-	}
 
 	d.log.Debug("Downloader.doSynchronise start task manager from height=%d, target height=%d master=%s", ancestor, height, d.masterPeer)
-	tm := newTaskMgr(d, d.masterPeer, conn, ancestor+1, height, localHeight, localTD, localBlocks)
+	tm := newTaskMgr(d, d.masterPeer, conn, ancestor+1, height, 0, nil, nil)
 	d.tm = tm
 
 	bMasterStarted := false
@@ -595,25 +589,7 @@ func (d *Downloader) processBlocks(headInfos []*downloadInfo, ancestor uint64, l
 			// if writeblock fails in the middle (the whole process not successfully completed), then we need to consider write back our localblocks
 			// if localblock totaldifficult is larger than the break point's one. It means this sync attempt should be abonded
 			// get local block
-			bcStore := d.chain.GetStore()
-			currentBlock := d.chain.CurrentBlock()
-			currentTD, errTD := bcStore.GetBlockTotalDifficulty(currentBlock.HeaderHash)
-			d.log.Debug("localTD %d currenTD %d\n", localTD, currentTD)
-			d.log.Debug("localHeight(%d)> h.block.Header.Height-1(%d)? %t\n", localHeight, h.block.Header.Height-1, localHeight > h.block.Header.Height-1)
-			if errTD != nil || localTD.Cmp(currentTD) > 0 { // should abandon this sync!
-				d.log.Info("abandon sync and start to reverse bcstore to ancestor=%d without saving localblocks", ancestor)
-				_, _, _, err = d.reverseBCstore(ancestor)
-				if err != nil {
-					d.log.Error("failed to reverse synced blocks err=%s", err)
-				}
-				for _, localBlock := range localBlocks {
-					d.log.Info("write back local blocks: %d", localBlock.Header.Height)
-					if err = d.chain.WriteBlock(localBlock, txPool); err != nil {
-						d.log.Error("failed to write localBlock back err=%s, height: %d", err, localBlock.Header.Height)
-						break
-					}
-				}
-			}
+
 			if errors.IsOrContains(err, consensus.ErrBlockNonceInvalid) || errors.IsOrContains(err, consensus.ErrBlockDifficultInvalid) {
 				conn.peer.DisconnectPeer("peerDownload anormaly")
 			}
