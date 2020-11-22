@@ -3,10 +3,10 @@
 *  @copyright defined in scdo/LICENSE
  */
 
-package mpow
+package zpow
 
 type API struct {
-	engine *MpowEngine
+	engine *ZpowEngine
 }
 
 // GetDetrate returns the current detrate for local CPU miner and remote miner.

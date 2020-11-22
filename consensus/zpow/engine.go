@@ -3,7 +3,7 @@
 *  @copyright defined in scdo/LICENSE
  */
 
-package mpow
+package zpow
 
 import (
 	"encoding/binary"
@@ -34,24 +34,24 @@ var (
 	multiplier  = big.NewInt(3000000000)
 )
 
-// Engine provides the consensus operations based on MPOW.
-type MpowEngine struct {
+// Engine provides the consensus operations based on ZPOW.
+type ZpowEngine struct {
 	threads int
 	log     *log.ScdoLog
 	detrate metrics.Meter
 	lock    sync.Mutex
 }
 
-func NewMpowEngine(threads int) *MpowEngine {
+func NewZpowEngine(threads int) *ZpowEngine {
 
-	return &MpowEngine{
+	return &ZpowEngine{
 		threads: threads,
-		log:     log.GetLogger("mpow_engine"),
+		log:     log.GetLogger("zpow_engine"),
 		detrate: metrics.NewMeter(),
 	}
 }
 
-func (engine *MpowEngine) SetThreads(threads int) {
+func (engine *ZpowEngine) SetThreads(threads int) {
 	if threads <= 0 {
 		engine.threads = runtime.NumCPU()
 	} else {
@@ -59,7 +59,7 @@ func (engine *MpowEngine) SetThreads(threads int) {
 	}
 }
 
-func (engine *MpowEngine) APIs(chain consensus.ChainReader) []rpc.API {
+func (engine *ZpowEngine) APIs(chain consensus.ChainReader) []rpc.API {
 	return []rpc.API{
 		{
 			Namespace: "miner",
@@ -70,7 +70,7 @@ func (engine *MpowEngine) APIs(chain consensus.ChainReader) []rpc.API {
 	}
 }
 
-func (engine *MpowEngine) Prepare(reader consensus.ChainReader, header *types.BlockHeader) error {
+func (engine *ZpowEngine) Prepare(reader consensus.ChainReader, header *types.BlockHeader) error {
 	parent := reader.GetHeaderByHash(header.PreviousBlockHash)
 	if parent == nil {
 		return consensus.ErrBlockInvalidParentHash
@@ -81,7 +81,7 @@ func (engine *MpowEngine) Prepare(reader consensus.ChainReader, header *types.Bl
 	return nil
 }
 
-func (engine *MpowEngine) Seal(reader consensus.ChainReader, block *types.Block, stop <-chan struct{}, results chan<- *types.Block) error {
+func (engine *ZpowEngine) Seal(reader consensus.ChainReader, block *types.Block, stop <-chan struct{}, results chan<- *types.Block) error {
 	threads := engine.threads
 
 	var step uint64
@@ -118,7 +118,7 @@ func (engine *MpowEngine) Seal(reader consensus.ChainReader, block *types.Block,
 	return nil
 }
 
-func (engine *MpowEngine) StartMining(block *types.Block, seed uint64, min uint64, max uint64, result chan<- *types.Block, abort <-chan struct{},
+func (engine *ZpowEngine) StartMining(block *types.Block, seed uint64, min uint64, max uint64, result chan<- *types.Block, abort <-chan struct{},
 	isNonceFound *int32, once *sync.Once, detrate metrics.Meter, log *log.ScdoLog) {
 	var nonce = seed
 	var caltimes = int64(0)
@@ -195,7 +195,7 @@ miner:
 }
 
 // ValidateHeader validates the specified header and returns error if validation failed.
-func (engine *MpowEngine) VerifyHeader(reader consensus.ChainReader, header *types.BlockHeader) error {
+func (engine *ZpowEngine) VerifyHeader(reader consensus.ChainReader, header *types.BlockHeader) error {
 	parent := reader.GetHeaderByHash(header.PreviousBlockHash)
 	if parent == nil {
 		engine.log.Info("invalid parent hash: %v", header.PreviousBlockHash)
@@ -214,7 +214,7 @@ func (engine *MpowEngine) VerifyHeader(reader consensus.ChainReader, header *typ
 }
 
 // block verification
-func (engine *MpowEngine) verifyTarget(header *types.BlockHeader) error {
+func (engine *ZpowEngine) verifyTarget(header *types.BlockHeader) error {
 	dim := matrixDim
 	NewHeader := header.Clone()
 	hash := NewHeader.Hash()

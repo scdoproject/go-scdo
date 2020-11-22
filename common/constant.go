@@ -66,8 +66,8 @@ const (
 	// Sha256Algorithm miner algorithm sha256
 	Sha256Algorithm = "sha256"
 
-	// mpow miner algorithm
-	MpowAlgorithm = "mpow"
+	// zpow miner algorithm
+	ZpowAlgorithm = "zpow"
 
 	// BFT mineralgorithm
 	BFTEngine = "bft"
