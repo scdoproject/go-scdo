@@ -16,8 +16,8 @@ import (
 	"github.com/scdoproject/go-scdo/consensus/ethash"
 	"github.com/scdoproject/go-scdo/consensus/istanbul"
 	"github.com/scdoproject/go-scdo/consensus/istanbul/backend"
-	"github.com/scdoproject/go-scdo/consensus/mpow"
 	"github.com/scdoproject/go-scdo/consensus/pow"
+	"github.com/scdoproject/go-scdo/consensus/zpow"
 	"github.com/scdoproject/go-scdo/database/leveldb"
 )
 
@@ -29,8 +29,8 @@ func GetConsensusEngine(minerAlgorithm string) (consensus.Engine, error) {
 		minerEngine = ethash.New(ethash.GetDefaultConfig(), nil, false)
 	} else if minerAlgorithm == common.Sha256Algorithm {
 		minerEngine = pow.NewEngine(1)
-	} else if minerAlgorithm == common.MpowAlgorithm {
-		minerEngine = mpow.NewMpowEngine(1)
+	} else if minerAlgorithm == common.ZpowAlgorithm {
+		minerEngine = zpow.NewZpowEngine(1)
 	} else {
 		return nil, fmt.Errorf("unknown miner algorithm")
 	}
