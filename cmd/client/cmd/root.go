@@ -33,6 +33,12 @@ func AddCommands(app *cli.App, isFullNode bool) {
 			Action: rpcAction("scdo", "getAccountNonce"),
 		},
 		{
+			Name:   "getchangedaccounts",
+			Usage:  "get accounts that are modified",
+			Flags:  rpcFlags(hashFlag, heightFlag),
+			Action: rpcAction("scdo", "getChangedAccounts"),
+		},
+		{
 			Name:   "getblockheight",
 			Usage:  "get block height",
 			Flags:  rpcFlags(),

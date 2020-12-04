@@ -70,6 +70,12 @@ type BlockchainStore interface {
 	// GetReceiptByTxHash retrieves the receipt for the specified tx hash.
 	GetReceiptByTxHash(txHash common.Hash) (*types.Receipt, error)
 
+	// PutDirtyAccounts serializes given dirty accounts for the specified block hash.
+	PutDirtyAccounts(hash common.Hash, accounts []common.Address) error
+
+	// GetDirtyAccountsByBlockHash retrieves the receipts for the specified block hash.
+	GetDirtyAccountsByBlockHash(hash common.Hash) ([]common.Address, error)
+
 	// AddIndices addes tx/debt indices for the specified block.
 	AddIndices(block *types.Block) error
 

@@ -87,6 +87,38 @@ func (api *PublicScdoAPI) getStatedb(hexHash string, height int64) (*state.State
 	return api.s.ChainBackend().GetState(header.StateHash)
 }
 
+func (api *PublicScdoAPI) GetChangedAccounts(hexHash string, height int64) (map[string]interface{}, error) {
+
+	var blockHash common.Hash
+	var err error
+
+	if len(hexHash) > 0 {
+		if blockHash, err = common.HexToHash(hexHash); err != nil {
+			return nil, errors.NewStackedError(err, "failed to convert HEX to hash")
+		}
+	} else if height < 0 {
+		return nil, errors.New("negative height")
+	} else if blockHash, err = api.s.ChainBackend().GetStore().GetBlockHash(uint64(height)); err != nil {
+		return nil, errors.NewStackedErrorf(err, "failed to get block hash by height %v", height)
+	}
+
+	accounts, err := api.s.ChainBackend().GetStore().GetDirtyAccountsByBlockHash(blockHash)
+	if err != nil {
+		return nil, err
+	}
+
+	var accountStrs []string
+	for _, acc := range accounts {
+		accountStrs = append(accountStrs, acc.Hex())
+	}
+
+	return map[string]interface{}{
+		"blockHash":     blockHash,
+		"account count": len(accounts),
+		"accounts":      accountStrs,
+	}, nil
+}
+
 // GetAccountNonce get account next used nonce
 func (api *PublicScdoAPI) GetAccountNonce(account common.Address, hexHash string, height int64) (uint64, error) {
 	if account.Equal(common.EmptyAddress) {

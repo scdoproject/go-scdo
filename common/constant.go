@@ -24,7 +24,7 @@ const (
 	ScdoVersion uint = 1
 
 	// ScdoNodeVersion for simpler display
-	ScdoNodeVersion string = "Scdo_V1.0.0"
+	ScdoNodeVersion string = "Scdo_V1.0.1"
 
 	// ShardCount represents the total number of shards.
 	ShardCount = 4
