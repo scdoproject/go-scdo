@@ -413,3 +413,14 @@ func (s *Statedb) GetRefund() uint64 {
 func (s *Statedb) Trie() Trie {
 	return s.trie
 }
+
+// GetDirtyAccounts returns the accounts modified in this statedb
+func (s *Statedb) GetDirtyAccounts() []common.Address {
+	var addresses []common.Address
+
+	for addr, _ := range s.stateObjects {
+		addresses = append(addresses, addr)
+	}
+
+	return addresses
+}

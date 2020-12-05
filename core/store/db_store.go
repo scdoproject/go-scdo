@@ -19,13 +19,14 @@ import (
 var (
 	keyHeadBlockHash = []byte("HeadBlockHash")
 
-	keyPrefixHash      = []byte("H")
-	keyPrefixHeader    = []byte("h")
-	keyPrefixTD        = []byte("t")
-	keyPrefixBody      = []byte("b")
-	keyPrefixReceipts  = []byte("r")
-	keyPrefixTxIndex   = []byte("i")
-	keyPrefixDebtIndex = []byte("d")
+	keyPrefixHash          = []byte("H")
+	keyPrefixHeader        = []byte("h")
+	keyPrefixTD            = []byte("t")
+	keyPrefixBody          = []byte("b")
+	keyPrefixReceipts      = []byte("r")
+	keyPrefixDirtyAccounts = []byte("D")
+	keyPrefixTxIndex       = []byte("i")
+	keyPrefixDebtIndex     = []byte("d")
 )
 
 // blockBody represents the payload of a block
@@ -57,6 +58,7 @@ func hashToHeaderKey(hash []byte) []byte        { return append(keyPrefixHeader,
 func hashToTDKey(hash []byte) []byte            { return append(keyPrefixTD, hash...) }
 func hashToBodyKey(hash []byte) []byte          { return append(keyPrefixBody, hash...) }
 func hashToReceiptsKey(hash []byte) []byte      { return append(keyPrefixReceipts, hash...) }
+func hashToDirtyAccountsKey(hash []byte) []byte { return append(keyPrefixDirtyAccounts, hash...) }
 func txHashToIndexKey(txHash []byte) []byte     { return append(keyPrefixTxIndex, txHash...) }
 func debtHashToIndexKey(debtHash []byte) []byte { return append(keyPrefixDebtIndex, debtHash...) }
 
@@ -242,8 +244,6 @@ func (store *blockchainDatabase) RecoverHeightToBlockMap(block *types.Block) err
 	return batch.Commit()
 }
 
-
-
 // PutBlock serializes the given block with the specified total difficulty into the blockchain database.
 // isHead indicates if the block is the header block
 func (store *blockchainDatabase) PutBlock(block *types.Block, td *big.Int, isHead bool) error {
@@ -410,6 +410,34 @@ func (store *blockchainDatabase) GetReceiptByTxHash(txHash common.Hash) (*types.
 	}
 
 	return receipts[txIndex.Index], nil
+}
+
+// PutDirtyAccounts serializes given dirty accounts for the specified block hash.
+func (store *blockchainDatabase) PutDirtyAccounts(hash common.Hash, accounts []common.Address) error {
+	encodedBytes, err := common.Serialize(accounts)
+	if err != nil {
+		return err
+	}
+
+	key := hashToDirtyAccountsKey(hash.Bytes())
+
+	return store.db.Put(key, encodedBytes)
+}
+
+// GetDirtyAccountsByBlockHash retrieves the dirty accounts for the specified block hash.
+func (store *blockchainDatabase) GetDirtyAccountsByBlockHash(hash common.Hash) ([]common.Address, error) {
+	key := hashToDirtyAccountsKey(hash.Bytes())
+	encodedBytes, err := store.db.Get(key)
+	if err != nil {
+		return nil, err
+	}
+
+	accounts := make([]common.Address, 0)
+	if err := common.Deserialize(encodedBytes, &accounts); err != nil {
+		return nil, err
+	}
+
+	return accounts, nil
 }
 
 // AddIndices adds tx/debt indices for the specified block.

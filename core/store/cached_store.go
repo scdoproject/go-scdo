@@ -8,7 +8,7 @@ package store
 import (
 	"math/big"
 
-	"github.com/hashicorp/golang-lru"
+	lru "github.com/hashicorp/golang-lru"
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/core/types"
 )
@@ -241,6 +241,16 @@ func (store *cachedStore) GetReceiptsByBlockHash(hash common.Hash) ([]*types.Rec
 // GetReceiptByTxHash retrieves the receipt for the specified tx hash.
 func (store *cachedStore) GetReceiptByTxHash(txHash common.Hash) (*types.Receipt, error) {
 	return store.raw.GetReceiptByTxHash(txHash)
+}
+
+// PutDirtyAccounts serializes given dirty accounts for the specified block hash.
+func (store *cachedStore) PutDirtyAccounts(hash common.Hash, accounts []common.Address) error {
+	return store.raw.PutDirtyAccounts(hash, accounts)
+}
+
+// GetDirtyAccountsByBlockHash retrieves the dirty accounts for the specified block hash.
+func (store *cachedStore) GetDirtyAccountsByBlockHash(hash common.Hash) ([]common.Address, error) {
+	return store.raw.GetDirtyAccountsByBlockHash(hash)
 }
 
 // AddIndices addes tx/debt indices for the specified block.

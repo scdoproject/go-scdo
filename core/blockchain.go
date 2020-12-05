@@ -380,6 +380,10 @@ func (bc *Blockchain) doWriteBlock(block *types.Block, pool *Pool) error {
 		return errors.NewStackedErrorf(err, "failed to save block into store, blockHash = %v, newTD = %v, isNewHead = %v", block.HeaderHash, currentTd, isHead)
 	}
 	auditor.Audit("succeed to save block into store, newHead = %v", isHead)
+
+	if err = bc.bcStore.PutDirtyAccounts(block.HeaderHash, blockStatedb.GetDirtyAccounts()); err != nil {
+		return errors.NewStackedErrorf(err, "failed to save dirty accounts into store, blockHash = %v, dirty accounts count = %v", block.HeaderHash, len(blockStatedb.GetDirtyAccounts()))
+	}
 	bc.rp.onPutBlockEnd()
 
 	// If the new block has larger TD, the canonical chain will be changed.
