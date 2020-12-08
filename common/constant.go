@@ -24,7 +24,7 @@ const (
 	ScdoVersion uint = 1
 
 	// ScdoNodeVersion for simpler display
-	ScdoNodeVersion string = "Scdo_V1.0.1"
+	ScdoNodeVersion string = "Scdo_V1.0.2"
 
 	// ShardCount represents the total number of shards.
 	ShardCount = 4
@@ -42,6 +42,9 @@ const (
 	ConfirmedBlockNumber = 120
 
 	ScdoForkHeight = 2979594
+
+	// emery hard fork: update zpow consensus and evm
+	EmeryForkHeight = 3400000
 
 	// ForkHeight after this height we change the content of block: hardFork
 	ForkHeight = ScdoForkHeight

@@ -415,6 +415,12 @@ func opBalance(pc *uint64, interpreter *EVMInterpreter, contract *Contract, memo
 	return nil, nil
 }
 
+func opSelfBalance(pc *uint64, interpreter *EVMInterpreter, contract *Contract, memory *Memory, stack *Stack) ([]byte, error) {
+	balance := interpreter.evm.StateDB.GetBalance(contract.Address())
+	stack.push(balance)
+	return nil, nil
+}
+
 func opOrigin(pc *uint64, interpreter *EVMInterpreter, contract *Contract, memory *Memory, stack *Stack) ([]byte, error) {
 	stack.push(interpreter.evm.Origin.Big())
 	return nil, nil
@@ -544,7 +550,12 @@ func opExtCodeCopy(pc *uint64, interpreter *EVMInterpreter, contract *Contract, 
 // this account should be regarded as a non-existent account and zero should be returned.
 func opExtCodeHash(pc *uint64, interpreter *EVMInterpreter, contract *Contract, memory *Memory, stack *Stack) ([]byte, error) {
 	slot := stack.peek()
-	slot.SetBytes(interpreter.evm.StateDB.GetCodeHash(common.BigToAddress(slot)).Bytes())
+	address := common.BigToAddress(slot)
+	if interpreter.evm.StateDB.Empty(address) {
+		slot.SetUint64(0)
+	} else {
+		slot.SetBytes(interpreter.evm.StateDB.GetCodeHash(address).Bytes())
+	}
 	return nil, nil
 }
 

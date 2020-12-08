@@ -28,7 +28,8 @@ func NewEVMByDefaultConfig(tx *types.Transaction, statedb *StateDB, blockHeader 
 		EIP155Block:         big.NewInt(0),
 		EIP158Block:         big.NewInt(0),
 		ByzantiumBlock:      big.NewInt(0),
-		ConstantinopleBlock: nil,
+		ConstantinopleBlock: big.NewInt(int64(common.EmeryForkHeight)),
+		IstanbulBlock:       big.NewInt(int64(common.EmeryForkHeight)),
 		Ethash:              new(params.EthashConfig),
 	}
 	vmConfig := &vm.Config{}
