@@ -55,7 +55,23 @@ var (
 	homesteadInstructionSet      = newHomesteadInstructionSet()
 	byzantiumInstructionSet      = newByzantiumInstructionSet()
 	constantinopleInstructionSet = newConstantinopleInstructionSet()
+	istanbulInstructionSet       = newIstanbulInstructionSet()
 )
+
+// NewIstanbulInstructionSet returns the frontier, homestead
+// byzantium, contantinople and istanbul instructions.
+func newIstanbulInstructionSet() [256]operation {
+	// instructions that can be executed during the istanbul phase.
+	instructionSet := newConstantinopleInstructionSet()
+	// New opcode
+	instructionSet[SELFBALANCE] = operation{
+		execute:       opSelfBalance,
+		gasCost:       constGasFunc(GasFastestStep),
+		validateStack: makeStackFunc(0, 1),
+		valid:         true,
+	}
+	return instructionSet
+}
 
 // NewConstantinopleInstructionSet returns the frontier, homestead
 // byzantium and contantinople instructions.

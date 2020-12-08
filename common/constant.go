@@ -43,6 +43,9 @@ const (
 
 	ScdoForkHeight = 2979594
 
+	// emery hard fork: update zpow consensus and evm
+	EmeryForkHeight = 3400000
+
 	// ForkHeight after this height we change the content of block: hardFork
 	ForkHeight = ScdoForkHeight
 

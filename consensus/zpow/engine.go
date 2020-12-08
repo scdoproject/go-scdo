@@ -150,7 +150,7 @@ miner:
 			hash := header.Hash()
 
 			// generate matrix
-			matrix := generateRandomMat(hash, dim)
+			matrix := generateRandomMat(hash, dim, header.Height)
 
 			// compute matrix det
 			res := mat.Det(matrix)
@@ -220,7 +220,7 @@ func (engine *ZpowEngine) verifyTarget(header *types.BlockHeader) error {
 	hash := NewHeader.Hash()
 
 	// generate matrix
-	matrix := generateRandomMat(hash, dim)
+	matrix := generateRandomMat(hash, dim, header.Height)
 
 	// compute matrix det
 	res := mat.Det(matrix)
@@ -270,7 +270,7 @@ func bytesToInt64(buf []byte) int64 {
 	return int64(binary.BigEndian.Uint64(buf))
 }
 
-func generateRandomMat(hash common.Hash, dim int) *mat.Dense {
+func generateRandomMat(hash common.Hash, dim int, height uint64) *mat.Dense {
 	matrix := mat.NewDense(dim, dim, nil)
 	hashBytes := hash.Bytes()
 	var hashSeed [4]int64
@@ -281,7 +281,12 @@ func generateRandomMat(hash common.Hash, dim int) *mat.Dense {
 	hashSeed[3] = bytesToInt64(hashBytes[24:32])
 	for i := 0; i < dim; i++ {
 		curNum ^= hashSeed[i%4]
-		randObj := scdorand.NewRandObj(scdorand.NewSource(curNum))
+		var randObj *scdorand.RandObj
+		if height >= common.EmeryForkHeight {
+			randObj = scdorand.NewRandObj(scdorand.NewSource_EmeryFork(curNum))
+		} else {
+			randObj = scdorand.NewRandObj(scdorand.NewSource(curNum))
+		}
 		for j := 0; j < dim; j++ {
 			curNum = randObj.Int63n(1<<63 - 1)
 			matrix.Set(i, j, float64(randObj.Int63n(3)))
