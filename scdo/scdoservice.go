@@ -294,7 +294,7 @@ func (s *ScdoService) APIs() (apis []rpc.API) {
 		{
 			Namespace: "scdo",
 			Version:   "1.0",
-			Service:   NewPublicSeeleAPI(s),
+			Service:   NewPublicScdoAPI(s),
 			Public:    true,
 		},
 		{

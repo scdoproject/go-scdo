@@ -170,7 +170,7 @@ func (p *Peer) notifyProtocolsAddPeer() {
 					if proto.Name == common.ScdoProtoName {
 						p.log.Debug("notifyProtocolsAddPeer AddPeer err got. name=%s node=%s", proto.Name, fmt.Sprintf("%x", p.Node.ID))
 						// close connection of peer
-						p.Disconnect("Seeleproto addpeer err, close connection")
+						p.Disconnect("Scdoproto addpeer err, close connection")
 					}
 				}
 			}

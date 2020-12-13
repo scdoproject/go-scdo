@@ -24,7 +24,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_PublicSeeleAPI(t *testing.T) {
+func Test_PublicScdoAPI(t *testing.T) {
 	conf := getTmpConfig()
 	serviceContext := ServiceContext{
 		DataDir: filepath.Join(common.GetTempFolder(), ".PublicScdoAPI"),
@@ -34,20 +34,24 @@ func Test_PublicSeeleAPI(t *testing.T) {
 	ctx := context.WithValue(context.Background(), key, serviceContext)
 	dataDir := ctx.Value("ServiceContext").(ServiceContext).DataDir
 	log := log.GetLogger("scdo")
-	ss, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	consensusEngine, err := factory.GetConsensusEngine(common.Sha256Algorithm)
+	if err !=nil {
+		t.Fatal()
+	}
+	ss, err := NewScdoService(ctx, conf, log, consensusEngine, nil, -1,false)
 	if err != nil {
 		t.Fatal()
 	}
 
-	api := NewPublicSeeleAPI(ss)
+	api := NewPublicScdoAPI(ss)
 	defer func() {
 		api.s.Stop()
 		os.RemoveAll(dataDir)
 	}()
-	var info api2.GetMinerInfo
+	var info api2.GetMinerInfo2
 	info, err = api.GetInfo()
 	assert.Equal(t, err, nil)
-	if !bytes.Equal(conf.ScdoConfig.Coinbase[0:], info.Coinbase[0:]) {
+	if !bytes.Equal(conf.ScdoConfig.Coinbase[0:], []byte(info.Coinbase)) {
 		t.Fail()
 	}
 }
@@ -123,9 +127,13 @@ func newTestAPI(t *testing.T, dbPath string) *PublicScdoAPI {
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
 	log := log.GetLogger("scdo")
-	ss, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	consensusEngine, err := factory.GetConsensusEngine(common.Sha256Algorithm)
+	if err !=nil {
+		t.Fatal()
+	}
+	ss, err := NewScdoService(ctx, conf, log, consensusEngine, nil, -1,false)
 	assert.Equal(t, err, nil)
-	return NewPublicSeeleAPI(ss)
+	return NewPublicScdoAPI(ss)
 }
 
 func sendTx(t *testing.T, api *PublicScdoAPI, statedb *state.Statedb, tx *types.Transaction) []byte {
@@ -202,7 +210,7 @@ func Test_Call(t *testing.T) {
 	assert.Equal(t, result["result"], "0x0000000000000000000000000000000000000000000000000000000000000017")
 
 	// Verify the history result = 5
-	height, err := api2.NewPublicSeeleAPI(NewScdoBackend(api.s)).GetBlockHeight()
+	height, err := api2.NewPublicScdoAPI(NewScdoBackend(api.s)).GetBlockHeight()
 	assert.Equal(t, err, nil)
 	result, err = api.Call(contractAddress.Hex(), payload, int64(height-1))
 	assert.Equal(t, err, nil)

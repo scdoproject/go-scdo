@@ -87,7 +87,7 @@ func newTestTx(t *testing.T, s *ScdoService, amount, price int64, nonce uint64) 
 	assert.Equal(t, err, nil)
 
 	// set initial balance
-	fromAddress, fromPrivKey, err := crypto.GenerateKeyPair()
+	fromAddress, fromPrivKey, err := crypto.GenerateKeyPair(1)
 	assert.Equal(t, err, nil)
 	statedb.CreateAccount(*fromAddress)
 	statedb.SetBalance(*fromAddress, common.ScdoToWen)
@@ -121,7 +121,11 @@ func newTestTxPoolAPI(t *testing.T, dbPath string) *TransactionPoolAPI {
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
 	log := log.GetLogger("scdo")
-	ss, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	consensusEngine, err := factory.GetConsensusEngine(common.Sha256Algorithm)
+	if err !=nil {
+		t.Fatal()
+	}
+	ss, err := NewScdoService(ctx, conf, log, consensusEngine, nil, -1,false)
 	if err != nil {
 		panic("new scdo service error")
 	}

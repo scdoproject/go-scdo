@@ -40,8 +40,11 @@ func newTestSeeleService() *ScdoService {
 	var key interface{} = "ServiceContext"
 	ctx := context.WithValue(context.Background(), key, serviceContext)
 	log := log.GetLogger("scdo")
-
-	scdoService, err := NewScdoService(ctx, conf, log, factory.MustGetConsensusEngine(common.Sha256Algorithm), nil, -1)
+	consensusEngine, err := factory.GetConsensusEngine(common.Sha256Algorithm)
+	if err !=nil {
+		panic(err)
+	}
+	scdoService, err := NewScdoService(ctx, conf, log, consensusEngine, nil, -1,false)
 	if err != nil {
 		panic(err)
 	}

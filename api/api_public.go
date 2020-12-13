@@ -28,8 +28,8 @@ type PublicScdoAPI struct {
 	s Backend
 }
 
-// NewPublicSeeleAPI creates a new PublicScdoAPI object for rpc service.
-func NewPublicSeeleAPI(s Backend) *PublicScdoAPI {
+// NewPublicScdoAPI creates a new PublicScdoAPI object for rpc service.
+func NewPublicScdoAPI(s Backend) *PublicScdoAPI {
 	return &PublicScdoAPI{s}
 }
 

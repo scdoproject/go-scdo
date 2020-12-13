@@ -29,8 +29,8 @@ type PublicScdoAPI struct {
 
 const maxSizeLimit = 64
 
-// NewPublicSeeleAPI creates a new PublicScdoAPI object for rpc service.
-func NewPublicSeeleAPI(s *ScdoService) *PublicScdoAPI {
+// NewPublicScodAPI creates a new PublicScdoAPI object for rpc service.
+func NewPublicScdoAPI(s *ScdoService) *PublicScdoAPI {
 	return &PublicScdoAPI{s}
 }
 

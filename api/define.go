@@ -36,7 +36,7 @@ func GetAPIs(apiBackend Backend) []rpc.API {
 		{
 			Namespace: "scdo",
 			Version:   "1.0",
-			Service:   NewPublicSeeleAPI(apiBackend),
+			Service:   NewPublicScdoAPI(apiBackend),
 			Public:    true,
 		},
 		{
