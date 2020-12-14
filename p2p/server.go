@@ -617,6 +617,10 @@ func (srv *Server) SetMaxActiveConnections(maxActiveConns int) {
 }
 
 func (srv *Server) peerIsValidate(recvMsg *ProtoHandShake) ([]Cap, bool) {
+	// if recvMsg is nil, need to check, otherwise will panic due to nil pointer
+	if recvMsg.Params == nil {
+		return nil, false
+	}
 	// validate hash of genesisHash without shard
 	if !bytes.Equal(srv.genesisHash.Bytes(), recvMsg.Params) {
 		return nil, false
