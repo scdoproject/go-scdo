@@ -715,7 +715,7 @@ func (srv *Server) doHandShake(caps []Cap, peer *Peer, flags int, dialDest *disc
 		}
 
 		recvMsg, nounceCnt, err = srv.unPackWrapHSMsg(recvWrapMsg)
-		if err != nil {
+		if err != nil  || recvMsg == nil {
 			return nil, 0, err
 		}
 
