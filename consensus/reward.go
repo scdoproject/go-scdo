@@ -22,6 +22,7 @@ var (
 	blockNumberPerEra uint64 = 3150000
 )
 
+// init initialize the rewardTable
 func init() {
 	rewardTable := [...]float64{24, 16, 12, 10, 8, 8, 6, 6}
 	tailReward := float64(6)
@@ -34,6 +35,8 @@ func init() {
 	tailRewardCoin = convertScdoToWen(tailReward / common.ShardCount)
 }
 
+// convertScdoToWen converts an amount with scdo as unit to an amount with wen as unit
+// 1 scdo == 100,000,000 wen
 func convertScdoToWen(scdo float64) *big.Int {
 	unit := common.ScdoToWen.Int64()
 	f := uint64(scdo * float64(unit))

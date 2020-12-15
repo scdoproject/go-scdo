@@ -80,7 +80,7 @@ func Test_ChooseTransactionAndDebts(t *testing.T) {
 }
 
 func testWithBackend(verifier types.DebtVerifier, t *testing.T) (*types.Block, *core.DebtPool) {
-	backend := NewTestSeeleBackendWithVerifier(verifier)
+	backend := NewTestScdoBackendWithVerifier(verifier)
 
 	bc := backend.BlockChain()
 	parent := bc.Genesis()

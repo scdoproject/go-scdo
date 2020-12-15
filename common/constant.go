@@ -63,9 +63,6 @@ const (
 	// LightChainDir lightchain data directory based on config.DataRoot
 	LightChainDir = "/db/lightchain"
 
-	// EthashAlgorithm miner algorithm ethash
-	EthashAlgorithm = "ethash"
-
 	// Sha256Algorithm miner algorithm sha256
 	Sha256Algorithm = "sha256"
 

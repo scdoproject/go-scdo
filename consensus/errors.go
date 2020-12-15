@@ -8,7 +8,7 @@ package consensus
 import "errors"
 
 var (
-	// ErrBlockInvalidHeight is returned when block nonce is invalid
+	// ErrBlockNonceInvalid is returned when block nonce is invalid
 	ErrBlockNonceInvalid = errors.New("invalid block nonce")
 
 	// ErrBlockInvalidHeight is returned when inserting a new header with invalid block height.

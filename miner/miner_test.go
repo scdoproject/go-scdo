@@ -21,7 +21,7 @@ import (
 )
 
 var defaultMinerAddr = common.BytesToAddress([]byte{1})
-var scdo = NewTestSeeleBackend()
+var scdo = NewTestScdoBackend()
 
 func Test_NewMiner(t *testing.T) {
 	miner := createMiner()
@@ -89,7 +89,7 @@ func Test_MinerPackWithVerifier(t *testing.T) {
 }
 
 func minerPackWithVerifier(t *testing.T, verifier types.DebtVerifier) {
-	backend := NewTestSeeleBackendWithVerifier(verifier)
+	backend := NewTestScdoBackendWithVerifier(verifier)
 	backend.TxPool().SetLogLevel(logrus.WarnLevel)
 	backend.DebtPool().SetLogLevel(logrus.WarnLevel)
 
@@ -202,11 +202,11 @@ type TestScdoBackend struct {
 	blockchain *core.Blockchain
 }
 
-func NewTestSeeleBackend() *TestScdoBackend {
-	return NewTestSeeleBackendWithVerifier(nil)
+func NewTestScdoBackend() *TestScdoBackend {
+	return NewTestScdoBackendWithVerifier(nil)
 }
 
-func NewTestSeeleBackendWithVerifier(verifier types.DebtVerifier) *TestScdoBackend {
+func NewTestScdoBackendWithVerifier(verifier types.DebtVerifier) *TestScdoBackend {
 	scdoBackend := &TestScdoBackend{}
 
 	scdoBackend.blockchain = core.NewTestBlockchainWithVerifier(verifier)
