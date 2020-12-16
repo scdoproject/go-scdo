@@ -9,6 +9,7 @@ import (
 	"math/big"
 	"math/rand"
 	"sync"
+
 	"github.com/scdoproject/go-scdo/common"
 )
 
@@ -22,6 +23,7 @@ type peerSet struct {
 	lock                    sync.RWMutex
 }
 
+// newPeerSet new light protocol peerset instance
 func newPeerSet() *peerSet {
 	ps := &peerSet{
 		peerMap:                 make(map[common.Address]*peer),
@@ -32,6 +34,7 @@ func newPeerSet() *peerSet {
 	return ps
 }
 
+// getPeers get all peers from light protocol peerset
 func (p *peerSet) getPeers() map[common.Address]*peer {
 	p.lock.RLock()
 	defer p.lock.RUnlock()
@@ -45,6 +48,8 @@ func (p *peerSet) getPeers() map[common.Address]*peer {
 	return value
 }
 
+// bestPeer get the best peer
+// best: bigger td or bigger hash if same td
 func (p *peerSet) bestPeer() *peer {
 	var (
 		bestPeer *peer
@@ -65,9 +70,10 @@ func (p *peerSet) bestPeer() *peer {
 	return bestPeer
 }
 
+// bestPeers
 func (p *peerSet) bestPeers() []*peer {
 	var bestPeers []*peer
-	
+
 	v := p.getPeers()
 
 	peersMap := make(map[common.Address]bool)
@@ -83,10 +89,10 @@ func (p *peerSet) bestPeers() []*peer {
 		for _, pe := range v {
 			if peersMap[pe.peerID] == true {
 				continue
-			}			
+			}
 			if _, td := pe.Head(); bestPeer == nil || td.Cmp(bestTd) > 0 {
 				bestPeer, bestTd = pe, td
-			} 
+			}
 		}
 		bestPeers = append(bestPeers, bestPeer)
 		peersMap[bestPeer.peerID] = true
@@ -109,6 +115,11 @@ func (p *peerSet) Remove(peerID common.Address) {
 func (p *peerSet) Add(pe *peer) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
+
+	result := p.peerMap[pe.peerID]
+	if result != nil {
+		return
+	}
 
 	peerID := pe.peerID
 	p.peerMap[peerID] = pe
