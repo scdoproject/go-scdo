@@ -24,6 +24,7 @@ const (
 	DefaultNonce uint64 = 0
 )
 
+// checkParameter is used to test a tx structure
 func checkParameter(publicKey *ecdsa.PublicKey, client *rpc.Client, keyaddress common.Address) (*types.TransactionData, error) {
 	info := &types.TransactionData{}
 	var err error

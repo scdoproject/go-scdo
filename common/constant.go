@@ -6,8 +6,6 @@
 package common
 
 import (
-	"encoding/json"
-	"fmt"
 	"math/big"
 	"os/user"
 	"path/filepath"
@@ -112,6 +110,7 @@ var (
 	Big257 = big.NewInt(257)
 )
 
+// init initialize the paths to store data
 func init() {
 	usr, err := user.Current()
 	if err != nil {
@@ -129,7 +128,7 @@ func init() {
 	}
 }
 
-// GetTempFolder uses a getter to implement readonly
+// GetTempFolder gets the temp folder
 func GetTempFolder() string {
 	return tempFolder
 }
@@ -139,14 +138,7 @@ func GetDefaultDataFolder() string {
 	return defaultDataFolder
 }
 
+// GetDefaultIPCPath gets the default IPC path
 func GetDefaultIPCPath() string {
 	return defaultIPCPath
-}
-
-func PrettyPrint(v interface{}) (err error) {
-	b, err := json.MarshalIndent(v, "", " ")
-	if err == nil {
-		fmt.Println(string(b))
-	}
-	return
 }

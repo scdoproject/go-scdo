@@ -49,6 +49,8 @@ func HexToBytes(input string) ([]byte, error) {
 	return b, err
 }
 
+// MustHexToBytes decodes a hex string. The program will panic
+// if there is an error
 func MustHexToBytes(input string) []byte {
 	result, err := HexToBytes(input)
 	if err != nil {

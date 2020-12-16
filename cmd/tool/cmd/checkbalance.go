@@ -95,18 +95,11 @@ var checkBalanceCmd = &cobra.Command{
 				}
 				txCount += blockTxCount - 1
 
-				// if blockTxCount > 1 {
-				// 	fmt.Printf("block tx %d\n", blockTxCount-1)
-				// }
-
 				blockDebtCount = 0
 				if err := clientList[clientIndex].Call(&blockDebtCount, "txpool_getBlockDebtCount", "", counter); err != nil {
 					panic(fmt.Sprintf("failed to get the block debt count: %s\n", err))
 				}
 				debtCount += blockDebtCount
-				// if blockDebtCount > 0 {
-				//   	fmt.Printf("block debt %d\n", blockDebtCount)
-				// }
 
 				counter++
 			}
