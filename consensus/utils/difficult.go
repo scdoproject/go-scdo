@@ -16,8 +16,8 @@ import (
 // getDifficult adjust difficult by parent info
 func GetDifficult(time uint64, parentHeader *types.BlockHeader) *big.Int {
 	// algorithm:
-	// diff = parentDiff + parentDiff / 2048 * max (1 - (blockTime - parentTime) / 10, -99)
-	// target block time is 10 seconds
+	// diff = parentDiff + parentDiff / 1024 * max (1 - (blockTime - parentTime) / 20, -99)
+	// target block time is 20 seconds
 	parentDifficult := parentHeader.Difficulty
 	parentTime := parentHeader.CreateTimestamp.Uint64()
 	if parentHeader.Height == 0 {
@@ -48,15 +48,10 @@ func GetDifficult(time uint64, parentHeader *types.BlockHeader) *big.Int {
 	result.Mul(x, y)
 	result.Add(parentDifficult, result)
 
-	// fork control for shard 1
-	bigUpperLimit := big.NewInt(10000000)
-	if parentHeader.Creator.Shard() == uint(1) && parentHeader.Height == common.ForkHeight && result.Cmp(bigUpperLimit) > 0 {
-		result = bigUpperLimit
-	}
-
 	return result
 }
 
+// VerifyDifficulty verify the difficulty of the given block based on parent info
 func VerifyDifficulty(parent *types.BlockHeader, header *types.BlockHeader) error {
 	difficult := GetDifficult(header.CreateTimestamp.Uint64(), parent)
 	if difficult.Cmp(header.Difficulty) != 0 {

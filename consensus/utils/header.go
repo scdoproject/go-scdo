@@ -10,6 +10,8 @@ import (
 	"github.com/scdoproject/go-scdo/core/types"
 )
 
+// VerifyHeaderCommon verify the height, timestamp and difficulty
+// of the given header based on parent info
 func VerifyHeaderCommon(header, parent *types.BlockHeader) error {
 	if header.Height != parent.Height+1 {
 		return consensus.ErrBlockInvalidHeight

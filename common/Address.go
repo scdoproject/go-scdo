@@ -1,6 +1,6 @@
 /**
 *  @file
-*  @copyright defined in slc/LICENSE
+*  @copyright defined in scdo/LICENSE
  */
 
 package common
@@ -93,7 +93,7 @@ func ValidShard(shard uint) bool {
 	return true
 }
 
-// ValidAccountHex returns true of it is a valid account string
+// ValidAccountHex returns true if it is a valid account string
 func ValidAccountHex(account string) bool {
 	if match, _ := regexp.MatchString("^((1s01|2s02|3s03|4s04|1S01|2S02|3S03|4S04)[a-fA-F0-9]{37}[1-2])|0[sSx]0{40}|0x0[1-4][a-fA-F0-9]{37}[1-2]$", account); !match {
 		return false
@@ -290,7 +290,6 @@ func (id *Address) Shard() uint {
 		return uint(0)
 	}
 	shard, _ := binary.Uvarint(id[:ShardByte])
-	// fmt.Println("SHARD!?", shard, num)
 	return uint(shard)
 }
 

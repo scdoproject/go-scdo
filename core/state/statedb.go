@@ -223,6 +223,8 @@ func (s *Statedb) Commit(batch database.Batch) (common.Hash, error) {
 	return s.trie.Commit(batch), nil
 }
 
+// getStateObject gets a state object given an address; a new state object
+// is created if the address doesn't exist
 func (s *Statedb) getStateObject(addr common.Address) *stateObject {
 	// get from cache
 	if object, ok := s.stateObjects[addr]; ok {
@@ -260,6 +262,7 @@ func (s *Statedb) Prepare(txIndex int) int {
 	return s.Snapshot()
 }
 
+// clearJournalAndRefund clears the journals and refund
 func (s *Statedb) clearJournalAndRefund() {
 	s.refund = 0
 	s.curJournal.entries = s.curJournal.entries[:0]

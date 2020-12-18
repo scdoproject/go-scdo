@@ -166,6 +166,7 @@ func (store *cachedStore) PutBlock(block *types.Block, td *big.Int, isHead bool)
 	return err
 }
 
+// RecoverHeightToBlockMap rebuilds the Height-to-block map
 func (store *cachedStore) RecoverHeightToBlockMap(block *types.Block) error {
 	err := store.raw.RecoverHeightToBlockMap(block)
 	if err == nil {

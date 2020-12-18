@@ -21,6 +21,7 @@ func (item *BaseHeapItem) GetHeapIndex() int {
 	return item.heapIndex
 }
 
+// setHeapIndex sets the item index in heap.
 func (item *BaseHeapItem) setHeapIndex(index int) {
 	item.heapIndex = index
 }

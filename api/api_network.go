@@ -57,12 +57,13 @@ func (n *PrivateNetworkAPI) AddTrustNode(node string) bool {
 	return true
 }
 
-// GetToTrustNodeCount return count of toTrustNode added bu User
+// GetToTrustNodeCount return count of toTrustNode added by User
 func (n *PrivateNetworkAPI) GetToTrustNodeCount() int {
 	UDPB := n.s.GetP2pServer().GetUDP()
 	return UDPB.GetToTrustNodeCount()
 }
 
+// GetBlockListCount return the count of nodes in blockList
 func (n *PrivateNetworkAPI) GetBlockListCount() int {
 	UDPB := n.s.GetP2pServer().GetUDP()
 	return UDPB.GetBlockListCount()

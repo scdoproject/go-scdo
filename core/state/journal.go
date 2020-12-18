@@ -25,12 +25,14 @@ type journal struct {
 	dirties map[common.Address]uint
 }
 
+// newJournal creates and returns a new journal
 func newJournal() *journal {
 	return &journal{
 		dirties: make(map[common.Address]uint),
 	}
 }
 
+// append appends a new entry to the journal
 func (j *journal) append(entry journalEntry) {
 	j.entries = append(j.entries, entry)
 	if addr := entry.dirtyAccount(); addr != nil {
@@ -38,10 +40,12 @@ func (j *journal) append(entry journalEntry) {
 	}
 }
 
+// snapshot returns the current snapshot
 func (j *journal) snapshot() int {
 	return len(j.entries)
 }
 
+// revert reverts the statedb to the given snapshot
 func (j *journal) revert(statedb *Statedb, snapshot int) {
 	for i := len(j.entries) - 1; i >= snapshot; i-- {
 		j.entries[i].revert(statedb)
@@ -101,6 +105,7 @@ func (ch storageChange) revert(s *Statedb) {
 	s.getStateObject(*ch.account).setState(ch.key, ch.prev)
 }
 
+// dirtyAccount returns the account modified by the change
 func (ch storageChange) dirtyAccount() *common.Address {
 	return ch.account
 }

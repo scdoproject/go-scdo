@@ -1,3 +1,8 @@
+/**
+*  @file
+*  @copyright defined in scdo/LICENSE
+ */
+
 package keystore
 
 import (

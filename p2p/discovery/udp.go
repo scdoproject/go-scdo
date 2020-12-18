@@ -136,12 +136,10 @@ func (u *udp) AddTrustNode(strNode string) error {
 	return nil
 }
 
-// AddTrustedNode will add the node into the trustNodes, then the loop pingpong service will pingpong it.
 func (u *udp) GetToTrustNodeCount() int {
 	return len(toTrustNodes)
 }
 
-// AddTrustedNode will add the node into the trustNodes, then the loop pingpong service will pingpong it.
 func (u *udp) GetBlockListCount() int {
 	return u.blockList.Count()
 }

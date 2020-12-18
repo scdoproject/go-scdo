@@ -46,7 +46,7 @@ func (task *Task) applyTransactionsAndDebts(scdo ScdoBackend, statedb *state.Sta
 	// entrance
 	memory.Print(log, "task applyTransactionsAndDebts entrance", now, false)
 
-	// choose transactions from the given txs
+	// choose debts from the pool
 	size := task.chooseDebts(scdo, statedb, log)
 
 	// the reward tx will always be at the first of the block's transactions
@@ -55,6 +55,7 @@ func (task *Task) applyTransactionsAndDebts(scdo ScdoBackend, statedb *state.Sta
 		return err
 	}
 
+	// choose txs from the pool
 	task.chooseTransactions(scdo, statedb, log, size)
 
 	log.Info("mining block height:%d, reward:%s, transaction number:%d, debt number: %d",
@@ -74,6 +75,7 @@ func (task *Task) applyTransactionsAndDebts(scdo ScdoBackend, statedb *state.Sta
 	return nil
 }
 
+// chooseDebts choose debts from the debt pool
 func (task *Task) chooseDebts(scdo ScdoBackend, statedb *state.Statedb, log *log.ScdoLog) int {
 	now := time.Now()
 	// entrance
@@ -138,6 +140,7 @@ func (task *Task) handleMinerRewardTx(statedb *state.Statedb) (*big.Int, error) 
 	return reward, nil
 }
 
+// chooseTransactions choose transactions from the txpool
 func (task *Task) chooseTransactions(scdo ScdoBackend, statedb *state.Statedb, log *log.ScdoLog, size int) {
 	now := time.Now()
 	// entrance
@@ -190,6 +193,7 @@ type Result struct {
 	block *types.Block // mined block, with good nonce
 }
 
+// PrintableOutputTask returns the printable format of task
 func PrintableOutputTask(task *Task) map[string]interface{} {
 
 	result := map[string]interface{}{
@@ -202,6 +206,7 @@ func PrintableOutputTask(task *Task) map[string]interface{} {
 	return result
 }
 
+// PrintableOutputTask returns the printable format of the task header
 func PrintableOutputTaskHeader(header *types.BlockHeader) map[string]interface{} {
 
 	result := map[string]interface{}{

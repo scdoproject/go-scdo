@@ -19,7 +19,7 @@ import (
 // GetAccountNonce get account nonce by account
 func GetAccountNonce(client *rpc.Client, account common.Address, hexHash string, height int64) (uint64, error) {
 	var nonce uint64
-	// fmt.Println("PRINT GETACC:", account)
+
 	err := client.Call(&nonce, "scdo_getAccountNonce", account, hexHash, height)
 	return nonce, err
 }

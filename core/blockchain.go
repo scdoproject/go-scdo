@@ -33,6 +33,7 @@ const (
 
 	// BlockTransactionNumberLimit block transaction number limit, 1000 simple transactions are about 152kb
 	// If for block size as 100KB, it could contains about 5k transactions
+	// This limit is not applied in current code
 	BlockTransactionNumberLimit = 5000
 
 	// BlockByteLimit is the limit of size in bytes
@@ -182,10 +183,12 @@ func (bc *Blockchain) UpdateCurrentBlock(block *types.Block) {
 	bc.currentBlock.Store(block)
 }
 
+// AddBlockLeaves adds a new block leaf
 func (bc *Blockchain) AddBlockLeaves(blockIndex *BlockIndex) {
 	bc.blockLeaves.Add(blockIndex)
 }
 
+// RemoveBlockLeaves removes a block given hash
 func (bc *Blockchain) RemoveBlockLeaves(hash common.Hash) {
 	bc.blockLeaves.Remove(hash)
 }
@@ -272,6 +275,7 @@ func (bc *Blockchain) WriteHeader(*types.BlockHeader) error {
 	return ErrNotSupported
 }
 
+// doWriteBlock writes the specified block to the blockchain store.
 func (bc *Blockchain) doWriteBlock(block *types.Block, pool *Pool) error {
 	bc.lock.Lock()
 	defer bc.lock.Unlock()
@@ -410,7 +414,7 @@ func (bc *Blockchain) doWriteBlock(block *types.Block, pool *Pool) error {
 
 	committed = true
 	if isHead {
-		//fmt.Printf("store currentBlock: %d", currentBlock.Header.Height)
+		bc.log.Debug("store currentBlock: %d", currentBlock.Header.Height)
 		bc.currentBlock.Store(currentBlock)
 
 		bc.blockLeaves.PurgeAsync(bc.bcStore, func(err error) {
@@ -503,12 +507,9 @@ func (bc *Blockchain) applyTxs(block *types.Block, root common.Hash) (*state.Sta
 	}
 
 	//validate debts
-	// fix the issue caused by forking from collapse database
-	if block.Height() > common.HeightRoof || block.Height() < common.HeightFloor {
-		err = types.BatchValidateDebt(block.Debts, bc.debtVerifier)
-		if err != nil {
-			return nil, nil, errors.NewStackedError(err, "failed to batch validate debt")
-		}
+	err = types.BatchValidateDebt(block.Debts, bc.debtVerifier)
+	if err != nil {
+		return nil, nil, errors.NewStackedError(err, "failed to batch validate debt")
 	}
 
 	canonicalHeadBlock := bc.CurrentBlock()
@@ -539,6 +540,7 @@ func (bc *Blockchain) applyTxs(block *types.Block, root common.Hash) (*state.Sta
 	return statedb, receipts, nil
 }
 
+// applyRewardAndRegularTxs processes the reward tx and regular txs(not debts)
 func (bc *Blockchain) applyRewardAndRegularTxs(statedb *state.Statedb, rewardTx *types.Transaction, regularTxs []*types.Transaction, blockHeader *types.BlockHeader) ([]*types.Receipt, error) {
 	auditor := log.NewAuditor(bc.log)
 
@@ -749,6 +751,7 @@ func OverwriteStaleBlocks(bcStore store.BlockchainStore, staleHash common.Hash, 
 	return nil
 }
 
+// overwriteSingleStaleBlock overwrites a single stale canonical height-to-hash mapping.
 func overwriteSingleStaleBlock(bcStore store.BlockchainStore, hash common.Hash) (overwritten bool, preBlockHash common.Hash, err error) {
 	header, err := bcStore.GetBlockHeader(hash)
 	if err != nil {
@@ -813,6 +816,8 @@ func (bc *Blockchain) GetHeadRollbackEventManager() *event.EventManager {
 	panic("Not Supported")
 }
 
+// recoverHeightIndices examines the previous blockchain data to make sure
+// no data is missing
 func (bc *Blockchain) recoverHeightIndices() {
 	bc.log.Info("checking blockchain database...")
 	curBlock := bc.CurrentBlock()
@@ -850,6 +855,7 @@ func (bc *Blockchain) recoverHeightIndices() {
 	bc.log.Info("Blockchain database checked, chainHeight: %d, numGetBlockByHeight: %d, numGetBlockByHash: %d, numIrrecoverable: %d", chainHeight, numGetBlockByHeight, numGetBlockByHash, numIrrecoverable)
 }
 
+// FindCommonForkAncestor returns the commmon ancestor of a fork and canonical chain
 func (bc *Blockchain) FindCommonForkAncestor(forkHeader, canonicalHeader *types.BlockHeader) (uint64, error) {
 	forkHash, canonHash := forkHeader.Hash(), canonicalHeader.Hash()
 	var preHash common.Hash

@@ -18,6 +18,7 @@ type txCollection struct {
 	nonceHeap *common.Heap
 }
 
+// newTxCollection creates a new txCollection
 func newTxCollection() *txCollection {
 	return &txCollection{
 		txs: make(map[uint64]*poolItem),
@@ -29,6 +30,7 @@ func newTxCollection() *txCollection {
 	}
 }
 
+// add adds a tx to the txCollection
 func (collection *txCollection) add(tx *poolItem) bool {
 	if existTx := collection.txs[tx.Nonce()]; existTx != nil {
 		existTx.poolObject = tx.poolObject
@@ -42,10 +44,12 @@ func (collection *txCollection) add(tx *poolItem) bool {
 	return true
 }
 
+// get returns the tx given nonce
 func (collection *txCollection) get(nonce uint64) *poolItem {
 	return collection.txs[nonce]
 }
 
+// remove removes the tx from the txCollection given nonce
 func (collection *txCollection) remove(nonce uint64) bool {
 	if tx := collection.txs[nonce]; tx != nil {
 		heap.Remove(collection.nonceHeap, tx.GetHeapIndex())
@@ -56,10 +60,12 @@ func (collection *txCollection) remove(nonce uint64) bool {
 	return false
 }
 
+// len returns the length of the nonceHeap of the txCollection
 func (collection *txCollection) len() int {
 	return collection.nonceHeap.Len()
 }
 
+// peek returns the top item of the nonceHeap of the txCollection
 func (collection *txCollection) peek() *poolItem {
 	if item := collection.nonceHeap.Peek(); item != nil {
 		return item.(*poolItem)
@@ -68,12 +74,14 @@ func (collection *txCollection) peek() *poolItem {
 	return nil
 }
 
+// pop pops up the top item of the nonceHeap of the txCollection
 func (collection *txCollection) pop() *poolItem {
 	tx := heap.Pop(collection.nonceHeap).(*poolItem)
 	delete(collection.txs, tx.Nonce())
 	return tx
 }
 
+// list lists all the txs in the txCollection
 func (collection *txCollection) list() []poolObject {
 	result := make([]poolObject, len(collection.txs))
 	i := 0

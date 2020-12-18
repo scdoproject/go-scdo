@@ -29,6 +29,9 @@ type pendingQueue struct {
 	worstHeap *common.Heap
 }
 
+// newPendingQueue creates a new pending queue; it contains
+// txs, bestHeap and worstHeap; the cmp function is based on
+// tx price and timestamp
 func newPendingQueue() *pendingQueue {
 	return &pendingQueue{
 		txs: make(map[common.Address]*heapedTxListPair),
@@ -45,6 +48,7 @@ func newPendingQueue() *pendingQueue {
 	}
 }
 
+// add adds a new tx to the pending queue
 func (q *pendingQueue) add(tx *poolItem) {
 	if pair := q.txs[tx.FromAccount()]; pair != nil {
 		pair.best.add(tx)
@@ -66,6 +70,7 @@ func (q *pendingQueue) add(tx *poolItem) {
 	}
 }
 
+// get gets the pool item given the from account and the nonce
 func (q *pendingQueue) get(addr common.Address, nonce uint64) *poolItem {
 	pair := q.txs[addr]
 	if pair == nil {
@@ -75,6 +80,7 @@ func (q *pendingQueue) get(addr common.Address, nonce uint64) *poolItem {
 	return pair.best.get(nonce)
 }
 
+// remove removes the tx item given the from account and the nonce
 func (q *pendingQueue) remove(addr common.Address, nonce uint64) {
 	pair := q.txs[addr]
 	if pair == nil {
@@ -95,6 +101,7 @@ func (q *pendingQueue) remove(addr common.Address, nonce uint64) {
 	}
 }
 
+// count returns the count of the items in the pending queue
 func (q *pendingQueue) count() int {
 	sum := 0
 
@@ -105,10 +112,12 @@ func (q *pendingQueue) count() int {
 	return sum
 }
 
+// empty checks whether the pending queue is empty or not
 func (q *pendingQueue) empty() bool {
 	return q.bestHeap.Len() == 0
 }
 
+// peek returns the top item of the bestHeap of the pending queue
 func (q *pendingQueue) peek() *txCollection {
 	if item := q.bestHeap.Peek(); item != nil {
 		return item.(*heapedTxList).txCollection
@@ -117,6 +126,7 @@ func (q *pendingQueue) peek() *txCollection {
 	return nil
 }
 
+// popN pops the top n items of the bestHeap of the pending queue
 func (q *pendingQueue) popN(n int) []poolObject {
 	var txs []poolObject
 
@@ -127,6 +137,7 @@ func (q *pendingQueue) popN(n int) []poolObject {
 	return txs
 }
 
+// pop pops the top items of the bestHeap of the pending queue
 func (q *pendingQueue) pop() poolObject {
 	tx := q.bestHeap.Peek().(*heapedTxList).pop().poolObject
 	pair := q.txs[tx.FromAccount()]
@@ -165,6 +176,7 @@ func (q *pendingQueue) discard(price *big.Int) *txCollection {
 	return worstCollection
 }
 
+// list returns all the items in the pending queue
 func (q *pendingQueue) list() []poolObject {
 	var result []poolObject
 

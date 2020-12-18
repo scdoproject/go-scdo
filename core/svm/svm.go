@@ -55,7 +55,7 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 	} else { // evm
 		receipt, err = processEvmContract(ctx, leftOverGas, height)
 	}
-	// fmt.Println("svm.go-59, receipt.result", receipt.Result)
+
 	// account balance is not enough (account.balance < tx.amount)
 	if err == vm.ErrInsufficientBalance { // there is no effect to statedb, just revert to previous snapshot
 		return nil, revertStatedb(ctx.Statedb, snapshot, err)
@@ -63,13 +63,13 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 
 	if err != nil {
 		if height <= common.SmartContractNonceForkHeight {
-			// fmt.Println("smart contract OLD logic")
+			// smart contract OLD logic
 			ctx.Statedb.RevertToSnapshot(snapshot)
 			receipt.Failed = true
 			receipt.Result = []byte(err.Error())
 
 		} else {
-			// fmt.Println("smart contract NEW logic")
+			// smart contract NEW logic
 			databaseAccountNonce := ctx.Statedb.GetNonce(ctx.Tx.Data.From)
 			setNonce := databaseAccountNonce
 			if ctx.Tx.Data.AccountNonce >= databaseAccountNonce {
@@ -96,6 +96,7 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 	return handleFee(ctx, receipt, snapshot)
 }
 
+// processCrossShardTransaction processes the cross-shard tx
 func processCrossShardTransaction(ctx *Context, snapshot int) (*types.Receipt, error) {
 	receipt := &types.Receipt{
 		TxHash:  ctx.Tx.Hash,
@@ -134,6 +135,7 @@ func processCrossShardTransaction(ctx *Context, snapshot int) (*types.Receipt, e
 	return receipt, nil
 }
 
+// processSystemContract processes system contract; legacy code
 func processSystemContract(ctx *Context, contract system.Contract, snapshot int, leftOverGas uint64) (*types.Receipt, error) {
 	// must execute to make sure that system contract address is available
 	if !ctx.Statedb.Exist(ctx.Tx.Data.To) {
@@ -168,6 +170,7 @@ func processSystemContract(ctx *Context, contract system.Contract, snapshot int,
 	return receipt, err
 }
 
+// processEvmContract processes tx in evm
 func processEvmContract(ctx *Context, gas uint64, height uint64) (*types.Receipt, error) {
 	var err error
 	receipt := &types.Receipt{
@@ -179,40 +182,34 @@ func processEvmContract(ctx *Context, gas uint64, height uint64) (*types.Receipt
 	caller := vm.AccountRef(ctx.Tx.Data.From)
 	var leftOverGas uint64
 
-	// fmt.Println("ctx.Tx.Data.To.IsEmpty()?", ctx.Tx.Data.To.IsEmpty())
-	if ctx.Tx.Data.To.IsEmpty() { // this is smart contract deployment
+	if ctx.Tx.Data.To.IsEmpty() {
+		// this is smart contract deployment
 		var createdContractAddr common.Address
 		receipt.Result, createdContractAddr, leftOverGas, err = e.Create(caller, ctx.Tx.Data.Payload, gas, ctx.Tx.Data.Amount)
 		if !createdContractAddr.IsEmpty() {
 			receipt.ContractAddress = createdContractAddr.Bytes()
 		}
-		// fmt.Println("processEvmContract.go-173: before correcting statedbNonce ", ctx.Statedb.GetNonce(ctx.Tx.Data.From))
-		// Since in the e.Create function, the setNonce in a wrong way (but already set, when user setnonce will be wrong), correct way is to ctx.Statedb.SetNonce(ctx.Tx.Data.From, ctx.Tx.Data.AccountNonce+1)
-		// nonce := evm.StateDB.GetNonce(caller.Address())
-		// evm.StateDB.SetNonce(caller.Address(), nonce+1)
 
 		if height > common.SmartContractNonceFixHeight {
 			if err == nil {
 				dbnonce := ctx.Statedb.GetNonce(ctx.Tx.Data.From)
-				// fmt.Println("before reset, statedb GetNonce", ctx.Statedb.GetNonce(ctx.Tx.Data.From))
-				if dbnonce < ctx.Tx.Data.AccountNonce+1 { // here only need to compare dbnonce with accountnonce + 1, since dbnonce is already set
-					ctx.Statedb.SetNonce(ctx.Tx.Data.From, ctx.Tx.Data.AccountNonce+1) // if before setting value is smaller than user setNonce value, then should reset.
-					// fmt.Println("after, SetNonce to Tx.Data.AccountNonce + 1, namely", ctx.Tx.Data.AccountNonce+1)
+				// here only need to compare dbnonce with accountnonce + 1, since dbnonce is already set
+				if dbnonce < ctx.Tx.Data.AccountNonce+1 {
+					// if before setting value is smaller than user setNonce value, then should reset.
+					ctx.Statedb.SetNonce(ctx.Tx.Data.From, ctx.Tx.Data.AccountNonce+1)
 				}
 			}
 		}
 
-		// fmt.Println("processEvmContract.go-173:after correcting statedbNonce", ctx.Statedb.GetNonce(ctx.Tx.Data.From))
 	} else {
 		ctx.Statedb.SetNonce(ctx.Tx.Data.From, ctx.Tx.Data.AccountNonce+1)
-		// fmt.Printf("ToAddress is not empty, setNonce to %d", ctx.Tx.Data.AccountNonce+1)
 		receipt.Result, leftOverGas, err = e.Call(caller, ctx.Tx.Data.To, ctx.Tx.Data.Payload, gas, ctx.Tx.Data.Amount)
 	}
 	receipt.UsedGas = gas - leftOverGas
-	// fmt.Println("svm.go-183 processEVMContract [after Create] err: ", err)
 	return receipt, err
 }
 
+// handleFee handles the tx fee and return a receipt
 func handleFee(ctx *Context, receipt *types.Receipt, snapshot int) (*types.Receipt, error) {
 	// Calculating the total fee
 	// For normal tx: fee = 20k * 1 Wen/gas = 0.0002 Scdo
@@ -242,6 +239,7 @@ func handleFee(ctx *Context, receipt *types.Receipt, snapshot int) (*types.Recei
 	return receipt, nil
 }
 
+// revertStatedb reverts the statedb to the given snapshot
 func revertStatedb(statedb *state.Statedb, snapshot int, err error) error {
 	statedb.RevertToSnapshot(snapshot)
 	return err

@@ -51,6 +51,7 @@ func NewZpowEngine(threads int) *ZpowEngine {
 	}
 }
 
+// SetThreads sets the number of threads used for mining
 func (engine *ZpowEngine) SetThreads(threads int) {
 	if threads <= 0 {
 		engine.threads = runtime.NumCPU()
@@ -59,6 +60,7 @@ func (engine *ZpowEngine) SetThreads(threads int) {
 	}
 }
 
+// APIs returns the miner rpc apis
 func (engine *ZpowEngine) APIs(chain consensus.ChainReader) []rpc.API {
 	return []rpc.API{
 		{
@@ -70,6 +72,7 @@ func (engine *ZpowEngine) APIs(chain consensus.ChainReader) []rpc.API {
 	}
 }
 
+// Prepare sets the difficulty for the block to be mined
 func (engine *ZpowEngine) Prepare(reader consensus.ChainReader, header *types.BlockHeader) error {
 	parent := reader.GetHeaderByHash(header.PreviousBlockHash)
 	if parent == nil {
@@ -81,6 +84,7 @@ func (engine *ZpowEngine) Prepare(reader consensus.ChainReader, header *types.Bl
 	return nil
 }
 
+// Seal partitions the nonces for the threads and let the threads mine in parallel
 func (engine *ZpowEngine) Seal(reader consensus.ChainReader, block *types.Block, stop <-chan struct{}, results chan<- *types.Block) error {
 	threads := engine.threads
 
@@ -118,6 +122,7 @@ func (engine *ZpowEngine) Seal(reader consensus.ChainReader, block *types.Block,
 	return nil
 }
 
+// StartMining is the core mining rountine
 func (engine *ZpowEngine) StartMining(block *types.Block, seed uint64, min uint64, max uint64, result chan<- *types.Block, abort <-chan struct{},
 	isNonceFound *int32, once *sync.Once, detrate metrics.Meter, log *log.ScdoLog) {
 	var nonce = seed
@@ -194,7 +199,7 @@ miner:
 	}
 }
 
-// ValidateHeader validates the specified header and returns error if validation failed.
+// VerifyHeader validates the specified header and returns error if validation failed.
 func (engine *ZpowEngine) VerifyHeader(reader consensus.ChainReader, header *types.BlockHeader) error {
 	parent := reader.GetHeaderByHash(header.PreviousBlockHash)
 	if parent == nil {
@@ -213,7 +218,7 @@ func (engine *ZpowEngine) VerifyHeader(reader consensus.ChainReader, header *typ
 	return nil
 }
 
-// block verification
+// verifyTarget verifies whether the nonce is a valid solution
 func (engine *ZpowEngine) verifyTarget(header *types.BlockHeader) error {
 	dim := matrixDim
 	NewHeader := header.Clone()
@@ -246,30 +251,14 @@ func logAbort(log *log.ScdoLog) {
 	log.Info("nonce finding aborted")
 }
 
-func generateRandomMat32(hash common.Hash, dim int) *mat.Dense {
-	matrix := mat.NewDense(dim, dim, nil)
-	hashBytes := hash.Bytes()
-	var hashSeed [4]int64
-	curNum := int64(0)
-	hashSeed[0] = bytesToInt64(hashBytes[:8])
-	hashSeed[1] = bytesToInt64(hashBytes[8:16])
-	hashSeed[2] = bytesToInt64(hashBytes[16:24])
-	hashSeed[3] = bytesToInt64(hashBytes[24:32])
-	for i := 0; i < dim; i++ {
-		curNum ^= hashSeed[i%4]
-		r := rand.New(rand.NewSource(curNum))
-		for j := 0; j < dim; j++ {
-			curNum = r.Int63n(1<<60 - 1)
-			matrix.Set(i, j, float64(r.Int63n(2)))
-		}
-	}
-	return matrix
-}
-
+// bytesToInt64 converts a byte array to int64
+// note that the input should have at most 8 bytes
 func bytesToInt64(buf []byte) int64 {
 	return int64(binary.BigEndian.Uint64(buf))
 }
 
+// generateRandomMat generates a random matrix given a hash and the size of
+// the matrix
 func generateRandomMat(hash common.Hash, dim int, height uint64) *mat.Dense {
 	matrix := mat.NewDense(dim, dim, nil)
 	hashBytes := hash.Bytes()
@@ -282,6 +271,7 @@ func generateRandomMat(hash common.Hash, dim int, height uint64) *mat.Dense {
 	for i := 0; i < dim; i++ {
 		curNum ^= hashSeed[i%4]
 		var randObj *scdorand.RandObj
+		// EmeryFork enhances the generation of random state
 		if height >= common.EmeryForkHeight {
 			randObj = scdorand.NewRandObj(scdorand.NewSource_EmeryFork(curNum))
 		} else {

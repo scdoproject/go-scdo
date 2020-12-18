@@ -25,6 +25,7 @@ type DebtPool struct {
 	toConfirmedDebts *ConcurrentDebtMap
 }
 
+// NewDebtPool creates and returns a new debt pool
 func NewDebtPool(chain blockchain, verifier types.DebtVerifier) *DebtPool {
 	log := log.GetLogger("debtpool")
 
@@ -78,7 +79,6 @@ func (dp *DebtPool) loopCheckingDebt() {
 		if dp.toConfirmedDebts.count() == 0 {
 			time.Sleep(10 * time.Second)
 		} else {
-			//dp.DoCheckingDebt()
 			err := dp.DoMulCheckingDebt()
 			if err != nil {
 				dp.log.Warn("multiple threads checking error: %s", err)
@@ -151,6 +151,7 @@ func (dp *DebtPool) DoMulCheckingDebtHandler(d *types.Debt) error {
 	}
 }
 
+// DoCheckingDebt is a legecy rountine
 func (dp *DebtPool) DoCheckingDebt() {
 	tmp := dp.toConfirmedDebts.items()
 	for h, d := range tmp {
@@ -173,6 +174,7 @@ func (dp *DebtPool) DoCheckingDebt() {
 	}
 }
 
+// AddDebtArray adds an array of debts to the debt pool
 func (dp *DebtPool) AddDebtArray(debts []*types.Debt) {
 	for _, d := range debts {
 		dp.AddDebt(d)
@@ -181,6 +183,7 @@ func (dp *DebtPool) AddDebtArray(debts []*types.Debt) {
 	dp.log.Debug("add %d debts, cap %d", len(debts), dp.getObjectCount(true, true))
 }
 
+// AddDebt adds a debt to toConfirmedDebts
 func (dp *DebtPool) AddDebt(debt *types.Debt) error {
 	if debt == nil {
 		return nil
@@ -203,6 +206,7 @@ func (dp *DebtPool) AddDebt(debt *types.Debt) error {
 	return err
 }
 
+// addToPool adds a debt to the debt pool
 func (dp *DebtPool) addToPool(debt *types.Debt) error {
 	err := dp.addObject(debt)
 	if err != nil {
@@ -212,12 +216,14 @@ func (dp *DebtPool) addToPool(debt *types.Debt) error {
 	return err
 }
 
+// GetProcessableDebts gets processable debts given the total size from the debt pool
 func (dp *DebtPool) GetProcessableDebts(size int) ([]*types.Debt, int) {
 	objects, remainSize := dp.getProcessableObjects(size)
 
 	return objectsToDebts(objects), remainSize
 }
 
+// objectsToDebts converts objects to debts
 func objectsToDebts(objects []poolObject) []*types.Debt {
 	results := make([]*types.Debt, len(objects))
 	for index, obj := range objects {
@@ -227,6 +233,7 @@ func objectsToDebts(objects []poolObject) []*types.Debt {
 	return results
 }
 
+// objectsToDebts converts debts to objects
 func debtsToObjects(debts []*types.Debt) []poolObject {
 	objects := make([]poolObject, len(debts))
 
@@ -237,6 +244,7 @@ func debtsToObjects(debts []*types.Debt) []poolObject {
 	return objects
 }
 
+// GetDebtByHash gets debt from the debt pool by hash
 func (dp *DebtPool) GetDebtByHash(hash common.Hash) *types.Debt {
 	debt := dp.toConfirmedDebts.get(hash)
 	if debt != nil {
@@ -251,11 +259,13 @@ func (dp *DebtPool) GetDebtByHash(hash common.Hash) *types.Debt {
 	return nil
 }
 
+// RemoveDebtByHash removes debt from the debt pool by hash
 func (dp *DebtPool) RemoveDebtByHash(hash common.Hash) {
 	dp.toConfirmedDebts.remove(hash)
 	dp.removeOject(hash)
 }
 
+// GetDebts get debts based on their status
 func (dp *DebtPool) GetDebts(processing, pending bool) []*types.Debt {
 	objects := dp.getObjects(processing, pending)
 	debts := objectsToDebts(objects)
@@ -267,6 +277,7 @@ func (dp *DebtPool) GetDebts(processing, pending bool) []*types.Debt {
 	return debts
 }
 
+// GetDebtCount returns the count of debts in the pool
 func (dp *DebtPool) GetDebtCount(processing, pending bool) int {
 	count := dp.getObjectCount(processing, pending)
 	if pending {

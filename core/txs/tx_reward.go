@@ -52,6 +52,8 @@ func NewRewardTx(coinbase common.Address, reward *big.Int, timestamp uint64) (*t
 	return &tx, nil
 }
 
+// validateReward validates the reward amount is neither
+// nil nor negative
 func validateReward(reward *big.Int) error {
 	if reward == nil {
 		return types.ErrAmountNil

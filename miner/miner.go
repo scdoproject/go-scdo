@@ -37,7 +37,7 @@ var (
 	minerCount = 0
 )
 
-// ScdoBackend wraps all methods required for minier.
+// ScdoBackend wraps all methods required for miner.
 type ScdoBackend interface {
 	TxPool() *core.TransactionPool
 	BlockChain() *core.Blockchain
@@ -97,6 +97,7 @@ func NewMiner(addr common.Address, addrList []common.Address, scdo ScdoBackend, 
 	return miner
 }
 
+// GetEngine gets the miner engine
 func (miner *Miner) GetEngine() consensus.Engine {
 	return miner.engine
 }
@@ -113,14 +114,18 @@ func (miner *Miner) SetCoinbase(coinbase common.Address) {
 	miner.coinbase = coinbase
 }
 
+// GetCoinbase gets the coinbase
 func (miner *Miner) GetCoinbase() common.Address {
 	return miner.coinbase
 }
 
+// SetStopper. If stopper is 1, miner won't do mining
 func (miner *Miner) SetStopper(stopper int32) {
 	miner.stopper = stopper
 }
 
+// CanStart is true when the miner is stopped and stopper == 0 and
+// canStart == 1
 func (miner *Miner) CanStart() bool {
 	if atomic.LoadInt32(&miner.stopper) == 0 &&
 		atomic.LoadInt32(&miner.stopped) == 1 &&
@@ -131,6 +136,8 @@ func (miner *Miner) CanStart() bool {
 		return false
 	}
 }
+
+// handleMsg handles messages to start or stop the miner
 func (miner *Miner) handleMsg() {
 	for {
 		select {
@@ -280,6 +287,7 @@ out:
 	}
 }
 
+// newHeaderByParent creates a new header given the parent block
 func newHeaderByParent(parent *types.Block, coinbase common.Address, timestamp int64) *types.BlockHeader {
 	return &types.BlockHeader{
 		PreviousBlockHash: parent.HeaderHash,
@@ -368,7 +376,7 @@ func (miner *Miner) commitTask(task *Task, recv chan *types.Block) {
 	miner.engine.Seal(miner.scdo.BlockChain(), block, miner.stopChan, recv)
 }
 
-//GetWork get the current task node will process
+//GetWork get the current task in a printable format
 func (miner *Miner) GetWork() map[string]interface{} {
 	if miner.current == nil {
 		miner.log.Info("there is no task so far")
@@ -378,10 +386,12 @@ func (miner *Miner) GetWork() map[string]interface{} {
 	return PrintableOutputTask(task)
 }
 
+// GetWorkTask gets the current task
 func (miner *Miner) GetWorkTask() *Task {
 	return miner.current
 }
 
+// GetCurrentWorkHeader returns the header of current task
 func (miner *Miner) GetCurrentWorkHeader() map[string]interface{} {
 	task := miner.GetWorkTask()
 	if task == nil {
@@ -391,6 +401,7 @@ func (miner *Miner) GetCurrentWorkHeader() map[string]interface{} {
 	return PrintableOutputTaskHeader(task.header)
 }
 
+// SubmitWork is used to submit the nonce to generate the final block
 func (miner *Miner) SubmitWork(height uint64, nonce uint64) error {
 
 	// validate nonce based on miner.current
@@ -418,11 +429,7 @@ func (miner *Miner) SubmitWork(height uint64, nonce uint64) error {
 
 }
 
-// func (miner *Miner) GetMiningTarget() {
-// 	df := miner.scdo.BlockChain().CurrentBlock().Header.Difficulty
-// 	return miner.engine.GetMiningTarget(df)
-// }
-
+// GetTaskDifficulty gets the difficulty of current task
 func (miner *Miner) GetTaskDifficulty() *big.Int {
 
 	if miner.current == nil {
@@ -436,6 +443,7 @@ func (miner *Miner) GetTaskDifficulty() *big.Int {
 	return difficulty
 }
 
+// chooseCoinBase selects the coinbase randomly from the given list
 func (miner *Miner) chooseCoinBase() {
 	if len(miner.coinbaseList) == 0 {
 		return
