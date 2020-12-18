@@ -24,12 +24,12 @@ import (
 
 // ServiceClient implements service for light mode.
 type ServiceClient struct {
-	networkID     string
-	netVersion    string
-	p2pServer     *p2p.Server
+	networkID    string
+	netVersion   string
+	p2pServer    *p2p.Server
 	scdoProtocol *LightProtocol
-	log           *log.ScdoLog
-	odrBackend    *odrBackend
+	log          *log.ScdoLog
+	odrBackend   *odrBackend
 
 	txPool  *txPool
 	chain   *LightChain
@@ -66,7 +66,7 @@ func NewServiceClient(ctx context.Context, conf *node.Config, log *log.ScdoLog, 
 	if err != nil {
 		s.lightDB.Close()
 		s.odrBackend.close()
-		log.Error("NewServiceClient genesis.Initialize err. %s", err)
+		log.Error("light client genesis.Initialize err. %s", err)
 		return nil, err
 	}
 
@@ -74,7 +74,7 @@ func NewServiceClient(ctx context.Context, conf *node.Config, log *log.ScdoLog, 
 	if err != nil {
 		s.lightDB.Close()
 		s.odrBackend.close()
-		log.Error("failed to init chain in NewServiceClient. %s", err)
+		log.Error("failed to init chain in light client. %s", err)
 		return nil, err
 	}
 
@@ -84,12 +84,12 @@ func NewServiceClient(ctx context.Context, conf *node.Config, log *log.ScdoLog, 
 	if err != nil {
 		s.lightDB.Close()
 		s.odrBackend.close()
-		log.Error("failed to create scdoProtocol in NewServiceClient, %s", err)
+		log.Error("failed to create protocol in light client, %s", err)
 		return nil, err
 	}
 
-	s.odrBackend.start(s.scdoProtocol.peerSet)
-	log.Info("Light mode started.")
+	s.odrBackend.start(s.scdoProtocol.peerSet) // start the odr backend
+	log.Info("light mode started.")
 	return s, nil
 }
 
