@@ -1,3 +1,8 @@
+/**
+*  @file
+*  @copyright defined in scdo/LICENSE
+ */
+
 package api
 
 import (
@@ -31,6 +36,7 @@ type Backend interface {
 	GetTransaction(pool PoolCore, bcStore store.BlockchainStore, txHash common.Hash) (*types.Transaction, *BlockIndex, error)
 }
 
+// GetAPIs returns the rpc apis
 func GetAPIs(apiBackend Backend) []rpc.API {
 	return []rpc.API{
 		{
@@ -54,7 +60,7 @@ func GetAPIs(apiBackend Backend) []rpc.API {
 	}
 }
 
-// MinerInfo miner simple info
+// GetMinerInfo returns miner simple info
 type GetMinerInfo struct {
 	Coinbase           common.Address
 	CurrentBlockHeight uint64
