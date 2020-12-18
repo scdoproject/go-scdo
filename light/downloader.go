@@ -1,4 +1,4 @@
- /**
+/**
 *  @file
 *  @copyright defined in scdo/LICENSE
  */
@@ -49,7 +49,7 @@ func newDownloader(chain BlockChain) *Downloader {
 
 // Synchronise try to sync with remote peer.
 func (d *Downloader) synchronise(p *peer) error {
-	// Make sure only one routine can pass at once
+	// Make sure only one routine can run at once
 	d.lock.Lock()
 	if d.syncStatus == statusDownloading {
 		d.lock.Unlock()
@@ -69,7 +69,6 @@ func (d *Downloader) synchronise(p *peer) error {
 func (d *Downloader) doSynchronise(p *peer) {
 	defer func() {
 		d.cancel()
-
 		d.wg.Done()
 		d.lock.Lock()
 		close(d.msgCh)
@@ -79,7 +78,7 @@ func (d *Downloader) doSynchronise(p *peer) {
 
 	ancestor, err := p.findAncestor()
 	if err != nil {
-		d.log.Info("doSynchronise called, but ancestor not found")
+		d.log.Info("light chain doSynchronise called, but ancestor not found")
 		return
 	}
 
@@ -91,7 +90,7 @@ func (d *Downloader) doSynchronise(p *peer) {
 
 	reqID := rand2.Uint32()
 	if err := p.sendDownloadHeadersRequest(reqID, ancestor); err != nil {
-		d.log.Error("doSynchronise sendDownloadHeadersRequest err=%s", err)
+		d.log.Error("light chain sendDownloadHeadersRequest err=%s", err)
 		return
 	}
 
@@ -262,6 +261,7 @@ func (d *Downloader) reverseLightBCstore(ancestor uint64) error {
 
 }
 
+// updateLightChainHeadInfo update header/hash/TD from bcstore to downloader lightchain
 func (d *Downloader) updateLightChainHeadInfo(height uint64) error {
 
 	bcStore := d.chain.GetStore()

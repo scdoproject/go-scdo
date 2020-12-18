@@ -48,8 +48,9 @@ func StartMetrics(db database.Database, dbname string, log *log.ScdoLog) {
 	}
 }
 
-func collectDBMetrics(db *LevelDB, m *DBMetrics, log *log.ScdoLog) {
-	if metrics.UseNilMetrics {
+// collectDBMetrics collect db metrics
+func collectDBMetrics(db *LevelDB, m *DBMetrics, log *log.ScdoLog) { // no return
+	if metrics.UseNilMetrics { // if we use metrics, should return metrics
 		return
 	}
 
@@ -66,7 +67,7 @@ func collectDBMetrics(db *LevelDB, m *DBMetrics, log *log.ScdoLog) {
 		lastWriteDelayN time.Time
 	)
 
-	// Iterate ad infinitum and collect the stats
+	// Iterate infinitly and collect the stats
 MetricsLoop:
 	for i := 1; ; i++ {
 		// Retrieve the database stats

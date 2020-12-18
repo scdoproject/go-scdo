@@ -100,7 +100,7 @@ func (o *odrBackend) getReqInfo(filter peerFilter) (uint32, chan odrResponse, []
 
 	o.lock.Lock()
 	if o.requestMap[reqID] != nil {
-		panic("reqid conflicks")
+		panic("reqid conflict")
 	}
 
 	o.requestMap[reqID] = ch

@@ -9,6 +9,7 @@ import (
 	"math/big"
 	"math/rand"
 	"sync"
+
 	"github.com/scdoproject/go-scdo/common"
 )
 
@@ -22,6 +23,7 @@ type peerSet struct {
 	lock                    sync.RWMutex
 }
 
+// newPeerSet new light protocol peerset instance
 func newPeerSet() *peerSet {
 	ps := &peerSet{
 		peerMap:                 make(map[common.Address]*peer),
@@ -32,6 +34,7 @@ func newPeerSet() *peerSet {
 	return ps
 }
 
+// getPeers get all peers from light protocol peerset
 func (p *peerSet) getPeers() map[common.Address]*peer {
 	p.lock.RLock()
 	defer p.lock.RUnlock()
@@ -45,6 +48,8 @@ func (p *peerSet) getPeers() map[common.Address]*peer {
 	return value
 }
 
+// bestPeer get the best peer
+// best: bigger td or bigger hash if same td
 func (p *peerSet) bestPeer() *peer {
 	var (
 		bestPeer *peer
@@ -65,9 +70,10 @@ func (p *peerSet) bestPeer() *peer {
 	return bestPeer
 }
 
+// bestPeers
 func (p *peerSet) bestPeers() []*peer {
 	var bestPeers []*peer
-	
+
 	v := p.getPeers()
 
 	peersMap := make(map[common.Address]bool)
@@ -83,10 +89,10 @@ func (p *peerSet) bestPeers() []*peer {
 		for _, pe := range v {
 			if peersMap[pe.peerID] == true {
 				continue
-			}			
+			}
 			if _, td := pe.Head(); bestPeer == nil || td.Cmp(bestTd) > 0 {
 				bestPeer, bestTd = pe, td
-			} 
+			}
 		}
 		bestPeers = append(bestPeers, bestPeer)
 		peersMap[bestPeer.peerID] = true
@@ -110,6 +116,11 @@ func (p *peerSet) Add(pe *peer) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 
+	result := p.peerMap[pe.peerID]
+	if result != nil {
+		return
+	}
+
 	peerID := pe.peerID
 	p.peerMap[peerID] = pe
 }
@@ -121,6 +132,7 @@ func (p *peerSet) Find(address common.Address) *peer {
 	return p.peerMap[address]
 }
 
+//choosePeers choose peer based on filter blockhash, if filter is nil, then run like withouth filter
 func (p *peerSet) choosePeers(filter peerFilter) (choosePeers []*peer) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
@@ -154,16 +166,17 @@ func (p *peerSet) choosePeers(filter peerFilter) (choosePeers []*peer) {
 
 		return
 	}
-
-	common.Shuffle(peerL)
-	cnt := 0
-	for _, p := range peerL {
-		cnt++
-		choosePeers = append(choosePeers, p)
-		if cnt >= maxPeers {
-			return
-		}
-	}
-
 	return
+
+	// common.Shuffle(peerL)
+	// cnt := 0
+	// for _, p := range peerL {
+	// 	cnt++
+	// 	choosePeers = append(choosePeers, p)
+	// 	if cnt >= maxPeers {
+	// 		return
+	// 	}
+	// }
+
+	// return
 }

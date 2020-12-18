@@ -22,6 +22,7 @@ func (odr *odrBlock) code() uint16 {
 	return blockRequestCode
 }
 
+//handle handle odr request
 func (odr *odrBlock) handle(lp *LightProtocol) (uint16, odrResponse) {
 	var err error
 
@@ -33,6 +34,7 @@ func (odr *odrBlock) handle(lp *LightProtocol) (uint16, odrResponse) {
 	return blockResponseCode, odr
 }
 
+// validate validate request info against local store
 func (odr *odrBlock) validate(request odrRequest, bcStore store.BlockchainStore) error {
 	if odr.Block == nil {
 		return nil

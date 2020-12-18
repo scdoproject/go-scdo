@@ -47,7 +47,7 @@ type peer struct {
 	quitCh          chan struct{}
 	peerStrID       string
 	peerID          common.Address
-	version         uint // Scdo protocol version negotiated
+	version         uint // Scdo protocol version
 	head            common.Hash
 	headBlockNum    uint64
 	td              *big.Int // total difficulty
