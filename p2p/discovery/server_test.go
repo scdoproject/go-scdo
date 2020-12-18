@@ -20,6 +20,6 @@ func Test_Server_StartService(t *testing.T) {
 	bootstrap := make([]*Node, 0)
 	shard := uint(1)
 
-	db := StartService(nodeDir, myID, myAddr, bootstrap, shard)
+	db,_:= StartService(nodeDir, myID, myAddr, bootstrap, shard)
 	assert.Equal(t, db != nil, true)
 }

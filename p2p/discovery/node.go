@@ -32,7 +32,7 @@ type Node struct {
 
 	Shard uint //node shard number
 
-	// node id for Kademila, which is generated from public key
+	// node id for Kademlia, which is generated from public key
 	// better to get it with getSha()
 	sha common.Hash
 }
