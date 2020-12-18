@@ -132,6 +132,7 @@ func (p *peerSet) Find(address common.Address) *peer {
 	return p.peerMap[address]
 }
 
+//choosePeers choose peer based on filter blockhash, if filter is nil, then run like withouth filter
 func (p *peerSet) choosePeers(filter peerFilter) (choosePeers []*peer) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
@@ -165,16 +166,17 @@ func (p *peerSet) choosePeers(filter peerFilter) (choosePeers []*peer) {
 
 		return
 	}
-
-	common.Shuffle(peerL)
-	cnt := 0
-	for _, p := range peerL {
-		cnt++
-		choosePeers = append(choosePeers, p)
-		if cnt >= maxPeers {
-			return
-		}
-	}
-
 	return
+
+	// common.Shuffle(peerL)
+	// cnt := 0
+	// for _, p := range peerL {
+	// 	cnt++
+	// 	choosePeers = append(choosePeers, p)
+	// 	if cnt >= maxPeers {
+	// 		return
+	// 	}
+	// }
+
+	// return
 }
