@@ -112,6 +112,7 @@ func (d *Debt) Validate(verifier DebtVerifier, isPool bool, targetShard uint) (r
 	return
 }
 
+// Hash returns the hash of the debt data
 func (data *DebtData) Hash() common.Hash {
 	return crypto.MustHash(data)
 }
@@ -166,6 +167,7 @@ func NewDebtWithoutContext(tx *Transaction) *Debt {
 	return newDebt(tx, false)
 }
 
+// newDebt creates and returns a new debt from the given tx
 func newDebt(tx *Transaction, withContext bool) *Debt {
 	if tx == nil || tx.Data.To.IsEmpty() || tx.Data.To.IsReserved() {
 		return nil
@@ -249,6 +251,7 @@ func DebtArrayToMap(debts []*Debt) [][]*Debt {
 	return debtsMap
 }
 
+// BatchValidateDebt validates a batch of debts
 func BatchValidateDebt(debts []*Debt, verifier DebtVerifier) error {
 	return BatchValidate(func(index int) error {
 		_, err := debts[index].Validate(verifier, false, common.LocalShardNumber)

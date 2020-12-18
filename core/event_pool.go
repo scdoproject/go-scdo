@@ -1,3 +1,8 @@
+/**
+* @file
+* @copyright defined in scdo/LICENSE
+ */
+
 package core
 
 import (
@@ -56,6 +61,7 @@ func NewEventPool(capacity uint, mainChainStore store.BlockchainStore, chain blo
 	return pool, nil
 }
 
+// getMainChainHeight returns the current height of the main chain
 func (pool *EventPool) getMainChainHeight() (uint64, error) {
 	store := pool.mainChainStore
 	hash, err := store.GetHeadBlockHash()
@@ -92,6 +98,7 @@ func (pool *EventPool) pollingEvents(abi *listener.ContractEventABI) {
 	}
 }
 
+// getEvents gets the events of the current block
 func (pool *EventPool) getEvents(abi *listener.ContractEventABI) error {
 	var (
 		store = pool.mainChainStore

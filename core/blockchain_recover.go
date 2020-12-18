@@ -31,6 +31,7 @@ type recoveryPoint struct {
 	file string
 }
 
+// loadRecoveryPoint loads a recovery point from the given file
 func loadRecoveryPoint(file string) (*recoveryPoint, error) {
 	rp := recoveryPoint{
 		file: file,
@@ -54,6 +55,7 @@ func loadRecoveryPoint(file string) (*recoveryPoint, error) {
 	return &rp, nil
 }
 
+// recover recovers the most recent chain info from the recovery point
 func (rp *recoveryPoint) recover(bcStore store.BlockchainStore) error {
 	saved := true
 
@@ -118,6 +120,7 @@ func (rp *recoveryPoint) recover(bcStore store.BlockchainStore) error {
 	return nil
 }
 
+// serialize serializes the recovery point and write it in a file
 func (rp *recoveryPoint) serialize() {
 	// do nothing if file is empty.
 	// Generally, UT could use empty file name to ignore the recovery point mechanism.
@@ -138,6 +141,7 @@ func (rp *recoveryPoint) serialize() {
 	}
 }
 
+// onPutBlockStart is used before putting a block in storage; it stores the previous block info
 func (rp *recoveryPoint) onPutBlockStart(block *types.Block, bcStore store.BlockchainStore, isHead bool) error {
 	rp.WritingBlockHash = block.HeaderHash
 	rp.WritingBlockHeight = block.Header.Height
@@ -171,6 +175,7 @@ func (rp *recoveryPoint) onPutBlockStart(block *types.Block, bcStore store.Block
 	return nil
 }
 
+// onPutBlockEnd is used after putting a block in storage; it resets some data structures
 func (rp *recoveryPoint) onPutBlockEnd() {
 	rp.PreviousHeadBlockHash = common.EmptyHash
 	rp.WritingBlockHeight = 0
@@ -180,11 +185,13 @@ func (rp *recoveryPoint) onPutBlockEnd() {
 	rp.serialize()
 }
 
+// onDeleteLargerHeightBlocks sets the LargerHeight
 func (rp *recoveryPoint) onDeleteLargerHeightBlocks(height uint64) {
 	rp.LargerHeight = height
 	rp.serialize()
 }
 
+// onOverwriteStaleBlocks sets the StaleHash
 func (rp *recoveryPoint) onOverwriteStaleBlocks(hash common.Hash) {
 	rp.StaleHash = hash
 	rp.serialize()

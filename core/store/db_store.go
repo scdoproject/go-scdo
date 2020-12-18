@@ -234,6 +234,7 @@ func (store *blockchainDatabase) GetBlockTotalDifficulty(hash common.Hash) (*big
 	return td, nil
 }
 
+// RecoverHeightToBlockMap recovers the height-to-block map
 func (store *blockchainDatabase) RecoverHeightToBlockMap(block *types.Block) error {
 	batch := store.db.NewBatch()
 	// add or update txs/debts indices of this block
@@ -337,6 +338,7 @@ func (store *blockchainDatabase) DeleteBlock(hash common.Hash) error {
 	return batch.Commit()
 }
 
+// delete deletes data from the database given keys
 func (store *blockchainDatabase) delete(batch database.Batch, keys ...[]byte) error {
 	for _, k := range keys {
 		found, err := store.db.Has(k)
@@ -447,6 +449,7 @@ func (store *blockchainDatabase) AddIndices(block *types.Block) error {
 	return batch.Commit()
 }
 
+// batchAddIndices adds tx/debt indices to the blockchain database
 func (store *blockchainDatabase) batchAddIndices(batch database.Batch, blockHash common.Hash, txs []*types.Transaction, debts []*types.Debt) {
 	for i, tx := range txs {
 		idx := types.TxIndex{BlockHash: blockHash, Index: uint(i)}
@@ -500,6 +503,7 @@ func (store *blockchainDatabase) DeleteIndices(block *types.Block) error {
 	return batch.Commit()
 }
 
+// batchDeleteIndices deletes tx/debt indices from the blockchain database
 func (store *blockchainDatabase) batchDeleteIndices(batch database.Batch, blockHash common.Hash, txs []*types.Transaction, debts []*types.Debt) error {
 	for _, tx := range txs {
 		idx, err := store.GetTxIndex(tx.Hash)

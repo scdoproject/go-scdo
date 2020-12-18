@@ -92,16 +92,15 @@ func NewPool(capacity int, chain blockchain, getObjectFromBlock getObjectFromBlo
 		canRemove:          canRemove,
 		objectValidation:   objectValidation,
 		afterAdd:           afterAdd,
-		// cachedTxs:          NewCachedTxs(CachedCapacity),
-		cachedTxs: cachedTxs,
+		cachedTxs:          cachedTxs,
 	}
-	// pool.cachedTxs.init(chain)
 
 	go pool.loopCheckingPool()
 
 	return pool
 }
 
+// SetLogLevel sets the log level
 func (pool *Pool) SetLogLevel(level logrus.Level) {
 	pool.log.SetLevel(level)
 }
@@ -143,6 +142,8 @@ func (pool *Pool) HandleChainHeaderChanged(newHeader, lastHeader common.Hash) {
 	pool.removeObjects()
 }
 
+// HandleChainReversed rejects the txs in the block to the pool and
+// clean up the pool afterwards
 func (pool *Pool) HandleChainReversed(block *types.Block) {
 	reinject := make([]poolObject, 0)
 	for _, obj := range pool.getObjectFromBlock(block) {
@@ -156,6 +157,8 @@ func (pool *Pool) HandleChainReversed(block *types.Block) {
 	pool.removeObjects()
 }
 
+// getReinjectObject gets the objects to be reinjected based on the old longest chain
+// and the current longest chain
 func (pool *Pool) getReinjectObject(newHeader, lastHeader common.Hash) []poolObject {
 	chainStore := pool.chain.GetStore()
 	log := pool.log
@@ -247,6 +250,7 @@ func (pool *Pool) addObjectArray(objects []poolObject) int {
 	return count
 }
 
+// Has returns true is the given hash is in the pool
 func (pool *Pool) Has(hash common.Hash) bool {
 	// return immediately if tx already exists
 	pool.mutex.RLock()
@@ -363,6 +367,7 @@ func (pool *Pool) removeObjects() {
 	}
 }
 
+// getObjectMap returns the hash-to-tx map
 func (pool *Pool) getObjectMap() map[common.Hash]*poolItem {
 	pool.mutex.Lock()
 	defer pool.mutex.Unlock()

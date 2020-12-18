@@ -34,6 +34,7 @@ type MemStore struct {
 	CorruptOnPutBlock bool // used to test blockchain recovery if program crashed
 }
 
+// NewMemStore creates and returns a new in-memory database
 func NewMemStore() *MemStore {
 	return &MemStore{
 		CanonicalBlocks: make(map[uint64]common.Hash),
@@ -43,6 +44,7 @@ func NewMemStore() *MemStore {
 	}
 }
 
+// GetBlockHash gets the block hash by height from the canonical chain
 func (store *MemStore) GetBlockHash(height uint64) (common.Hash, error) {
 	hash, found := store.CanonicalBlocks[height]
 	if found {
@@ -52,11 +54,13 @@ func (store *MemStore) GetBlockHash(height uint64) (common.Hash, error) {
 	return common.EmptyHash, errNotFound
 }
 
+// PutBlockHash creates a height-to-hash mapping on the canonical chain
 func (store *MemStore) PutBlockHash(height uint64, hash common.Hash) error {
 	store.CanonicalBlocks[height] = hash
 	return nil
 }
 
+// DeleteBlockHash deletes the block hash by height
 func (store *MemStore) DeleteBlockHash(height uint64) (bool, error) {
 	if _, found := store.CanonicalBlocks[height]; !found {
 		return false, nil
@@ -66,15 +70,18 @@ func (store *MemStore) DeleteBlockHash(height uint64) (bool, error) {
 	return true, nil
 }
 
+// GetHeadBlockHash returns the current head block hash
 func (store *MemStore) GetHeadBlockHash() (common.Hash, error) {
 	return store.HeadBlockHash, nil
 }
 
+// PutHeadBlockHash updates the head block hash
 func (store *MemStore) PutHeadBlockHash(hash common.Hash) error {
 	store.HeadBlockHash = hash
 	return nil
 }
 
+// GetBlockHeader returns the block header by hash
 func (store *MemStore) GetBlockHeader(hash common.Hash) (*types.BlockHeader, error) {
 	block := store.Blocks[hash]
 	if block == nil {
@@ -84,6 +91,7 @@ func (store *MemStore) GetBlockHeader(hash common.Hash) (*types.BlockHeader, err
 	return block.block.Header, nil
 }
 
+// PutBlockHeader puts the block header in the in-memory database
 func (store *MemStore) PutBlockHeader(hash common.Hash, header *types.BlockHeader, td *big.Int, isHead bool) error {
 	block := &types.Block{
 		Header:     header,
@@ -103,13 +111,13 @@ func (store *MemStore) PutBlockHeader(hash common.Hash, header *types.BlockHeade
 	return nil
 }
 
+// DeleteBlockHeader deletes the block header by hash from the in-memory database
 func (store *MemStore) DeleteBlockHeader(hash common.Hash) error {
-	
 	delete(store.Blocks, hash)
-
 	return nil
 }
 
+// GetBlockTotalDifficulty gets the block total difficulty given a block hash
 func (store *MemStore) GetBlockTotalDifficulty(hash common.Hash) (*big.Int, error) {
 	block := store.Blocks[hash]
 	if block == nil {
@@ -119,6 +127,8 @@ func (store *MemStore) GetBlockTotalDifficulty(hash common.Hash) (*big.Int, erro
 	return block.td, nil
 }
 
+// RecoverHeightToBlockMap recovers the height-to-block map and indices in the
+// in-memory database
 func (store *MemStore) RecoverHeightToBlockMap(block *types.Block) error {
 	store.CanonicalBlocks[block.Header.Height] = block.HeaderHash
 
@@ -128,6 +138,7 @@ func (store *MemStore) RecoverHeightToBlockMap(block *types.Block) error {
 	return nil
 }
 
+// PutBlock updates the in-memory database with the given block info
 func (store *MemStore) PutBlock(block *types.Block, td *big.Int, isHead bool) error {
 	storedBlock := store.Blocks[block.HeaderHash]
 	if storedBlock == nil {
@@ -158,6 +169,7 @@ func (store *MemStore) PutBlock(block *types.Block, td *big.Int, isHead bool) er
 	return nil
 }
 
+// GetBlock returns the block given hash
 func (store *MemStore) GetBlock(hash common.Hash) (*types.Block, error) {
 	if block := store.Blocks[hash]; block != nil {
 		return block.block, nil
@@ -166,10 +178,13 @@ func (store *MemStore) GetBlock(hash common.Hash) (*types.Block, error) {
 	return nil, errNotFound
 }
 
+// HasBlock returns true if the given block hash exists in the database
 func (store *MemStore) HasBlock(hash common.Hash) (bool, error) {
 	return store.Blocks[hash] != nil, nil
 }
 
+// DeleteBlock deletes the block info(txs, debts, block) by block hash
+// from the in-memory database
 func (store *MemStore) DeleteBlock(hash common.Hash) error {
 	if block := store.Blocks[hash]; block != nil {
 		for _, tx := range block.block.Transactions {
@@ -186,6 +201,7 @@ func (store *MemStore) DeleteBlock(hash common.Hash) error {
 	return nil
 }
 
+// GetBlockByHeight gets a block by height
 func (store *MemStore) GetBlockByHeight(height uint64) (*types.Block, error) {
 	hash, err := store.GetBlockHash(height)
 	if err != nil {
@@ -195,6 +211,7 @@ func (store *MemStore) GetBlockByHeight(height uint64) (*types.Block, error) {
 	return store.GetBlock(hash)
 }
 
+// PutReceipts stores the receipts of a block in the in-memory database
 func (store *MemStore) PutReceipts(hash common.Hash, receipts []*types.Receipt) error {
 	block := store.Blocks[hash]
 	if block == nil {
@@ -207,6 +224,7 @@ func (store *MemStore) PutReceipts(hash common.Hash, receipts []*types.Receipt) 
 	return nil
 }
 
+// GetReceiptsByBlockHash gets the receipts in a block given the block hash
 func (store *MemStore) GetReceiptsByBlockHash(hash common.Hash) ([]*types.Receipt, error) {
 	block := store.Blocks[hash]
 	if block == nil {
@@ -216,6 +234,7 @@ func (store *MemStore) GetReceiptsByBlockHash(hash common.Hash) ([]*types.Receip
 	return block.receipts, nil
 }
 
+// GetReceiptByTxHash gets receipt by tx hash
 func (store *MemStore) GetReceiptByTxHash(txHash common.Hash) (*types.Receipt, error) {
 	txIndex, found := store.TxLookups[txHash]
 	if !found {
@@ -234,6 +253,7 @@ func (store *MemStore) GetReceiptByTxHash(txHash common.Hash) (*types.Receipt, e
 	return receipts[txIndex.Index], nil
 }
 
+// AddIndices adds the txs and debts of the given block to the in-memory database
 func (store *MemStore) AddIndices(block *types.Block) error {
 	for i, tx := range block.Transactions {
 		store.TxLookups[tx.Hash] = types.TxIndex{BlockHash: block.HeaderHash, Index: uint(i)}
@@ -246,6 +266,7 @@ func (store *MemStore) AddIndices(block *types.Block) error {
 	return nil
 }
 
+// GetTxIndex gets the tx index by the tx hash
 func (store *MemStore) GetTxIndex(txHash common.Hash) (*types.TxIndex, error) {
 	txIndex, found := store.TxLookups[txHash]
 	if !found {
@@ -255,6 +276,7 @@ func (store *MemStore) GetTxIndex(txHash common.Hash) (*types.TxIndex, error) {
 	return &txIndex, nil
 }
 
+// GetDebtIndex gets the debt index by the tx hash
 func (store *MemStore) GetDebtIndex(txHash common.Hash) (*types.DebtIndex, error) {
 	debtIndex, found := store.DebtLookups[txHash]
 	if !found {
@@ -264,6 +286,7 @@ func (store *MemStore) GetDebtIndex(txHash common.Hash) (*types.DebtIndex, error
 	return &debtIndex, nil
 }
 
+// DeleteIndices delete the tx and debt indices in the block from the in-memory database
 func (store *MemStore) DeleteIndices(block *types.Block) error {
 	for _, tx := range block.Transactions {
 		if txIdx := store.TxLookups[tx.Hash]; txIdx.BlockHash.Equal(block.HeaderHash) {
