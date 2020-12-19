@@ -127,7 +127,7 @@ func GetTransactionsSize(txs []*Transaction) int {
 	return size
 }
 
-// IsCrossShardTx indicates whether the tx is to another shard.
+// IsCrossShardTx indicates whether the tx is a cross-shard tx.
 func (tx *Transaction) IsCrossShardTx() bool {
 	return !tx.Data.From.IsEmpty() && !tx.Data.To.IsEmpty() && !tx.Data.To.IsReserved() && tx.Data.From.Shard() != tx.Data.To.Shard()
 }
@@ -137,22 +137,27 @@ func (tx *Transaction) Size() int {
 	return TransactionPreSize + len(tx.Data.Payload)
 }
 
+// FromAccount returns the sender address of the tx
 func (tx *Transaction) FromAccount() common.Address {
 	return tx.Data.From
 }
 
+// ToAccount returns the receiver address of the tx
 func (tx *Transaction) ToAccount() common.Address {
 	return tx.Data.To
 }
 
+// Nonce returns the tx nonce
 func (tx *Transaction) Nonce() uint64 {
 	return tx.Data.AccountNonce
 }
 
+// Price returns the gas price of the tx
 func (tx *Transaction) Price() *big.Int {
 	return tx.Data.GasPrice
 }
 
+// GetHash gets the hash of the tx
 func (tx *Transaction) GetHash() common.Hash {
 	return tx.Hash
 }
@@ -280,6 +285,7 @@ func (tx *Transaction) Sign(privKey *ecdsa.PrivateKey) {
 	tx.Signature = *crypto.MustSign(privKey, tx.Hash.Bytes())
 }
 
+// verifySignature verifiess the tx signature
 func (tx *Transaction) verifySignature() error {
 	if len(tx.Signature.Sig) == 0 {
 		return ErrSigMissing
@@ -329,7 +335,7 @@ func (tx *Transaction) ValidateState(statedb stateDB, height uint64) error {
 		return fmt.Errorf("balance is not enough, account:%s, balance:%v, amount:%v, fee:%v, cost:%v", tx.Data.From.Hex(), balance, tx.Data.Amount, fee, cost)
 	}
 
-	if (height >= common.ThirdForkHeight) {
+	if height >= common.ThirdForkHeight {
 		if accountNonce := statedb.GetNonce(tx.Data.From); tx.Data.AccountNonce < accountNonce {
 			return fmt.Errorf("nonce is too small, account:%s, tx nonce:%d, state db nonce:%d", tx.Data.From.Hex(), tx.Data.AccountNonce, accountNonce)
 		}

@@ -142,6 +142,7 @@ func (pool *TransactionPool) GetTransactions(processing, pending bool) []*types.
 	return poolObjectToTxs(objects)
 }
 
+// poolObjectToTxs converts pool objects to txs
 func poolObjectToTxs(objects []poolObject) []*types.Transaction {
 	txs := make([]*types.Transaction, len(objects))
 	for index, obj := range objects {
@@ -151,6 +152,7 @@ func poolObjectToTxs(objects []poolObject) []*types.Transaction {
 	return txs
 }
 
+// txsToObjects converts txs to pool objects
 func txsToObjects(txs []*types.Transaction) []poolObject {
 	objects := make([]poolObject, len(txs))
 	for index, tx := range txs {

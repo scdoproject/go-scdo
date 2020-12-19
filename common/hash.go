@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	// HashLength the leghth of hash
+	// HashLength the length of hash
 	HashLength = 32
 )
 
@@ -83,6 +83,8 @@ func HexToHash(hex string) (Hash, error) {
 	return hash, nil
 }
 
+// MustHexToHash return the hash form of the hex; Panic if
+// there is an error
 func MustHexToHash(hex string) Hash {
 	hash, err := HexToHash(hex)
 	if err != nil {

@@ -6,7 +6,6 @@
 package api
 
 import (
-	"bytes"
 	"fmt"
 	"math/big"
 	"strconv"
@@ -14,6 +13,7 @@ import (
 
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/common/errors"
+	"github.com/scdoproject/go-scdo/common/hexutil"
 	"github.com/scdoproject/go-scdo/core/state"
 	"github.com/scdoproject/go-scdo/core/types"
 )
@@ -21,6 +21,7 @@ import (
 // ErrInvalidAccount the account is invalid
 var ErrInvalidAccount = errors.New("invalid account")
 
+// maximum number of blocks to return in function GetBlocks
 const maxSizeLimit = 64
 
 // PublicScdoAPI provides an API to access full node-related information.
@@ -65,6 +66,7 @@ func (api *PublicScdoAPI) GetBalance(account common.Address, hexHash string, hei
 	return output, nil
 }
 
+// getStatedb gets the statedb of a block given the block hash or block height
 func (api *PublicScdoAPI) getStatedb(hexHash string, height int64) (*state.Statedb, error) {
 	var blockHash common.Hash
 	var err error
@@ -87,6 +89,7 @@ func (api *PublicScdoAPI) getStatedb(hexHash string, height int64) (*state.State
 	return api.s.ChainBackend().GetState(header.StateHash)
 }
 
+// GetChangedAccounts gets the updated accounts of a certain block given the block hash or block height
 func (api *PublicScdoAPI) GetChangedAccounts(hexHash string, height int64) (map[string]interface{}, error) {
 
 	var blockHash common.Hash
@@ -174,7 +177,7 @@ func (api *PublicScdoAPI) GetBlockByHeight(height int64, fulltx bool) (map[strin
 	return rpcOutputBlock(block, fulltx, totalDifficulty)
 }
 
-// GetBlocks returns the size of requested block. When the blockNr is -1 the chain head is returned.
+// GetBlocks returns requested blocks. When the blockNr is -1 the chain head is returned.
 //When the size is greater than 64, the size will be set to 64.When it's -1 that the blockNr minus size, the blocks in 64 is returned.
 // When fullTx is true all transactions in the block are returned in full detail, otherwise only the transaction hash is returned
 func (api *PublicScdoAPI) GetBlocks(height int64, fulltx bool, size uint) ([]map[string]interface{}, error) {
@@ -283,6 +286,8 @@ func rpcOutputBlock(b *types.Block, fullTx bool, totalDifficulty *big.Int) (map[
 	return fields, nil
 }
 
+// getOutputDebts return the full details of the input debts if fullTx is true,
+// otherwise only the hashes of the debts are returned
 func getOutputDebts(debts []*types.Debt, fullTx bool) []interface{} {
 	outputDebts := make([]interface{}, len(debts))
 	for i, d := range debts {
@@ -296,6 +301,7 @@ func getOutputDebts(debts []*types.Debt, fullTx bool) []interface{} {
 	return outputDebts
 }
 
+// rpcOutputBlocks converts the given blocks to the RPC output
 func rpcOutputBlocks(b []*types.Block, fullTx bool, d []*big.Int) ([]map[string]interface{}, error) {
 	fields := make([]map[string]interface{}, 0)
 
@@ -347,37 +353,15 @@ func (api *PublicScdoAPI) AddTx(tx types.Transaction) (bool, error) {
 	return true, nil
 }
 
-// GetReceiptByTxHash get receipt by transaction hash
+// GetCode gets the code of a contract address
 func (api *PublicScdoAPI) GetCode(contractAdd common.Address, height int64) (interface{}, error) {
-	block, err := api.s.GetBlock(common.EmptyHash, height)
+	state, err := api.getStatedb("", height)
 	if err != nil {
-		return nil, err
+		return nil, errors.NewStackedError(err, "failed to get statedb")
 	}
 
-	receipts, err := api.s.ChainBackend().GetStore().GetReceiptsByBlockHash(block.HeaderHash)
-	if err != nil {
-		return nil, err
-	}
-
-	var txhash common.Hash
-	for _, re := range receipts {
-		if bytes.Equal(re.ContractAddress, contractAdd.Bytes()) {
-			txhash = re.TxHash
-			break
-		}
-	}
-
-	tx, _, err := api.s.GetTransaction(api.s.TxPoolBackend(), api.s.ChainBackend().GetStore(), txhash)
-	if err != nil {
-		api.s.Log().Debug("Failed to get transaction by hash, %v", err.Error())
-		return nil, err
-	}
-
-	if tx == nil {
-		return nil, nil
-	}
-
-	return tx.Data.Payload, nil
+	code := state.GetCode(contractAdd)
+	return hexutil.BytesToHex(code), nil
 }
 
 // GetReceiptByTxHash get receipt by transaction hash
@@ -534,6 +518,7 @@ func (api *PublicScdoAPI) GetReceiptsByBlockHash(blockHash string) (map[string]i
 	}, nil
 }
 
+// IsSyncing returns the sync status of the node
 func (api *PublicScdoAPI) IsSyncing() bool {
 	return api.s.IsSyncing()
 }
@@ -541,6 +526,7 @@ func (api *PublicScdoAPI) IsSyncing() bool {
 // Always listening
 func (api *PublicScdoAPI) IsListening() bool { return true }
 
+// GetTransactionsTo get transactions from one account at specific height or blockhash
 func (api *PublicScdoAPI) GetTransactionsFrom(account common.Address, blockHash string, height int64) (result []map[string]interface{}, err error) {
 	if len(blockHash) > 0 {
 		return api.GetTransactionsFromByHash(account, blockHash)
@@ -548,7 +534,7 @@ func (api *PublicScdoAPI) GetTransactionsFrom(account common.Address, blockHash 
 	return api.GetTransactionsFromByHeight(account, height)
 }
 
-//GetTransactionsTo get transaction to one account at specific height or blockhash
+//GetTransactionsTo get transactions to one account at specific height or blockhash
 func (api *PublicScdoAPI) GetTransactionsTo(account common.Address, blockHash string, height int64) (result []map[string]interface{}, err error) {
 	if len(blockHash) > 0 {
 		return api.GetTransactionsToByHash(account, blockHash)
@@ -696,7 +682,7 @@ func (api *PublicScdoAPI) GetAccountTransactionsByHeight(account common.Address,
 	return result, nil
 }
 
-// GetBlockTransactions get all txs in the block with heigth or blockhash
+// GetBlockTransactions get all txs in the block with height or blockhash
 func (api *PublicScdoAPI) GetBlockTransactions(blockHash string, height int64) (result []map[string]interface{}, err error) {
 	if len(blockHash) > 0 {
 		return api.GetBlockTransactionsByHash(blockHash)

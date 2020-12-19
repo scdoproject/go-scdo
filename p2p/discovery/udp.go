@@ -93,7 +93,7 @@ type reply struct {
 }
 
 func newUDP(id common.Address, addr *net.UDPAddr, shard uint) *udp {
-	log := log.GetLogger("discovery")
+	discoverylog := log.GetLogger("discovery")
 	conn, err := getUDPConn(addr)
 	if err != nil {
 		panic(fmt.Sprintf("failed to listen addr %s ", addr.String()))
@@ -101,17 +101,17 @@ func newUDP(id common.Address, addr *net.UDPAddr, shard uint) *udp {
 
 	transport := &udp{
 		conn:      conn,
-		table:     newTable(id, addr, shard, log),
+		table:     newTable(id, addr, shard, discoverylog),
 		self:      NewNodeWithAddr(id, addr, shard),
 		localAddr: addr,
 
-		db: NewDatabase(log),
+		db: NewDatabase(discoverylog),
 
 		gotReply:   make(chan *reply, 1),
 		addPending: make(chan *pending, 1),
 		writer:     make(chan *send, 1),
 
-		log:               log,
+		log:               discoverylog,
 		timeoutNodesCount: cmap.New(),
 		blockList:         cmap.New(),
 		// toTrustNodes:      make([]*Node, 0),
@@ -136,12 +136,10 @@ func (u *udp) AddTrustNode(strNode string) error {
 	return nil
 }
 
-// AddTrustedNode will add the node into the trustNodes, then the loop pingpong service will pingpong it.
 func (u *udp) GetToTrustNodeCount() int {
 	return len(toTrustNodes)
 }
 
-// AddTrustedNode will add the node into the trustNodes, then the loop pingpong service will pingpong it.
 func (u *udp) GetBlockListCount() int {
 	return u.blockList.Count()
 }
@@ -511,7 +509,7 @@ func (u *udp) pingPongService() {
 				concurrentCount = 0
 			}
 		}
-		u.log.Debug("looppingpong sleep with %d, now %+v", pingpongInterval, time.Now())
+		u.log.Debug("loop pingpong sleep with %d, now %+v", pingpongInterval, time.Now())
 		time.Sleep(pingpongInterval)
 	}
 }

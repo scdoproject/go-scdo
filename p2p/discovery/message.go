@@ -40,7 +40,7 @@ func codeToStr(code msgType) string {
 	case shardNodeMsgType:
 		return "shardNodeMsgType"
 	default:
-		return "unkwown"
+		return "unknown"
 	}
 }
 
@@ -65,7 +65,7 @@ type pong struct {
 type findNode struct {
 	Version uint
 	SelfID  common.Address
-	QueryID common.Address // the ID we want to query in Kademila
+	QueryID common.Address // the ID we want to query in Kademlia
 
 	to *Node // the node that send request to
 }
@@ -187,16 +187,6 @@ func (m *findNode) handle(t *udp, from *net.UDPAddr) {
 
 	nodes := t.table.findNodeWithTarget(crypto.HashBytes(m.QueryID.Bytes()))
 	t.log.Debug("response nodes: %d", len(nodes))
-	// @rpcs_nodes: findConnectedNodes will return responseNodeNumber nodes regardless of distance
-	// just in case there are no nodes within distance area
-	// nodes := t.table.findConnectedNodes(crypto.HashBytes(m.QueryID.Bytes()))
-	// fmt.Printf("The Target ID is %s", m.QueryID)
-	// fmt.Printf("The Target ID hash is %s", crypto.HashBytes(m.QueryID.Bytes()))
-	//@forTestOnly
-	// t.log.Debug("response nodes: %d", len(nodes))
-	// for index, node := range nodes {
-	// 	t.log.Debug("%dth response node %s", index, node)
-	// }
 
 	if len(nodes) == 0 {
 		return

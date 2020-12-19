@@ -26,12 +26,14 @@ type account struct {
 	CodeHash []byte // contract code hash
 }
 
+// newAccount creats and returns a new account instance
 func newAccount() account {
 	return account{
 		Amount: new(big.Int),
 	}
 }
 
+// clone clones the given account
 func (a account) clone() account {
 	return account{
 		Nonce:    a.Nonce,
@@ -61,6 +63,7 @@ type stateObject struct {
 	deleted bool
 }
 
+// newStateObject creates and returns a new state object instance
 func newStateObject(address common.Address) *stateObject {
 	return &stateObject{
 		address:       address,
@@ -72,6 +75,7 @@ func newStateObject(address common.Address) *stateObject {
 	}
 }
 
+// clone clones the given state object
 func (s *stateObject) clone() *stateObject {
 	cloned := *s
 
@@ -83,6 +87,7 @@ func (s *stateObject) clone() *stateObject {
 	return &cloned
 }
 
+// copyStorage copies the given storage
 func copyStorage(src map[common.Hash][]byte) map[common.Hash][]byte {
 	cloned := make(map[common.Hash][]byte)
 
@@ -127,11 +132,13 @@ func (s *stateObject) subAmount(amount *big.Int) {
 	s.setAmount(new(big.Int).Sub(s.account.Amount, amount))
 }
 
+// dataKey generates a new key by concatenating address hash, dataType and prefix
 func (s *stateObject) dataKey(dataType byte, prefix ...byte) []byte {
 	key := append(s.addrHash.Bytes(), dataType)
 	return append(key, prefix...)
 }
 
+// loadAccount loads the account from trie
 func (s *stateObject) loadAccount(trie Trie) (bool, error) {
 	value, ok, err := trie.Get(s.dataKey(dataTypeAccount))
 	if err != nil || !ok {
@@ -145,6 +152,7 @@ func (s *stateObject) loadAccount(trie Trie) (bool, error) {
 	return true, nil
 }
 
+// loadCode loads code from trie
 func (s *stateObject) loadCode(trie Trie) ([]byte, error) {
 	// already loaded
 	if s.code != nil {
@@ -167,6 +175,7 @@ func (s *stateObject) loadCode(trie Trie) ([]byte, error) {
 	return code, nil
 }
 
+// setCode sets the code in the state object
 func (s *stateObject) setCode(code []byte) {
 	s.code = code
 	s.dirtyCode = true
@@ -185,10 +194,12 @@ func (s *stateObject) empty() bool {
 	return s.account.Nonce == 0 && s.account.Amount.Sign() == 0 && len(s.account.CodeHash) == 0
 }
 
+// setState sets the state in the dirty storage of the state object
 func (s *stateObject) setState(key common.Hash, value []byte) {
 	s.dirtyStorage[key] = value
 }
 
+// getState gets the state from the trie
 func (s *stateObject) getState(trie Trie, key common.Hash, committed bool) ([]byte, error) {
 	if !committed {
 		if value, ok := s.dirtyStorage[key]; ok {

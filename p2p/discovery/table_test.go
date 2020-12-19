@@ -76,14 +76,14 @@ func Test_findNodeWithTarget(t *testing.T) {
 	nodes2 := table.findNodeWithTarget(node2.getSha())
 	assert.Equal(t, len(nodes2), 0)
 
-	//The nodes of shard 1 will return, becaus of the distance is less than target that comparing with the table selnode
+	//The nodes of shard 1 will return, because of the distance is less than target that comparing with the table self node
 	noExistKey := common.HexMustToAddres("0x2a87b6504cd00af95a83b9887112016a2a991cf1")
 	noExistID := fmt.Sprintf("snode://%v%v", hex.EncodeToString(noExistKey.Bytes()), "@127.0.0.1:9888[1]")
 	noExistNode, err := NewNodeFromString(noExistID)
 	nodes1 := table.findNodeWithTarget(noExistNode.getSha())
 	assert.Equal(t, len(nodes1), 1)
 
-	//The nodes of shard 1 won't return, because of the distance is greater than target that comparing with the table selnode
+	//The nodes of shard 1 won't return, because of the distance is greater than target that comparing with the table self node
 	noExistKey2 := common.HexMustToAddres("0xfbe506bdaf256682551873290d0a794d51bac4d1")
 	noExistID2 := fmt.Sprintf("snode://%v%v", hex.EncodeToString(noExistKey2.Bytes()), "@127.0.0.1:9888[2]")
 	noExistNode2, err := NewNodeFromString(noExistID2)

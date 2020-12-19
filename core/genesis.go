@@ -45,7 +45,7 @@ type GenesisInfo struct {
 	// map key is account address -> value is account balance
 	Accounts map[common.Address]*big.Int `json:"accounts,omitempty"`
 
-	// Difficult initial difficult for mining. Use bigger difficult as you can. Because block is chosen by total difficult
+	// Difficult initial difficulty for mining. Use bigger difficulty as you can. Because block is chosen by total difficulty
 	Difficult int64 `json:"difficult"`
 
 	// ShardNumber is the shard number of genesis block.
@@ -72,22 +72,7 @@ func NewGenesisInfo(accounts map[common.Address]*big.Int, difficult int64, shard
 
 	var masteraccount common.Address
 	var balance *big.Int
-	// if shard == 1 {
-	// 	masteraccount, _ = common.HexToAddress("1S01b04cb8be750904e2c1912417afbf1f3bc61a51")
-	// 	balance = big.NewInt(17500000000000000)
-	// } else if shard == 2 {
-	// 	masteraccount, _ = common.HexToAddress("2S02b04cb8be750904e2c1912417afbf1f3bc61a51")
-	// 	balance = big.NewInt(17500000000000000)
-	// } else if shard == 3 {
-	// 	masteraccount, _ = common.HexToAddress("3S03b04cb8be750904e2c1912417afbf1f3bc61a51")
-	// 	balance = big.NewInt(17500000000000000)
-	// } else if shard == 4 {
-	// 	masteraccount, _ = common.HexToAddress("4S04b04cb8be750904e2c1912417afbf1f3bc61a51")
-	// 	balance = big.NewInt(17500000000000000)
-	// } else {
-	// 	masteraccount, _ = common.HexToAddress("0S0000000000000000000000000000000000000000")
-	// 	balance = big.NewInt(0)
-	// }
+
 	return &GenesisInfo{
 		Accounts:        accounts,
 		Difficult:       difficult,
@@ -148,30 +133,22 @@ func GetGenesis(info *GenesisInfo) *Genesis {
 
 	if info.ShardNumber == 1 {
 		previousBlockHash = common.StringToHash("0xc439dd3398fb4d7596cce6382d18cacf1b873a49680959e0267f7588c591cacb")
-		// creator, _ = common.HexToAddress("0xde0c88a825e3d049853de9be6a188a1c1e591411")
 		createTimestamp = big.NewInt(1596764398)
-		// stateHash = common.StringToHash("0xa5ea0d7e9a17c5a92f4919963d63d0ce2b597c2ef5b2256c89bc72214c11c304")
 		txHash = common.StringToHash("0x9a43f0cacb52cae451defd3452cdd86b70373edca6dd724ff77e3b6c93f4b97e")
 	}
 	if info.ShardNumber == 2 {
 		previousBlockHash = common.StringToHash("0xa3f5dddb003600eb0a717fca3c234c93c21ceaac88cdb611cbce42eaa4f2645b")
-		// creator, _ = common.HexToAddress("0x544053ec780cb701c319d892edd540bb94f0d4b1")
 		createTimestamp = big.NewInt(1596928094)
-		// stateHash = common.StringToHash("0x67221984616afef08f7e0e9036a9d0b3c2f39e1f5295e4c32779c5d4649e3c3a")
 		txHash = common.StringToHash("0x8cead9e6cb9a9ca9299d4dd26208b800cb9b3d10f0ff9fab96ee90060517a199")
 	}
 	if info.ShardNumber == 3 {
 		previousBlockHash = common.StringToHash("0xfc1b5faa1a9a64f7479184ebf541659882f4ff6b2c0539bb36aec1b428bf2299")
-		// creator, _ = common.HexToAddress("0x0ead1657dec87b3af3316f1379f34661a8715711")
 		createTimestamp = big.NewInt(1596174170)
-		// stateHash = common.StringToHash("0x0b73ee4a1da5b60b1efa865ed707e7bc720f9c507b92d3a1eff06bb727e46c38")
 		txHash = common.StringToHash("0xf9fd5e150c980a356a34ca0290965a8a2d5b8b5290c3216ba5d0974932af8ac1")
 	}
 	if info.ShardNumber == 4 {
 		previousBlockHash = common.StringToHash("0x3e2833eb7769f7f1881c364014ab662228fa3f6a6af669d15cea4b3cab974e16")
-		// creator, _ = common.HexToAddress("0x9b2413f544122c23e93b6cdce6fec0ebb981d421")
 		createTimestamp = big.NewInt(1596385932)
-		// stateHash = common.StringToHash("0x8fc546cf5e52ac4e5158c7b262aa0b366752913bfb12bb2eb38a3e6eb31d7439")
 		txHash = common.StringToHash("0x6453d364115e975bd5824fdd84beb5c995170db5575677724b026fe7516888cc")
 	}
 	return &Genesis{
@@ -191,6 +168,8 @@ func GetGenesis(info *GenesisInfo) *Genesis {
 	}
 }
 
+// generateConsensusInfo generates the consensus info given addresses
+// only used by istanbul consensus
 func generateConsensusInfo(addrs []common.Address) []byte {
 	var consensusInfo []byte
 	consensusInfo = append(consensusInfo, bytes.Repeat([]byte{0x00}, types.IstanbulExtraVanity)...)
@@ -269,6 +248,7 @@ func (genesis *Genesis) store(bcStore store.BlockchainStore, accountStateDB data
 	return nil
 }
 
+// getStateDB setups the statedb of the genesis block
 func getStateDB(info *GenesisInfo) *state.Statedb {
 	statedb := state.NewEmptyStatedb(nil)
 

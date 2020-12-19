@@ -1,3 +1,8 @@
+/**
+* @file
+* @copyright defined in scdo/LICENSE
+ */
+
 package core
 
 import (
@@ -24,8 +29,9 @@ type CachedTxs struct {
 	log      *log.ScdoLog
 }
 
+// NewCachedTxs creates a new CachedTxs given capacity
 // 10 * 60 * 60s / 15(s) (block) * 500txs/block = 1.2M txs
-// 500 txs = 10KB, so total 1.2M txs will take up 24MB size
+// 500 txs = 10KB, so total 1.2M txs will take up to 24MB size
 func NewCachedTxs(capacity uint64) *CachedTxs {
 
 	return &CachedTxs{
@@ -36,6 +42,7 @@ func NewCachedTxs(capacity uint64) *CachedTxs {
 	}
 }
 
+// init initializes the cachedTxs
 func (c *CachedTxs) init(chain blockchain) error {
 	c.log.Info("Initating cached txs within recent %d blocks", CachedBlocks)
 	curBlockHash, err := chain.GetStore().GetHeadBlockHash()
@@ -70,8 +77,9 @@ func (c *CachedTxs) init(chain blockchain) error {
 	return nil
 }
 
+// getTxsInOneBlock gets the txs in one block
 func (c *CachedTxs) getTxsInOneBlock(chain blockchain, h uint64) (int, int, error) {
-	// c.log.Info("Getting Txs from %dth Block", h)
+	c.log.Debug("Getting Txs from %dth Block", h)
 	duplicateTxCount := 0
 	txCount := 0
 	curBlock, err := chain.GetStore().GetBlockByHeight(h)
@@ -92,45 +100,49 @@ func (c *CachedTxs) getTxsInOneBlock(chain blockchain, h uint64) (int, int, erro
 			continue
 		}
 	}
-	// c.log.Info("%dth Blocks with [%d] txs, [%d] duplicate txs", h, txCount, duplicateTxCount)
+	c.log.Debug("%dth Blocks with [%d] txs, [%d] duplicate txs", h, txCount, duplicateTxCount)
 
 	return duplicateTxCount, txCount, nil
 }
 
+// count returns teh number of cached txs
 func (c *CachedTxs) count() int {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
 	return len(c.content)
 }
 
+// add adds a tx to cached txs
 func (c *CachedTxs) add(tx *types.Transaction) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	if uint64(len(c.content)) >= c.capacity {
 		c.log.Error("Try to randomly remove txs, for %s", errTxCacheFull)
 		c.randomDeletes()
-		// c.log.Error("after remove, CachedTxs size %d", len(c.content))
+		c.log.Debug("after remove, CachedTxs size %d", len(c.content))
 	}
 	if c.content[tx.Hash] != nil {
 		c.log.Debug("Block tx, %s", errDuplicateTx)
 	}
 	c.content[tx.Hash] = tx
-	// fmt.Printf("[CachedTxs] add tx %+v", tx.Hash)
 	c.log.Debug("[CachedTxs] add tx %+v", tx.Hash)
 }
 
+// remove removes a tx by hash from cached txs
 func (c *CachedTxs) remove(hash common.Hash) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	delete(c.content, hash)
 }
 
+// has returns true if the given tx is in the cached txs
 func (c *CachedTxs) has(hash common.Hash) bool {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
 	return c.content[hash] != nil
 }
 
+// getCachedTxs returns txs from the cached txs
 func (c *CachedTxs) getCachedTxs() []*types.Transaction {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
@@ -170,5 +182,4 @@ func (c *CachedTxs) selRand() (k common.Hash, v *types.Transaction) {
 		i--
 	}
 	return k, c.content[k]
-	panic("never")
 }

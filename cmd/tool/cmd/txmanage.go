@@ -13,15 +13,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// var (
-// 	//txs already sent
-// 	txSent int
-// 	//txs already in block
-// 	txBlock int
-// 	//txs pending
-// 	txPool int
-// )
-
 var txAnalysisCmd = &cobra.Command{
 	Use:   "txAnalysis",
 	Short: "check whether any tx gets lost. RUN ONLY AFTER TPS = 0",
@@ -57,7 +48,6 @@ var txAnalysisCmd = &cobra.Command{
 					}
 
 				}
-				//fmt.Printf("Tx Sent: %d\n", txTotal)
 				fmt.Printf("Tx Processed: %d\n", txCount)
 			}
 		}

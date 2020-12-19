@@ -69,7 +69,6 @@ func LoadConfigFromFile(configFile string, accounts string, poolAccounts string)
 	}
 
 	if len(config.BasicConfig.Coinbase) > 0 {
-		// fmt.Println(config.BasicConfig.Coinbase)
 		config.ScdoConfig.Coinbase = common.HexMustToAddres(config.BasicConfig.Coinbase)
 	}
 
@@ -133,6 +132,7 @@ func GetP2pConfig(cmdConfig *util.Config) (p2p.Config, error) {
 	return cmdConfig.P2PConfig, nil
 }
 
+// LoadAccountConfig get accounts and balances from the given file
 func LoadAccountConfig(account string) (map[common.Address]*big.Int, error) {
 	result := make(map[common.Address]*big.Int)
 	if account == "" {
@@ -148,6 +148,7 @@ func LoadAccountConfig(account string) (map[common.Address]*big.Int, error) {
 	return result, err
 }
 
+// LoadPoolAccountConfig get accounts from the given file
 func LoadPoolAccountConfig(account string) ([]common.Address, error) {
 	addrMap := make(map[common.Address]*big.Int)
 	var result []common.Address

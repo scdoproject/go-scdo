@@ -71,13 +71,13 @@ func (db *Database) SaveNodes(nodeDir string) {
 
 	nodeByte, err := json.MarshalIndent(nodeStr, "", "\t")
 	if err != nil {
-		db.log.Error("json marshal occur error, for:[%s]", err.Error())
+		db.log.Error("json marshal error, [%s]", err.Error())
 		return
 	}
 
 	if !common.FileOrFolderExists(fileFullPath) {
 		if err := os.MkdirAll(nodeDir, os.ModePerm); err != nil {
-			db.log.Error("filePath:[%s], failed to create folder, for:[%s]", nodeDir, err.Error())
+			db.log.Error("filePath:[%s], failed to create folder, [%s]", nodeDir, err.Error())
 			return
 		}
 	}

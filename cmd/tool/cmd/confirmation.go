@@ -1,10 +1,12 @@
+/**
+*  @file
+*  @copyright defined in scdo/LICENSE
+ */
+
 package cmd
 
 import (
 	"fmt"
-	//"log"
-	//"os"
-	//"sort"
 )
 
 func askForConfirmation() bool {

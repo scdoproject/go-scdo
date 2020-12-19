@@ -1,9 +1,16 @@
+/**
+* @file
+* @copyright defined in scdo/LICENSE
+ */
+
+// legacy code
 package types
 
 import (
 	"math/big"
 
 	"fmt"
+
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/crypto"
 )
