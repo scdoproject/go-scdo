@@ -149,14 +149,15 @@ func (n *Node) checkConfig() error {
 	}
 
 	if specificShard > common.ShardCount {
-		return fmt.Errorf("unsupported shard number, it must be in range [0, %d]", common.ShardCount)
+		return fmt.Errorf("unsupported shard number, it must be in range [1, %d]", common.ShardCount)
 	}
 
-	common.LocalShardNumber = specificShard // @todo remove LocalShardNumber
+	common.LocalShardNumber = specificShard // here we assign the local shard number from config. but we also use coinbase to verify.
 	n.shard = specificShard
 	n.log.Info("local shard number is %d", common.LocalShardNumber)
 
-	if !n.config.ScdoConfig.Coinbase.Equal(common.Address{}) {
+	// here check coinbase shard
+	if !n.config.ScdoConfig.Coinbase.Equal(common.Address{}) { // we have coinbase
 		coinbaseShard := n.config.ScdoConfig.Coinbase.Shard()
 		n.log.Info("coinbase is %s", n.config.ScdoConfig.Coinbase.Hex())
 
@@ -164,6 +165,9 @@ func (n *Node) checkConfig() error {
 			return fmt.Errorf("coinbase does not match with specific shard number, "+
 				"coinbase shard:%d, specific shard number:%d", coinbaseShard, specificShard)
 		}
+	} else {
+		n.log.Error("coinbase can not be empty, please check coinbase setup in config file")
+		return fmt.Errorf("failed to start node")
 	}
 
 	return nil
