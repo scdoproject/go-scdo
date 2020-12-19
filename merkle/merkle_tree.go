@@ -199,8 +199,7 @@ func (m *MerkleTree) VerifyContent(expectedMerkleRoot []byte, content Content) b
 	return false
 }
 
-// String returns a string representation of the tree. Only leaf nodes are included
-// in the output.
+// String returns a string representation of the tree. Only leaf nodes are included in the output.
 func (m *MerkleTree) String() string {
 	s := ""
 	for _, l := range m.Leaves {

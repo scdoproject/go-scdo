@@ -21,10 +21,10 @@ import (
 
 // ServiceServer implements light server service.
 type ServiceServer struct {
-	p2pServer     *p2p.Server
+	p2pServer    *p2p.Server
 	scdoProtocol *LightProtocol
-	log           *log.ScdoLog
-	shard         uint
+	log          *log.ScdoLog
+	shard        uint
 }
 
 // NewServiceServer create ServiceServer
@@ -35,12 +35,12 @@ func NewServiceServer(service *scdo.ScdoService, conf *node.Config, log *log.Scd
 	}
 
 	s := &ServiceServer{
-		log:           log,
+		log:          log,
 		scdoProtocol: scdoProtocol,
 	}
 
 	rand2.Seed(time.Now().UnixNano())
-	s.log.Info("Light server started")
+	s.log.Info("Initiated light protocol server")
 	return s, nil
 }
 

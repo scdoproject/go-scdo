@@ -61,7 +61,7 @@ func NewServer() *Server {
 // RPCService gives meta information about the server.
 // e.g. gives information about the loaded modules.
 type RPCService struct {
-	server *Server
+	server *Server // server RPC
 }
 
 // Modules returns the list of RPC services with their version number
