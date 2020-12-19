@@ -12,8 +12,6 @@ import (
 	rpc "github.com/scdoproject/go-scdo/rpc"
 )
 
-// RemoteRPCQuest indicate wether this quest if from localhost or not
-
 // startRPC is a helper method to start all the various RPC endpoint during node
 // startup. It's not meant to be called at any time afterwards as it makes certain
 // assumptions about the state of the node.

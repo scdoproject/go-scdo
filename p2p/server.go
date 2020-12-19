@@ -181,10 +181,10 @@ func (srv *Server) Start(nodeDir string, shard uint) (err error) {
 		return err
 	}
 
-	srv.log.Debug("Starting P2P networking...")
+	srv.log.Debug("Starting P2P network...")
 	srv.SelfNode = discovery.NewNodeWithAddr(*address, addr, shard)
 
-	srv.log.Info("p2p.Server.Start: MyNodeID [%s]", srv.SelfNode)
+	srv.log.Info("Starting P2P Server, MyNodeID [%s]", srv.SelfNode)
 	srv.kadDB, srv.udp = discovery.StartService(nodeDir, *address, addr, srv.Config.StaticNodes, shard)
 	srv.kadDB.SetHookForNewNode(srv.addNode)
 	srv.kadDB.SetHookForDeleteNode(srv.deleteNode)
@@ -715,7 +715,7 @@ func (srv *Server) doHandShake(caps []Cap, peer *Peer, flags int, dialDest *disc
 		}
 
 		recvMsg, nounceCnt, err = srv.unPackWrapHSMsg(recvWrapMsg)
-		if err != nil  || recvMsg == nil {
+		if err != nil || recvMsg == nil {
 			return nil, 0, err
 		}
 
@@ -779,10 +779,10 @@ func (srv *Server) packWrapHSMsg(handshakeMsg *ProtoHandShake, peerNodeID []byte
 
 // unPackWrapHSMsg verify received msg, and recover the handshake msg
 func (srv *Server) unPackWrapHSMsg(recvWrapMsg *Message) (recvMsg *ProtoHandShake, nounceCnt uint64, err error) {
-	defer func(){
-		if err:=recover();err!=nil{
-			srv.log.Error("recover from unPackWrapHSMsg panic:%s",err)
-			srv.log.Debug("invalid message payload:%s",recvWrapMsg.Payload)
+	defer func() {
+		if err := recover(); err != nil {
+			srv.log.Error("recover from unPackWrapHSMsg panic:%s", err)
+			srv.log.Debug("invalid message payload:%s", recvWrapMsg.Payload)
 			return
 		}
 	}()
