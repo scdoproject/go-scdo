@@ -8,7 +8,6 @@ package lightclients
 import (
 	"context"
 	"fmt"
-	"math/big"
 	"path/filepath"
 
 	lru "github.com/hashicorp/golang-lru"
@@ -53,23 +52,6 @@ func NewLightClientManager(targetShard uint, context context.Context, config *no
 
 		shard := uint(i)
 		copyConf.ScdoConfig.GenesisConfig.ShardNumber = shard
-
-		if shard == uint(1) {
-			copyConf.ScdoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("1S01b04cb8be750904e2c1912417afbf1f3bc61a51")
-			copyConf.ScdoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
-		} else if shard == uint(2) {
-			copyConf.ScdoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("2S02b04cb8be750904e2c1912417afbf1f3bc61a51")
-			copyConf.ScdoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
-		} else if shard == uint(3) {
-			copyConf.ScdoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("3S03b04cb8be750904e2c1912417afbf1f3bc61a51")
-			copyConf.ScdoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
-		} else if shard == uint(4) {
-			copyConf.ScdoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("4S04b04cb8be750904e2c1912417afbf1f3bc61a51")
-			copyConf.ScdoConfig.GenesisConfig.Balance = big.NewInt(175000000000000000)
-		} else {
-			copyConf.ScdoConfig.GenesisConfig.Masteraccount, _ = common.HexToAddress("0x0000000000000000000000000000000000000000")
-			copyConf.ScdoConfig.GenesisConfig.Balance = big.NewInt(0)
-		}
 
 		dbFolder := filepath.Join("db", fmt.Sprintf("lightchainforshard_%d", i))
 		clients[i], err = light.NewServiceClient(context, copyConf, log.GetLogger(fmt.Sprintf("lightclient_%d", i)), dbFolder, shard, engine)
