@@ -18,6 +18,8 @@ import (
 	"github.com/scdoproject/go-scdo/log"
 )
 
+const debtTimeoutDuration = 3 * time.Hour
+
 // DebtPool debt pool
 type DebtPool struct {
 	*Pool
@@ -35,6 +37,12 @@ func NewDebtPool(chain blockchain, verifier types.DebtVerifier) *DebtPool {
 	// 1st bool: can remove from object pool
 	// 2nd bool: can remove from cachedTxs
 	canRemove := func(chain blockchain, state *state.Statedb, item *poolItem) (bool, bool) {
+		nowTimestamp := time.Now()
+		duration := nowTimestamp.Sub(item.timestamp)
+		if duration > debtTimeoutDuration {
+			log.Debug("remove debt %s because not packed for more than three hours", item.GetHash().Hex())
+			return true, true
+		}
 		debtIndex, err := chain.GetStore().GetDebtIndex(item.GetHash())
 		if err != nil || debtIndex == nil {
 			return false, false
