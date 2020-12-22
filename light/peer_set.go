@@ -6,6 +6,7 @@
 package light
 
 import (
+	"fmt"
 	"math/big"
 	"math/rand"
 	"sync"
@@ -136,7 +137,7 @@ func (p *peerSet) Find(address common.Address) *peer {
 func (p *peerSet) choosePeers(filter peerFilter) (choosePeers []*peer) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
-
+	fmt.Printf("filter is: %+v", filter)
 	mapLen := len(p.peerMap)
 	peerL := make([]*peer, mapLen)
 	var filteredPeers []*peer
@@ -168,15 +169,15 @@ func (p *peerSet) choosePeers(filter peerFilter) (choosePeers []*peer) {
 	}
 	return
 
-	// common.Shuffle(peerL)
-	// cnt := 0
-	// for _, p := range peerL {
-	// 	cnt++
-	// 	choosePeers = append(choosePeers, p)
-	// 	if cnt >= maxPeers {
-	// 		return
-	// 	}
-	// }
+	common.Shuffle(peerL)
+	cnt := 0
+	for _, p := range peerL {
+		cnt++
+		choosePeers = append(choosePeers, p)
+		if cnt >= maxPeers {
+			return
+		}
+	}
 
-	// return
+	return
 }
