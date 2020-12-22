@@ -167,7 +167,6 @@ func (p *peerSet) choosePeers(filter peerFilter) (choosePeers []*peer) {
 
 		return
 	}
-	return
 
 	common.Shuffle(peerL)
 	cnt := 0
