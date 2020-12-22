@@ -137,7 +137,7 @@ func (p *peerSet) Find(address common.Address) *peer {
 func (p *peerSet) choosePeers(filter peerFilter) (choosePeers []*peer) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
-	fmt.Printf("filter is: %+v", filter)
+
 	mapLen := len(p.peerMap)
 	peerL := make([]*peer, mapLen)
 	var filteredPeers []*peer
