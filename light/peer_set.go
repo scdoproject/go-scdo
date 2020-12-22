@@ -6,7 +6,7 @@
 package light
 
 import (
-	"fmt"
+
 	"math/big"
 	"math/rand"
 	"sync"
