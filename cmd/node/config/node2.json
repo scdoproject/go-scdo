@@ -1,8 +1,8 @@
 {
     "basic": {
-        "name": "scdo node2",
-        "version": "1.0",
-        "dataDir": "scdo-node2",
+        "name": "SCDO Node2",
+        "version": "1.0.0",
+        "dataDir": "Snode2",
         "address": "0.0.0.0:8028",
         "coinbase": "2S029b9c6d893ab34f676e32a2a32e7fa002bbc981",
         "algorithm": "zpow"
@@ -20,7 +20,7 @@
             "74.208.136.152:8058",
             "74.208.136.152:8059"
         ],
-        "networkID": "scdo"
+        "networkID": "SCDO-V1"
     },
     "log": {
         "isDebug": false,
@@ -52,7 +52,7 @@
         "password": "test123"
     },
     "genesis": {
-        "difficult": 2000000,
+        "difficult": 1800000,
         "shard": 2,
         "timestamp": 1596942480
     }
