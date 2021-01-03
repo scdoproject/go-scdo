@@ -70,7 +70,7 @@ Here are some guidelines before you start:
 * Code must adhere to the official Go [formatting](https://golang.org/doc/effective_go.html#formatting) guidelines (i.e. uses [gofmt](https://golang.org/cmd/gofmt/)).
 * Pull requests need to be based on and opened against the `master` branch.
 * We use reviewable.io as our review tool for any pull request. Please submit and follow up on your comments in this tool. After you submit a PR, there will be a `Reviewable` button in your PR. Click this button, it will take you to the review page (it may ask you to login).
-* If you have any questions, feel free to join [chat room](https://gitter.im/scdoteamchat/dev) to communicate with our core team.
+* If you have any questions, feel free to join [Twitter](https://twitter.com/OfficialScdo?s=20) to communicate with our core team.
 
 # Resources
 
@@ -79,6 +79,7 @@ Here are some guidelines before you start:
 * [Roadmap](https://scdo.pro/)
 * [SCDO Wiki](https://scdo-project.gitbook.io/scdo-wiki/)
 * [scdo-sdk-javascript](https://www.npmjs.com/package/scdo-sdk-javascript)
+* [Twitter](https://twitter.com/OfficialScdo?s=20)
 
 # License
 
