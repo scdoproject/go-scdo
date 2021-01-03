@@ -6,7 +6,7 @@
 |:-----------------------|------------------------------------------------------------------------------------------------|
 | **Sharding**           | 4 shards, transactions within the same shard and between different shards are supported<br/> higher transaction fee for cross-shard transaction                                  |
 | **Smart Contracts**    | smart contracts are supported within the same shard                                          |
-| **Scdo Wallet**       | easy-to-use wallet                                                                             |
+| **SCDO Wallet**       | easy-to-use wallet                                                                             |
 | **High TPS**           | same shard TPS: 250/shard, cross shard TPS: 6/shard                                           |
 | **Auditable Supply**   | total supply: 300,000,000 Scdos, all from mining                              |
 | **Consensus Algorithm**| ZPOW algorithm                                                |
@@ -15,9 +15,9 @@
 | **Block**              | 100 KB block size, 20 seconds block time, ~6000 transactions per block                         |
 
 
-The official Golang implementation of Scdo. Scdo is an open source blockchain project which consists of advanced sharding technology, innovative ZPoW consensus algorithm and scalable subchain protocol. [https://scdo.pro](https://scdo.pro)
+The official Golang implementation of SCDO. SCDO is an open source blockchain project which consists of advanced sharding technology, innovative ZPoW consensus algorithm and scalable subchain protocol. [https://scdo.pro](https://scdo.pro)
 
-The current mainnet release: Scdo mainchain is powered by a new anti-ASIC consensus PoW algorithm, which requires scientific calculation related to randomized matrix. The mainchain has four shards. Users can perform transactions within a shard or across shards. However, currently smart contracts can only be executed within the same shard. Scdo subchains are under development. 
+The current mainnet release: SCDO mainchain is powered by a new anti-ASIC consensus PoW algorithm, which requires scientific calculation related to randomized matrix. The mainchain has four shards. Users can perform transactions within a shard or across shards. However, currently smart contracts can only be executed within the same shard. SCDO subchains are under development. 
 
 # Download (without building)
 If you want to run the node directly and use client without setting up the compiling enviroment and building the executable files, you can choose the right version to download and run:
@@ -30,7 +30,7 @@ If you want to run the node directly and use client without setting up the compi
 
 # Or Download & Build the source
 
-- Building the Scdo project requires both a Go (version 1.12.7 ONLY at this moment) compiler, Git, and a C compiler.
+- Building the SCDO project requires both a Go (version 1.12.7 ONLY at this moment) compiler, Git, and a C compiler.
 
 - Clone the go-scdo repository to the GOPATH directory:
 
@@ -56,11 +56,11 @@ make all
 buildall.bat
 ```
 
-# Run Scdo
-A simple version Scdo mining tutorial: English-[Scdo MiningTutorial](https://github.com/scdoproject/go-scdo/releases/tag/v1.0.1-MiningTutorial_Eng), 中文-[Scdo 挖矿教程中文简版](https://github.com/scdoproject/go-scdo/releases/tag/v1.0.1-%E4%B8%AD%E6%96%87%E7%AE%80%E7%89%88%E6%8C%96%E7%9F%BF%E6%95%99%E7%A8%8B).
+# Run SCDO
+A simple version SCDO mining tutorial: English-[SCDO MiningTutorial](https://scdo-project.gitbook.io/scdo-wiki/en/mining), 中文-[SCDO 挖矿教程中文简版](https://scdo-project.gitbook.io/scdo-wiki/zhong-wen/wa-kuang).
 
-For running a node, please refer to [Get Started](https://scdotech.gitbook.io/wiki/developer/go-scdo/gettingstarted)([Older version](https://scdoteam.github.io/scdo-doc/docs/Getting-Started-With-Seele Credo.html)).
-For more usage details and deeper explanations, please consult the [Scdo Wiki](https://scdotech.gitbook.io/wiki/)([Older version](https://scdoteam.github.io/scdo-doc/index.html)).
+For running a node, please refer to [Get Started](https://scdo-project.gitbook.io/scdo-wiki/developer/go-scdo/gettingstarted).
+For more usage details and deeper explanations, please consult the [SCDO Wiki](https://scdo-project.gitbook.io/scdo-wiki/).
 
 # Contribution
 
@@ -74,10 +74,10 @@ Here are some guidelines before you start:
 
 # Resources
 
-* [Scdo Website](https://scdo.pro/)
-* [Telegram Group](https://t.me/scdotech)
+* [SCDO Website](https://scdo.pro/)
+* [Telegram Group](https://t.me/scdogroup)
 * [Roadmap](https://scdo.pro/)
-* [Scdo Wiki](https://scdotech.gitbook.io/wiki/)
+* [SCDO Wiki](https://scdo-project.gitbook.io/scdo-wiki/)
 * [scdo-sdk-javascript](https://www.npmjs.com/package/scdo-sdk-javascript)
 
 # License
