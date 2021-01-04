@@ -40,7 +40,7 @@
             "74.208.25.205:8056"
         ],
         "address": "0.0.0.0:8057",
-        "networkID": "SCDO-V1"
+        "networkID": "SCDO-n1"
     },
     "log": {
         "isDebug": false,
