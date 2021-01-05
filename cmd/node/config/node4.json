@@ -40,7 +40,7 @@
             "74.208.25.205:8059",
             "74.208.25.205:8056"
         ],
-        "networkID": "SCDO-n1"
+        "networkID": "net1"
     },
     "log": {
         "isDebug": false,
@@ -72,7 +72,7 @@
         "password": "test123"
     },
     "genesis": {
-        "difficult": 1800000,
+        "difficult": 1900000,
         "shard": 4,
         "timestamp": 1596942480
     }
