@@ -23,6 +23,7 @@ var (
 	errObjectHashExists = errors.New("object hash already exists")
 	errObjectPoolFull   = errors.New("object pool is full")
 	errObjectNonceUsed  = errors.New("object nonce already been used, please WAIT or manually set a HIGHER nonce")
+	errObjectPriceUnder = errors.New("object replace gas price is not enough")
 )
 
 var CachedCapacity = CachedBlocks * 500
@@ -66,6 +67,7 @@ type afterAddFunc func(obj poolObject)
 type Pool struct {
 	mutex              sync.RWMutex
 	capacity           int
+	priceBump          uint64
 	chain              blockchain
 	hashToTxMap        map[common.Hash]*poolItem
 	pendingQueue       *pendingQueue
@@ -79,10 +81,11 @@ type Pool struct {
 }
 
 // NewPool creates and returns a transaction pool.
-func NewPool(capacity int, chain blockchain, getObjectFromBlock getObjectFromBlockFunc,
+func NewPool(capacity int, priceBump uint64, chain blockchain, getObjectFromBlock getObjectFromBlockFunc,
 	canRemove canRemoveFunc, log *log.ScdoLog, objectValidation objectValidationFunc, afterAdd afterAddFunc, cachedTxs *CachedTxs) *Pool {
 	pool := &Pool{
 		capacity:           capacity,
+		priceBump:          priceBump,
 		chain:              chain,
 		hashToTxMap:        make(map[common.Hash]*poolItem),
 		pendingQueue:       newPendingQueue(),
@@ -282,13 +285,28 @@ func (pool *Pool) addObject(obj poolObject) error {
 
 	// update obj with higher price, otherwise return errObjectNonceUsed
 	if existTx := pool.pendingQueue.get(obj.FromAccount(), obj.Nonce()); existTx != nil {
-		if obj.Price().Cmp(existTx.Price()) > 0 {
+		// threshold = oldGP * (100 + priceBump) / 100
+		a := big.NewInt(100 + int64(pool.priceBump))
+		a = a.Mul(a, existTx.Price())
+		b := big.NewInt(100)
+		threshold := a.Div(a, b)
+		// Have to ensure that the new gas price is higher than the old gas
+		// price as well as checking the percentage threshold to ensure that
+		// this is accurate for low (Wei-level) gas price replacements
+		if obj.Price().Cmp(existTx.Price()) <= 0 || obj.Price().Cmp(threshold) < 0 {
+			return errObjectPriceUnder
+		} else {
 			pool.log.Debug("got a object has higher gas price than before. remove old one. new: %s, old: %s",
 				obj.GetHash().Hex(), existTx.GetHash().Hex())
 			pool.doRemoveObject(existTx.GetHash())
-		} else {
-			return errObjectNonceUsed
 		}
+		// if obj.Price().Cmp(existTx.Price()) > 0 {
+		// 	pool.log.Debug("got a object has higher gas price than before. remove old one. new: %s, old: %s",
+		// 		obj.GetHash().Hex(), existTx.GetHash().Hex())
+		// 	pool.doRemoveObject(existTx.GetHash())
+		// } else {
+		// 	return errObjectNonceUsed
+		// }
 	}
 
 	// if txpool capacity reached, then discard lower price txs if any.

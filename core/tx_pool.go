@@ -22,6 +22,7 @@ const transactionTimeoutDuration = 3 * time.Hour
 // A transaction will be removed from the pool once included in a blockchain or pending time too long (> transactionTimeoutDuration).
 type TransactionPool struct {
 	*Pool
+	TransactionPoolConfig
 }
 
 // NewTransactionPool creates and returns a transaction pool.
@@ -75,9 +76,12 @@ func NewTransactionPool(config TransactionPoolConfig, chain blockchain) *Transac
 	cachedTxs := NewCachedTxs(CachedCapacity)
 	cachedTxs.init(chain)
 
-	pool := NewPool(config.Capacity, chain, getObjectFromBlock, canRemove, log, objectValidation, afterAdd, cachedTxs)
+	pool := NewPool(config.Capacity, config.PriceBump, chain, getObjectFromBlock, canRemove, log, objectValidation, afterAdd, cachedTxs)
 
-	return &TransactionPool{pool}
+	return &TransactionPool{
+		Pool:                  pool,
+		TransactionPoolConfig: config,
+	}
 }
 
 // AddTransaction adds a single transaction into the pool if it is valid and returns nil.
