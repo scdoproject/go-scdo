@@ -204,7 +204,7 @@ func (s *ScdoService) initPool(conf *node.Config) (err error) {
 	}
 
 	s.chainHeaderChangeChannel = make(chan common.Hash, chainHeaderChangeBuffSize)
-	s.debtPool = core.NewDebtPool(s.chain, s.debtVerifier)
+	s.debtPool = core.NewDebtPool(conf.ScdoConfig.TxConf, s.chain, s.debtVerifier)
 	s.txPool = core.NewTransactionPool(conf.ScdoConfig.TxConf, s.chain)
 
 	event.ChainHeaderChangedEventMananger.AddAsyncListener(s.chainHeaderChanged)

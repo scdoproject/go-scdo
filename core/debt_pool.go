@@ -28,7 +28,7 @@ type DebtPool struct {
 }
 
 // NewDebtPool creates and returns a new debt pool
-func NewDebtPool(chain blockchain, verifier types.DebtVerifier) *DebtPool {
+func NewDebtPool(config TransactionPoolConfig, chain blockchain, verifier types.DebtVerifier) *DebtPool {
 	log := log.GetLogger("debtpool")
 
 	getObjectFromBlock := func(block *types.Block) []poolObject {
@@ -62,12 +62,12 @@ func NewDebtPool(chain blockchain, verifier types.DebtVerifier) *DebtPool {
 		event.DebtsInsertedEventManager.Fire(obj.(*types.Debt))
 	}
 	cachedTxs := NewCachedTxs(0)
-	pool := NewPool(DebtPoolCapacity, DebtPoolPriceBump, chain, getObjectFromBlock, canRemove, log, objectValidation, afterAdd, cachedTxs)
+	pool := NewPool(config.DebtPoolCapacity, config.PriceBump, chain, getObjectFromBlock, canRemove, log, objectValidation, afterAdd, cachedTxs)
 
 	debtPool := &DebtPool{
 		Pool:             pool,
 		verifier:         verifier,
-		toConfirmedDebts: NewConcurrentDebtMap(ToConfirmedDebtCapacity),
+		toConfirmedDebts: NewConcurrentDebtMap(config.ToConfirmedDebtCapacity),
 	}
 
 	go debtPool.loopCheckingDebt()
