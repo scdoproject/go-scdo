@@ -109,7 +109,7 @@ func (backup *txBackup) insert(tx *types.Transaction) error {
 }
 
 // update recreate the tx backup based on current tx poll
-func (backup *txBackup) update(all map[common.Address][]types.Transaction) error {
+func (backup *txBackup) update(all map[common.Address][]*types.Transaction) error {
 	// need to close current backup if any is open
 	if backup.writer != nil {
 		if err := backup.writer.Close(); err != nil {

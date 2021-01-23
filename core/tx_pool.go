@@ -77,7 +77,22 @@ func NewTransactionPool(config TransactionPoolConfig, chain blockchain) *Transac
 	cachedTxs.init(chain)
 
 	pool := NewPool(config.Capacity, config.PriceBump, chain, getObjectFromBlock, canRemove, log, objectValidation, afterAdd, cachedTxs)
+	if config.Backup != "" {
+		pool.backup = newTxBackup(config.Backup)
+	}
 
+	/*
+		// TODO implennt the AddLocals which will add the txs from the disk, and return tx array for process!
+		if err := pool.backup.load(pool.AddLocals); err != nil {
+			pool.log.Warn("failed to load transaction backup", "err", err)
+		}
+
+		// TODO implement the local function
+		if err := pool.backup.update(pool.local()); err != nil {
+			pool.log.Warn("failed to update transaction backup", "err", err)
+		}
+
+	*/
 	return &TransactionPool{
 		Pool:                  pool,
 		TransactionPoolConfig: config,

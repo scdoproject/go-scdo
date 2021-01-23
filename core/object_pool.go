@@ -78,6 +78,8 @@ type Pool struct {
 	objectValidation   objectValidationFunc
 	afterAdd           afterAddFunc
 	cachedTxs          *CachedTxs
+	backup             *txBackup
+	NoBackup           bool
 }
 
 // NewPool creates and returns a transaction pool.
@@ -132,6 +134,36 @@ func (pool *Pool) loopCheckingPool() {
 			time.Sleep(5 * time.Second)
 		}
 	}
+}
+
+// AddLocals add
+func (pool *Pool) AddLocals(txs []*types.Transaction) error {
+	errs := pool.addTxs(txs, !pool.NoBackup, true)
+	return errs[0]
+}
+
+func (pool *Pool) addTxs(txs []*types.Transaction, local, sync bool) []error {
+	var (
+		errs = make([]error, len(txs))
+		/*
+			news = make([]*types.Transaction, 0, len(txs))
+		*/
+	)
+	return errs
+}
+
+// local retrieves all currently known local transactions, grouped by origin
+// account and sorted by nonce. The returned transaction set is a copy and can be
+// freely modified by calling code.
+func (pool *Pool) local() map[common.Address][]*types.Transaction {
+	txs := make(map[common.Address][]*types.Transaction)
+	/*
+		for addr := range pool.pendingQueue.txs {
+			// TODO implement the copy of tx
+			// txs[addr] = append(txs[addr], pool.pendingQueue.txs[addr])
+		}
+	*/
+	return txs
 }
 
 // HandleChainHeaderChanged reinjects txs into pool in case of blockchain forked.

@@ -12,8 +12,8 @@ type TransactionPoolConfig struct {
 	Capacity                int           // Maximum number of transactions in the pool.
 	PriceLimit              uint64        // Minimum gas price to enforce for acceptance into the pool
 	PriceBump               uint64        // Minimum price bump percentage to replace an already existing transaction (nonce)
-	Journal                 string        // Journal of local transactions to survive node restarts
-	Rejournal               time.Duration // Time interval to regenerate the local transaction journal
+	Backup                  string        // backup of local transactions to survive node restarts
+	ToBackup                time.Duration // Time interval to regenerate the local transaction backup
 	DebtPoolCapacity        int
 	ToConfirmedDebtCapacity int
 	// DebtManagerPoolCapacity int
