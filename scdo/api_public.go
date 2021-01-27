@@ -227,7 +227,13 @@ func (api *PublicScdoAPI) GetWork() map[string]interface{} {
 }
 
 func (api *PublicScdoAPI) GetCurrentWorkHeader() map[string]interface{} {
-	return api.s.miner.GetCurrentWorkHeader()
+
+	curBlock := api.s.chain.CurrentBlock()
+	totalDifficulty, err := api.s.chain.GetStore().GetBlockTotalDifficulty(curBlock.HeaderHash)
+	if err != nil {
+		return nil
+	}
+	return api.s.miner.GetCurrentWorkHeader(totalDifficulty)
 }
 
 func (api *PublicScdoAPI) SubmitNonce(height uint64, nonce uint64) error {
