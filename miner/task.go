@@ -207,10 +207,11 @@ func PrintableOutputTask(task *Task) map[string]interface{} {
 }
 
 // PrintableOutputTask returns the printable format of the task header
-func PrintableOutputTaskHeader(header *types.BlockHeader) map[string]interface{} {
+func PrintableOutputTaskHeader(header *types.BlockHeader, totalDifficulty *big.Int) map[string]interface{} {
 
 	result := map[string]interface{}{
-		"header": header,
+		"header":          header,
+		"totalDifficulty": totalDifficulty,
 	}
 	return result
 }

@@ -392,13 +392,15 @@ func (miner *Miner) GetWorkTask() *Task {
 }
 
 // GetCurrentWorkHeader returns the header of current task
-func (miner *Miner) GetCurrentWorkHeader() map[string]interface{} {
+func (miner *Miner) GetCurrentWorkHeader(totalDifficulty *big.Int) map[string]interface{} {
 	task := miner.GetWorkTask()
 	if task == nil {
 		miner.log.Info("there is no task so far")
 		return nil
 	}
-	return PrintableOutputTaskHeader(task.header)
+	newTotalDifficulty := big.NewInt(0)
+	newTotalDifficulty.Add(totalDifficulty, task.header.Difficulty)
+	return PrintableOutputTaskHeader(task.header, newTotalDifficulty)
 }
 
 // SubmitWork is used to submit the nonce to generate the final block
