@@ -558,7 +558,10 @@ func (srv *Server) setupConn(fd net.Conn, flags int, dialDest *discovery.Node) (
 		}
 		return err
 	}
-
+	if recvMsg == nil {
+		srv.log.Error("handshake recvMsg is nil. %s -> %s", fd.LocalAddr(), fd.RemoteAddr())
+		return  errors.New("recvMsg is nil")
+	}
 	srv.log.Debug("handshake succeed. %s -> %s", fd.LocalAddr(), fd.RemoteAddr())
 	peerNodeID := recvMsg.NodeID
 	if flags == inboundConn {
