@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/ethereum/go-ethereum/rlp"
-	"github.com/hashicorp/golang-lru"
+	lru "github.com/hashicorp/golang-lru"
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/common/hexutil"
 	"github.com/scdoproject/go-scdo/consensus"
@@ -442,6 +442,10 @@ func (sb *backend) APIs(chain consensus.ChainReader) []rpc.API {
 }
 
 func (sb *backend) SetThreads(thread int) {
+	// do nothing
+}
+
+func (sb *backend) SetGpuBlocksThreads(blocks int, thread int) {
 	// do nothing
 }
 

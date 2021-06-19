@@ -1,9 +1,10 @@
-/**
-*  @file
-*  @copyright defined in scdo/LICENSE
- */
-
 package zpow
+
+/*
+void Determinant(int* hashBytes, double* retDets, int Blocks, int Threads, int mtrxSize, int hashBytesize, int Height);
+#cgo LDFLAGS: -L. -L./ -lgoGpuDet -L/usr/lib/cuda/lib64 -lcudart -lstdc++
+*/
+import "C"
 
 import (
 	"encoding/binary"
@@ -27,6 +28,8 @@ import (
 	"gonum.org/v1/gonum/mat"
 )
 
+//note: the path /usr/lib/cuda/lib64 shall be changed to point to the local lib
+
 var (
 	// bound of the determinant
 	maxDet30x30 = new(big.Int).Mul(big.NewInt(2), new(big.Int).Exp(big.NewInt(10), big.NewInt(30), big.NewInt(0)))
@@ -36,10 +39,12 @@ var (
 
 // Engine provides the consensus operations based on ZPOW.
 type ZpowEngine struct {
-	threads int
-	log     *log.ScdoLog
-	detrate metrics.Meter
-	lock    sync.Mutex
+	threads      int
+	blocks       int
+	blockthreads int
+	log          *log.ScdoLog
+	detrate      metrics.Meter
+	lock         sync.Mutex
 }
 
 func NewZpowEngine(threads int) *ZpowEngine {
@@ -57,6 +62,19 @@ func (engine *ZpowEngine) SetThreads(threads int) {
 		engine.threads = runtime.NumCPU()
 	} else {
 		engine.threads = threads
+	}
+}
+
+func (engine *ZpowEngine) SetGpuBlocksThreads(blocks int, threads int) {
+	if threads <= 0 {
+		engine.blockthreads = 1
+	} else {
+		engine.blockthreads = threads
+	}
+	if blocks <= 0 {
+		engine.blocks = 0
+	} else {
+		engine.blocks = blocks
 	}
 }
 
@@ -90,6 +108,14 @@ func (engine *ZpowEngine) Seal(reader consensus.ChainReader, block *types.Block,
 
 	var step uint64
 	var seed uint64
+	gpu := true
+
+	if engine.blocks <= 0 {
+		gpu = false
+	}
+	if gpu {
+		engine.log.Info("GPU miner called number of blocks=%d, number of block threads = %d ", engine.blocks, engine.blockthreads)
+	}
 	if threads != 0 {
 		step = math.MaxUint64 / uint64(threads)
 	}
@@ -114,15 +140,134 @@ func (engine *ZpowEngine) Seal(reader consensus.ChainReader, block *types.Block,
 			max = math.MaxUint64
 		}
 
-		go func(tseed uint64, tmin uint64, tmax uint64) {
-			engine.StartMining(block, tseed, tmin, tmax, results, stop, &isNonceFound, once, engine.detrate, engine.log)
-		}(tSeed, min, max)
+		go func(tseed uint64, tmin uint64, tmax uint64, GPU bool) {
+			if GPU {
+				engine.StartMiningGpu(block, tseed, tmin, tmax, results, stop, &isNonceFound, once, engine.detrate, engine.log)
+			} else {
+				engine.StartMining(block, tseed, tmin, tmax, results, stop, &isNonceFound, once, engine.detrate, engine.log)
+
+			}
+		}(tSeed, min, max, gpu)
 	}
 
 	return nil
 }
 
 // StartMining is the core mining rountine
+func (engine *ZpowEngine) StartMiningGpu(block *types.Block, seed uint64, min uint64, max uint64, result chan<- *types.Block, abort <-chan struct{},
+	isNonceFound *int32, once *sync.Once, detrate metrics.Meter, log *log.ScdoLog) {
+	var nonce = seed
+	var caltimes = int64(0)
+	target := new(big.Float).SetInt(getMiningTarget(block.Header.Difficulty))
+	header := block.Header.Clone()
+	numBytes := 32
+	dim := matrixDim
+	blocks := engine.blocks        //gpu thread blocks
+	threads := engine.blockthreads //gpu threads per block
+
+	loopCount := 0
+
+	maxmum := float64(1000)
+
+miner:
+	for {
+		select {
+		case <-abort:
+			logAbort(log)
+			detrate.Mark(caltimes)
+			break miner
+
+		default:
+			if atomic.LoadInt32(isNonceFound) != 0 {
+				log.Debug("exit mining as nonce is found by other threads")
+				break miner
+			}
+
+			caltimes++
+			detrate.Mark(1)
+			if caltimes == 0X7FFFFFFFFFFFFFFF {
+				caltimes = 0
+			}
+			var chasharray = make([]C.int, blocks*threads*numBytes)
+			var retDet = make([]C.double, blocks*threads)
+			var chash *C.int = &chasharray[0]
+			var retD *C.double = &retDet[0]
+
+			k := 0
+
+			//create hash for each gpu thread or gid node
+			for j := 0; j < blocks*threads; j++ {
+				header.Witness = []byte(strconv.FormatUint(nonce+uint64(j), 10))
+				hash := header.Hash()
+				hashbyte := hash.Bytes()
+
+				for i := 0; i < len(hashbyte); i++ {
+					chasharray[k] = (C.int)(hashbyte[i])
+					k++
+
+				}
+
+			}
+
+			C.Determinant(chash, retD, C.int(blocks), C.int(threads), C.int(dim), C.int(32), C.int(header.Height))
+
+			for j := 0; j < blocks*threads; j++ {
+				restBig := big.NewFloat(float64(retDet[j]))
+				if float64(retDet[j]) > maxmum {
+
+					maxmum = float64(retDet[j])
+
+				}
+				if restBig.Cmp(target) >= 0 {
+					once.Do(func() {
+						header.Witness = []byte(strconv.FormatUint(uint64(j)+nonce, 10))
+						block.Header = header
+						block.HeaderHash = header.Hash()
+
+						select {
+						case <-abort:
+							chasharray = nil
+							retDet = nil
+							logAbort(log)
+						case result <- block:
+							atomic.StoreInt32(isNonceFound, 1)
+
+							log.Debug("found det:%e", restBig)
+							log.Debug("target:%e", target)
+							log.Debug("times2try:%d", caltimes)
+						}
+					})
+					chasharray = nil
+					retDet = nil
+					break miner
+				}
+			}
+			loopCount++
+			//nonce is increased by the number of parallel processes
+			nonce = nonce + uint64(blocks*threads-1)
+			chasharray = nil
+			retDet = nil
+			// when nonce reached max, nonce traverses in [min, seed-1]
+			if nonce >= max {
+				nonce = min
+			}
+			// outage
+			if nonce == seed-1 {
+				select {
+				case <-abort:
+					logAbort(log)
+				case result <- nil:
+					log.Warn("nonce finding outage")
+				}
+
+				break miner
+			}
+
+			nonce++
+		}
+	}
+}
+
 func (engine *ZpowEngine) StartMining(block *types.Block, seed uint64, min uint64, max uint64, result chan<- *types.Block, abort <-chan struct{},
 	isNonceFound *int32, once *sync.Once, detrate metrics.Meter, log *log.ScdoLog) {
 	var nonce = seed
@@ -130,7 +275,6 @@ func (engine *ZpowEngine) StartMining(block *types.Block, seed uint64, min uint6
 	target := new(big.Float).SetInt(getMiningTarget(block.Header.Difficulty))
 	header := block.Header.Clone()
 	dim := matrixDim
-
 miner:
 	for {
 		select {
@@ -154,13 +298,12 @@ miner:
 			header.Witness = []byte(strconv.FormatUint(nonce, 10))
 			hash := header.Hash()
 
-			// generate matrix
 			matrix := generateRandomMat(hash, dim, header.Height)
-
 			// compute matrix det
+
 			res := mat.Det(matrix)
+
 			restBig := big.NewFloat(res)
-			// found
 			if restBig.Cmp(target) >= 0 {
 				once.Do(func() {
 					block.Header = header
@@ -253,7 +396,9 @@ func logAbort(log *log.ScdoLog) {
 
 // bytesToInt64 converts a byte array to int64
 // note that the input should have at most 8 bytes
+
 func bytesToInt64(buf []byte) int64 {
+
 	return int64(binary.BigEndian.Uint64(buf))
 }
 
@@ -268,6 +413,7 @@ func generateRandomMat(hash common.Hash, dim int, height uint64) *mat.Dense {
 	hashSeed[1] = bytesToInt64(hashBytes[8:16])
 	hashSeed[2] = bytesToInt64(hashBytes[16:24])
 	hashSeed[3] = bytesToInt64(hashBytes[24:32])
+
 	for i := 0; i < dim; i++ {
 		curNum ^= hashSeed[i%4]
 		var randObj *scdorand.RandObj
@@ -277,10 +423,15 @@ func generateRandomMat(hash common.Hash, dim int, height uint64) *mat.Dense {
 		} else {
 			randObj = scdorand.NewRandObj(scdorand.NewSource(curNum))
 		}
+
 		for j := 0; j < dim; j++ {
+
 			curNum = randObj.Int63n(1<<63 - 1)
+
 			matrix.Set(i, j, float64(randObj.Int63n(3)))
+
 		}
+
 	}
 	return matrix
 }
