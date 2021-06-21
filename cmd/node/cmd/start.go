@@ -41,7 +41,8 @@ var (
 	threads            int
 	startHeight        int
 	isPoolMode         bool
-
+	threadblocks       int //thread blocks, i.e, gridDim.x
+	blockthreads       int //number threads per block, threadDim.x
 	// default is full node
 	lightNode bool
 
@@ -149,6 +150,8 @@ var startCmd = &cobra.Command{
 
 			scdoService.Miner().SetThreads(threads)
 
+			scdoService.Miner().SetGpuBlocksThreads(threadblocks, blockthreads)
+
 			lightServerService, err := light.NewServiceServer(scdoService, nCfg, lightLog, scdoNode.GetShardNumber())
 			if err != nil {
 				fmt.Println("Create light server err. ", err.Error())
@@ -232,6 +235,8 @@ func init() {
 	startCmd.Flags().IntVarP(&maxConns, "maxConns", "", 0, "node max connections")
 	startCmd.Flags().IntVarP(&maxActiveConns, "maxActiveConns", "", 0, "node max active connections")
 	startCmd.Flags().BoolVarP(&isPoolMode, "pool", "", false, "pool mode")
+	startCmd.Flags().IntVarP(&threadblocks, "threadblocks", "", 0, "number of thread blocks in a gpu device")
+	startCmd.Flags().IntVarP(&blockthreads, "blockthreads", "", 1, "number of threads per block in a gpu device")
 
 }
 

@@ -26,6 +26,8 @@ type Engine interface {
 
 	// SetThreads set miner threads
 	SetThreads(thread int)
+
+	SetGpuBlocksThreads(blocks int, threads int)
 }
 
 // Istanbul is a consensus engine to avoid byzantine failure
