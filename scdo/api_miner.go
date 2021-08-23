@@ -61,6 +61,16 @@ func (api *PrivateMinerAPI) SetThreads(threads int) (bool, error) {
 	return true, nil
 }
 
+// SetBlocksThreads  API is used to set the number of thread blocks and blocks.
+func (api *PrivateMinerAPI) SetGpuBlocksThreads(blocks int, threads int) (bool, error) {
+	if blocks < 0 || threads < 0 {
+		return false, errors.New("Gpu blocks and threads should not be negative")
+	}
+
+	api.s.miner.SetGpuBlocksThreads(blocks, threads)
+	return true, nil
+}
+
 // SetCoinbase API is used to set the coinbase.
 func (api *PrivateMinerAPI) SetCoinbase(coinbaseStr string) (bool, error) {
 	coinbase, err := common.HexToAddress(coinbaseStr)

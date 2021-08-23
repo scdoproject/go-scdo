@@ -109,6 +109,12 @@ func (miner *Miner) SetThreads(threads int) {
 	}
 }
 
+func (miner *Miner) SetGpuBlocksThreads(blocks int, threads int) {
+	if miner.engine != nil {
+		miner.engine.SetGpuBlocksThreads(blocks, threads)
+	}
+}
+
 // SetCoinbase set the coinbase.
 func (miner *Miner) SetCoinbase(coinbase common.Address) {
 	miner.coinbase = coinbase
