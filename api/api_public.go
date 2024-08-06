@@ -140,19 +140,13 @@ func (api *PublicScdoAPI) GetAccountNonce(account common.Address, hexHash string
 	if err = state.GetDbErr(); err != nil {
 		return 0, err
 	}
-	var sourceNonce = nonce
-	var pendingTxCount uint64
-	// api.s.Log().Debug("pendingTx for account, %v, this nonce: %d", account, nonce)
 	// get transactions from pending transactions, and plus nonce if its From address is current account
 	pendingTxs := api.s.TxPoolBackend().GetTransactions(true, true)
 	for _, tx := range pendingTxs {
 		if tx.Data.From == account {
-			// api.s.Log().Debug("pendingTx for account, %v", tx.Data.From)
 			nonce++
-			pendingTxCount++
 		}
 	}
-	api.s.Log().Debug("pendingTx for account, %v, this sourceNonce: %d, this nonce: %d, pendingTxCount: %d", account, sourceNonce, nonce, pendingTxCount)
 	return nonce, nil
 }
 
