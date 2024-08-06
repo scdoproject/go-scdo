@@ -140,6 +140,13 @@ func (api *PublicScdoAPI) GetAccountNonce(account common.Address, hexHash string
 	if err = state.GetDbErr(); err != nil {
 		return 0, err
 	}
+	// get transactions from pending transactions, and plus nonce if its From address is current account
+	pendingTxs := api.s.TxPoolBackend().GetTransactions(true, true)
+	for _, tx := range pendingTxs {
+		if tx.Data.From == account {
+			nonce++
+		}
+	}
 	return nonce, nil
 }
 
@@ -178,7 +185,7 @@ func (api *PublicScdoAPI) GetBlockByHeight(height int64, fulltx bool) (map[strin
 }
 
 // GetBlocks returns requested blocks. When the blockNr is -1 the chain head is returned.
-//When the size is greater than 64, the size will be set to 64.When it's -1 that the blockNr minus size, the blocks in 64 is returned.
+// When the size is greater than 64, the size will be set to 64.When it's -1 that the blockNr minus size, the blocks in 64 is returned.
 // When fullTx is true all transactions in the block are returned in full detail, otherwise only the transaction hash is returned
 func (api *PublicScdoAPI) GetBlocks(height int64, fulltx bool, size uint) ([]map[string]interface{}, error) {
 	blocks := make([]*types.Block, 0)
@@ -534,7 +541,7 @@ func (api *PublicScdoAPI) GetTransactionsFrom(account common.Address, blockHash 
 	return api.GetTransactionsFromByHeight(account, height)
 }
 
-//GetTransactionsTo get transactions to one account at specific height or blockhash
+// GetTransactionsTo get transactions to one account at specific height or blockhash
 func (api *PublicScdoAPI) GetTransactionsTo(account common.Address, blockHash string, height int64) (result []map[string]interface{}, err error) {
 	if len(blockHash) > 0 {
 		return api.GetTransactionsToByHash(account, blockHash)
