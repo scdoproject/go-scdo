@@ -6,6 +6,7 @@
 package core
 
 import (
+	"fmt"
 	"math/rand"
 	"sync"
 	"time"
@@ -13,11 +14,13 @@ import (
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/common/errors"
 	"github.com/scdoproject/go-scdo/core/types"
+
 	"github.com/scdoproject/go-scdo/log"
 )
 
 var errTxCacheFull = errors.New("CachedTxs reaches max")
 var errDuplicateTx = errors.New("Tx already exists")
+var errTimestemp = errors.New("Tx time stamp is not set correctly")
 
 const CachedBlocks = uint64(24000)
 const PercentDelete = 20 // once CachedTxs reach max, 1/PercentDelete of capacity will be randomly deleted
@@ -121,8 +124,14 @@ func (c *CachedTxs) add(tx *types.Transaction) {
 		c.randomDeletes()
 		c.log.Debug("after remove, CachedTxs size %d", len(c.content))
 	}
+
 	if c.content[tx.Hash] != nil {
+		timestampstr := fmt.Sprint(tx.Data.Timestamp)
+		if len(timestampstr) < 10 {
+			c.log.Error("Block tx %s", errTimestemp)
+		}
 		c.log.Debug("Block tx, %s", errDuplicateTx)
+
 	}
 	c.content[tx.Hash] = tx
 	c.log.Debug("[CachedTxs] add tx %+v", tx.Hash)

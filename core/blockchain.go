@@ -38,6 +38,7 @@ const (
 
 	// BlockByteLimit is the limit of size in bytes
 	BlockByteLimit = 1024 * 1024
+	SizeofFilter   = 4
 )
 
 var (
@@ -69,6 +70,8 @@ var (
 
 	// ErrNotSupported is returned when unsupported method invoked.
 	ErrNotSupported = errors.New("not supported function")
+	ErrOldDebtTx    = errors.New("failed to batch valudate debt")
+	Filters         = [4]uint64{5162247, 6124420, 6126398, 6132641}
 )
 
 // Blockchain represents the blockchain with a genesis block. The Blockchain manages
@@ -171,6 +174,15 @@ func NewBlockchain(bcStore store.BlockchainStore, accountStateDB database.Databa
 // AccountDB returns the account state database in blockchain.
 func (bc *Blockchain) AccountDB() database.Database {
 	return bc.accountStateDB
+}
+
+func CheckFilters(height uint64) bool {
+	for i := 0; i < SizeofFilter; i++ {
+		if height == Filters[i] {
+			return true
+		}
+	}
+	return false
 }
 
 // CurrentBlock returns the HEAD block of the blockchain.
@@ -508,7 +520,10 @@ func (bc *Blockchain) applyTxs(block *types.Block, root common.Hash) (*state.Sta
 
 	//validate debts
 	err = types.BatchValidateDebt(block.Debts, bc.debtVerifier)
-	if err != nil {
+	if err != nil && CheckFilters(block.Header.Height) || err == nil {
+
+	} else {
+
 		return nil, nil, errors.NewStackedError(err, "failed to batch validate debt")
 	}
 
