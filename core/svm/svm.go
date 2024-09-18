@@ -88,7 +88,7 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 
 	// refund gas, capped to half of the used gas.
 	refund := ctx.Statedb.GetRefund()
-	if maxRefund := receipt.UsedGas / 4; refund > maxRefund {
+	if maxRefund := receipt.UsedGas / 5; refund > maxRefund {
 		refund = maxRefund
 	}
 	receipt.UsedGas -= refund
