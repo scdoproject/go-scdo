@@ -6,8 +6,7 @@
 package svm
 
 import (
-	"math/big"
-
+	"fmt"
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/common/errors"
 	"github.com/scdoproject/go-scdo/contract/system"
@@ -16,6 +15,7 @@ import (
 	"github.com/scdoproject/go-scdo/core/svm/evm"
 	"github.com/scdoproject/go-scdo/core/types"
 	"github.com/scdoproject/go-scdo/core/vm"
+	"math/big"
 )
 
 // Context for other vm constructs
@@ -27,41 +27,61 @@ type Context struct {
 	BcStore     store.BlockchainStore
 }
 
-// Process the tx
+// Process the tx. If it is called by api.estimateGas to ge the gas usage estimate, ctx.TxIndex is set to be 0.
 func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 	// check the tx against the latest statedb, e.g. balance, nonce.
-	if err := ctx.Tx.ValidateState(ctx.Statedb, height); err != nil {
-		return nil, errors.NewStackedError(err, "failed to validate tx against statedb")
-	}
 
+	var receipt *types.Receipt
 	// Pay intrinsic gas all the time
+	var err error
+	var err1 error
 	gasLimit := ctx.Tx.Data.GasLimit
 	intrGas := ctx.Tx.IntrinsicGas()
-	if gasLimit < intrGas {
-		return nil, types.ErrIntrinsicGas
-	}
-	leftOverGas := gasLimit - intrGas
+	var s string
 
-	// init statedb and set snapshot
-	var err error
-	var receipt *types.Receipt
+	if err := ctx.Tx.ValidateState(ctx.Statedb, height); err != nil {
+		s = fmt.Sprintf("gasLimit= %d, IntriinsicGas= %d", gasLimit, intrGas)
+		return nil, errors.NewStackedError(err, s+"failed to validate tx against statedb")
+	}
 	snapshot := ctx.Statedb.Prepare(ctx.TxIndex)
 
+	contract := system.GetContractByAddress(ctx.Tx.Data.To)
+
+	var leftOverGas = gasLimit - intrGas
+	if leftOverGas < 0 && ctx.Tx.Data.Payload == nil { //this happen if the tx is a normal transaction and not esitmate, then in order to avoid quite earlier, increase the gasLimit
+		s = fmt.Sprintf("Gas limit too low. gasLimit= %d, IntriinsicGas= %d", gasLimit, intrGas)
+		return nil, errors.New(s)
+
+	} else {
+		if leftOverGas < 0 { //get the estimate of the gas usage for regular tx
+			s = fmt.Sprintf("gasLimit= %d, IntriinsicGas= %d", gasLimit, intrGas)
+			err1 = errors.New(s)
+
+		}
+	}
+
+	// init statedb and set snapshot
+
 	// create or execute contract
-	if contract := system.GetContractByAddress(ctx.Tx.Data.To); contract != nil { // system contract
+	if contract != nil { // system contract
 		receipt, err = processSystemContract(ctx, contract, snapshot, leftOverGas)
 	} else if ctx.Tx.IsCrossShardTx() && !ctx.Tx.Data.To.IsEVMContract() { // cross shard tx
-		return processCrossShardTransaction(ctx, snapshot)
+		receipt, err = processCrossShardTransaction(ctx, snapshot)
+		if err != nil {
+			err = errors.NewStackedError(err, s)
+		}
+		return receipt, err
 	} else { // evm
 		receipt, err = processEvmContract(ctx, leftOverGas, height)
 	}
 
-	// account balance is not enough (account.balance < tx.amount)
+	// account balance is not enough (account.balance < thandleFeex.amount)
 	if err == vm.ErrInsufficientBalance { // there is no effect to statedb, just revert to previous snapshot
 		return nil, revertStatedb(ctx.Statedb, snapshot, err)
 	}
 
 	if err != nil {
+
 		if height <= common.SmartContractNonceForkHeight {
 			// smart contract OLD logic
 			ctx.Statedb.RevertToSnapshot(snapshot)
@@ -69,7 +89,6 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 			receipt.Result = []byte(err.Error())
 
 		} else {
-			// smart contract NEW logic
 			databaseAccountNonce := ctx.Statedb.GetNonce(ctx.Tx.Data.From)
 			setNonce := databaseAccountNonce
 			if ctx.Tx.Data.AccountNonce >= databaseAccountNonce {
@@ -78,7 +97,11 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 			ctx.Statedb.RevertToSnapshot(snapshot)
 			ctx.Statedb.SetNonce(ctx.Tx.Data.From, setNonce)
 			receipt.Failed = true
+			if err1 != nil { //add an extra info
+				err = errors.NewStackedError(err, s)
+			}
 			receipt.Result = []byte(err.Error())
+
 		}
 
 	}
@@ -86,12 +109,17 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 	// include the intrinsic gas
 	receipt.UsedGas += intrGas
 
-	// refund gas, capped to half of the used gas.
+	// refund gas, capped to 5th of the used gas if no error.
 	refund := ctx.Statedb.GetRefund()
 	if maxRefund := receipt.UsedGas / 5; refund > maxRefund {
 		refund = maxRefund
 	}
-	receipt.UsedGas -= refund
+
+	if ctx.TxIndex == 0 && ctx.Tx.Data.Payload != nil { // if it is to get the estimate of gas usage for a smart contract, add 10% more
+		receipt.UsedGas = receipt.UsedGas + uint64(float64(receipt.UsedGas)*0.1)
+	} else {
+		receipt.UsedGas -= refund
+	}
 
 	return handleFee(ctx, receipt, snapshot)
 }
@@ -205,7 +233,9 @@ func processEvmContract(ctx *Context, gas uint64, height uint64) (*types.Receipt
 		ctx.Statedb.SetNonce(ctx.Tx.Data.From, ctx.Tx.Data.AccountNonce+1)
 		receipt.Result, leftOverGas, err = e.Call(caller, ctx.Tx.Data.To, ctx.Tx.Data.Payload, gas, ctx.Tx.Data.Amount)
 	}
+
 	receipt.UsedGas = gas - leftOverGas
+
 	return receipt, err
 }
 
