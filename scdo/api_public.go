@@ -51,7 +51,7 @@ func (api *PublicScdoAPI) EstimateGas(tx *types.Transaction) (uint64, error) {
 
 	coinbase := api.s.miner.GetCoinbase()
 	// Get the transaction receipt, and the fee give to the miner coinbase
-	receipt, err := api.s.chain.ApplyTransaction(tx, 0, coinbase, statedb, block.Header)
+	receipt, err := api.s.chain.ApplyTransaction(tx,-1, coinbase, statedb, block.Header)
 	if err != nil {
 		return 0, err
 	}

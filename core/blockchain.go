@@ -609,9 +609,11 @@ func (bc *Blockchain) ApplyTransaction(tx *types.Transaction, txIndex int, coinb
 		BlockHeader: blockHeader,
 		BcStore:     bc.bcStore,
 	}
+
 	receipt, err := svm.Process(ctx, blockHeader.Height)
+
 	if err != nil {
-		return receipt, errors.NewStackedError(err, "failed to process tx via svm")
+		return nil, errors.NewStackedError(err, "failed to process tx via svm")
 	}
 
 	return receipt, nil
