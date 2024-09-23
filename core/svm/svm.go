@@ -7,6 +7,8 @@ package svm
 
 import (
 	"fmt"
+	"math/big"
+
 	"github.com/scdoproject/go-scdo/common"
 	"github.com/scdoproject/go-scdo/common/errors"
 	"github.com/scdoproject/go-scdo/contract/system"
@@ -15,7 +17,6 @@ import (
 	"github.com/scdoproject/go-scdo/core/svm/evm"
 	"github.com/scdoproject/go-scdo/core/types"
 	"github.com/scdoproject/go-scdo/core/vm"
-	"math/big"
 )
 
 // Context for other vm constructs
@@ -52,7 +53,7 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 	contract := system.GetContractByAddress(ctx.Tx.Data.To)
 
 	var leftOverGas = gasLimit - intrGas
-	if leftOverGas < 0 && !getEstGas { //this happen if the tx is a normal transaction and not esitmate, then in order to avoid quite earlier, increase the gasLimit
+	if leftOverGas < 0 && !getEstGas { //this happen if the tx is a normal transaction and not esitmate, then return more accurate message --including input gas limit and possible transaction cost -IntriinsicGas
 		s = fmt.Sprintf("Gas limit too low. gasLimit= %d, IntriinsicGas= %d", gasLimit, intrGas)
 		return nil, errors.New(s)
 
@@ -73,15 +74,15 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 		receipt, err = processCrossShardTransaction(ctx, snapshot)
 		if err != nil {
 			err = errors.NewStackedError(err, s)
-		} 
+		}
 		if !getEstGas {
-		     return receipt, err 
-	        } 
+			return receipt, err
+		}
 	} else { // evm
 		receipt, err = processEvmContract(ctx, leftOverGas, height)
 	}
 
-	// account balance is not enough (account.balance < thandleFeex.amount)
+	// account balance is not enough (account.balance < tx.amount)
 	if err == vm.ErrInsufficientBalance { // there is no effect to statedb, just revert to previous snapshot
 		return nil, revertStatedb(ctx.Statedb, snapshot, err)
 	}
@@ -103,7 +104,7 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 			ctx.Statedb.RevertToSnapshot(snapshot)
 			ctx.Statedb.SetNonce(ctx.Tx.Data.From, setNonce)
 			receipt.Failed = true
-			if err1 != nil && getEstGas { //add an extra info
+			if err1 != nil && getEstGas { //add extra info
 				err = errors.NewStackedError(err, s)
 			}
 			receipt.Result = []byte(err.Error())
@@ -118,16 +119,14 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 	// refund gas, capped to 5th of the used gas if no error.
 	refund := ctx.Statedb.GetRefund()
 	if getEstGas {
-		if maxRefund := receipt.UsedGas / 5; refund > maxRefund {
-			refund = maxRefund
-		}
+		//no refund
 	} else {
 		if maxRefund := receipt.UsedGas / 2; refund > maxRefund {
 			refund = maxRefund
 		}
 	}
 
-	if getEstGas { // if it is to get the estimate of gas usage for a smart contract, add 10% more
+	if getEstGas { // if it is to get the estimate of gas usage, no refund but add 5% more to avoid giving a lower estimate than the actual used gas.
 		receipt.UsedGas = receipt.UsedGas + uint64(float64(receipt.UsedGas)*0.05)
 	} else {
 		receipt.UsedGas -= refund
