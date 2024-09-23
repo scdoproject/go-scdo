@@ -245,7 +245,8 @@ func (tx *Transaction) ValidateWithoutState(signNeeded bool, shardNeeded bool) e
 
 	// validate gas limit
 	if tx.Data.GasLimit < tx.IntrinsicGas() {
-		return ErrIntrinsicGas
+		s := fmt.Sprintf("gasLimit= %d, minimum gas = %d", tx.Data.GasLimit, tx.IntrinsicGas())
+		return errors.New("intrinsic gas too low" + s)
 	}
 
 	if (tx.Data.To.IsEmpty() || tx.Data.To.Type() != common.AddressTypeExternal) && len(tx.Data.Payload) == 0 {

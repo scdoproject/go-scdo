@@ -6,6 +6,7 @@
 package svm
 
 import (
+	"fmt"
 	"math/big"
 
 	"github.com/scdoproject/go-scdo/common"
@@ -27,31 +28,56 @@ type Context struct {
 	BcStore     store.BlockchainStore
 }
 
-// Process the tx
+// Process the tx. If it is called by api.estimateGas to ge the gas usage estimate, ctx.TxIndex is set to be 0.
 func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 	// check the tx against the latest statedb, e.g. balance, nonce.
-	if err := ctx.Tx.ValidateState(ctx.Statedb, height); err != nil {
-		return nil, errors.NewStackedError(err, "failed to validate tx against statedb")
-	}
 
+	var receipt *types.Receipt
 	// Pay intrinsic gas all the time
+	var err error
+	var err1 error
 	gasLimit := ctx.Tx.Data.GasLimit
 	intrGas := ctx.Tx.IntrinsicGas()
-	if gasLimit < intrGas {
-		return nil, types.ErrIntrinsicGas
+	var s string
+	var getEstGas bool
+	if ctx.TxIndex < 0 {
+		ctx.TxIndex = 0
+		getEstGas = true
 	}
-	leftOverGas := gasLimit - intrGas
-
-	// init statedb and set snapshot
-	var err error
-	var receipt *types.Receipt
+	if err := ctx.Tx.ValidateState(ctx.Statedb, height); err != nil {
+		s = fmt.Sprintf("gasLimit= %d, IntriinsicGas= %d", gasLimit, intrGas)
+		return nil, errors.NewStackedError(err, s+"failed to validate tx against statedb")
+	}
 	snapshot := ctx.Statedb.Prepare(ctx.TxIndex)
 
+	contract := system.GetContractByAddress(ctx.Tx.Data.To)
+
+	var leftOverGas = gasLimit - intrGas
+	if leftOverGas < 0 && !getEstGas { //this happen if the tx is a normal transaction and not esitmate, then return more accurate message --including input gas limit and possible transaction cost -IntriinsicGas
+		s = fmt.Sprintf("Gas limit too low. gasLimit= %d, IntriinsicGas= %d", gasLimit, intrGas)
+		return nil, errors.New(s)
+
+	} else {
+		if leftOverGas < 0 { //get the estimate of the gas usage for regular tx
+			s = fmt.Sprintf("gasLimit= %d, IntriinsicGas= %d", gasLimit, intrGas)
+			err1 = errors.New(s)
+
+		}
+	}
+
+	// init statedb and set snapshot
+
 	// create or execute contract
-	if contract := system.GetContractByAddress(ctx.Tx.Data.To); contract != nil { // system contract
+	if contract != nil { // system contract
 		receipt, err = processSystemContract(ctx, contract, snapshot, leftOverGas)
 	} else if ctx.Tx.IsCrossShardTx() && !ctx.Tx.Data.To.IsEVMContract() { // cross shard tx
-		return processCrossShardTransaction(ctx, snapshot)
+		receipt, err = processCrossShardTransaction(ctx, snapshot)
+		if err != nil {
+			err = errors.NewStackedError(err, s)
+		}
+		if !getEstGas {
+			return receipt, err
+		}
 	} else { // evm
 		receipt, err = processEvmContract(ctx, leftOverGas, height)
 	}
@@ -62,6 +88,7 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 	}
 
 	if err != nil {
+
 		if height <= common.SmartContractNonceForkHeight {
 			// smart contract OLD logic
 			ctx.Statedb.RevertToSnapshot(snapshot)
@@ -69,7 +96,6 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 			receipt.Result = []byte(err.Error())
 
 		} else {
-			// smart contract NEW logic
 			databaseAccountNonce := ctx.Statedb.GetNonce(ctx.Tx.Data.From)
 			setNonce := databaseAccountNonce
 			if ctx.Tx.Data.AccountNonce >= databaseAccountNonce {
@@ -78,7 +104,11 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 			ctx.Statedb.RevertToSnapshot(snapshot)
 			ctx.Statedb.SetNonce(ctx.Tx.Data.From, setNonce)
 			receipt.Failed = true
+			if err1 != nil && getEstGas { //add extra info
+				err = errors.NewStackedError(err, s)
+			}
 			receipt.Result = []byte(err.Error())
+
 		}
 
 	}
@@ -86,12 +116,21 @@ func Process(ctx *Context, height uint64) (*types.Receipt, error) {
 	// include the intrinsic gas
 	receipt.UsedGas += intrGas
 
-	// refund gas, capped to half of the used gas.
+	// refund gas, capped to 5th of the used gas if no error.
 	refund := ctx.Statedb.GetRefund()
-	if maxRefund := receipt.UsedGas / 5; refund > maxRefund {
-		refund = maxRefund
+	if getEstGas {
+		//no refund
+	} else {
+		if maxRefund := receipt.UsedGas / 2; refund > maxRefund {
+			refund = maxRefund
+		}
 	}
-	receipt.UsedGas -= refund
+
+	if getEstGas { // if it is to get the estimate of gas usage, no refund but add 5% more to avoid giving a lower estimate than the actual used gas.
+		receipt.UsedGas = receipt.UsedGas + uint64(float64(receipt.UsedGas)*0.05)
+	} else {
+		receipt.UsedGas -= refund
+	}
 
 	return handleFee(ctx, receipt, snapshot)
 }
@@ -205,7 +244,9 @@ func processEvmContract(ctx *Context, gas uint64, height uint64) (*types.Receipt
 		ctx.Statedb.SetNonce(ctx.Tx.Data.From, ctx.Tx.Data.AccountNonce+1)
 		receipt.Result, leftOverGas, err = e.Call(caller, ctx.Tx.Data.To, ctx.Tx.Data.Payload, gas, ctx.Tx.Data.Amount)
 	}
+
 	receipt.UsedGas = gas - leftOverGas
+
 	return receipt, err
 }
 

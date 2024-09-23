@@ -38,7 +38,7 @@ const (
 
 	// BlockByteLimit is the limit of size in bytes
 	BlockByteLimit = 1024 * 1024
-	SizeofFilter   = 4
+	SizeofFilter   = 7
 )
 
 var (
@@ -71,7 +71,7 @@ var (
 	// ErrNotSupported is returned when unsupported method invoked.
 	ErrNotSupported = errors.New("not supported function")
 	ErrOldDebtTx    = errors.New("failed to batch valudate debt")
-	Filters         = [4]uint64{5162247, 6124420, 6126398, 6132641}
+	Filters         = [7]uint64{5162247, 5162248, 5162259, 5162260, 6124420, 6126398, 6132641}
 )
 
 // Blockchain represents the blockchain with a genesis block. The Blockchain manages
@@ -609,7 +609,9 @@ func (bc *Blockchain) ApplyTransaction(tx *types.Transaction, txIndex int, coinb
 		BlockHeader: blockHeader,
 		BcStore:     bc.bcStore,
 	}
+
 	receipt, err := svm.Process(ctx, blockHeader.Height)
+
 	if err != nil {
 		return nil, errors.NewStackedError(err, "failed to process tx via svm")
 	}
